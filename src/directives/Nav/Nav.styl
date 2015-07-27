@@ -1,0 +1,72 @@
+
+#navbar
+  height navbarHeight
+  z-index 99999
+  width 85%
+  margin-left menuWidth
+  position fixed
+  padding-left 1em
+  line-height navbarHeight
+  z-index 100
+  border-bottom 1px solid #ccc;
+  background-color navbarBackgroundColor
+  -webkit-box-shadow 0px 3px 10px 0px rgba(50, 50, 50, 0.32)
+  -moz-box-shadow    0px 3px 10px 0px rgba(50, 50, 50, 0.32)
+  box-shadow         0px 3px 10px 0px rgba(50, 50, 50, 0.32)
+  &::-webkit-input-placeholder
+    color #fff
+  &:-moz-placeholder
+    color #fff
+  &::-moz-placeholder
+    color: #fff
+  &:-ms-input-placeholder
+    color #fff
+
+#navbar .navbar-logo
+  text-decoration none
+  color navbarLogoColor
+  font-weight 800
+  font-size 1.3em
+  margin-left 20px
+
+.navbar-links
+  text-decoration none
+  margin-left 2em
+  font-size 0.9em
+
+.navbar-input
+  float right
+  width 20em
+  height 30px
+  margin-right 1em
+  margin-top 8px
+  padding-left 1em
+  borderRadius(4px)
+  font-size 0.9em
+  line-height 30px
+  border double 1px #ccc
+
+.status-navbar
+  float right
+  margin-right 1em
+  text-decoration none
+
+  color #EBF1E9
+
+@media screen and (max-width: 1000px)
+  .navbar-input
+  #navbar
+  .btn-default
+    display none
+
+@media screen and (max-width: 600px)
+  .navbar-links
+    display none
+  #navbar
+    width 100%
+    margin-left 0%
+  .navbar-logo
+    margin-left 30px
+
+
+

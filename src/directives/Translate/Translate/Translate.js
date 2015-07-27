@@ -1,0 +1,26 @@
+(function(){
+	'use strict';
+	Translate.$inject = ['$http','GumgaTranslateHelper'];
+	function Translate($http,GumgaTranslateHelper){
+		var ch = 0;
+		return {
+			restrict: 'AEC',
+			scope: false,
+			link: function($scope,$elm,$attrs){
+
+				var language = $attrs.gumgaTranslate.toLowerCase() || navigator.language.toLowerCase();
+				
+				if(!GumgaTranslateHelper.getSessionStorageItem(language)){
+					$http.get('./i18n/' + language + '.json')
+					.success(function(values){
+						GumgaTranslateHelper.setTranslators(language,values);
+					});
+				}
+
+			}
+		};
+	}
+
+	angular.module('gumga.directives.translate.translate',['gumga.directives.translate.translatehelper'])
+	.directive('gumgaTranslate',Translate);
+})();
