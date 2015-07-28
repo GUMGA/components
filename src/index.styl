@@ -1,0 +1,322 @@
+@import "../bower_components/bootstrap-stylus/bootstrap/index.styl"
+
+fonts = 'Open Sans','Helvetica Neue' ,sans-serif;
+menuBackgroundColor = #343633;
+menuWidth = 15%
+menuFontColor = #E4F0FB;
+submenuColor = #616971;
+navbarHeight = 50px
+navbarBackgroundColor = #4CA089
+navbarLogoColor = #EBF1E9
+tableBorder = #bdc3c7
+
+
+borderRadius()
+	-webkit-border-radius arguments
+	-moz-border-radius arguments
+	border-radius arguments
+
+boxShadow()
+	-webkit-box-shadow: arguments
+	box-shadow: arguments
+
+animation(name, duration, count, timing)
+	animation-name name
+	animation-duration duration
+	animation-iteration-count count
+	animation-timing-function timing
+
+	-moz-animation-name name
+	-moz-animation-duration duration
+	-moz-animation-iteration-count count
+	-moz-animation-timing-function timing
+
+	-webkit-animation-name name;
+	-webkit-animation-duration duration
+	-webkit-animation-iteration-count count
+	-webkit-animation-timing-function timing
+
+transition()
+	-webkit-transition arguments
+	-moz-transition arguments
+	-ms-transition arguments
+	-o-transition arguments
+	transition arguments
+
+@import "./directives/Address/Address"
+@import "./directives/Alert/Alert"
+@import "./directives/Breadcrumb/Breadcrumb"
+@import "./directives/Form/Form"
+@import "./directives/FormButtons/FormButtons"
+@import "./directives/Login/Login"
+@import "./directives/ManyToMany/ManyToMany"
+@import "./directives/ManyToOne/ManyToOne"
+@import "./directives/Menu/Menu"
+@import "./directives/Nav/Nav"
+@import "./directives/OneToMany/OneToMany"
+@import "./directives/Search/Search"
+@import "./directives/Table/Table"
+@import "./directives/Upload/Upload"
+
+html,body
+  font-family fonts
+  width 100%
+  font-size 0.9em
+  height 100%
+  
+body
+  font-family fonts
+  height 100%
+  background-color #FCFCFC
+
+.gumga-container
+  padding-left 0.5em
+  margin-left menuWidth
+  padding-right 0.5em
+  padding-top: navbarHeight + 10px
+  width 100% - 15%
+  background-color #fff
+  height 100%
+
+div 
+  100%
+  > .gumga-container
+    height 100%
+
+.table
+  border 1px solid #bdc3c7
+
+.error
+  border 1px solid #a94442
+  &:focus
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(166, 0, 0, 0.80)
+    -moz-box-shadow:    0px 0px 10px 0px rgba(166, 0, 0, 0.80)
+    box-shadow:         0px 0px 10px 0px rgba(166, 0, 0, 0.80)
+    border 1px solid #a94442
+
+.success
+  border 1px solid #048000
+  &:focus
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(4, 128, 0, 0.80)
+    -moz-box-shadow:    0px 0px 10px 0px rgba(4, 128, 0, 0.80)
+    box-shadow:         0px 0px 10px 0px rgba(4, 128, 0, 0.80)
+    border 1px solid #048000
+
+.clickable-td
+  text-decoration underline
+  color #038dc5
+  &:hover
+    cursor pointer
+    background-color rgba(157, 222, 250, 0.1)
+
+.loading
+  background-size 75px 75px
+  position absolute
+  z-index 999999
+  height 75px
+  width 75px
+  bottom 50%
+  right 50%
+  display none
+  
+.loading.active
+  display block
+
+.responsive-img
+  display block
+  width 100%
+  height 100%
+  
+.my-button
+	@extends .btn
+	line-height 1.45
+	border-radius 0
+	margin-left -3
+
+.my-button.last
+  -webkit-border-top-right-radius: 5px
+  -webkit-border-bottom-right-radius: 5px
+  -moz-border-radius-topright: 5px
+  -moz-border-radius-bottomright: 5px
+  border-top-right-radius: 5px
+  border-bottom-right-radius: 5px
+
+
+div.gumga-adv-label
+	@extend .label
+	display inline-block
+	font-weight 400
+	font-size 0.9em
+	cursor pointer
+	&:hover
+		background-color
+
+.form-control
+	&:focus
+		border-color #ccc
+		box-shadow 0
+
+.bord.pull-left
+  border-right 2px solid #ccc
+  margin-right: 1%
+
+input#textEnter
+  border 0
+  outline 0
+
+.list-holder
+	position relative
+	display inline
+	> .list-selectable
+		@extend .dropdown-menu
+		display inline-block
+		position absolute
+		margin-top -0.2%
+		box-shadow 0
+
+div.panel.panel-default
+  > hr
+    margin-top 0
+
+.hover-list
+  color #008EE0
+  > a
+    color inherit
+  &:hover
+    background-color rgba(204, 204, 204, 0.3)
+
+
+.full-width-without-margin
+	@extend .col-md-12
+	margin-right 0
+	margin-left 0
+
+.full-width-without-padding
+	@extend .col-md-12
+	padding-right 0
+	padding-left 0
+
+.responsive-button-primary
+	@extend .btn
+	@extend .btn-primary
+
+.responsive-button-danger
+	@extend .btn
+	@extend .btn-danger
+
+.panel-advanced
+	@extend .panel
+	@extend .panel-default
+	position absolute
+	width 100%
+	z-index 9999
+	-webkit-box-shadow 0px 3px 10px 0px rgba(50, 50, 50, 0.32)
+	-moz-box-shadow    0px 3px 10px 0px rgba(50, 50, 50, 0.32)
+	box-shadow         0px 3px 10px 0px rgba(50, 50, 50, 0.32)
+
+@media screen and (max-width: 600px)
+	.gumga-container
+		width 100%
+		margin-left 0
+	.search-style
+		z-index 10
+
+@media screen and (max-width 740px)
+	.gumga-container
+	  width 100%
+	  padding-left 0
+	  padding-right 0
+	  margin-left 0
+	.responsive-button-primary
+		display block
+	.responsive-button-danger
+		margin-top 1.5%
+		margin-bottom 1.5%
+		display block
+
+.advanced-search-holder
+	@extend .col-md-7
+	@extend .pull-right
+	padding-right 0
+	padding-left 0
+
+.little-panel
+	@extend .panel-advanced
+	width 30%
+	left 70%
+
+.nav-panel
+	@extend .little-panel
+	top 5%
+	left 90%
+	width 10%
+
+.inside-list-anchor
+	display block
+	width 100%
+	cursor pointer
+	text-align: center
+
+.btn-insider
+	borderRadius(4px)
+	boxShadow(0px 1px 3px #666666)
+	color #fff
+	font-size 20px
+	background: #4A6B8A
+	text-decoration none
+	border 0
+	&:hover
+		background #588ab8
+		text-decoration none
+
+.list-group-mto
+	@extend .list-group
+	position absolute
+	width 100%
+	z-index 999
+
+
+.list-group-item-mto
+	@extend .list-group-item
+	cursor pointer
+	display flex
+	z-index 9999
+	&:hover
+		background-color rgba(207, 222, 245,1)
+
+.badge-helper
+	background-color #81AEDA
+	cursor pointer
+	border 0
+
+.input-group-addon-mto
+	@extend .input-group-addon
+	background-color transparent
+	padding-top 0.5%
+	border-left 0
+
+.address
+	@extend .col-md-8
+	@extend .col-xs-12
+	@extend .col-sm-12
+	padding-right 0
+	padding-left 0
+
+.dropdown-menu
+	width 100%
+
+.flex
+	display flex
+
+#roleEspecification.ng-hide-add.ng-hide-add-active,
+#roleEspecification.ng-hide-remove.ng-hide-remove-active {
+	-webkit-transition: all linear 0.5s
+	transition: all linear 0.5s
+}
+
+
+#roleEspecification.ng-hide 
+	line-height 0
+	opacity 0
+	padding 0 10px
+

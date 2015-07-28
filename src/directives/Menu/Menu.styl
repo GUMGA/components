@@ -1,0 +1,137 @@
+#menu
+  position fixed
+  top 0
+  bottom 0
+  border-right 0.5px solid black
+  padding-top 1em
+  width menuWidth
+  padding-left 0
+  padding-right 0
+  height 100%
+  z-index 99999
+  overflow auto
+  background-color menuBackgroundColor
+  -webkit-box-shadow: 3px 0px 10px 0px rgba(50, 50, 50, 0.32)
+  -moz-box-shadow:    3px 0px 10px 0px rgba(50, 50, 50, 0.32)
+  box-shadow:         3px 0px 10px 0px rgba(50, 50, 50, 0.32)
+
+#btn-menu
+  display none
+  z-index 10000
+  position fixed
+  margin-top 8px
+  color #000000
+  z-index 99999
+
+.menu-option
+  display block
+  width 100%
+  height 50px
+  line-height 35px
+  z-index 99999
+  float left
+  text-overflow ellipsis
+  white-space nowrap
+  overflow hidden
+  font-size 14px
+  padding 10px 5px 0px 10px
+  border-botto none
+  border-top none
+  > i
+    padding-left 1em
+    cursor pointer
+  > a
+    padding-left 0.3em
+    color menuFontColor
+    text-decoration none
+
+  &:first-child
+    margin-top 5em
+    border-top 1px solid #091826
+  &:hover
+    background-color rgba(228, 240, 251, 0.1)
+
+.submenu-option
+  background-color submenuColor
+  padding-left 1em
+  border-bottom 1px double rgba(204,204,204,0.11)
+  margin-left -4%
+  margin-right -4%
+  z-index 99999
+  text-overflow ellipsis
+  white-space nowrap
+  overflow hidden
+  > i
+    padding-left 1.25em
+    cursor pointer
+  > a
+    padding-left 0.3em
+    font-size 0.9em
+    text-decoration none
+    color black
+
+.submenu-group
+  display none
+
+.submenu-group-ativo
+  display block
+
+.menu-color
+  width 20%
+  color submenuColor
+
+.submenu-color
+  @extend .menu-color
+  color black
+
+.img-centered
+  display block
+  margin 0 auto
+
+
+.open-menu
+  transition(opacity, 0.3s, linear)
+  opacity 1 !important
+  z-index 1000 !important
+
+.menu-option
+  > i
+    padding-left 0.5em
+
+@media screen and (max-width: 1000px)
+  .submenu-option
+    > i
+      padding-left 0.5em
+
+  .menu-option
+    > i
+      padding-left 0.5em
+
+  li
+    > a
+      font-size 10px
+
+@media screen and (max-width: 600px)
+  #menu
+    transition(opacity, 0.3s, linear)  
+    opacity 0
+    z-index -1
+    width 30%
+    opacity 0;
+
+  .img-centered
+    display none
+
+  #menu
+    > ul
+      margin-top 15px
+
+  #btn-menu
+    display block
+
+  #continuarInserindo
+    display none
+
+  .submenu-option
+    > i
+      padding-left 0.5em
