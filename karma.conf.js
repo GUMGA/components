@@ -18,7 +18,7 @@ module.exports = function(config){
 				{
 					pattern: 'src/**/*Spec.js',
 					included: false
-				}
+				}ls -let 
 		    ],
 		    exclude: [],
 		    preprocessors: {},

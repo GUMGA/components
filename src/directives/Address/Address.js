@@ -5,16 +5,16 @@
 	 * @name gumga.core:GumgaAddress
 	 * @restrict E
 	 * @element ANY
-	 * @scope
 	 * @description O componente GumgaAddress recebe um objeto que será preenchido com o endereço, que pode ser pesquisado através do CEP (Utilizando um WebService GUMGA), 
-	 * ou preenchido manualmente pelo usuário. 
-	 * @param {Object} value - Objeto que irá conter o endereço pesquisado/preenchido pelo usuário. - Obrigatório
-	 * @param {String} name -  String que será usada como identificador do componente
-	 * @param {String} title - Título que irá aparecer no accordion - Opcional
-	 * @param {Function} onSearchCepStart - Função que será executada quando a consulta do CEP começar. - Opcional
-	 * @param {Function} onSearchCepSuccess - Função que será executada quando a consulta do CEP retornar com sucesso. - Opcional
-	 * @param {Function} onSearchCepError - Função que será executada quando a consulta do CEP retornar com erro. - Opcional
+	 * ou preenchido manualmente pelo usuário. Este objeto de entrada pode ser vazio ou preferivelmente no formato do objeto GUMGA.
+	 * @param {Object} value - Objeto que irá conter o endereço pesquisado/preenchido pelo usuário.  {Obrigatório}
+	 * @param {String} name -  String que será usada como identificador do componente {Obrigatório}
+	 * @param {String} title - Título que irá aparecer no accordion {Opcional}
+	 * @param {Function} onSearchCepStart - Função que será executada quando a consulta do CEP começar. {Opcional}
+	 * @param {Function} onSearchCepSuccess - Função que será executada quando a consulta do CEP retornar com sucesso. {Opcional}
+	 * @param {Function} onSearchCepError - Função que será executada quando a consulta do CEP retornar com erro.  {Opcional}
 	 * @example
+       * Exemplo da estrutura do objeto de saída.
 	 * <pre>
 	 * 	var addressObject = {
         zipCode : null,
@@ -30,11 +30,6 @@
       </pre>
       */
 	AddressDirective.$inject = ['GumgaAddressService','$http'];
-      /*
-            TODO[1]: Remover gif da busca
-            TODO[2]: Adicionar mensagem enquanto procura.      
-            TODO[3]: Foco no input de número quando a busca retorna.
-       */
       function AddressDirective(GumgaAddressService,$http){
       	var template = [
       	'<div class="address" style="padding-left: 0">',
