@@ -2,6 +2,20 @@
 	'use strict';
 
 	OneToMany.$inject = ['$modal'];
+	/**
+	 * @ngdoc directive
+	 * @name gumga.core:gumgaOneToMany
+	 * @restrict E
+	 * @param {[type]} children [description]
+	 * @param {[type]} template-url [description]
+	 * @param {[type]} property [description]
+	 * @param {[type]} name [description]
+	 * @param {[type]} controller [description]
+	 * @param {[type]} on-delete [description]
+	 * @param {[type]} on-value-visualization-opened [description]
+	 * @param {[type]} on-value-visualization-closed [description]
+	 * 
+	 */
 	function OneToMany($modal){
 		var template = [
 		'<div class="col-md-12" style="padding-left: 0;padding-right: 0">',
@@ -28,7 +42,8 @@
 				controller: '@',
 				onDelete: '&?',
 				onValueVisualizationOpened: '&?',
-				onValueVisualizationClosed: '&?'
+				onValueVisualizationClosed: '&?',
+				modalTitle: '@'
 			},
 			link: function (scope,elm,attrs) {
 				var eventHandler = {

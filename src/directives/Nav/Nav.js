@@ -1,7 +1,18 @@
 (function(){
     'use strict';
      Nav.$inject = ['$state','GumgaWebStorage','$modal','$rootScope'];
-
+     /**
+      * @ngdoc directive
+      * @name  gumga.core:gumgaNav
+      * @restrict E
+      * @description O componente gumgaNav é uma directive que cria uma barra de navegação superior, para ajudar o usuário. Dentro da barra de navegação, 
+      *  possuímos uma busca que, quando o botão ENTER é pressionado, ele redireciona para a página de Busca Multi-entidades. Possui também informações sobre o usuário que está logado,
+      *  uma opção para fazer o logout e outra para alterar a senha.
+      *  @param {String} title Parâmetro não obrigatório que contém uma string que será o título que aparecerá na barra de navegação. 
+      *  @param {Boolean} multi-entity Parâmetro nao obrigatório que contém um valor booleano para compilar ou não a busca multientidade. Por padrão, o valor é true.
+      *  @param {String} put-url Parâmetro não obrigatório que contém uma String ou uma variável que estará no $scope da directive para atribuir uma url para fazer o put do alterar a senha.
+      *  @param {String} state Parâmetro obrigatório que contém uma String com o $state para qual será redirecionado quando o usuário clicar em Logout.
+      */
      function Nav($state, GumgaWebStorage, $modal, $rootScope, $timeout) {
                  var template = [
                      '<nav id="navbar">',
@@ -9,8 +20,8 @@
                              '   <span style="color: white; font-size: 1.4em;margin-left: 2%;float: left;"><small>{{info.organization}}</small></span>',
                      ' <div class="navbar-form navbar-left" ng-transclude></div>',
                      '   <b class="pull-right"><img ng-show="info.picture" class="img-circle" style="width: 40px;height: 40px;margin-right:10px;" src="{{info.picture}}" /> <a href ng-blur="hidePanel()" class="status-navbar" ng-click="showPanelNavBar()"><small  style="font-size: 85%;">{{info.name}} &nbsp;&nbsp; <i class="glyphicon glyphicon-triangle-bottom" style="margin-left: 1px"></i> </small></a></b>',
-                     '    <span ng-click="treatUrl()"  class="glyphicon glyphicon-search btn  pull-right" style="color:#fff;  padding-top: 1%;margin-right: 5%;height: 100%;"></span>',
-                     '    <input type="text" id="inputSearch" ng-blur="inputVisible = false" ng-keyup="submitSearch($event)" style="  background: none repeat scroll 0 0 rgba(244, 214, 214, 0.15); ',
+                     '    <span ng-if="multientity" ng-click="treatUrl()"  class="glyphicon glyphicon-search btn  pull-right" style="color:#fff;  padding-top: 1%;margin-right: 5%;height: 100%;"></span>',
+                     '    <input ng-if="multientity" type="text" id="inputSearch" ng-blur="inputVisible = false" ng-keyup="submitSearch($event)" style="  background: none repeat scroll 0 0 rgba(244, 214, 214, 0.15); ',
                      '            border: double; ',
                      '            font-size: 14px; ',
                      '            outline: 0; ',
@@ -52,10 +63,13 @@
                      transclude: true,
                      template: template.join('\n'),
                      link: function (scope, el, attrs) {
+                        var putUrl = attrs.putUrl;
+                        if(attrs.multiEntity == "true" || !attrs.multiEntity) scope.multientity = true;
+                        (!scope[attrs.putUrl]) ? putUrl = scope[attrs.putUrl] : angular.noop;
                          scope.info = GumgaWebStorage.getSessionStorageItem('user');
                          scope.navlinks = [{text: 'Change Password', glyphicon: 'glyphicon glyphicon-user', value: 'pass'}, {text: 'Logout', glyphicon: 'glyphicon glyphicon-log-out', value: 'logout'}];
-                         scope.inputVisible = false;
-
+                         scope.inputVisible = false;    
+                         scope.title = attrs.title || '';
                          scope.treatUrl = function () {
                              scope.inputVisible = true;
                              $timeout(function () {
@@ -125,7 +139,7 @@
                                              }
 
                                              $scope.ok = function (user) {
-                                                 $http.put(APILocations.apiLocation + '/publicoperations/token/', {
+                                                 $http.put(attrs.putUrl, {
                                                      user: userSession.user,
                                                      password: user.oldpass,
                                                      newPassword: user.newpass})
@@ -164,10 +178,6 @@
                                      if (k.keyCode == 13)
                                          scope.treatUrl()
                                  });
-
-                         scope.doLogout = function () {
-                             $state.go('login.log');
-                         };
                      }
                  };
              }
