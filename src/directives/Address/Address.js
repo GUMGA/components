@@ -2,32 +2,20 @@
 	'use strict';
 	/**
 	 * @ngdoc directive
-	 * @name gumga.core:GumgaAddress
+	 * @name gumga.core:gumgaAddress
 	 * @restrict E
-	 * @element ANY
 	 * @description O componente GumgaAddress recebe um objeto que será preenchido com o endereço, que pode ser pesquisado através do CEP (Utilizando um WebService GUMGA), 
 	 * ou preenchido manualmente pelo usuário. Este objeto de entrada pode ser vazio ou preferivelmente no formato do objeto GUMGA.
-	 * @param {Object} value - Objeto que irá conter o endereço pesquisado/preenchido pelo usuário.  {Obrigatório}
-	 * @param {String} name -  String que será usada como identificador do componente {Obrigatório}
-	 * @param {String} title - Título que irá aparecer no accordion {Opcional}
-	 * @param {Function} onSearchCepStart - Função que será executada quando a consulta do CEP começar. {Opcional}
-	 * @param {Function} onSearchCepSuccess - Função que será executada quando a consulta do CEP retornar com sucesso. {Opcional}
-	 * @param {Function} onSearchCepError - Função que será executada quando a consulta do CEP retornar com erro.  {Opcional}
-	 * @example
-       * Exemplo da estrutura do objeto de saída.
-	 * <pre>
-	 * 	var addressObject = {
-        zipCode : null,
-        premisseType: null,
-        premisse: null,
-        number: null,
-        information: null,
-        neighbourhood: null,
-        localization: null,
-        state: null,
-        country: null
-}
-      </pre>
+       * ## Exemplo
+       * Veja um exemplo em funcionamento [aqui](http://embed.plnkr.co/7t9mZtLl9bPuVhmig0oI/).    
+	 * @param {Object} value Atributo obrigatório que irá conter o nome do objeto no $scope no qual os valores do Endereço serão colocados.
+	 * @param {String} name Atributo obrigatório e único que irá conter um nome de identificador para a directive.
+	 * @param {String} title Atributo opcional que irá conter o título para o panel da directive.
+	 * @param {Function} onSearchCepStart Atributo opcional que irá conter o nome de uma função que será executada quando a busca pelo CEP começar.
+	 * @param {Function} onSearchCepSuccess Atributo opcional que irá conter o nome de uma função que será executada quando a busca pelo CEP retornar sucesso.
+       *  Pode ser chamada com um atributo com os valores `on-search-cep-success="doSomething($value)"`
+	 * @param {Function} onSearchCepError Atributo opcional que irá conter o nome de uma função que será executada quando a busca pelo CEP retornar erro.
+       *  Pode ser chamada com um atributo com os valores `on-search-cep-error="doSomething($value)"`
       */
 	AddressDirective.$inject = ['GumgaAddressService','$http'];
       function AddressDirective(GumgaAddressService,$http){
@@ -41,7 +29,7 @@
       	'                            <div class="input-group">',
       	'                                  <input type="text" class="form-control" ng-model="value.zipCode" id="input{{::id}}" ng-keypress="custom($event,value.zipCode)">',
       	'                                  <span class="input-group-btn">',
-      	'                                        <button class="btn btn-primary" type="button" ng-click="searchCep(value.zipCode)" ng-disabled="loader{{::id}}" id="buttonSearch{{::id}}">Search <i class="glyphicon glyphicon-search"></i></button>',  '<img src="./resources/images/ajax-loader.gif" style="margin-left: 5%" ng-show="loader{{::id}}">',
+      	'                                        <button class="btn btn-primary" type="button" ng-click="searchCep(value.zipCode)" ng-disabled="loader{{::id}}" id="buttonSearch{{::id}}">Search <i class="glyphicon glyphicon-search"></i></button>',
       	'                                  </span>',
       	'                            </div>',
       	'                      </div>',
@@ -127,7 +115,7 @@
       				eventHandler.searchCepStart();
       				$http.get('http://www.gumga.com.br/services-api/public/cep/'+cep)
       				.success(function (values) {
-      					eventHandler.searchCepSuccess();
+      					eventHandler.searchCepSuccess({$value: values});
       					scope['loader' + scope.id] = false;
       					if (parseInt(values.resultado) == 1) {
       						scope.value.premisseType = values.tipo_logradouro;
@@ -140,7 +128,7 @@
 
       				})
       				.error(function(data){
-      					eventHandler.searchCepError();
+      					eventHandler.searchCepError({$value: data});
       				})
       			};
       			if (scope.value.zipCode) {

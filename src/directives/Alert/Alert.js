@@ -2,18 +2,25 @@
 	'use strict';
 	/**
 	 * @ngdoc directive
-	 * @name gumga.core:GumgaAlert
-	 * @deprecated  See {@link $gumgaAlert} instead.
+	 * @name gumga.core:gumgaAlert
+	 * @deprecated  Clique aqui para ver a versão nova: {@link gumga.core:GumgaAlert}
 	 * @restrict EA
 	 * @element ANY
-	 * @scope false
-	 * @description O componente GumgaAlert serve para criar notificações Growl-style, e possui quatro tipos
-	 * de alertas: Danger, Success, Warning, Info.
+	 * @description O componente gumgaAlert serve para criar notificações growl-like e é baseada em eventos.
+	 * Para o funcionamento da directive, é necessário incluí-la apenas uma vez no seu código html (de preferência no index.html),
+	 * para que os listeners sejam adicionados(Atualmente, na nova versão isto não é mais necessário, ver {@link gumga.core:GumgaAlert}). 
+	 *
+	 * @example
+	 * ## Para que o alerta seja realizado, utilize um dos eventos:
+	 * <pre>
+	 * 	$scope.$emit('dangerMessage',{title: 'Error' ,message: 'Error 404'});
+	 * 	$scope.$emit('successMessage',{title: 'Parabéns!' ,message: 'Sua solicitação foi aceita com sucesso!'});
+	 *  $scope.$emit('warningMessage',{title: 'Cuidado!' ,message: 'A área que você está entrando é restrita.'});
+   * 	$scope.$emit('infoMessage',{title: 'Salvar' ,message: 'Para salvar, entre em contato com o administrador.'});
+	 * </pre>
+	 *  Para ver um exemplo em funcionamento, clique [aqui](http://embed.plnkr.co/wdlI7U4nQf9kNhGlyCfU/)
 	 */
 	Alert.$inject = ['$rootScope'];
-	/*
-		TODO[1]: Transformar em factory/provider.
-	 */
 	function Alert($rootScope){
 		return {
 			restrict: 'EA',
@@ -51,7 +58,7 @@
 				$rootScope.$on('successMessage', function (ev, data) {
 					notify('glyphicon glyphicon-ok', data.title, data.message, 'success');
 				});
-				$rootScope.$on('warnigMessage', function (ev, data) {
+				$rootScope.$on('warningMessage', function (ev, data) {
 					notify('glyphicon glyphicon-warning-sign', data.title, data.message, 'warning');
 				});
 				$rootScope.$on('infoMessage', function (ev, data) {
