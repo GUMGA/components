@@ -1,0 +1,13 @@
+(function(){
+	'use strict';
+
+	angular.module('gumga.services',[
+		'gumga.services.address',
+		'gumga.services.keyboard',
+		'gumga.services.base',
+		'gumga.services.utils',
+		'gumga.services.alert',
+		'gumga.services.translate',
+		'gumga.services.webstorage'
+		]);
+})();
