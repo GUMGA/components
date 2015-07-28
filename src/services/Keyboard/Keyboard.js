@@ -27,7 +27,9 @@
 				if(element && key && fn){
 					Mousetrap(element).bind(key,fn,event ? event: '');
 					this.__binds.push(key);
+					return 0;
 				}
+
 				throw 'You\'ve passed wrong parameters to GumgaKeyboard.bindToElement(element,key,function,event)';
 			},
 			unbindFromElement: function(element,key){

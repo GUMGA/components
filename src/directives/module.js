@@ -6,6 +6,7 @@
 		'gumga.directives.address',
 		'gumga.directives.alert',
 		'gumga.directives.breadcrumb',
+		'gumga.directives.counter',
 		'gumga.directives.formbuttons',
 		'gumga.directives.manytomany',
 		'gumga.directives.manytoone',

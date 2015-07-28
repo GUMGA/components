@@ -1,7 +1,7 @@
 (function(){
 	'use strict';
 	Menu.$inject = ['$http','$compile'];
-	function Menu($http,$compile){
+	function Menu($http, $compile) {
 		return {
 			restrict: 'E',
 			replace: true,
@@ -10,6 +10,7 @@
 				scope.v = [];
 				var indexs = [];
 				var count = 0;
+				
 				var menuOpen = false;
 
 				$http.get(attrs.menuUrl).then(function (data) {
@@ -23,6 +24,7 @@
 				}, function (data) {
 					throw 'Erro:' + data;
 				});
+
 				scope.$watchGroup(['dados', 'keys'], function () {
 					if (scope.dados && scope.keys) {
 						gerateMenus();
@@ -48,20 +50,49 @@
 				};
 
 				var gerarNavPill = function (param, type, parent) {
+
 					scope.v[count] = {
 						isActive: false,
 						parent: parent.count
 					};
-					var template = ['<li class="' + type + '-option">'];
+					var urlSelected = location.hash;
+					if (urlSelected.match(param.URL)) {
+						var template = ['<li class="' + type + '-option" style="background: #4ca089" >'];
+					} else {
+						var template = ['<li class="' + type + '-option">'];
+					}
+
+
 					if (param.filhos.length > 0 && verificarPermicaoFilho(param.filhos)) {
 						template.push('<i  ng-class="v[' + count + '].isActive ? \' glyphicon glyphicon-chevron-down \' : \'glyphicon glyphicon-chevron-right\'" class="fa ' + type + '-color"  ng-click="resetarMenu(' + count + ')"></i>');
 					} else {
-						template.push('<i  class=" ' + param.icon + ' " style="color: #fff" ng-click="resetarMenu(' + count + ')"></i>');
+						if (param.icon) {
+							if (param.icon_color) {
+								template.push('<i  class=" ' + param.icon + ' " style="color: ' + param.icon_color + '" ng-click="resetarMenu(' + count + ')"></i>');
+							} else {
+								template.push('<i  class=" ' + param.icon + ' " style="color: #fff" ng-click="resetarMenu(' + count + ')"></i>');
+							}
+						}
 					}
-					template.push('<a ui-sref="' + param.URL + '" ng-class="v[' + count + '].isActive ? \'is-active\' : \' \'">');
+
+					template.push('<a ui-sref="' + param.URL + '" ng-class="v[' + count + '].isActive ? \'is-active\' : \' \'"');
+					if (parent.label === null || param.filhos.length > 0) {
+						template.push('gumga-translate-tag="' + param.label.toLowerCase() + '.menuLabel">');
+					} else if (param.filhos.length === 0) {
+						template.push('gumga-translate-tag="' + parent.label.toLowerCase() + '.' + param.label.toLowerCase() + '">');
+					}
 					template.push(param.label);
 					template.push('</a>');
+
+					if (param.imageUrl) {
+						if(param.imageWidth && param.imageHeight){
+							template.push('<a ui-sref="' + param.URL + '"><img  src="' + param.imageUrl + '" style="width: '+param.imageWidth+'; height: '+param.imageHeight+';" ng-click="resetarMenu(' + count + ')"></i></a>');
+						}else
+						template.push('<a ui-sref="' + param.URL + '"><img  src="' + param.imageUrl + '" style="width: 20px; height: 20px;" ng-click="resetarMenu(' + count + ')"></i></a>');
+					}
+
 					var aux = count;
+
 					count++;
 					if (param.filhos.length > 0) {
 						template.push('<ul ng-class="v[' + (count - 1) + '].isActive ? \' submenu-group-ativo\' : \'submenu-group\'" class="menu-holder">');
@@ -75,6 +106,7 @@
 					template.push('</li>');
 					return template.join('\n');
 				};
+
 
 				scope.resetarMenu = function (index) {
 					var i;
@@ -106,6 +138,7 @@
 
 				scope.mostrarMenu = function () {
 					menuOpen = !menuOpen;
+
 					var elm = el.find('nav');
 					if (menuOpen) {
 						elm.addClass('open-menu');
@@ -126,7 +159,7 @@
 				}
 
 			}
-		}
+		};
 	}
 
 	angular.module('gumga.directives.menu',[])
