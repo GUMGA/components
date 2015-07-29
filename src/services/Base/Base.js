@@ -2,7 +2,24 @@
 	'use strict';
 
 	Base.$inject =['$http','$q'];
-
+	/**
+	 * @ngdoc service
+	 * @name  gumga.core:GumgaBase
+	 * @description 
+	 * 	O service GumgaBase pode ser utilizado como helper para fazer chamadas HTTP. Ele permite que o programador não precise incluir o service $http
+	 * 	do AngularJS e já vem com algumas funções incluídas. Para utilizar o GumgaBase, basta íncluí-lo como dependência.
+	 *
+	 * ## Métodos
+	 *- get
+	 *- getById
+	 *- getNew
+	 *- deleteAll
+	 *- save
+	 *- update
+	 *- del
+	 *- postImage
+	 *- deleteImage
+	 */
 	function Base($http,$q){
 		var defaultParams = {};
 		this.get = get;
