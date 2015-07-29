@@ -6,14 +6,17 @@
 	 * @ngdoc directive
 	 * @name gumga.core:gumgaOneToMany
 	 * @restrict E
-	 * @param {[type]} children [description]
-	 * @param {[type]} template-url [description]
-	 * @param {[type]} property [description]
-	 * @param {[type]} name [description]
-	 * @param {[type]} controller [description]
-	 * @param {[type]} on-delete [description]
-	 * @param {[type]} on-value-visualization-opened [description]
-	 * @param {[type]} on-value-visualization-closed [description]
+	 * @param {Array} children Parâmetro obrigatório que irá conter um Array que será utilizado para construir a lista.
+	 * @param {String} template-url Parâmetro obrigatório que irá conter uma string referenciando a url na qual o template do modal estará.
+	 * @param {String} property Parâmetro obrigatório que irá conter uma string com a propriedade do objeto que será mostrada na lista.
+	 * @param {String} name *Utilizar modal-title*.
+	 * @param {String} modal-title Parâmetro não obrigatório que irá conter uma string com o título que será passado para o controller
+	 * @param {String} controller Parâmetro obrigatório que irá conter uma String que referenciará o nome do controller que será atribuido ao modal.
+	 * *Este controller necessita injetar além do $scope, as propriedades **entity** e **title** *
+	 * @param {Function} on-delete Parâmetro não obrigatório que irá conter uma variável que irá conter uma função que será chamada quando um elemento da lista for deletado.
+	 * A função que está no on-delete
+	 * @param {Function} on-value-visualization-opened [description]
+	 * @param {Function} on-value-visualization-closed [description]
 	 * 
 	 */
 	function OneToMany($modal){
