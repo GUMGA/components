@@ -38,12 +38,12 @@ describe('PROVIDER: GumgaAlert', function() {
 
 	it('Should call notify with warning and without any options',function(){
 		Alert.createWarningMessage('Warning','You have some pending updates');
-		expect(Alert._notify).toHaveBeenCalledWith('warn','Warning','You have some pending updates',{});
+		expect(Alert._notify).toHaveBeenCalledWith('warning','Warning','You have some pending updates',{});
 	})
 
 	it('Should call notify with info and with options',function(){
 		Alert.createWarningMessage('Warning','You have some pending updates',{offset: 30,timer: 500,delay: 500, alowDismiss: false});
-		expect(Alert._notify).toHaveBeenCalledWith('warn','Warning','You have some pending updates',{offset: 30,timer: 500,delay: 500, alowDismiss: false});
+		expect(Alert._notify).toHaveBeenCalledWith('warning','Warning','You have some pending updates',{offset: 30,timer: 500,delay: 500, alowDismiss: false});
 	})
 
 	it('Should call success with warning and without any options',function(){

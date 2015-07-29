@@ -6,6 +6,10 @@
 	 * @ngdoc directive
 	 * @name gumga.core:gumgaOneToMany
 	 * @restrict E
+	 * @description
+	 * 	A directive gumgaOneToMany pode ser usada quando é necessária a criação de uma lista de objetos dentro do formulário, especialmente quando esses
+	 * 	objetos acessam outros Services. Ela lança um modal para a criação destes objetos, que podem ser recursivos. Além disso, possui suporte a edição e remoção
+	 * 	destes registros.
 	 * @param {Array} children Parâmetro obrigatório que irá conter um Array que será utilizado para construir a lista.
 	 * @param {String} template-url Parâmetro obrigatório que irá conter uma string referenciando a url na qual o template do modal estará.
 	 * @param {String} property Parâmetro obrigatório que irá conter uma string com a propriedade do objeto que será mostrada na lista.
@@ -15,8 +19,10 @@
 	 * *Este controller necessita injetar além do $scope, as propriedades **entity** e **title** *
 	 * @param {Function} on-delete Parâmetro não obrigatório que irá conter uma variável que irá conter uma função que será chamada quando um elemento da lista for deletado.
 	 * A função que está no on-delete
-	 * @param {Function} on-value-visualization-opened [description]
-	 * @param {Function} on-value-visualization-closed [description]
+   * @param {Function} on-value-visualization-opened Parâmetro não obrigatório que irá conter uma variável que possuirá uma função que irá ser executada quando o usuário tiver aberto o modal
+   * para visualização de dados
+   * @param {Function} on-value-visualization-closed Parâmetro não obrigatório que irá conter uma variável que possuirá uma função que irá ser executada quando o usuário tiver fechado o modal
+   * para visualização de dados
 	 * 
 	 */
 	function OneToMany($modal){
