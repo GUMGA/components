@@ -21,7 +21,7 @@
      * @param {String} field Parâmetro obrigatório que irá conter o atributo do registro que está sendo procurado e o que estará na lista. 
      * @param {Boolean} authorize-add Parâmetro não obrigatório que irá conter uma variável que possuirá um booleano que irá fazer o controle para mostrar o botão de adicionar um registro caso a busca não
      * tenha retornado nenhum registro
-     * @param {Boolean} async Parâmetro não obrigatório que irá dizer caso componente fará um post chamando a função passada ou um push na lista. Por default, o valor é
+     * @param {Btava veoolean} async Parâmetro não obrigatório que irá dizer caso componente fará um post chamando a função passada ou um push na lista. Por default, o valor é
      * @param {Function} on-new-value-added Parâmetro não obrigatório que irá conter uma variável que possuirá uma função que irá ser executada quando o usuário adicionar um novo valor.
      * @param {Function} on-value-visualization-opened Parâmetro não obrigatório que irá conter uma variável que possuirá uma função que irá ser executada quando o usuário tiver aberto o modal
      * para visualização de dados
@@ -30,7 +30,7 @@
      */
     
 
-    
+
     function ManyToOne($templateCache,GumgaKeyboard,$modal){
         $templateCache.put('mtoItem.html',
             '<span bind-html-unsafe="match.label | typeaheadHighlight:query" style="cursor: pointer;"></span>');
