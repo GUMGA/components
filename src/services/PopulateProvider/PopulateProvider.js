@@ -334,6 +334,7 @@
 		methods.resetQuery = function(Scope,Service,id){
 			Scope[id.toLowerCase() + 'ResetQuery'] = function(){
 				Scope.page = 0;
+				Service.resetQuery();
 			}
 		}
 		return {

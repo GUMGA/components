@@ -36,7 +36,7 @@
 	 *  - <label class="label label-warning" style="margin-right: 1%">String</label><label class="label label-info">url</label>  Endereço no qual a chamada http será feita e na qual
 	 *   será feita a chamada para um novo registro.
 	 *  ### Retorno
-	 *  - <label class="label label-info">HttpPromise</label> Retona uma promise da chamada HTTP GET.
+	 *  - <label class="label label-info">HttpPromise</label> Retorna uma promise da chamada HTTP GET.
 	 *  ---
  	 *  `GumgaBase.deleteAll(url,array)`
 	 *  
@@ -89,7 +89,7 @@
 	 *  ---
  	 *  `GumgaBase.deleteImage(url,attribute,data)`
 	 *  
-	 *  O método del aceita dois parâmetros `url` e `data` e retorna uma promise de de uma chamada HTTP DELETE FORM-DATA.
+	 *  O método del aceita três parâmetros `url`, `attribute` e `data` e retorna uma promise de uma chamada HTTP DELETE FORM-DATA.
 	 *  ### Parâmetros
 	 *  - <label class="label label-warning" style="margin-right: 1%">String</label><label class="label label-info">url</label> Endereço no qual a chamada http será feita.
 	 *  - <label class="label label-warning" style="margin-right: 1%">String</label><label class="label label-info">attribute</label> Atributo no qual a imagem será feito o
