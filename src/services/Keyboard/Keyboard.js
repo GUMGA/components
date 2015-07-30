@@ -77,7 +77,7 @@
 	 *
 	 * 
 	 *  ### Retorno
-	 * - <label class="label label-warning">Array</label> Retorna uma lista de todos os binds já feitos.
+	 *  - <label class="label label-warning">Array</label> Retorna uma lista de todos os binds já feitos.
 	 *  
 	 *  ---
 	 */
