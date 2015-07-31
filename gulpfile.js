@@ -74,6 +74,7 @@ gulp.task('ngdocs',function(){
 		'./dist/gumga.min.js'
 		],
 		html5Mode: false,
+		startPage: '/directives',
 		title: 'Gumga Components',
 	}
 	return (ngDocs.sections({
