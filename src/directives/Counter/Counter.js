@@ -5,11 +5,16 @@
     Counter.$inject = ['$compile'];
       /**
        * @ngdoc directive
-       * @name gumga.core:GumgaCounter
+       * @name gumga.core:gumgaCounter
        * @element input
-       * @description O componente GumgaCounter permite o desenvolvedor escolher a quantidade de caracteres permitida,
-       * e adiciona um contador de caracteres em baixo da input.
+       * @description O componente gumgaCounter permite escolher um tamanho máximo permitido no campo, também cria um contador de caracteres indicando se os caracteres
+       * passaram do limite ou não. 
+       * 
+       * Caso um valor seja passado para a directive, ela atualizará o contador baseado nesse número. Caso não, ela pegará o valor
+       * passado para a directive {@link gumga.core:gumgaMaxLength}
+       * 
        * @example
+       *  Um exemplo da directive gumgaCounter funcionando pode ser encontrado [aqui](http://embed.plnkr.co/6xJuUuiI456kqbXN3Q6f/).
        * <pre>
        * <input name="example" ng-model="example" gumga-counter="15" />
        * </pre>

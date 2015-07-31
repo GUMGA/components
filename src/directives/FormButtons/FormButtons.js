@@ -2,13 +2,17 @@
 	'use strict';
     /**
      * @ngdoc directive
-     * @name gumga.core:GumgaFormButtons
-     * @deprecated  See {@link $confirmDirty} instead.
-     * @restrict EA
-     * @element ANY
-     * @scope false
-     * @description O componente GumgaAlert serve para criar notificações Growl-style, e possui quatro tipos
-     * de alertas: Danger, Success, Warning, Info.
+     * @name gumga.core:gumgaFormButtons
+     * @restrict E
+     * @description O componente gumgaFormButtons pode ser utilizado para quando necessite de botões para o formulário,
+     * tanto de continuar inserindo, de salvar e retroceder.
+     *
+     *  @param {Function} submit Parâmetro obrigatório que contém uma função que será executada quando o botão de continuar for clicado.
+     *  @param {boolean} valid Parâmetro obrigatório que irá conter um valor booleano para validar caso o formulário é válido para liberar o botão de salvar.
+     *  @param {Object} continue Object que deverá conter um atributo booleano chamado `value`, para controlar caso continuará inserindo ou não. Essa 
+     *  opção aparecerá apenas quando o objeto $stateParams(pertencente ao ui-router) não possuir um id, ou seja, caso esteja numa tela de inserção.
+     *  @param {boolean} confirm-dirty Parâmetro não obrigatório que irá conter um booleano para indicar caso deseje ter uma confirmação de saída do formulário
+     *  quando este foi alterado alguma vez.
      */
 	FormButtons.$inject = ['$state','$stateParams','$modal','$rootScope'];
     function FormButtons($state, $stateParams,$modal,$rootScope) {
