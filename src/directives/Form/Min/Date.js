@@ -2,14 +2,23 @@
 	'use strict';
   /**
    * @ngdoc directive
-   * @name gumga.core:GumgaMinDate
+   * @name gumga.core:gumgaMinDate
+   * @element input
    * @restrict A
-   * @element input[type='date']
-	 * @function
-   * @scope false
-   * @description
-	 * O componente GumgaMinDate serve para validar datas mínimas para entradas em formulários com campos do tipo date.
-	 */
+   * @description O componente GumgaMinDate serve para validar datas mínimas em entradas de formulários.
+   * 
+   * ## Nota
+   * Esta diretiva suporta apenas **inputs** do tipo **date**. O valor do atributo/diretiva é **obrigatório** e deve ser uma **data**.
+   *
+   * @example
+   *  Um exemplo da directive GumgaMinDate funcionando pode ser encontrado [aqui](http://embed.plnkr.co/GZr9ml0fTkK1Zrlh985F).
+   *  <pre>
+   *    <form name="myForm">
+   *      <input type="date" name="minDate" ng-model="minDate" gumga-min-date="2015-07-20">
+   *      <p ng-show="myForm.minDate.$error.mindate" class="text-danger">Data inferior a esperada</p>
+   *    </form>
+   *  </pre>
+  */
 	 MinDate.$inject = ['$filter'];
 	 function MinDate($filter) {
 	 	return {

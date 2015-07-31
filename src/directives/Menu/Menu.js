@@ -1,7 +1,56 @@
 (function(){
 	'use strict';
 	Menu.$inject = ['$http','$compile'];
-	function Menu($http,$compile){
+	/**
+	 * @ngdoc directive
+	 * @name  gumga.core:gumgaMenu
+	 * @restrict E
+	 * @description
+	 *  O componente gumgaMenu é uma directive que cria um menu na lateral esquerda da tela para facilitar a navegação do usuário no sistema.
+	 *  Seus itens são carregados de forma dinâmica através de um arquivo `json` que é carregado através de uma requisição HTTP. Além disso,
+	 *  ele faz um filtro de acordo com as keys passadas para ele também através de um arquivo `json`.
+<<<<<<< HEAD
+	 *  ## Exemplo
+     *  Veja um exemplo em funcionamento [aqui](http://embed.plnkr.co/UcMtAor6sUA6s0oZnJiu/preview).   
+	 *  @param {String} menu-url Parâmetro obrigatório que irá conter uma variável com o endereço do arquivo `json` para que seja carregada as entradas do menu.
+	 *  @param {String} keys-url Parâmetro obrigatório que irá conter uma variável com o endereço do arquivo `json` para que seja carregada as chaves que farão o filtro do menu.
+	 *  @param {String} image Parâmetro obrigatório que irá conter uma variável com o endereço da imagem que ficará no menu.
+=======
+>>>>>>> upstream/v1.0.x_dev
+	 *
+ 	 * ## Example
+	 * 	###Exemplo de json para o menu:
+	 * <pre>
+    [
+      {
+        "label": "Home",
+        "URL": "welcome",
+        "key": "CRUD-BASE",
+        "icon": "glyphicon glyphicon-home",
+        "icon_color": "",
+        "imageUrl": "",
+        "imageWidth": "",
+        "imageHeight": "",
+        "filhos": []
+      }
+    ]
+	 * 	</pre>
+	 * 	###Exemplo de json para as keys:
+	 * 	<pre>
+    [
+      "CRUD-BASE",
+      "CRUD-User"
+    ]
+	 * 	</pre>
+	 *
+	 * 
+	 *  @param {String} menu-url Parâmetro obrigatório que irá conter uma variável com o endereço do arquivo `json` para que seja carregada as entradas do menu.
+	 *  @param {String} keys-url Parâmetro obrigatório que irá conter uma variável com o endereço do arquivo `json` para que seja carregada as chaves que farão o filtro do menu.
+	 *  @param {String} image Parâmetro obrigatório que irá conter uma variável com o endereço da imagem que ficará no menu.
+	 *
+
+	 */
+	function Menu($http, $compile) {
 		return {
 			restrict: 'E',
 			replace: true,
@@ -10,6 +59,7 @@
 				scope.v = [];
 				var indexs = [];
 				var count = 0;
+				
 				var menuOpen = false;
 
 				$http.get(attrs.menuUrl).then(function (data) {
@@ -23,6 +73,7 @@
 				}, function (data) {
 					throw 'Erro:' + data;
 				});
+
 				scope.$watchGroup(['dados', 'keys'], function () {
 					if (scope.dados && scope.keys) {
 						gerateMenus();
@@ -48,20 +99,49 @@
 				};
 
 				var gerarNavPill = function (param, type, parent) {
+
 					scope.v[count] = {
 						isActive: false,
 						parent: parent.count
 					};
-					var template = ['<li class="' + type + '-option">'];
+					var urlSelected = location.hash;
+					if (urlSelected.match(param.URL)) {
+						var template = ['<li class="' + type + '-option" style="background: #4ca089" >'];
+					} else {
+						var template = ['<li class="' + type + '-option">'];
+					}
+
+
 					if (param.filhos.length > 0 && verificarPermicaoFilho(param.filhos)) {
 						template.push('<i  ng-class="v[' + count + '].isActive ? \' glyphicon glyphicon-chevron-down \' : \'glyphicon glyphicon-chevron-right\'" class="fa ' + type + '-color"  ng-click="resetarMenu(' + count + ')"></i>');
 					} else {
-						template.push('<i  class=" ' + param.icon + ' " style="color: #fff" ng-click="resetarMenu(' + count + ')"></i>');
+						if (param.icon) {
+							if (param.icon_color) {
+								template.push('<i  class=" ' + param.icon + ' " style="color: ' + param.icon_color + '" ng-click="resetarMenu(' + count + ')"></i>');
+							} else {
+								template.push('<i  class=" ' + param.icon + ' " style="color: #fff" ng-click="resetarMenu(' + count + ')"></i>');
+							}
+						}
 					}
-					template.push('<a ui-sref="' + param.URL + '" ng-class="v[' + count + '].isActive ? \'is-active\' : \' \'">');
+
+					template.push('<a ui-sref="' + param.URL + '" ng-class="v[' + count + '].isActive ? \'is-active\' : \' \'"');
+					if (parent.label === null || param.filhos.length > 0) {
+						template.push('gumga-translate-tag="' + param.label.toLowerCase() + '.menuLabel">');
+					} else if (param.filhos.length === 0) {
+						template.push('gumga-translate-tag="' + parent.label.toLowerCase() + '.' + param.label.toLowerCase() + '">');
+					}
 					template.push(param.label);
 					template.push('</a>');
+
+					if (param.imageUrl) {
+						if(param.imageWidth && param.imageHeight){
+							template.push('<a ui-sref="' + param.URL + '"><img  src="' + param.imageUrl + '" style="width: '+param.imageWidth+'; height: '+param.imageHeight+';" ng-click="resetarMenu(' + count + ')"></i></a>');
+						}else
+						template.push('<a ui-sref="' + param.URL + '"><img  src="' + param.imageUrl + '" style="width: 20px; height: 20px;" ng-click="resetarMenu(' + count + ')"></i></a>');
+					}
+
 					var aux = count;
+
 					count++;
 					if (param.filhos.length > 0) {
 						template.push('<ul ng-class="v[' + (count - 1) + '].isActive ? \' submenu-group-ativo\' : \'submenu-group\'" class="menu-holder">');
@@ -75,6 +155,7 @@
 					template.push('</li>');
 					return template.join('\n');
 				};
+
 
 				scope.resetarMenu = function (index) {
 					var i;
@@ -106,6 +187,7 @@
 
 				scope.mostrarMenu = function () {
 					menuOpen = !menuOpen;
+
 					var elm = el.find('nav');
 					if (menuOpen) {
 						elm.addClass('open-menu');
@@ -126,7 +208,7 @@
 				}
 
 			}
-		}
+		};
 	}
 
 	angular.module('gumga.directives.menu',[])

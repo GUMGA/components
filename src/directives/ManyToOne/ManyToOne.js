@@ -2,17 +2,41 @@
     'use strict';
 
     ManyToOne.$inject = ['$templateCache','GumgaKeyboard','$modal'];
-    /*
-        TODO[1]: Investigar erro de atraso no input.
-        TODO[2]: Arrumar a margin quando não tem authorizeAdd.
+    /**
+     * @ngdoc directive
+     * @name gumga.core:gumgaManyToOne
+     * @restrict E
+     * @description  
+     *  A directive gumgaManyToOne pode ser usada para quando o programador precise de um select que filtre uma lista assíncronamente.
+     *  Ela também permite adicionar um registro caso a busca retorne uma lista vazia e permite também visualizar os atributos do registro selecionado.
+     *  ---
+     *  #Exemplo básico de utilização do GumgaManyToOne
+     *  O exemplo desse componente pode ser encontrado [aqui](http://embed.plnkr.co/NYL3gItVsWLFcGxt5itz/).
+     * 
+     * @param {Object} value Parâmetro obrigatório que irá conter uma variável que será o registro escolhido na lista.
+     * @param {Array} list Parâmetro obrigatório que irá conter uma lista dos registros que foram buscados.
+     * @param {Function} search-method Parâmetro obrigatório que irá conter uma função que fará a busca na lista assíncronamente. `search-method="getSearch(param)"`
+     * @param {Function} post-method Parâmetro obrigatório que irá conter uma função que dependendo do parâmetro `async`, chamará a função async com o parâmetro
+     * `post-method="post(value)"` e caso o parâmetro async não esteja presente ou seja falso, fará um push na lista.
+     * @param {String} field Parâmetro obrigatório que irá conter o atributo do registro que está sendo procurado e o que estará na lista. 
+     * @param {Boolean} authorize-add Parâmetro não obrigatório que irá conter uma variável que possuirá um booleano que irá fazer o controle para mostrar o botão de adicionar um registro caso a busca não
+     * tenha retornado nenhum registro
+     * @param {Btava veoolean} async Parâmetro não obrigatório que irá dizer caso componente fará um post chamando a função passada ou um push na lista. Por default, o valor é
+     * @param {Function} on-new-value-added Parâmetro não obrigatório que irá conter uma variável que possuirá uma função que irá ser executada quando o usuário adicionar um novo valor.
+     * @param {Function} on-value-visualization-opened Parâmetro não obrigatório que irá conter uma variável que possuirá uma função que irá ser executada quando o usuário tiver aberto o modal
+     * para visualização de dados
+     * @param {Function} on-value-visualization-closed Parâmetro não obrigatório que irá conter uma variável que possuirá uma função que irá ser executada quando o usuário tiver fechado o modal
+     * para visualização de dados
      */
+    
+
+
     function ManyToOne($templateCache,GumgaKeyboard,$modal){
         $templateCache.put('mtoItem.html',
             '<span bind-html-unsafe="match.label | typeaheadHighlight:query" style="cursor: pointer;"></span>');
         var template ='<div class="full-width-without-padding">';
         template += '   <div class="form-group">';
         template += '       <div ng-class="showFullView() || authorizeAdd ? \'input-group\' : \'\'">';
-        // template += '           <input class="form-control"  ng-model="model" type="text" typeahead="$value as $value[field] for $value in searchMethod({param: model})">';
         template += '           <input class="form-control"  ng-model="model" type="text" typeahead="$value as $value[field] for $value in proxySearchMethod()">';
         template += '           <span class="input-group-addon" style="background-color: transparent; padding: 3px 12px;border-left:0" ng-show="showFullView()"> ';
         template += '               <button class="badge" style="background-color: #6ECFFF;border: 0" ng-click="halp(model)" ><i class="glyphicon glyphicon-resize-full"></i></button>';
@@ -56,7 +80,11 @@
                     checkIfItIsString(scope.model) ?
                     ctrl.$setValidity('GumgaManyToOne',false) : ctrl.$setValidity('GumgaManyToOne',true);
                 });
-                GumgaKeyboard.bindToElement(elm.find('input')[0],'down',function(){ngModelCtrl.$setViewValue(' ')});
+                try {
+                    GumgaKeyboard.bindToElement(elm.find('input')[0],'down',function(){ngModelCtrl.$setViewValue(' ')});
+                } catch(e){
+
+                }
 
                 scope.showFullView = function(){
                     return ((typeof scope.model).toUpperCase().trim()) === 'object'.toUpperCase().trim() && scope.model != undefined;

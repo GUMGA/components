@@ -2,6 +2,43 @@
 	'use strict';
 
 	ManyMany.$inject = ['$modal','$compile','$timeout'];
+	/**
+	 * @ngdoc directive
+	 * @name gumga.core:gumgaManyToMany
+	 * @restrict E
+	 * @description 
+	 * 	O componente gumgaManyToMany é um componente que é utilizado para mostrar duas listas lado a lado, e permitir que um registro seja trocado de uma lista para outra,
+	 * 	assim como também visualizado os seus valores(caso seja um objeto). Um exemplo do componente pode ser encontrado [aqui](http://embed.plnkr.co/gyrqAKQQGuEHwp2npv8G/).
+	 *
+	 * ---
+	 * ## Configuração de como será mostrado o valor na lista
+	 *
+	 *Para que o programador possa escolher como os valores serão demonstrados, forão desenvolvidas duas tags que devem estar dentro do componente manyToMany.
+	 * 		<pre> <left-field>{{$value}}</left-field>
+	 * 		<left-field>{{$value}}</left-field></pre>
+	 * 
+	 * @param {Array} left-list Parâmetro obrigatório que irá conter uma variável que possuirá um array, para ser mostrado na lista da esquerda.
+	 *  *A lista da esquerda será filtrada e não conterá resultados iguais a da lista da direita.*
+	 * @param {Array} right-list Parâmetro obrigatório que irá conter uma variável que possuirá um array, para ser mostrado na lista da direita.
+	 * @param {Function} left-search Parâmetro obrigatório que irá conter uma variável que possuirá uma função que irá ser executada toda vez
+	 * que o usuário digitar algo no input acima da lista. Essa função terá o valor do input como parâmetro. O parâmetro deverá ser este: `left-search="doSearch(text)"`
+	 * @param {Function} right-search Parâmetro obrigatório que irá conter uma variável que possuirá uma função que irá ser executada toda vez
+	 * que o usuário digitar algo no input acima da lista. Essa função terá o valor do input como parâmetro. O parâmetro deverá ser este: `left-search="doSearch(text)"`
+	 * @param {Function} post-method Parâmetro não obrigatório que irá conter uma variável que possuirá uma função que irá ser executada quando o usuário desejar adicionar um valor 
+	 * caso sua busca não tenha trazido resultados.
+	 * @param {Function} on-list-change Parâmetro não obrigatório que irá conter uma variável que possuirá uma função que irá ser executada quando o usuário tiver clicado em um registro
+	 * e o mesmo tiver trocado de lista.
+	 * @param {Function} on-value-visualization-opened Parâmetro não obrigatório que irá conter uma variável que possuirá uma função que irá ser executada quando o usuário tiver aberto o modal
+	 * para visualização de dados
+	 * @param {Function} on-value-visualization-closed Parâmetro não obrigatório que irá conter uma variável que possuirá uma função que irá ser executada quando o usuário tiver fechado o modal
+	 * para visualização de dados
+	 * @param {Boolean} authorize-add Parâmetro não obrigatório que irá conter uma variável que possuirá um booleano que irá fazer o controle para mostrar o botão de adicionar um registro caso a busca não
+	 * tenha retornado nenhum registro
+	 * @param {String} left-label Parâmetro não obrigatório que irá conter uma String que irá aparecer acima do input e da lista.
+	 * @param {String} right-label Parâmetro não obrigatório que irá conter uma String que irá aparecer acima do input e da lista.
+	 *
+
+	 */
 	function ManyMany($modal,$compile,$timeout){
 
 		return {

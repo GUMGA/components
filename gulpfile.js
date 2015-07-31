@@ -22,7 +22,7 @@ gulp.task('hint',function(){
 	return gulp.src(paths.src)
 	.pipe(hint())
 	.pipe(hint.reporter(stylish))
-})
+	})
 
 
 gulp.task('build-css',function(){
@@ -31,18 +31,18 @@ gulp.task('build-css',function(){
 	.pipe(rename('gumga.min.css'))
 	.pipe(minifyCss())
 	.pipe(gulp.dest('./dist'))
-})
+	})
 
 
 gulp.task('build-dist',function(){
 	return gulp.src(paths.src)
-		.pipe(ngAnnotate({remove: true,add:true}))
-		.pipe(sourcemaps.init())
-		.pipe(concat('gumga.min.js'))
-		.pipe(sourcemaps.write())
-		.pipe(uglify())
-		.pipe(gulp.dest('dist/'));
-})
+	.pipe(ngAnnotate({remove: true,add:true}))
+	.pipe(sourcemaps.init())
+	.pipe(concat('gumga.min.js'))
+	.pipe(sourcemaps.write())
+	.pipe(uglify())
+	.pipe(gulp.dest('dist/'));
+	})
 
 
 gulp.task('karma-tdd',function(done){
@@ -52,7 +52,7 @@ gulp.task('karma-tdd',function(done){
 	};
 	var server = new Server(config,done);
 	server.start();
-})
+	})
 
 gulp.task('plato', function () {
 	return gulp.src(paths.src)
@@ -61,28 +61,42 @@ gulp.task('plato', function () {
 			options: {
 				strict: true
 			}
-		},
-		complexity: {
-			trycatch: true
-		}
-	}));
-});
+			},
+			complexity: {
+				trycatch: true
+			}
+			}));
+	});
 
 gulp.task('ngdocs',function(){
 	var options = {
-		scripts: ['./dist/gumga.min.js'],
-		html5Mode: true,
+		scripts: [
+		'./dist/gumga.min.js'
+		],
+		html5Mode: false,
+		startPage: '/directives',
 		title: 'Gumga Components',
 	}
-	return gulp.src(paths.src)
+	return (ngDocs.sections({
+		directives: {
+			title: 'Directives',
+			glob: ['./src/directives/**/*.js','!**/*Spec.js']
+			},
+			services: {
+				title: 'Services',
+				glob: ['./src/services/**/*.js','!**/*Spec.js']
+			}	
+			}))
 	.pipe(ngDocs.process(options))
 	.pipe(gulp.dest('./docs'))
-})
+	})
 
 gulp.task('ci',['karma-tdd','ngdocs']);
 gulp.task('dev',['hint','karma-tdd']);
 gulp.task('prod',['plato','build-dist','ngdocs','build-css'],function(){
 	gulp.watch(paths.src,['build-dist','build-css']);
-});
-
+	});
+gulp.task('generate-doc',function(){
+	gulp.watch(paths.src,['build-dist','ngdocs'])
+})
 
