@@ -19,9 +19,9 @@
    *      <p ng-show="myForm.maxLength.$error.maxlength" class="text-danger">Tamanho superior ao esperado</p>
    *    </form>
    *  </pre>
-  */
-	MaxLength.$inject = [];
-	function MaxLength() {
+   */
+   MaxLength.$inject = [];
+   function MaxLength() {
     return {
       restrict: 'A',
       require: 'ngModel',
@@ -37,14 +37,14 @@
           ctrl.$setValidity('maxlength', isValid);
           return inputValue;
         };
-	 			ctrl.$parsers.unshift(validateMaxLength);
-	 			ctrl.$formatters.push(validateMaxLength);
-	 			attr.$observe('gumgaMaxLength', function () {
-	 				validateMaxLength(ctrl.$viewValue);
-	 			});
-	 		}
-	 	}
-	 }
-	 angular.module('gumga.directives.form.max.length',[])
-	 .directive('gumgaMaxLength',MaxLength);
-	})();
+        ctrl.$parsers.unshift(validateMaxLength);
+        ctrl.$formatters.push(validateMaxLength);
+        attr.$observe('gumgaMaxLength', function () {
+          validateMaxLength(ctrl.$viewValue);
+        });
+      }
+    }
+  }
+  angular.module('gumga.directives.form.max.length',[])
+  .directive('gumgaMaxLength',MaxLength);
+})();

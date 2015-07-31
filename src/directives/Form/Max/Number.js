@@ -19,41 +19,41 @@
    *      <p ng-show="myForm.maxNumber.$error.maxnumber" class="text-danger">Número superior ao esperado</p>
    *    </form>
    *  </pre>
-  */
-	 MaxNumber.$inject = [];
-	 function MaxNumber() {
-	 	return {
-	 		restrict: 'A',
-	 		require: 'ngModel',
-	 		link: function (scope, elm, attr, ctrl) {
-	 			if (attr.type != 'number') {
-	 				throw 'Esta diretiva suporta apenas inputs do tipo number';
-	 			}
-	 			if (!attr.gumgaMaxNumber) {
-	 				throw "O valor da diretiva gumga-max-number não foi informado.";
-	 			}
-	 			var validateMaxNumber = function (inputValue) {
-	 				var input = parseInt(inputValue);
-	 				var max = parseInt(attr.gumgaMaxNumber);
-	 				var isValid = input <= max;
-	 				ctrl.$setValidity('maxnumber', isValid);
-	 				return inputValue;
-	 			};
-	 			ctrl.$parsers.unshift(validateMaxNumber);
-	 			ctrl.$formatters.push(validateMaxNumber);
-	 			attr.$observe('gumgaMaxNumber', function () {
-	 				validateMaxNumber(ctrl.$viewValue);
-	 			});
+   */
+   MaxNumber.$inject = [];
+   function MaxNumber() {
+     return {
+      restrict: 'A',
+      require: 'ngModel',
+      link: function (scope, elm, attr, ctrl) {
+       if (attr.type != 'number') {
+        throw 'Esta diretiva suporta apenas inputs do tipo number';
+      }
+      if (!attr.gumgaMaxNumber) {
+        throw "O valor da diretiva gumga-max-number não foi informado.";
+      }
+      var validateMaxNumber = function (inputValue) {
+        var input = parseInt(inputValue);
+        var max = parseInt(attr.gumgaMaxNumber);
+        var isValid = input <= max;
+        ctrl.$setValidity('maxnumber', isValid);
+        return inputValue;
+      };
+      ctrl.$parsers.unshift(validateMaxNumber);
+      ctrl.$formatters.push(validateMaxNumber);
+      attr.$observe('gumgaMaxNumber', function () {
+        validateMaxNumber(ctrl.$viewValue);
+      });
 
-				scope.$on('clearFields',function(event, data) {
-					ctrl.$modelValue = null;
-					console.log('directive date clear');
+      scope.$on('clearFields',function(event, data) {
+       ctrl.$modelValue = null;
+       console.log('directive date clear');
 					// console.log(elm);
 					// console.log();
 				});
-	 		}
-	 	}
-	 }
-	 angular.module('gumga.directives.form.max.number',[])
-	 .directive('gumgaMaxNumber',MaxNumber);
-	})();
+    }
+  }
+}
+angular.module('gumga.directives.form.max.number',[])
+.directive('gumgaMaxNumber',MaxNumber);
+})();

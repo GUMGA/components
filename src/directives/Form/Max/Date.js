@@ -19,19 +19,19 @@
    *      <p ng-show="myForm.maxDate.$error.maxdate" class="text-danger">Data superior a esperada</p>
    *    </form>
    *  </pre>
-  */
-	 MaxDate.$inject = ['$filter'];
-	 function MaxDate($filter) {
-	 	return {
-	 		restrict: 'A',
-	 		require: 'ngModel',
-	 		link: function (scope, elm, attr, ctrl) {
-	 			if (attr.type != 'date') {
-	 				throw 'Esta diretiva suporta apenas inputs do tipo date';
-	 			}
-	 			if (!attr.gumgaMaxDate) {
-	 				throw "O valor da diretiva gumga-max-date não foi informado.";
-	 			}
+   */
+   MaxDate.$inject = ['$filter'];
+   function MaxDate($filter) {
+     return {
+      restrict: 'A',
+      require: 'ngModel',
+      link: function (scope, elm, attr, ctrl) {
+       if (attr.type != 'date') {
+        throw 'Esta diretiva suporta apenas inputs do tipo date';
+      }
+      if (!attr.gumgaMaxDate) {
+        throw "O valor da diretiva gumga-max-date não foi informado.";
+      }
         // if (!GumgaDateService.validateFormat('YMD', attr.gumgaMaxDate)) {
         //   throw 'O valor da diretiva não corresponde ao formato yyyy-mm-dd';
         // }
@@ -49,9 +49,9 @@
         	validateMaxDate(ctrl.$viewValue);
         });
 
-				scope.$on('clearFields',function(event, data) {
-					ctrl.$modelValue = null;
-					console.log('directive date clear');
+        scope.$on('clearFields',function(event, data) {
+         ctrl.$modelValue = null;
+         console.log('directive date clear');
 					// console.log(elm);
 					// console.log(ctrl);
 				});

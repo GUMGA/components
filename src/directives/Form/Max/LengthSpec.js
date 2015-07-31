@@ -8,7 +8,7 @@ describe('Gumga.core:directives:MaxLength', function() {
       '<form name="myForm">' +
       '<input type="text" name="nome" ng-model="pessoa.nome" gumga-max-length="10">' +
       '</form>'
-    );
+      );
     scope.pessoa = { nome: null };
     $compile(element)(scope);
     scope.$digest();
