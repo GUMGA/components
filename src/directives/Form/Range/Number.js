@@ -2,7 +2,7 @@
 	'use strict';
   /**
    * @ngdoc directive
-   * @name gumga.core:GumgaRangeNumber
+   * @name gumga.core:gumgaRangeNumber
    * @restrict A
    * @element input
    * @description

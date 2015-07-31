@@ -2,7 +2,7 @@
 	'use strict';
   /**
    * @ngdoc directive
-   * @name gumga.core:GumgaMinDate
+   * @name gumga.core:gumgaMinDate
    * @element input
    * @restrict A
    * @description O componente GumgaMinDate serve para validar datas mínimas em entradas de formulários com campos do tipo date.

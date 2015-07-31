@@ -2,7 +2,7 @@
   'use strict';
   /**
    * @ngdoc directive
-   * @name gumga.core:GumgaRequired
+   * @name gumga.core:gumgaRequired
    * @restrict A
    * @element ANY
    * @description

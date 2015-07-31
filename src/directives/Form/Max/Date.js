@@ -2,7 +2,7 @@
 	'use strict';
   /**
    * @ngdoc directive
-   * @name gumga.core:GumgaMaxDate
+   * @name gumga.core:gumgaMaxDate
    * @element input
    * @restrict A
    * @scope false

@@ -2,7 +2,7 @@
 	'use strict';
   /**
    * @ngdoc directive
-   * @name gumga.core:GumgaMinNumber
+   * @name gumga.core:gumgaMinNumber
    * @element input
    * @restrict A
    * @description O componente GumgaMinNumber serve para validar números mínimos para entradas em formulários com campos do tipo number.

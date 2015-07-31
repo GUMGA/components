@@ -2,7 +2,7 @@
 	'use strict';
   /**
    * @ngdoc directive
-   * @name gumga.core:GumgaMinLength
+   * @name gumga.core:gumgaMinLength
    * @element input
    * @restrict A
    * @description O componente GumgaMinLength serve para validar quantidades mínimas de caracteres em entradas de formulários.

@@ -2,7 +2,7 @@
 	'use strict';
   /**
    * @ngdoc directive
-   * @name gumga.core:GumgaMaxLength
+   * @name gumga.core:gumgaMaxLength
    * @element input
    * @restrict A
    * @scope false

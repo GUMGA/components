@@ -2,7 +2,7 @@
 	'use strict';
   /**
    * @ngdoc directive
-   * @name gumga.core:GumgaPattern
+   * @name gumga.core:gumgaPattern
    * @element input
    * @restrict A
    * @description O componente GumgaPattern serve para validar expressões regulares de formulários.
