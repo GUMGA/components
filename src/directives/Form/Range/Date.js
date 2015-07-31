@@ -2,13 +2,26 @@
 	'use strict';
   /**
    * @ngdoc directive
-   * @name gumga.core:GumgaRangeDate
+   * @name gumga.core:gumgaRangeDate
    * @restrict A
-   * @element input[type='date']
-	 * @function
-   * @scope false
+   * @element input
    * @description
 	 * O componente GumgaRangeDate serve para validar datas mínimas e máximas para entradas em formulários com campos do tipo date.
+   *
+   * ## Nota
+   * O valor do atributo/diretiva é **obrigatório** e deve ser um **objeto** contendo duas propriedades, **min** e **max** 
+   * com os valores de suas respectivas datas para execução da validação range.
+   *
+   * ## Exemplo
+   * Um exemplo da directive GumgaRangeDate funcionando pode ser encontrado [aqui](http://embed.plnkr.co/OGu2toHUi5pBSPx4D5OU).
+   *
+   * @example
+   *  <pre>
+   *    <form name="myForm">
+   *      <input type="date" name="rangeDate" ng-model="rangeDate" gumga-range-date="{min: '1986-12-29', max: '2015-07-20'}" id="rangedate">
+   *      <p ng-show="myForm.cep.$error.rangedate" class="text-danger">A data informada não está entre os valores esperados</p>
+   *    </form>
+   *  </pre>
 	 */
 	 RangeDate.$inject = ['$filter'];
 	 function RangeDate($filter) {
