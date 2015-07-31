@@ -77,7 +77,7 @@
 	 *  ---
 	 *  `GumgaBase.postImage(url,attribute,data)`
 	 *  
-	 *  O método del aceita três parâmetros `url`,`attribute` e `data` e retorna uma promise de de uma chamada HTTP POST FORM-DATA.
+	 *  O método postImage aceita três parâmetros `url`,`attribute` e `data` e retorna uma promise de de uma chamada HTTP POST FORM-DATA.
 	 *  ### Parâmetros
 	 *  - <label class="label label-warning" style="margin-right: 1%">String</label><label class="label label-info">url</label>  Endereço no qual a chamada http será feita.
 	 *  - <label class="label label-warning" style="margin-right: 1%">String</label><label class="label label-info">attribute</label> Atributo no qual a imagem será feito o

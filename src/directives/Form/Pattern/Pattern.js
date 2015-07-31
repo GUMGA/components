@@ -1,15 +1,24 @@
 (function(){
 	'use strict';
-	/**
+  /**
    * @ngdoc directive
-   * @name gumga.core:GumgaPattern
-   * @restrict A
+   * @name gumga.core:gumgaPattern
    * @element input
-	 * @function
-   * @scope false
-   * @description
-	 * O componente GumgaPattern serve para validar expressões regulares de formulários.
-	 */
+   * @restrict A
+   * @description O componente GumgaPattern serve para validar expressões regulares de formulários.
+   * 
+   * ## Nota
+   * O valor do atributo/diretiva é **obrigatório** e deve ser uma **expressão regular**.
+   *
+   * @example
+   *  Um exemplo da directive GumgaPattern funcionando pode ser encontrado [aqui](http://embed.plnkr.co/rYRDHYIWwi5nz8YKwGaw).
+   *  <pre>
+   *    <form name="myForm">
+   *      <input type="text" name="cep" ng-model="cep" gumga-pattern="(\d{5})\-(\d{3})" id="cep" placeholder="99999-999">
+   *      <p ng-show="myForm.cep.$error.pattern" class="text-danger">Expressão não corresponde com o formato esperado</p>
+   *    </form>
+   *  </pre>
+  */
 	Pattern.$inject = [];
   function Pattern() {
     return {

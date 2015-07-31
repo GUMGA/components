@@ -2,14 +2,23 @@
 	'use strict';
   /**
    * @ngdoc directive
-   * @name gumga.core:GumgaMinNumber
+   * @name gumga.core:gumgaMinNumber
+   * @element input
    * @restrict A
-   * @element input[type='number']
-	 * @function
-   * @scope false
-   * @description
-	 * O componente GumgaMinNumber serve para validar números mínimos para entradas em formulários com campos do tipo number.
-	 */
+   * @description O componente GumgaMinNumber serve para validar números mínimos para entradas em formulários com campos do tipo number.
+   * 
+   * ## Nota
+   * Esta diretiva suporta apenas inputs do tipo number. O valor do atributo/diretiva é **obrigatório** e deve ser um **número**.
+   *
+   * @example
+   *  Um exemplo da directive GumgaMinNumber funcionando pode ser encontrado [aqui](http://embed.plnkr.co/GsMxY6QFES1rRktFCWsX).
+   *  <pre>
+   *    <form name="myForm">
+   *      <input type="number" name="minNumber" ng-model="minNumber" gumga-min-number="20">
+   *      <p ng-show="myForm.minNumber.$error.minnumber" class="text-danger">Número inferior ao esperado</p>
+   *    </form>
+   *  </pre>
+  */
 	 MinNumber.$inject = [];
 	 function MinNumber() {
 	 	return {
