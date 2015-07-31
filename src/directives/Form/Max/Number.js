@@ -3,13 +3,23 @@
   /**
    * @ngdoc directive
    * @name gumga.core:GumgaMaxNumber
+   * @element input
    * @restrict A
-   * @element input[type='number']
-	 * @function
    * @scope false
-   * @description
-	 * O componente GumgaMaxNumber serve para validar números máximos em entradas de formulários com campos do tipo number.
-	 */
+   * @description O componente GumgaMaxNumber serve para validar números máximos em entradas de formulários com campos do tipo number.
+   * 
+   * ## Nota
+   * Esta diretiva suporta apenas inputs do tipo number. O valor do atributo/diretiva é **obrigatório** e deve ser um **número**.
+   *
+   * @example
+   *  Um exemplo da directive GumgaMaxNumber funcionando pode ser encontrado [aqui](http://embed.plnkr.co/IKifBxWz5i5obkVAmuxI).
+   *  <pre>
+   *    <form name="myForm">
+   *      <input type="number" name="maxNumber" ng-model="maxNumber" gumga-max-number="20">
+   *      <p ng-show="myForm.maxNumber.$error.maxnumber" class="text-danger">Número superior ao esperado</p>
+   *    </form>
+   *  </pre>
+  */
 	 MaxNumber.$inject = [];
 	 function MaxNumber() {
 	 	return {

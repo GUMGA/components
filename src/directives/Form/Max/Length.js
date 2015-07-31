@@ -3,13 +3,23 @@
   /**
    * @ngdoc directive
    * @name gumga.core:GumgaMaxLength
-   * @restrict A
    * @element input
-	 * @function
+   * @restrict A
    * @scope false
-   * @description
-	 * O componente GumgaMaxLength serve para validar quantidades máximas de caracteres em entradas de formulários.
-	 */
+   * @description O componente GumgaMaxLength serve para validar quantidades máximas de caracteres em entradas de formulários.
+   * 
+   * ## Nota
+   * O valor do atributo/diretiva é **obrigatório** e deve ser um **número**.
+   *
+   * @example
+   *  Um exemplo da directive GumgaMaxLength funcionando pode ser encontrado [aqui](http://embed.plnkr.co/6KjgXFTEAnQq9GgWbbDB).
+   *  <pre>
+   *    <form name="myForm">
+   *      <input type="date" name="maxLength" ng-model="maxLength" gumga-max-length="20" id="maxLength">
+   *      <p ng-show="myForm.maxLength.$error.maxlength" class="text-danger">Tamanho superior ao esperado</p>
+   *    </form>
+   *  </pre>
+  */
 	MaxLength.$inject = [];
 	function MaxLength() {
     return {

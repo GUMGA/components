@@ -3,13 +3,23 @@
   /**
    * @ngdoc directive
    * @name gumga.core:GumgaMaxDate
+   * @element input
    * @restrict A
-   * @element input[type='date']
-	 * @function
    * @scope false
-   * @description
-	 * O componente GumgaMaxDate serve para validar datas máximas para entradas em formulários com campos do tipo date.
-	 */
+   * @description O componente GumgaMaxDate serve para validar datas máximas em entradas de formulários com campos do tipo date.
+   * 
+   * ## Nota
+   * Esta diretiva suporta apenas inputs do tipo date. O valor do atributo/diretiva é **obrigatório** e deve ser uma **data**.
+   *
+   * @example
+   *  Um exemplo da directive gumgaMaxDate funcionando pode ser encontrado [aqui](http://embed.plnkr.co/6KjgXFTEAnQq9GgWbbDB).
+   *  <pre>
+   *    <form name="myForm">
+   *      <input type="date" name="maxDate" ng-model="maxDate" gumga-max-date="2015-07-20">
+   *      <p ng-show="myForm.maxDate.$error.maxdate" class="text-danger">Data superior a esperada</p>
+   *    </form>
+   *  </pre>
+  */
 	 MaxDate.$inject = ['$filter'];
 	 function MaxDate($filter) {
 	 	return {
