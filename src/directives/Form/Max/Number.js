@@ -6,10 +6,10 @@
    * @element input
    * @restrict A
    * @scope false
-   * @description O componente GumgaMaxNumber serve para validar números máximos em entradas de formulários com campos do tipo number.
+   * @description O componente GumgaMaxNumber serve para validar números máximos em entradas de formulários.
    * 
    * ## Nota
-   * Esta diretiva suporta apenas inputs do tipo number. O valor do atributo/diretiva é **obrigatório** e deve ser um **número**.
+   * Esta diretiva suporta apenas **inputs** do tipo **number**. O valor do atributo/diretiva é **obrigatório** e deve ser um **número**.
    *
    * @example
    *  Um exemplo da directive GumgaMaxNumber funcionando pode ser encontrado [aqui](http://embed.plnkr.co/IKifBxWz5i5obkVAmuxI).

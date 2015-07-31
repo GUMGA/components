@@ -5,10 +5,10 @@
    * @name gumga.core:gumgaMinDate
    * @element input
    * @restrict A
-   * @description O componente GumgaMinDate serve para validar datas mínimas em entradas de formulários com campos do tipo date.
+   * @description O componente GumgaMinDate serve para validar datas mínimas em entradas de formulários.
    * 
    * ## Nota
-   * Esta diretiva suporta apenas inputs do tipo date. O valor do atributo/diretiva é **obrigatório** e deve ser uma **data**.
+   * Esta diretiva suporta apenas **inputs** do tipo **date**. O valor do atributo/diretiva é **obrigatório** e deve ser uma **data**.
    *
    * @example
    *  Um exemplo da directive GumgaMinDate funcionando pode ser encontrado [aqui](http://embed.plnkr.co/GZr9ml0fTkK1Zrlh985F).
