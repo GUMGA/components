@@ -11,7 +11,7 @@
      *  Ela também permite adicionar um registro caso a busca retorne uma lista vazia e permite também visualizar os atributos do registro selecionado.
      *  ---
      *  #Exemplo básico de utilização do GumgaManyToOne
-     *  O exemplo desse compoennte pode ser encontrado [aqui](http://embed.plnkr.co/NYL3gItVsWLFcGxt5itz/).
+     *  O exemplo desse componente pode ser encontrado [aqui](http://embed.plnkr.co/NYL3gItVsWLFcGxt5itz/).
      * 
      * @param {Object} value Parâmetro obrigatório que irá conter uma variável que será o registro escolhido na lista.
      * @param {Array} list Parâmetro obrigatório que irá conter uma lista dos registros que foram buscados.

@@ -7,7 +7,7 @@
        * @ngdoc directive
        * @name gumga.core:gumgaCounter
        * @element input[type="text"]
-       * @description O componente gumgaCounter mostra, embaixo do input no qual ela foi colocada, um contador de caracteres indicando se os caracteres
+       * @description O componente gumgaCounter permite escolher um tamanho máximo permitido no campo, também cria um contador de caracteres indicando se os caracteres
        * passaram do limite ou não. 
        * 
        * Caso um valor seja passado para a directive, ela atualizará o contador baseado nesse número. Caso não, ela pegará o valor
