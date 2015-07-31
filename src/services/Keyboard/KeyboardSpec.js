@@ -14,9 +14,7 @@ describe('SERVICE: Keyboard', function() {
 
 	describe('function addBind',function(){
 		it('Should throw an error if key is not passed',function(){
-			expect(function(){
-				Keyboard.addBind(undefined,function(){});
-			}).toThrow();
+			expect(Keyboard.addBind(undefined,function(){})).toBeFalsy();
 			expect(Mousetrap.bind).not.toHaveBeenCalled();
 		})
 
@@ -39,15 +37,11 @@ describe('SERVICE: Keyboard', function() {
 
 	describe('function bindToElement',function(){
 		it('Should throw an error if element is not passed',function(){
-			expect(function(){
-				Keyboard.bindToElement(undefined,function(){});
-			}).toThrow();
+			expect(Keyboard.bindToElement(undefined,function(){})).toBeFalsy();
 			expect(Mousetrap.bind).not.toHaveBeenCalled();
 		})
 		it('Should throw an error if key is not passed',function(){
-			expect(function(){
-				Keyboard.bindToElement(new Object(),'ctrl',function(){});
-			}).toThrow();
+			expect(Keyboard.bindToElement(new Object(),undefined,function(){})).toBeFalsy();
 			expect(Mousetrap.bind).not.toHaveBeenCalled();
 		})
 		it('Should call bind if the parameters are right',function(){
