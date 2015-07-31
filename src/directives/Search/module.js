@@ -6,6 +6,8 @@
 	 * @restrict E
 	 * @description A directive gumgaSearch pode ser utilizada para fazer montar queries de busca, sejam essas buscas normais ou avançadas. É possível escolher
 	 * quais campos no qual a busca será feita, assim como na busca avançada.
+	 * ## Exemplo
+     * Veja um exemplo em funcionamento [aqui](http://embed.plnkr.co/ezZITh3ZfmwVao0Xz1w6/preview).    
 	 *
 	 * O componente utiliza-se de tags que só funcionam dentro das tags do componente, que são as tags `<advanced-field></advanced-field>`. A tag de advanced-field 
 	 * 	recebe dois atributos como parâmetro: `name` e `type` que recebem , respectivamente, o nome do atributo a ser pesquisado e qual seu tipo.
