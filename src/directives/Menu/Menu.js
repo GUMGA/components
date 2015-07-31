@@ -12,27 +12,27 @@
 	 *
  	 * ## Example
 	 * 	###Exemplo de json para o menu:
-	 * 	<pre>
-	 *  	[
-    			{
-		        "label": "Home",
-		        "URL": "welcome",
-		        "key": "CRUD-BASE",
-		        "icon": "glyphicon glyphicon-home",
-		        "icon_color": "",
-		        "imageUrl": "",
-		        "imageWidth": "",
-		        "imageHeight": "",
-		        "filhos": []
-    			}
-  			]
+	 * <pre>
+    [
+      {
+        "label": "Home",
+        "URL": "welcome",
+        "key": "CRUD-BASE",
+        "icon": "glyphicon glyphicon-home",
+        "icon_color": "",
+        "imageUrl": "",
+        "imageWidth": "",
+        "imageHeight": "",
+        "filhos": []
+      }
+    ]
 	 * 	</pre>
 	 * 	###Exemplo de json para as keys:
 	 * 	<pre>
-	 *  	[
-				  "CRUD-BASE",
-				  "CRUD-User"
-				]
+    [
+      "CRUD-BASE",
+      "CRUD-User"
+    ]
 	 * 	</pre>
 	 *
 	 * 

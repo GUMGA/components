@@ -5,10 +5,10 @@
    * @name gumga.core:gumgaMinNumber
    * @element input
    * @restrict A
-   * @description O componente GumgaMinNumber serve para validar números mínimos para entradas em formulários com campos do tipo number.
+   * @description O componente GumgaMinNumber serve para validar números mínimos para entradas em formulários.
    * 
    * ## Nota
-   * Esta diretiva suporta apenas inputs do tipo number. O valor do atributo/diretiva é **obrigatório** e deve ser um **número**.
+   * Esta diretiva suporta apenas **inputs** do tipo **number**. O valor do atributo/diretiva é **obrigatório** e deve ser um **número**.
    *
    * @example
    *  Um exemplo da directive GumgaMinNumber funcionando pode ser encontrado [aqui](http://embed.plnkr.co/GsMxY6QFES1rRktFCWsX).

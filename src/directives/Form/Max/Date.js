@@ -6,10 +6,10 @@
    * @element input
    * @restrict A
    * @scope false
-   * @description O componente GumgaMaxDate serve para validar datas máximas em entradas de formulários com campos do tipo date.
+   * @description O componente GumgaMaxDate serve para validar datas máximas em entradas de formulários.
    * 
    * ## Nota
-   * Esta diretiva suporta apenas inputs do tipo date. O valor do atributo/diretiva é **obrigatório** e deve ser uma **data**.
+   * Esta diretiva suporta apenas **inputs** do tipo **date**. O valor do atributo/diretiva é **obrigatório** e deve ser uma **data**.
    *
    * @example
    *  Um exemplo da directive gumgaMaxDate funcionando pode ser encontrado [aqui](http://embed.plnkr.co/6KjgXFTEAnQq9GgWbbDB).

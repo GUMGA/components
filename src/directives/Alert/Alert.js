@@ -3,7 +3,6 @@
 	/**
 	 * @ngdoc directive
 	 * @name gumga.core:gumgaAlert
-	 * @deprecated  Clique aqui para ver a versão nova: {@link gumga.core:GumgaAlert}
 	 * @restrict EA
 	 * @element ANY
 	 * @description O componente gumgaAlert serve para criar notificações growl-like e é baseada em eventos.
