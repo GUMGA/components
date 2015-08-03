@@ -26,7 +26,7 @@
 			},
 			returnTranslation: function(array){
 				try {
-					return this.translators[array[0].toLowerCase()][array[1].toLowerCase()];
+					return this.translators[array[0].toLowerCase().trim()][array[1].toLowerCase().trim()];
 				} catch(e){}
 			}
 		};

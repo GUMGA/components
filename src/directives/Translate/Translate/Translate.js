@@ -1,19 +1,17 @@
 (function(){
 	'use strict';
-	Translate.$inject = ['$http','GumgaTranslateHelper'];
-	function Translate($http,GumgaTranslateHelper){
+	Translate.$inject = ['$http','TranslateHelper'];
+	function Translate($http,TranslateHelper){
 		var ch = 0;
 		return {
 			restrict: 'AEC',
 			scope: false,
 			link: function($scope,$elm,$attrs){
-
 				var language = $attrs.gumgaTranslate.toLowerCase() || navigator.language.toLowerCase();
-				
-				if(!GumgaTranslateHelper.getSessionStorageItem(language)){
+				if(!TranslateHelper.getSessionStorageItem(language)){
 					$http.get('./i18n/' + language + '.json')
 					.success(function(values){
-						GumgaTranslateHelper.setTranslators(language,values);
+						TranslateHelper.setTranslators(language,values);
 					});
 				}
 
