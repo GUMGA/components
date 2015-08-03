@@ -1,68 +1,88 @@
-@import "../bower_components/bootstrap-stylus/bootstrap/index.styl"
-
-fonts = 'Open Sans','Helvetica Neue' ,sans-serif;
+/* Altera as fontes do sistema */
+fonts = 'Open Sans', sans-serif;
+/* Altera as propriedades do menu*/
 menuBackgroundColor = #343633;
 menuWidth = 15%
 menuFontColor = #E4F0FB;
 submenuColor = #616971;
+/* Altera as propriedades da navbar*/
 navbarHeight = 50px
 navbarBackgroundColor = #4CA089
 navbarLogoColor = #EBF1E9
+/* Altera as propriedades da table*/
 tableBorder = #bdc3c7
-
+/* Altera as propriedades das cores de erro/sucesso */
 
 borderRadius()
-	-webkit-border-radius arguments
-	-moz-border-radius arguments
-	border-radius arguments
+  -webkit-border-radius: arguments;
+  -moz-border-radius: arguments;
+  border-radius: arguments;
 
 boxShadow()
-	-webkit-box-shadow: arguments
-	box-shadow: arguments
+  -webkit-box-shadow: arguments
+  box-shadow: arguments
 
 animation(name, duration, count, timing)
-	animation-name name
-	animation-duration duration
-	animation-iteration-count count
-	animation-timing-function timing
+  animation-name name
+  animation-duration duration
+  animation-iteration-count count
+  animation-timing-function timing
 
-	-moz-animation-name name
-	-moz-animation-duration duration
-	-moz-animation-iteration-count count
-	-moz-animation-timing-function timing
+  -moz-animation-name name;
+  -moz-animation-duration duration
+  -moz-animation-iteration-count count
+  -moz-animation-timing-function timing
 
-	-webkit-animation-name name;
-	-webkit-animation-duration duration
-	-webkit-animation-iteration-count count
-	-webkit-animation-timing-function timing
-
-transition()
-	-webkit-transition arguments
-	-moz-transition arguments
-	-ms-transition arguments
-	-o-transition arguments
-	transition arguments
-
-@import "./directives/Address/Address"
-@import "./directives/Alert/Alert"
-@import "./directives/Breadcrumb/Breadcrumb"
-@import "./directives/Form/Form"
-@import "./directives/FormButtons/FormButtons"
-@import "./directives/Login/Login"
-@import "./directives/ManyToMany/ManyToMany"
-@import "./directives/ManyToOne/ManyToOne"
-@import "./directives/Menu/Menu"
-@import "./directives/Nav/Nav"
-@import "./directives/OneToMany/OneToMany"
-@import "./directives/Table/Table"
-@import "./directives/Upload/Upload"
-
-html,body
-  font-family fonts
-  width 100%
-  font-size 0.9em
-  height 100%
+  -webkit-animation-name name;
+  -webkit-animation-duration duration
+  -webkit-animation-iteration-count count
+  -webkit-animation-timing-function timing
   
+transition()
+  -webkit-transition arguments
+  -moz-transition arguments
+  -ms-transition arguments
+  -o-transition arguments
+  transition arguments
+@keyframes shake {
+  0% {
+    transform: translate(3px, 0);
+  }
+  50% {
+    transform: translate(-3px, 0);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@-moz-keyframes shake {
+  0% {
+    -moz-transform: translate(3px, 0);
+  }
+  50% {
+    -moz-transform: translate(-3px, 0);
+  }
+  100% {
+    -moz-transform: translate(0, 0);
+  }
+}
+
+@-webkit-keyframes shake {
+  0% {
+    -webkit-transform: translate(3px, 0);
+  }
+  50% {
+    -webkit-transform: translate(-3px, 0);
+  }
+  100% {
+    -webkit-transform: translate(0, 0);
+  }
+}
+
+@import "../bower_components/bootstrap-stylus/bootstrap/index"
+
+
 body
   font-family fonts
   height 100%
@@ -77,6 +97,7 @@ body
   background-color #fff
   height 100%
 
+
 div 
   100%
   > .gumga-container
@@ -86,20 +107,21 @@ div
   border 1px solid #bdc3c7
 
 .error
-  border 1px solid #a94442
+  border 1px solid #a94442;
   &:focus
-    -webkit-box-shadow: 0px 0px 10px 0px rgba(166, 0, 0, 0.80)
-    -moz-box-shadow:    0px 0px 10px 0px rgba(166, 0, 0, 0.80)
-    box-shadow:         0px 0px 10px 0px rgba(166, 0, 0, 0.80)
-    border 1px solid #a94442
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(166, 0, 0, 0.80);
+    -moz-box-shadow:    0px 0px 10px 0px rgba(166, 0, 0, 0.80);
+    box-shadow:         0px 0px 10px 0px rgba(166, 0, 0, 0.80);
+    border 1px solid #a94442;
+
 
 .success
   border 1px solid #048000
   &:focus
-    -webkit-box-shadow: 0px 0px 10px 0px rgba(4, 128, 0, 0.80)
-    -moz-box-shadow:    0px 0px 10px 0px rgba(4, 128, 0, 0.80)
-    box-shadow:         0px 0px 10px 0px rgba(4, 128, 0, 0.80)
-    border 1px solid #048000
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(4, 128, 0, 0.80);
+    -moz-box-shadow:    0px 0px 10px 0px rgba(4, 128, 0, 0.80);
+    box-shadow:         0px 0px 10px 0px rgba(4, 128, 0, 0.80);
+    border 1px solid #048000;
 
 .clickable-td
   text-decoration underline
@@ -109,6 +131,7 @@ div
     background-color rgba(157, 222, 250, 0.1)
 
 .loading
+  background url('ring.svg')
   background-size 75px 75px
   position absolute
   z-index 999999
@@ -127,33 +150,33 @@ div
   height 100%
   
 .my-button
-	@extends .btn
-	line-height 1.45
-	border-radius 0
-	margin-left -3
+  @extend .btn
+  line-height 1.45
+  border-radius 0
+  margin-left -3
 
 .my-button.last
-  -webkit-border-top-right-radius: 5px
-  -webkit-border-bottom-right-radius: 5px
-  -moz-border-radius-topright: 5px
-  -moz-border-radius-bottomright: 5px
-  border-top-right-radius: 5px
-  border-bottom-right-radius: 5px
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 
 
 div.gumga-adv-label
-	@extend .label
-	display inline-block
-	font-weight 400
-	font-size 0.9em
-	cursor pointer
-	&:hover
-		background-color
+  @extend .label
+  display inline-block
+  font-weight 400
+  font-size 0.9em
+  cursor pointer
+  &:hover
+    background-color
 
 .form-control
-	&:focus
-		border-color #ccc
-		box-shadow 0
+  &:focus
+    border-color #ccc
+    box-shadow 0
 
 .bord.pull-left
   border-right 2px solid #ccc
@@ -164,14 +187,14 @@ input#textEnter
   outline 0
 
 .list-holder
-	position relative
-	display inline
-	> .list-selectable
-		@extend .dropdown-menu
-		display inline-block
-		position absolute
-		margin-top -0.2%
-		box-shadow 0
+  position relative
+  display inline
+  > .list-selectable
+    @extend .dropdown-menu
+    display inline-block
+    position absolute
+    margin-top -0.2%
+    box-shadow 0
 
 div.panel.panel-default
   > hr
@@ -186,136 +209,473 @@ div.panel.panel-default
 
 
 .full-width-without-margin
-	@extend .col-md-12
-	margin-right 0
-	margin-left 0
+  @extend .col-md-12
+  margin-right 0
+  margin-left 0
 
 .full-width-without-padding
-	@extend .col-md-12
-	padding-right 0
-	padding-left 0
+  @extend .col-md-12
+  padding-right 0
+  padding-left 0
+
+full-width-without-padding-small
 
 .responsive-button-primary
-	@extend .btn
-	@extend .btn-primary
+  @extend .btn
+  @extend .btn-primary
 
 .responsive-button-danger
-	@extend .btn
-	@extend .btn-danger
+  @extend .btn
+  @extend .btn-danger
 
 .panel-advanced
-	@extend .panel
-	@extend .panel-default
-	position absolute
-	width 100%
-	z-index 9999
-	-webkit-box-shadow 0px 3px 10px 0px rgba(50, 50, 50, 0.32)
-	-moz-box-shadow    0px 3px 10px 0px rgba(50, 50, 50, 0.32)
-	box-shadow         0px 3px 10px 0px rgba(50, 50, 50, 0.32)
+  @extend .panel
+  @extend .panel-default
+  position absolute
+  width 100%
+  z-index 9999
+  -webkit-box-shadow 0px 3px 10px 0px rgba(50, 50, 50, 0.32)
+  -moz-box-shadow    0px 3px 10px 0px rgba(50, 50, 50, 0.32)
+  box-shadow         0px 3px 10px 0px rgba(50, 50, 50, 0.32)
 
 @media screen and (max-width: 600px)
-	.gumga-container
-		width 100%
-		margin-left 0
-	.search-style
-		z-index 10
+  .gumga-container
+    width 100%
+    margin-left 0
+  .search-style
+    z-index 10
 
 @media screen and (max-width 740px)
-	.gumga-container
-	  width 100%
-	  padding-left 0
-	  padding-right 0
-	  margin-left 0
-	.responsive-button-primary
-		display block
-	.responsive-button-danger
-		margin-top 1.5%
-		margin-bottom 1.5%
-		display block
+  .gumga-container
+    width 100%
+    padding-left 0
+    padding-right 0
+    margin-left 0
+
+  .responsive-button-primary
+    display block
+
+  .responsive-button-danger
+    margin-top 1.5%
+    margin-bottom 1.5%
+    display block
+
+
 
 .advanced-search-holder
-	@extend .col-md-7
-	@extend .pull-right
-	padding-right 0
-	padding-left 0
+  @extend .col-md-7
+  @extend .pull-right
+  padding-right 0
+  padding-left 0
 
 .little-panel
-	@extend .panel-advanced
-	width 30%
-	left 70%
+  @extend .panel-advanced
+  width 30%
+  left 70%
 
 .nav-panel
-	@extend .little-panel
-	top 5%
-	left 90%
-	width 10%
+  @extend .little-panel
+  top 5%
+  left 90%
+  width 10%
+
+
 
 .inside-list-anchor
-	display block
-	width 100%
-	cursor pointer
-	text-align: center
+  display block
+  width 100%
+  cursor pointer
+  text-align: center
+
 
 .btn-insider
-	borderRadius(4px)
-	boxShadow(0px 1px 3px #666666)
-	color #fff
-	font-size 20px
-	background: #4A6B8A
-	text-decoration none
-	border 0
-	&:hover
-		background #588ab8
-		text-decoration none
+  borderRadius(4px)
+  boxShadow(0px 1px 3px #666666)
+  color #fff
+  font-size 20px
+  background: #4A6B8A
+  //padding 4px 8px 4px 8px
+  text-decoration none
+  border 0
+  &:hover
+    background #588ab8
+    text-decoration none
+
 
 .list-group-mto
-	@extend .list-group
-	position absolute
-	width 100%
-	z-index 999
+  @extend .list-group
+  position absolute
+  width 100%
+  z-index 999
 
 
 .list-group-item-mto
-	@extend .list-group-item
-	cursor pointer
-	display flex
-	z-index 9999
-	&:hover
-		background-color rgba(207, 222, 245,1)
+  @extend .list-group-item
+  cursor pointer
+  display flex
+  z-index 9999
+  &:hover
+    background-color rgba(207, 222, 245,1)
 
 .badge-helper
-	background-color #81AEDA
-	cursor pointer
-	border 0
+  background-color #81AEDA
+  cursor pointer
+  border 0
+
 
 .input-group-addon-mto
-	@extend .input-group-addon
-	background-color transparent
-	padding-top 0.5%
-	border-left 0
+  @extend .input-group-addon
+  background-color transparent
+  padding-top 0.5%
+  border-left 0
 
 .address
-	@extend .col-md-8
-	@extend .col-xs-12
-	@extend .col-sm-12
-	padding-right 0
-	padding-left 0
+  @extend .col-md-8
+  @extend .col-xs-12
+  @extend .col-sm-12
+  padding-right 0
+  padding-left 0
 
 .dropdown-menu
-	width 100%
+  width 100%
+
+.switch
+  height 20px !important
+
+.switch small
+  height 20px !important
+  width 20px !important
+
+.switch.checked small
+  left 31px !important
+
+.switch .on
+  top 15% !important
+
+.switch .off
+  top 15% !important
 
 .flex
-	display flex
+  display flex
 
 #roleEspecification.ng-hide-add.ng-hide-add-active,
 #roleEspecification.ng-hide-remove.ng-hide-remove-active {
-	-webkit-transition: all linear 0.5s
-	transition: all linear 0.5s
+  -webkit-transition: all linear 0.5s;
+  transition: all linear 0.5s;
 }
 
 
-#roleEspecification.ng-hide 
-	line-height 0
-	opacity 0
-	padding 0 10px
+  #roleEspecification.ng-hide {
+  line-height: 0;
+  opacity: 0;
+  padding: 0 10px;
+}
 
+#menu
+  position fixed
+  top 0
+  bottom 0
+  border-right 0.5px solid black
+  padding-top 1em
+  width menuWidth
+  padding-left 0
+  padding-right 0
+  height 100%
+  z-index 99999
+  overflow auto
+  background-color menuBackgroundColor
+  -webkit-box-shadow: 3px 0px 10px 0px rgba(50, 50, 50, 0.32);
+  -moz-box-shadow:    3px 0px 10px 0px rgba(50, 50, 50, 0.32);
+  box-shadow:         3px 0px 10px 0px rgba(50, 50, 50, 0.32);
+
+#btn-menu
+  display none
+  z-index 10000
+  position fixed
+  margin-top 8px
+  color #000000
+  z-index 99999
+
+.menu-option
+  display block
+  width 100%
+  min-height 50px
+  line-height 35px
+  z-index 99999
+  float left
+  text-overflow ellipsis
+  white-space nowrap
+  overflow hidden
+  font-size 14px
+  padding 10px 5px 5px 10px
+  border-botto none
+  border-top none
+  > i
+    padding-left 1em
+    cursor pointer
+  > a
+    padding-left 0.3em
+    color menuFontColor
+    text-decoration none
+
+  &:first-child
+    margin-top 5em
+    border-top 1px solid #091826
+  &:hover
+    background-color rgba(228, 240, 251, 0.1)
+
+
+
+.submenu-option
+  background-color submenuColor
+  padding-left 1em
+  border-bottom 1px double rgba(204,204,204,0.11)
+  margin-left -4%
+  margin-right -4%
+  z-index 99999
+  text-overflow ellipsis
+  white-space nowrap
+  overflow hidden
+  > i
+    padding-left 1.25em
+    cursor pointer
+  > a
+    padding-left 0.3em
+    font-size 0.9em
+    text-decoration none
+    color black
+
+
+.submenu-group
+  display none
+
+.submenu-group-ativo
+  display block
+
+.menu-color
+  width 20%
+  color submenuColor
+
+.submenu-color
+  @extend .menu-color
+  color black
+
+.img-centered
+  display block
+  margin 0 auto
+
+
+.open-menu
+  transition(opacity, 0.3s, linear)
+  opacity 1 !important
+  z-index 1000 !important
+
+@media screen and (max-width: 1000px)
+  .submenu-option
+    > i
+      padding-left 0.5em
+
+  .menu-option
+    > i
+      padding-left 0.5em
+
+  li > a
+    font-size 10px
+
+@media screen and (max-width: 600px)
+  #menu
+    transition(opacity, 0.3s, linear)  
+    opacity 0
+    z-index -1
+    width 30%
+    opacity 0;
+
+  .img-centered
+    display none
+
+  #menu
+    > ul
+      margin-top 15px
+
+  #btn-menu
+    display block
+
+  #continuarInserindo
+    display none
+
+  .submenu-option
+    > i
+      padding-left 0.5em
+
+.menu-option
+    > i
+      padding-left 0.5em
+
+
+#navbar
+  height navbarHeight
+  z-index 99999
+  width 85%
+  margin-left menuWidth
+  position fixed
+  padding-left 1em
+  line-height navbarHeight
+  z-index 100
+  border-bottom 1px solid #ccc;
+  //padding-top 10px
+  background-color navbarBackgroundColor
+  -webkit-box-shadow 0px 3px 10px 0px rgba(50, 50, 50, 0.32)
+  -moz-box-shadow    0px 3px 10px 0px rgba(50, 50, 50, 0.32)
+  box-shadow         0px 3px 10px 0px rgba(50, 50, 50, 0.32)
+
+#navbar ::-webkit-input-placeholder
+  color #fff
+
+#navbar :-moz-placeholder
+  color #fff
+
+#navbar ::-moz-placeholder
+  color: #fff
+
+#navbar :-ms-input-placeholder
+  color #fff
+
+#navbar .navbar-logo
+  text-decoration none
+  color navbarLogoColor
+  font-weight 800
+  font-size 1.3em
+  margin-left 20px
+
+.navbar-links
+  text-decoration none
+  margin-left 2em
+  font-size 0.9em
+
+.navbar-input
+  float right
+  width 20em
+  height 30px
+  margin-right 1em
+  margin-top 8px
+  padding-left 1em
+  borderRadius(4px)
+  font-size 0.9em
+  line-height 30px
+  border double 1px #ccc
+
+.status-navbar
+  float right
+  margin-right 1em
+  text-decoration none
+
+  color #EBF1E9
+
+@media screen and (max-width: 1000px)
+  .navbar-input
+  #navbar .btn-default
+    display none
+
+  @media screen and (max-width: 600px)
+    .navbar-links
+      display none
+
+    #navbar
+      width 100%
+      margin-left 0%
+
+    .navbar-logo
+      margin-left 30px
+
+@media screen and (max-width: 1440px)
+  .nav-panel
+    top 6%
+    left 86.5%
+    width 13%
+
+.well-login
+  @extend .well
+  @extend .col-md-2
+  @extend .col-md-offset-5
+  background-color rgba(245, 245, 245, 0.75)
+  margin-bottom 0
+  border-radius 0
+
+.btn-after-well
+  @extend .col-md-2
+  @extend .col-md-offset-2
+  
+.logo
+  display block
+  margin 0 auto
+  width 100px
+  height 100px
+
+.login-container
+	@extend .container
+	width 100%
+	height 100%        
+	background #096869
+
+.input-login
+  width 100%
+  height 45px
+  border 1px solid #dbd9d9
+  border-radius 3px
+  padding 0 13px
+  margin 0 0 20px
+  color #434343
+  font-weight 500
+  outline 0
+  box-shadow none
+  box-sizing border-box
+
+.btn-gumga
+  color #fff
+  background-color #208959
+  line-height 1em
+  text-align center
+  border-radius 4px
+  border none
+  box-shadow none
+  text-shadow none
+  width 100%
+  text-transform uppercase
+  font 400 16px/1em 'Open Sans', sans-serif
+  -webkit-transition all .2s linear
+  transition all .2s linear
+  padding 23px 0
+  font-size 16px
+  font-weight 500
+
+.footer-login
+  width 100%
+  height 100px
+  bottom 0
+  position absolute
+  background-color #41505E
+
+.text-login
+  padding 10px 0 15px
+  text-align center
+  font 400 22px/1em 'Open Sans', sans-serif
+  color #252b33
+
+.heading-gumga
+  text-align center
+  background-color #41505e !important  
+
+.login-background
+  height 100%
+
+.login-background > img
+  position absolute
+  width 100%
+  height 100%
+  
+
+html,body
+  font-family 'Open Sans','Helvetica Neue',sans-serif
+  width 100%
+  font-size 0.9em
+  height 100%
