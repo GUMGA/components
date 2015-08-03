@@ -1,21 +1,20 @@
 (function(){
 	'use strict';
-	TranslateTag.$inject = ['GumgaTranslateHelper','$compile'];
-	function TranslateTag(GumgaTranslateHelper,$compile){
+	TranslateTag.$inject = ['TranslateHelper','$compile'];
+	function TranslateTag(TranslateHelper,$compile){
 		var child;
 		return {
 			restrict: 'A',
-			scope: {
-				gumgaTranslateTag: '@'
-			},
 			link: function(scope,elm,attrs){
-				if(GumgaTranslateHelper.returnTranslation(scope.gumgaTranslateTag.split('.'))){
-					if(elm[0].childNodes.length > 1){
-						scope.child = elm[0].childNodes[1];
-						elm[0].innerHTML =  GumgaTranslateHelper.returnTranslation(scope.gumgaTranslateTag.split('.'));
+				if(!attrs.gumgaTranslateTag) throw 'You must pass a valid value to gumgaTranslateTag';
+				scope.__valueToTranslate = attrs.gumgaTranslateTag;
+				if(GumgaTranslateHelper.getTranslate(scope.__valueToTranslate)){
+					if(elm[0].childNodes.length > 0){
+						scope.child = elm[0].childNodes[0];
+						elm[0].innerHTML =  GumgaTranslateHelper.getTranslate(scope.__valueToTranslate);
 						elm.append($compile(scope.child)(scope));
 					} else {
-						elm[0].innerHTML = GumgaTranslateHelper.returnTranslation(scope.gumgaTranslateTag.split('.'));
+						elm[0].innerHTML = GumgaTranslateHelper.getTranslate(scope.__valueToTranslate);
 					}
 				}
 			}
@@ -23,6 +22,6 @@
 		};
 	}
 
-	angular.module('gumga.directives.translate.translatetag',['gumga.directives.translate.translatehelper'])
+	angular.module('gumga.directives.translatetag',['gumga.services.translate.helper','gumga.services.translate'])
 		.directive('gumgaTranslateTag',TranslateTag);
 })();
