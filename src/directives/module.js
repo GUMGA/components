@@ -16,7 +16,8 @@
 		'gumga.directives.search',
 		'gumga.directives.table',
 		'gumga.directives.upload',
-		'gumga.directives.form'
+		'gumga.directives.form',
+		'gumga.directives.translate'
 		]);
 
 })();
