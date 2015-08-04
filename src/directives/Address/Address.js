@@ -4,10 +4,10 @@
 	 * @ngdoc directive
 	 * @name gumga.core:gumgaAddress
 	 * @restrict E
-	 * @description O componente GumgaAddress recebe um objeto que será preenchido com o endereço, que pode ser pesquisado através do CEP (Utilizando um WebService GUMGA), 
+	 * @description O componente GumgaAddress recebe um objeto que será preenchido com o endereço, que pode ser pesquisado através do CEP (Utilizando um WebService GUMGA),
 	 * ou preenchido manualmente pelo usuário. Este objeto de entrada pode ser vazio ou preferivelmente no formato do objeto GUMGA.
        * ## Exemplo
-       * Veja um exemplo em funcionamento [aqui](http://embed.plnkr.co/7t9mZtLl9bPuVhmig0oI/).    
+       * Veja um exemplo em funcionamento [aqui](http://embed.plnkr.co/7t9mZtLl9bPuVhmig0oI/).
 	 * @param {Object} value Atributo obrigatório que irá conter o nome do objeto no $scope no qual os valores do Endereço serão colocados.
 	 * @param {String} name Atributo obrigatório e único que irá conter um nome de identificador para a directive.
 	 * @param {String} title Atributo opcional que irá conter o título para o panel da directive.
@@ -82,28 +82,31 @@
       		},
       		template: template.join('\n'),
       		link: function (scope, elm, attrs, ctrl) {
-                        if(!scope.value) throw "É necesário um atributo value para a directive GumgaAddress"
-                        if(!attrs.name) throw "É necessário passar um parâmetro 'name' como identificador para GumgaAddress";
+						function isEmpty(obj){
+    					for(var key in obj) if(obj.hasOwnProperty(key)){
+        				return false;
+    					}
+    					return true;
+						}
+	          if(isEmpty(scope.value)) scope.value = GumgaAddressService.returnFormattedObject();
+	          if(!attrs.name) throw "É necessário passar um parâmetro 'name' como identificador para GumgaAddress";
       			scope.title = attrs.title || 'Endereço';
       			scope.id = attrs.name;
       			scope['loader' + scope.id] = false;
-                        scope.factoryData = {
-                              ufs: GumgaAddressService.everyUf,
-                              logs: GumgaAddressService.everyLogradouro,
-                              availableCountries: GumgaAddressService.availableCountries
-                        };
-                        var eventHandler = {
-                              searchCepStart: (attrs.onSearchCepStart ? scope.onSearchCepStart : angular.noop),
-                              searchCepSuccess: (attrs.onSearchCepSuccess ? scope.onSearchCepSuccess : angular.noop),
-                              searchCepError: (attrs.onSearchCepError ? scope.onSearchCepError: angular.noop)
-                        };
-                        if(scope.value || JSON.stringify(scope.value) == "{}"){
-                              scope.value = GumgaAddressService.returnFormattedObject();
-                        }
+            scope.factoryData = {
+                ufs: GumgaAddressService.everyUf,
+                logs: GumgaAddressService.everyLogradouro,
+                availableCountries: GumgaAddressService.availableCountries
+            };
+            var eventHandler = {
+                  searchCepStart: (attrs.onSearchCepStart ? scope.onSearchCepStart : angular.noop),
+                  searchCepSuccess: (attrs.onSearchCepSuccess ? scope.onSearchCepSuccess : angular.noop),
+                  searchCepError: (attrs.onSearchCepError ? scope.onSearchCepError: angular.noop)
+            };
       			scope.custom = function ($event, cep) {
-                              $event.charCode == 13? scope.searchCep(cep) : angular.noop;
+              $event.charCode == 13? scope.searchCep(cep) : angular.noop;
       			};
-      			
+
       			scope.returnLink = function (value) {
       				if (!value.number) {
       					value.number = '';
@@ -136,7 +139,7 @@
       			}
       		}
       	};
-      }	
+      }
       angular.module('gumga.directives.address',['gumga.services.address'])
       .directive('gumgaAddress',AddressDirective);
     })();

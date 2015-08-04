@@ -6,6 +6,9 @@ bower_components
 # Documentation
 docs
 
+# Coverage
+coverage
+
 # Code complexity report
 report
 
