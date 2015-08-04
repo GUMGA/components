@@ -9,14 +9,11 @@
 	 *  O componente gumgaMenu é uma directive que cria um menu na lateral esquerda da tela para facilitar a navegação do usuário no sistema.
 	 *  Seus itens são carregados de forma dinâmica através de um arquivo `json` que é carregado através de uma requisição HTTP. Além disso,
 	 *  ele faz um filtro de acordo com as keys passadas para ele também através de um arquivo `json`.
-<<<<<<< HEAD
 	 *  ## Exemplo
-     *  Veja um exemplo em funcionamento [aqui](http://embed.plnkr.co/UcMtAor6sUA6s0oZnJiu/preview).   
+     *  Veja um exemplo em funcionamento [aqui](http://embed.plnkr.co/UcMtAor6sUA6s0oZnJiu/preview).
 	 *  @param {String} menu-url Parâmetro obrigatório que irá conter uma variável com o endereço do arquivo `json` para que seja carregada as entradas do menu.
 	 *  @param {String} keys-url Parâmetro obrigatório que irá conter uma variável com o endereço do arquivo `json` para que seja carregada as chaves que farão o filtro do menu.
 	 *  @param {String} image Parâmetro obrigatório que irá conter uma variável com o endereço da imagem que ficará no menu.
-=======
->>>>>>> upstream/v1.0.x_dev
 	 *
  	 * ## Example
 	 * 	###Exemplo de json para o menu:
@@ -43,7 +40,7 @@
     ]
 	 * 	</pre>
 	 *
-	 * 
+	 *
 	 *  @param {String} menu-url Parâmetro obrigatório que irá conter uma variável com o endereço do arquivo `json` para que seja carregada as entradas do menu.
 	 *  @param {String} keys-url Parâmetro obrigatório que irá conter uma variável com o endereço do arquivo `json` para que seja carregada as chaves que farão o filtro do menu.
 	 *  @param {String} image Parâmetro obrigatório que irá conter uma variável com o endereço da imagem que ficará no menu.
@@ -59,7 +56,7 @@
 				scope.v = [];
 				var indexs = [];
 				var count = 0;
-				
+
 				var menuOpen = false;
 
 				$http.get(attrs.menuUrl).then(function (data) {
@@ -104,13 +101,15 @@
 						isActive: false,
 						parent: parent.count
 					};
-					var urlSelected = location.hash;
-					if (urlSelected.match(param.URL)) {
-						var template = ['<li class="' + type + '-option" style="background: #4ca089" >'];
-					} else {
-						var template = ['<li class="' + type + '-option">'];
-					}
 
+					var urlSelected = location.hash;
+					var url = angular.copy(param.URL);
+					url = '#/'+url.replace('.','/')
+					if (urlSelected==url) {
+							var template = ['<li class="' + type + '-option" style="background: #4ca089" >'];
+					} else {
+							var template = ['<li class="' + type + '-option">'];
+					}
 
 					if (param.filhos.length > 0 && verificarPermicaoFilho(param.filhos)) {
 						template.push('<i  ng-class="v[' + count + '].isActive ? \' glyphicon glyphicon-chevron-down \' : \'glyphicon glyphicon-chevron-right\'" class="fa ' + type + '-color"  ng-click="resetarMenu(' + count + ')"></i>');

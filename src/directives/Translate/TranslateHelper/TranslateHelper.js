@@ -24,7 +24,8 @@
 			setSessionStorageItem: function(key,value){
 				window.sessionStorage.setItem(key,angular.toJson(value));
 			},
-			returnTranslation: function(array){
+			returnTranslation: function(string){
+				var array = string.split('.');
 				try {
 					return this.translators[array[0].toLowerCase().trim()][array[1].toLowerCase().trim()];
 				} catch(e){}
