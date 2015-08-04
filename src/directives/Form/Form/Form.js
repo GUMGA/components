@@ -1,45 +1,25 @@
 (function(){
 	'use strict';
-	Form.$inject = [];
-	function Form() {
+	Form.$inject = ['$timeout'];
+	function Form($timeout) {
 		return {
 			restrict: 'A',
-			scope: {
-				clearForm: '=clearfn',
-				validateForm: '=validatefn'
-			},
-			template:'',
 			require: '^form',
-			link: function(scope, elm, attr, ctrl) {
-        scope.master = {};
-				scope.clearForm = function() {
-          console.log(ctrl);
-					// scope.$emit('clearFields', {});
-				}
-        var form = attr.name;
-				scope.validateForm = function() {
-					angular.forEach(ctrl.$error, function(e, k) {
-            // console.log(e);
-            // e[0].$setValidity(k, false);
-            console.log(scope);
-          });
+			scope: false,
+			link: function(scope, elm, attrs, ctrl) {
+				if(!attrs.name) throw 'É necessário passar um valor para o atributo "name" do element <form>';
+				var _form = scope[attrs.name];
+				scope.clearForm = function () {
+						scope.$digest();
+						for(var key in _form.$error) if(_form.$error.hasOwnProperty(key)){
+								_form.$error[key].forEach(function (value) {
+									value.$setValidity(key,true);
+								})
+						}
 				}
 			}
 		}
 	}
-	angular.module('gumga.directives.form',
-		[
-      'gumga.directives.form.max.date',
-      'gumga.directives.form.max.length',
-      'gumga.directives.form.max.number',
-      'gumga.directives.form.min.date',
-      'gumga.directives.form.min.length',
-		  'gumga.directives.form.min.number',
-      'gumga.directives.form.pattern',
-      'gumga.directives.form.range.date',
-		  'gumga.directives.form.range.number',
-		  'gumga.directives.form.required',
-		]
-	)
+	angular.module('gumga.directives.form.form',[])
 	.directive('gumgaForm',Form);
 })();
