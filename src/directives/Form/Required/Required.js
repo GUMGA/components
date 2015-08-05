@@ -26,7 +26,6 @@
       require: 'ngModel',
       link: function (scope, elm, attr, ctrl) {
         attr.required = true;
-
         ctrl.$validators.required = function(modelValue, viewValue) {
           return !attr.required || !ctrl.$isEmpty(viewValue);
         };

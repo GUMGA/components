@@ -6,19 +6,19 @@
      * @ngdoc directive
      * @name gumga.core:gumgaManyToOne
      * @restrict E
-     * @description  
+     * @description
      *  A directive gumgaManyToOne pode ser usada para quando o programador precise de um select que filtre uma lista assíncronamente.
      *  Ela também permite adicionar um registro caso a busca retorne uma lista vazia e permite também visualizar os atributos do registro selecionado.
      *  ---
      *  #Exemplo básico de utilização do GumgaManyToOne
      *  O exemplo desse componente pode ser encontrado [aqui](http://embed.plnkr.co/NYL3gItVsWLFcGxt5itz/).
-     * 
+     *
      * @param {Object} value Parâmetro obrigatório que irá conter uma variável que será o registro escolhido na lista.
      * @param {Array} list Parâmetro obrigatório que irá conter uma lista dos registros que foram buscados.
      * @param {Function} search-method Parâmetro obrigatório que irá conter uma função que fará a busca na lista assíncronamente. `search-method="getSearch(param)"`
      * @param {Function} post-method Parâmetro obrigatório que irá conter uma função que dependendo do parâmetro `async`, chamará a função async com o parâmetro
      * `post-method="post(value)"` e caso o parâmetro async não esteja presente ou seja falso, fará um push na lista.
-     * @param {String} field Parâmetro obrigatório que irá conter o atributo do registro que está sendo procurado e o que estará na lista. 
+     * @param {String} field Parâmetro obrigatório que irá conter o atributo do registro que está sendo procurado e o que estará na lista.
      * @param {Boolean} authorize-add Parâmetro não obrigatório que irá conter uma variável que possuirá um booleano que irá fazer o controle para mostrar o botão de adicionar um registro caso a busca não
      * tenha retornado nenhum registro
      * @param {Btava veoolean} async Parâmetro não obrigatório que irá dizer caso componente fará um post chamando a função passada ou um push na lista. Por default, o valor é
@@ -28,7 +28,7 @@
      * @param {Function} on-value-visualization-closed Parâmetro não obrigatório que irá conter uma variável que possuirá uma função que irá ser executada quando o usuário tiver fechado o modal
      * para visualização de dados
      */
-    
+
 
 
     function ManyToOne($templateCache,GumgaKeyboard,$modal){
@@ -99,7 +99,10 @@
                 };
                 scope.addNew = function(text){
                     if(async) {
-                        scope.postMethod({value: text});
+                        scope.postMethod({value: text})
+                        .then(function(values){
+                          scope.model = values.data.data;
+                        })
                     } else {
                         scope.list.push(text);
                     }

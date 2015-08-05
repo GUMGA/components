@@ -1,46 +1,117 @@
 (function(){
 	'use strict';
-	Form.$inject = [];
-	function Form() {
+	Form.$inject = ['$timeout','$rootScope'];
+	/**
+	 * @ngdoc directive
+	 * @name gumga.core:gumgaForm
+	 * @description
+	 */
+	function Form($timeout,$rootScope) {
 		return {
 			restrict: 'A',
-			scope: {
-				clearForm: '=clearfn',
-				validateForm: '=validatefn'
-			},
-			template:'',
 			require: '^form',
-			link: function(scope, elm, attr, ctrl) {
-        scope.master = {};
-				scope.clearForm = function() {
-          console.log(ctrl);
-					// scope.$emit('clearFields', {});
+			scope: false,
+			link: function(scope, elm, attrs, ctrl) {
+				if(!attrs.name) throw 'É necessário passar um valor para o atributo "name" do element <form>';
+				scope.GumgaForm = {};
+				var _form = scope[attrs.name];
+				var _formControllers = [];
+				(function() {
+					angular.forEach(elm.find('input'),function(input){
+						_formControllers.push({
+							name: angular.element(input).controller('ngModel').$name,
+							controller: angular.element(input).controller('ngModel'),
+							errorMessages: {
+								maxdate: 'A data especificada ultrapassou o limite de: {1}.',
+								maxlength: 'O texto especificado ultrapassou o limite de: {1}.',
+								maxnumber: 'O número especificado ultrapassou o limite de: {1}.',
+								mindate: 'A data especificada não atigiu o limite mínimo de: {1}.',
+								minlength: 'O texto especificado não atingiu o limite mínimo de: {1}.',
+								minnumber: 'O número especificado não atingiu o limite mínimo de: {1}.',
+								pattern: 'O texto especificado deve estar dentro do padrão: {1}.',
+								rangedate:'A data especificada não está dentro do alcance: {1}.',
+								rangenumber: 'O número especificado não está dentro do alcance: {1}.',
+								required: 'O campo é obrigatório.'
+								}
+							})
+						})
+				})();
+
+				function returnObject(name){
+						return _formControllers.filter(function($v){
+							return $v.name.trim().toLowerCase() === name.trim().toLowerCase();
+						})[0];
 				}
-        var form = attr.name;
-				scope.validateForm = function() {
-					angular.forEach(ctrl.$error, function(e, k) {
-            // console.log(e);
-            // e[0].$setValidity(k, false);
-            console.log(scope);
-          });
+
+				scope.$on('$error',function(ev,data){
+					$timeout(function(){
+						var _aux = returnObject(data.name)
+						,		message = _aux.errorMessages[data.error].replace('{1}',data.value);
+						$rootScope.$broadcast('$errorMessage',{
+							name: data.name,
+							message: message,
+							valid: data.valid,
+						})
+					})
+				})
+				scope.GumgaForm.getMessages = function(name,error){
+					if(!error){
+						return returnObject(name).errorMessages;
+					}
+					if(returnObject(name).errorMessages){
+						return Object(name).errorMessages[error] || null;
+					}
 				}
+				scope.GumgaForm.changeMessage = function(input,which,message){
+					if(!input || !which || !message) throw 'Valores passados errados para a função GumgaForm.changeMessage(input,message)'
+					var aux = _formControllers.filter(function(value){
+							return input == value.name;
+					})[0];
+					if(aux.errorsMessages && aux.errorsMessages[which]){
+						aux.errorsMessages[which] = message;
+					}
+				}
+				scope.GumgaForm.setFormValid = function () {
+					for(var key in _form.$error) if(_form.$error.hasOwnProperty(key)){
+							_form.$error[key].forEach(function (value) {
+								value.$setValidity(key,true);
+							})
+					}
+					scope.$apply();
+				}
+				scope.GumgaForm.clearForm = function(){
+					_formControllers.forEach(function(controller){
+						controller.controller.$setViewValue('');
+						controller.controller.$setPristine();
+					})
+					scope.$apply();
+				}
+
+				scope.GumgaForm.setFormPristine = function () {
+					_formControllers.forEach(function(controller){
+						controller.controller.$setPristine();
+					})
+					scope.$apply();
+				}
+
+				scope.GumgaForm.getFormErrors = function(){
+					var _arr = []
+					,		name
+					,		aux = [];
+					for(var key in _form.$error) if(_form.$error.hasOwnProperty(key)){
+							_form.$error[key].forEach(function (value) {
+								aux.push(value.$name);
+							})
+							_arr.push({type: key,fields: aux});
+							aux = [];
+					}
+					return _arr;
+				}
+
+
 			}
 		}
 	}
-	angular.module('gumga.directives.form',
-		[
-      'gumga.directives.form.max.date',
-      'gumga.directives.form.max.length',
-      'gumga.directives.form.max.number',
-      'gumga.directives.form.min.date',
-      'gumga.directives.form.min.length',
-		  'gumga.directives.form.min.number',
-      'gumga.directives.form.pattern',
-      'gumga.directives.form.range.date',
-		  'gumga.directives.form.range.number',
-		  'gumga.directives.form.required',
-			'gumga.directives.form.errors'
-		]
-	)
+	angular.module('gumga.directives.form.form',[])
 	.directive('gumgaForm',Form);
 })();

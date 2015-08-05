@@ -37,7 +37,7 @@
 						name: attrs.name,
 						valid: isValid,
 						error: error,
-						value: attrs.gumgaPattern
+						value: attrs.patternAlias || attrs.gumgaPattern
 					});
 					return inputValue;
 				};

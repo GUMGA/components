@@ -5,7 +5,7 @@
     return {
       restrict: 'E',
 			scope: {},
-			template: '<ul><li ng-repeat="error in errors" >{{ error.name }}</li></ul>',
+			template: '<ul><li ng-repeat="error in errors" >{{ error.message }}</li></ul>',
       require: '^form',
       link: function (scope, elm, attrs, ctrl) {
 				scope.errors = [];
@@ -33,8 +33,7 @@
 						scope.errors.splice(exist, 1);
 					}
 				}
-
-				scope.$on('$error', function(event, data) {
+				scope.$on('$errorMessage', function(event, data) {
 					if (data.valid == false) {
 						scope.addError(data);
 					} else {
