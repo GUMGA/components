@@ -25,23 +25,30 @@
      return {
       restrict: 'A',
       require: 'ngModel',
-      link: function (scope, elm, attr, ctrl) {
-       if (attr.type != 'number') {
+      link: function (scope, elm, attrs, ctrl) {
+       if (attrs.type != 'number') {
         throw 'Esta diretiva suporta apenas inputs do tipo number';
       }
-      if (!attr.gumgaMaxNumber) {
+      if (!attrs.gumgaMaxNumber) {
         throw "O valor da diretiva gumga-max-number não foi informado.";
       }
       var validateMaxNumber = function (inputValue) {
+				var error = 'maxnumber';
         var input = parseInt(inputValue);
-        var max = parseInt(attr.gumgaMaxNumber);
+        var max = parseInt(attrs.gumgaMaxNumber);
         var isValid = input <= max;
-        ctrl.$setValidity('maxnumber', isValid);
+        ctrl.$setValidity(error, isValid);
+				scope.$broadcast('$error', {
+					name: attrs.name,
+					valid: isValid,
+					error: error,
+					value: attrs.gumgaMaxNumber
+				});
         return inputValue;
       };
       ctrl.$parsers.unshift(validateMaxNumber);
       ctrl.$formatters.push(validateMaxNumber);
-      attr.$observe('gumgaMaxNumber', function () {
+      attrs.$observe('gumgaMaxNumber', function () {
         validateMaxNumber(ctrl.$viewValue);
       });
 

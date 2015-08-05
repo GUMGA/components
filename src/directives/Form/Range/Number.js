@@ -9,7 +9,7 @@
 	 * O componente GumgaRangeNumber serve para validar números mínimos e máximos em entradas de formulários com campos do tipo number.
    *
    * ## Nota
-   * O valor do atributo/diretiva é **obrigatório** e deve ser um **objeto** contendo duas propriedades, **min** e **max** 
+   * O valor do atributo/diretiva é **obrigatório** e deve ser um **objeto** contendo duas propriedades, **min** e **max**
    * com os valores de suas respectivas datas para execução da validação range.
    *
    * ## Exemplo
@@ -28,23 +28,30 @@
 	 	return {
 	 		restrict: 'A',
 	 		require: 'ngModel',
-	 		link: function (scope, elm, attr, ctrl) {
-	 			if (attr.type != 'number') {
+	 		link: function (scope, elm, attrs, ctrl) {
+	 			if (attrs.type != 'number') {
 	 				throw 'Esta diretiva suporta apenas inputs do tipo number';
 	 			}
-	 			if (!attr.gumgaRangeNumber) {
+	 			if (!attrs.gumgaRangeNumber) {
 	 				throw "O valor da diretiva gumga-range-number não foi informado.";
 	 			}
 	 			var validateRangeNumber = function (inputValue) {
-          var range = scope.$eval(attr.gumgaRangeNumber);
+					var error = 'rangenumber';
+          var range = scope.$eval(attrs.gumgaRangeNumber);
           var input = parseInt(inputValue);
           var isValid = input >= range.min && input <= range.max;
-          ctrl.$setValidity('rangenumber', isValid);
+          ctrl.$setValidity(error, isValid);
+					scope.$broadcast('$error', {
+						name: attrs.name,
+						valid: isValid,
+						error: error,
+						value: attrs.gumgaRangeNumber
+					});
 	 				return inputValue;
 	 			};
 	 			ctrl.$parsers.unshift(validateRangeNumber);
 	 			ctrl.$formatters.push(validateRangeNumber);
-	 			attr.$observe('gumgaRangeNumber', function () {
+	 			attrs.$observe('gumgaRangeNumber', function () {
 	 				validateRangeNumber(ctrl.$viewValue);
 	 			});
 	 		}

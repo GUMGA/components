@@ -7,7 +7,7 @@
    * @restrict A
    * @scope false
    * @description O componente GumgaMaxLength serve para validar quantidades máximas de caracteres em entradas de formulários.
-   * 
+   *
    * ## Nota
    * O valor do atributo/diretiva é **obrigatório** e deve ser um **número**.
    *
@@ -25,21 +25,27 @@
     return {
       restrict: 'A',
       require: 'ngModel',
-      link: function (scope, elm, attr, ctrl) {
-        if (!attr.gumgaMaxLength) {
+      link: function (scope, elm, attrs, ctrl) {
+        if (!attrs.gumgaMaxLength) {
           throw "O valor da diretiva gumga-max-length não foi informado.";
         }
         var validateMaxLength = function (inputValue) {
+					var error = 'maxlength';
           var input = (inputValue == undefined) ? -1 : inputValue.length;
-          var max = attr.gumgaMaxLength;
+          var max = attrs.gumgaMaxLength;
           var isValid = input <= max && input != -1;
-					// if (isValid) console.log(isValid);
-          ctrl.$setValidity('maxlength', isValid);
+          ctrl.$setValidity(error, isValid);
+					scope.$broadcast('$error', {
+						name: attrs.name,
+						valid: isValid,
+						error: error,
+						value: attrs.gumgaMaxLength
+					});
           return inputValue;
         };
         ctrl.$parsers.unshift(validateMaxLength);
         ctrl.$formatters.push(validateMaxLength);
-        attr.$observe('gumgaMaxLength', function () {
+        attrs.$observe('gumgaMaxLength', function () {
           validateMaxLength(ctrl.$viewValue);
         });
       }

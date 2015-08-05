@@ -6,7 +6,7 @@
    * @element input
    * @restrict A
    * @description O componente GumgaMinLength serve para validar quantidades mínimas de caracteres em entradas de formulários.
-   * 
+   *
    * ## Nota
    * O valor do atributo/diretiva é **obrigatório** e deve ser um **número**.
    *
@@ -24,20 +24,27 @@
     return {
       restrict: 'A',
       require: 'ngModel',
-      link: function (scope, elm, attr, ctrl) {
-        if (!attr.gumgaMinLength) {
+      link: function (scope, elm, attrs, ctrl) {
+        if (!attrs.gumgaMinLength) {
           throw "O valor da diretiva gumga-min-length não foi informado.";
         }
         var validateMinLength = function (inputValue) {
+					var error = 'minlength';
           var input = (inputValue == undefined) ? -1 : inputValue.length;
-          var min = attr.gumgaMinLength;
+          var min = attrs.gumgaMinLength;
           var isValid = input >= min;
-          ctrl.$setValidity('minlength', isValid);
+          ctrl.$setValidity(error, isValid);
+					scope.$broadcast('$error', {
+						name: attrs.name,
+						valid: isValid,
+						error: error,
+						value: attrs.gumgaMinLength
+					});
           return inputValue;
         };
 	 			ctrl.$parsers.unshift(validateMinLength);
 	 			ctrl.$formatters.push(validateMinLength);
-	 			attr.$observe('gumgaMinLength', function () {
+	 			attrs.$observe('gumgaMinLength', function () {
 	 				validateMinLength(ctrl.$viewValue);
 	 			});
 	 		}
