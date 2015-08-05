@@ -53,11 +53,55 @@ describe("DIRECTIVE: GumgaForm",function(){
       }
     )
   )
-  it('clearForm',function(){
+
+  it('should create a new object called GumgaForm in the $scope',function(){
+    expect(scope.GumgaForm).not.toBe(undefined);
+  })
+
+  it('should set the form valid',function(){
     scope.MyForm.name.$setPristine();
     scope.MyForm.age.$setViewValue(11);
     scope.MyForm.daywasborn.$setViewValue(new Date('Thu, 01 Jan 1970'));
-    scope.clearForm();
+    scope.GumgaForm.setFormValid();
     expect(scope.MyForm.$error).toEqual({});
+  })
+
+  it('should clean the form',function(){
+    scope.MyForm.name.$setViewValue('Juquinha');
+    scope.MyForm.age.$setViewValue(11);
+    scope.MyForm.daywasborn.$setViewValue(new Date('Thu, 01 Jan 1970'));
+    scope.GumgaForm.clearForm();
+    scope.$digest();
+    expect(scope.MyForm.name.$viewValue).toBeFalsy();
+    expect(scope.MyForm.age.$viewValue).toBeFalsy();
+    expect(scope.MyForm.daywasborn.$viewValue).toBeFalsy();
+  })
+
+  it('should set all the inputs to it\'s pristine mode',function(){
+    scope.MyForm.name.$setViewValue('Juquinha');
+    scope.MyForm.age.$setViewValue(11);
+    scope.MyForm.daywasborn.$setViewValue(new Date('Thu, 01 Jan 1970'));
+    expect(scope.MyForm.name.$pristine).toBeFalsy();
+    expect(scope.MyForm.age.$pristine).toBeFalsy();
+    expect(scope.MyForm.daywasborn.$pristine).toBeFalsy();
+    scope.GumgaForm.setFormPristine();
+    expect(scope.MyForm.name.$pristine).toBeTruthy();
+    expect(scope.MyForm.age.$pristine).toBeTruthy();
+    expect(scope.MyForm.daywasborn.$pristine).toBeTruthy();
+  })
+
+  it('Should get all the errors',function(){
+    scope.MyForm.name.$setViewValue('Juquinha');
+    scope.MyForm.age.$setViewValue(11);
+    scope.MyForm.daywasborn.$setViewValue('');
+    console.log(scope.MyForm.$error);
+    console.log(scope.GumgaForm.getFormErrors());
+  })
+
+  it('Should get the default messages when i call the function',function(){
+    var aux = scope.GumgaForm.getMessages('age');
+    expect(aux.maxdate).toEqual("A data especificada ultrapassou o limite de: {1}.");
+
+
   })
 })
