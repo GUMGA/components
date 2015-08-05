@@ -6,7 +6,7 @@
    * @element input
    * @restrict A
    * @description O componente GumgaMinNumber serve para validar números mínimos para entradas em formulários.
-   * 
+   *
    * ## Nota
    * Esta diretiva suporta apenas **inputs** do tipo **number**. O valor do atributo/diretiva é **obrigatório** e deve ser um **número**.
    *
@@ -24,23 +24,30 @@
 	 	return {
 	 		restrict: 'A',
 	 		require: 'ngModel',
-	 		link: function (scope, elm, attr, ctrl) {
-	 			if (attr.type != 'number') {
+	 		link: function (scope, elm, attrs, ctrl) {
+	 			if (attrs.type != 'number') {
 	 				throw 'Esta diretiva suporta apenas inputs do tipo number';
 	 			}
-	 			if (!attr.gumgaMinNumber) {
+	 			if (!attrs.gumgaMinNumber) {
 	 				throw "O valor da diretiva gumga-min-number não foi informado.";
 	 			}
 	 			var validateMinNumber = function (inputValue) {
+					var error = 'minnumber';
 	 				var input = parseInt(inputValue);
-	 				var min = parseInt(attr.gumgaMinNumber);
+	 				var min = parseInt(attrs.gumgaMinNumber);
 	 				var isValid = input >= min;
-	 				ctrl.$setValidity('minnumber', isValid);
+	 				ctrl.$setValidity(error, isValid);
+					scope.$broadcast('$error', {
+						name: attrs.name,
+						valid: isValid,
+						error: error,
+						value: attrs.gumgaMinNumber
+					});
 	 				return inputValue;
 	 			};
 	 			ctrl.$parsers.unshift(validateMinNumber);
 	 			ctrl.$formatters.push(validateMinNumber);
-	 			attr.$observe('gumgaMinNumber', function () {
+	 			attrs.$observe('gumgaMinNumber', function () {
 	 				validateMinNumber(ctrl.$viewValue);
 	 			});
 	 		}

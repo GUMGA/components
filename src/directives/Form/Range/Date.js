@@ -9,7 +9,7 @@
 	 * O componente GumgaRangeDate serve para validar datas mínimas e máximas para entradas em formulários com campos do tipo date.
    *
    * ## Nota
-   * O valor do atributo/diretiva é **obrigatório** e deve ser um **objeto** contendo duas propriedades, **min** e **max** 
+   * O valor do atributo/diretiva é **obrigatório** e deve ser um **objeto** contendo duas propriedades, **min** e **max**
    * com os valores de suas respectivas datas para execução da validação range.
    *
    * ## Exemplo
@@ -28,29 +28,33 @@
 	 	return {
 	 		restrict: 'A',
 	 		require: 'ngModel',
-	 		link: function (scope, elm, attr, ctrl) {
-	 			if (attr.type != 'date') {
+	 		link: function (scope, elm, attrs, ctrl) {
+	 			if (attrs.type != 'date') {
 	 				throw 'Esta diretiva suporta apenas inputs do tipo date';
 	 			}
-	 			if (!attr.gumgaRangeDate) {
+	 			if (!attrs.gumgaRangeDate) {
 	 				throw "O valor da diretiva gumga-range-date não foi informado.";
 	 			}
-        // if (!GumgaDateService.validateFormat('YMD', attr.gumgaMaxDate)) {
-        //   throw 'O valor da diretiva não corresponde ao formato yyyy-mm-dd';
-        // }
         var validateRangeDate = function (inputValue) {
+					var error = 'rangedate';
           var format = 'yyyy-MM-dd';
-          var range = scope.$eval(attr.gumgaRangeDate);
+          var range = scope.$eval(attrs.gumgaRangeDate);
         	var input = $filter('date')(inputValue, format);
           var min = $filter('date')(range.min, format);
         	var max = $filter('date')(range.max, format);
         	var isValid = input >= min && input <= max;
-        	ctrl.$setValidity('rangedate', isValid);
+        	ctrl.$setValidity(error, isValid);
+					scope.$broadcast('$error', {
+						name: attrs.name,
+						valid: isValid,
+						error: error,
+						value: attrs.gumgaRangeDate
+					});
         	return inputValue;
         };
         ctrl.$parsers.unshift(validateRangeDate);
         ctrl.$formatters.push(validateRangeDate);
-        attr.$observe('gumgaRangeDate', function () {
+        attrs.$observe('gumgaRangeDate', function () {
         	validateRangeDate(ctrl.$viewValue);
         });
       }

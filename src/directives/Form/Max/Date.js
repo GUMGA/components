@@ -7,7 +7,7 @@
    * @restrict A
    * @scope false
    * @description O componente GumgaMaxDate serve para validar datas máximas em entradas de formulários.
-   * 
+   *
    * ## Nota
    * Esta diretiva suporta apenas **inputs** do tipo **date**. O valor do atributo/diretiva é **obrigatório** e deve ser uma **data**.
    *
@@ -25,27 +25,31 @@
      return {
       restrict: 'A',
       require: 'ngModel',
-      link: function (scope, elm, attr, ctrl) {
-       if (attr.type != 'date') {
-        throw 'Esta diretiva suporta apenas inputs do tipo date';
-      }
-      if (!attr.gumgaMaxDate) {
-        throw "O valor da diretiva gumga-max-date não foi informado.";
-      }
-        // if (!GumgaDateService.validateFormat('YMD', attr.gumgaMaxDate)) {
-        //   throw 'O valor da diretiva não corresponde ao formato yyyy-mm-dd';
-        // }
+      link: function (scope, elm, attrs, ctrl) {
+	      if (attrs.type != 'date') {
+	        throw 'Esta diretiva suporta apenas inputs do tipo date';
+	      }
+	      if (!attrs.gumgaMaxDate) {
+	        throw "O valor da diretiva gumga-max-date não foi informado.";
+	      }
         var validateMaxDate = function (inputValue) {
+					var error = 'maxdate';
         	var format = 'yyyy-MM-dd';
         	var input = $filter('date')(inputValue, format);
-        	var max = $filter('date')(attr.gumgaMaxDate, format);
+        	var max = $filter('date')(attrs.gumgaMaxDate, format);
         	var isValid = input <= max;
-        	ctrl.$setValidity('maxdate', isValid);
+        	ctrl.$setValidity(error, isValid);
+					scope.$broadcast('$error', {
+						name: attrs.name,
+						valid: isValid,
+						error: error,
+						value: attrs.gumgaMaxDate
+					});
         	return inputValue;
         };
         ctrl.$parsers.unshift(validateMaxDate);
         ctrl.$formatters.push(validateMaxDate);
-        attr.$observe('gumgaMaxDate', function () {
+        attrs.$observe('gumgaMaxDate', function () {
         	validateMaxDate(ctrl.$viewValue);
         });
 
