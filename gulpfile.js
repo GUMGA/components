@@ -41,7 +41,7 @@ gulp.task('sonar', function () {
                 url: 'http://192.168.25.201:9000'
             },
             jdbc: {
-                url: 'jdbc:mysql://192.168.25.201:9000/sonar',
+                url: 'jdbc:mysql://192.168.25.201:3306/sonar',
                 username: 'gumga',
                 password: 'senha'
             },
@@ -49,7 +49,7 @@ gulp.task('sonar', function () {
             projectName: 'Components',
             projectVersion: '1.1.0',
             // comma-delimited string of source directories
-            sources: paths.src,
+            sources: 'src/',
             language: 'js',
             sourceEncoding: 'UTF-8',
             javascript: {
@@ -71,7 +71,7 @@ gulp.task('build-dist',function(){
 	.pipe(sourcemaps.init())
 	.pipe(concat('gumga.min.js'))
 	.pipe(sourcemaps.write())
-	.pipe(uglify())
+	// .pipe(uglify())
 	.pipe(gulp.dest('dist/'));
 	})
 
