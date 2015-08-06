@@ -11,7 +11,7 @@
    * Esta diretiva suporta apenas **inputs** do tipo **number**. O valor do atributo/diretiva é **obrigatório** e deve ser um **número**.
    *
    * @example
-   *  Um exemplo da directive GumgaMinNumber funcionando pode ser encontrado [aqui](http://embed.plnkr.co/GsMxY6QFES1rRktFCWsX).
+   *  Um exemplo da directive GumgaMinNumber funcionando pode ser encontrado [aqui](http://embed.plnkr.co/AcjqcgvgGhdJqDh72eHA).
    *  <pre>
    *    <form name="myForm">
    *      <input type="number" name="minNumber" ng-model="minNumber" gumga-min-number="20">
@@ -39,6 +39,7 @@
 	 				ctrl.$setValidity(error, isValid);
 					scope.$broadcast('$error', {
 						name: attrs.name,
+						label: attrs.label || attrs.name,
 						valid: isValid,
 						error: error,
 						value: attrs.gumgaMinNumber

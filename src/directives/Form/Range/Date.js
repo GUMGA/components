@@ -13,7 +13,7 @@
    * com os valores de suas respectivas datas para execução da validação range.
    *
    * ## Exemplo
-   * Um exemplo da directive GumgaRangeDate funcionando pode ser encontrado [aqui](http://embed.plnkr.co/OGu2toHUi5pBSPx4D5OU).
+   * Um exemplo da directive GumgaRangeDate funcionando pode ser encontrado [aqui](http://embed.plnkr.co/AcjqcgvgGhdJqDh72eHA).
    *
    * @example
    *  <pre>
@@ -46,6 +46,7 @@
         	ctrl.$setValidity(error, isValid);
 					scope.$broadcast('$error', {
 						name: attrs.name,
+						label: attrs.label || attrs.name,
 						valid: isValid,
 						error: error,
 						value: attrs.gumgaRangeDate

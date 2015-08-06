@@ -1,5 +1,21 @@
 (function(){
 	'use strict';
+	/**
+	 * @ngdoc directive
+	 * @name gumga.core:gumgaErrors
+	 * @element input
+	 * @restrict A
+	 * @description O componente gumgaErrors serve para mostrar todas mensagens de validações do formulário de forma agrupada.
+	 *
+	 * @example
+	 *  Um exemplo da directive gumgaErrors funcionando pode ser encontrado [aqui](http://embed.plnkr.co/AcjqcgvgGhdJqDh72eHA).
+	 *  <pre>
+	 *    <form name="myForm">
+	 *      <gumga-errors></gumga-errors>
+	 *      <input type="number" name="minNumber" ng-model="minNumber" gumga-error gumga-min-number="20">
+	 *    </form>
+	 *  </pre>
+	*/
 	Errors.$inject = ['$compile'];
   function Errors($compile) {
     return {
@@ -9,7 +25,6 @@
       require: '^form',
       link: function (scope, elm, attrs, ctrl) {
 				scope.errors = [];
-				// scope.$parent.errors = [];
 
 				scope.errorsContains = function(errors, error) {
 					for (var k in errors) {
@@ -27,8 +42,10 @@
 				}
 
 				scope.removeError = function(error) {
-					error.valid = !error.valid;
-					var exist = scope.errorsContains(scope.errors, error);
+					// error.valid = !error.valid;
+					var errorCopy = angular.copy(error);
+					errorCopy.valid = !errorCopy.valid;
+					var exist = scope.errorsContains(scope.errors, errorCopy);
 					if (exist) {
 						scope.errors.splice(exist, 1);
 					}
@@ -40,9 +57,6 @@
 						scope.removeError(data);
 					}
 				});
-				// scope.$watch('errors', function() {
-				// 	scope.$parent.errors = scope.errors;
-				// });
       }
     }
   }

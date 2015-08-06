@@ -12,7 +12,7 @@
    * O valor do atributo/diretiva é **obrigatório** e deve ser um **número**.
    *
    * @example
-   *  Um exemplo da directive GumgaMaxLength funcionando pode ser encontrado [aqui](http://embed.plnkr.co/6KjgXFTEAnQq9GgWbbDB).
+   *  Um exemplo da directive GumgaMaxLength funcionando pode ser encontrado [aqui](http://embed.plnkr.co/AcjqcgvgGhdJqDh72eHA).
    *  <pre>
    *    <form name="myForm">
    *      <input type="date" name="maxLength" ng-model="maxLength" gumga-max-length="20" id="maxLength">
@@ -37,6 +37,7 @@
           ctrl.$setValidity(error, isValid);
 					scope.$broadcast('$error', {
 						name: attrs.name,
+						label: attrs.label || attrs.name,
 						valid: isValid,
 						error: error,
 						value: attrs.gumgaMaxLength
