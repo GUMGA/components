@@ -11,8 +11,11 @@
    * ## Nota
    * Esta diretiva suporta apenas **inputs** do tipo **number**. O valor do atributo/diretiva é **obrigatório** e deve ser um **número**.
    *
+	 * @param {String} label Usado na integração com {@link gumga.core:gumgaErrors} para indicar em qual campo se encontra o erro.
+	 * Se o atributo for omitido, a diretiva usará o atributo name do input.
+	 *
    * @example
-   *  Um exemplo da directive GumgaMaxNumber funcionando pode ser encontrado [aqui](http://embed.plnkr.co/IKifBxWz5i5obkVAmuxI).
+   *  Um exemplo da directive GumgaMaxNumber funcionando pode ser encontrado [aqui](http://embed.plnkr.co/AcjqcgvgGhdJqDh72eHA).
    *  <pre>
    *    <form name="myForm">
    *      <input type="number" name="maxNumber" ng-model="maxNumber" gumga-max-number="20">
@@ -40,6 +43,7 @@
         ctrl.$setValidity(error, isValid);
 				scope.$broadcast('$error', {
 					name: attrs.name,
+					label: attrs.label || attrs.name,
 					valid: isValid,
 					error: error,
 					value: attrs.gumgaMaxNumber

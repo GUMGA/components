@@ -1,11 +1,32 @@
 (function(){
 	'use strict';
-	Form.$inject = ['$timeout','$rootScope'];
 	/**
-	 * @ngdoc directive
-	 * @name gumga.core:gumgaForm
-	 * @description
-	 */
+   * @ngdoc directive
+   * @name gumga.core:gumgaForm
+   * @element form
+   * @restrict A
+   * @description O componente gumgaForm trabalha em comunicação com o {@link gumga.core:gumgaErrors} e {@link gumga.core:gumgaError}
+   * recebendo e enviando eventos de validação. O componente também expõe funções para manipulação do formulário e suas validações.
+   *
+	 * ## Métodos
+	 *
+	 * O componente GumgaForm possui seis métodos que podem ser acessados via scope no controller.
+	 * - getMessages(name,error)
+	 * - changeMessage(input,which,message)
+	 * - setFormValid()
+	 * - clearForm()
+	 * - setFormPristine()
+	 * - getFormErrors()
+   *
+   * @example
+   *  Um exemplo da directive gumgaForm funcionando pode ser encontrado [aqui](http://embed.plnkr.co/AcjqcgvgGhdJqDh72eHA).
+   *  <pre>
+   *    <form name="myForm" gumga-form="form">
+   *      <input type="number" name="minNumber" ng-model="minNumber" gumga-min-number="20">
+   *    </form>
+   *  </pre>
+  */
+ 	Form.$inject = ['$timeout','$rootScope'];
 	function Form($timeout,$rootScope) {
 		return {
 			restrict: 'A',
@@ -32,9 +53,9 @@
 								rangedate:'A data especificada no campo {0} deve estar dentro do alcance: {1}.',
 								rangenumber: 'O número especificado no campo {0} deve estar dentro do alcance: {1}.',
 								required: 'O campo {0} é obrigatório.'
-								}
-							})
+							}
 						})
+					})
 				})();
 
 				function returnObject(name){
@@ -46,10 +67,14 @@
 				scope.$on('$error',function(ev,data){
 					$timeout(function(){
 						var _aux = returnObject(data.name)
+<<<<<<< HEAD
 						,		message = _aux.errorMessages[data.error].replace('{1}',data.value)
 						,		auxMessage = message;
 						data.error != 'required' ? auxMessage.replace('no campo {0}','') :
 						message = message.replace('{0}',data.label);
+=======
+						,		message = _aux.errorMessages[data.error].replace('{1}',data.value).replace('{0}',data.label);
+>>>>>>> upstream/v1.1.x_dev
 						$rootScope.$broadcast('$errorMessage',{
 							name: data.name,
 							message: message,
@@ -67,7 +92,7 @@
 					}
 				}
 				scope.GumgaForm.changeMessage = function(input,which,message){
-					if(!input || !which || !message) throw 'Valores passados errados para a função GumgaForm.changeMessage(input,message)'
+					if(!input || !which || !message) throw 'Valores passados errados para a função GumgaForm.changeMessage(input,which,message)'
 					var aux = _formControllers.filter(function(value){
 							return input == value.name;
 					})[0];
