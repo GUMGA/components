@@ -1,5 +1,21 @@
 describe('DIRECTIVE: GumgaQueries',function(){
-  var scope;
+  var scope
+      queries =
+      [
+        {
+          "attribute":{
+            "name":"descricao",
+            "type":"string"
+          },
+          "hql":{
+            "after":"'",
+            "before":"='",
+            "hql":"eq",
+            "label":"igual"
+          },
+          "value":"josualdo"
+        }
+      ];
 
   beforeEach(module('gumga.directives.query'));
 
@@ -7,6 +23,7 @@ describe('DIRECTIVE: GumgaQueries',function(){
     inject(
       function($rootScope,$compile){
         scope = $rootScope.$new();
+        scope.searchQueries = queries;
         var template = angular.element('<gumga-queries></gumga-queries>');
         $compile(template)(scope);
       }
@@ -15,6 +32,6 @@ describe('DIRECTIVE: GumgaQueries',function(){
 
 
   it('should get the array that is on scope',function(){
-    
+    expect(scope.hasQueries).toBeTruthy();
   });
 })
