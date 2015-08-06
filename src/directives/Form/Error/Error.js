@@ -22,7 +22,6 @@
 			scope: {},
       require: '^form',
       link: function (scope, elm, attrs, ctrl) {
-        console.log('gumga error');
 				scope.errors = [];
 
 				scope.errorsContains = function(errors, error) {
@@ -58,7 +57,7 @@
           }
 				});
 
-        var template = '<ul><li ng-repeat="error in errors" >{{ error.message }}</li></ul>';
+        var template = '<ul><li ng-repeat="error in errors" >{{ error.fieldMessage }}</li></ul>';
         elm.after($compile(template)(scope));
       }
     }
