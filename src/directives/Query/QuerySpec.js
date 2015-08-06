@@ -17,7 +17,7 @@ describe('DIRECTIVE: GumgaQueries',function(){
         }
       ];
 
-  beforeEach(module('gumga.directives.query'));
+  beforeEach(module('gumga.directives.queries'));
 
   beforeEach(
     inject(
