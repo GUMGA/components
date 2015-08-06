@@ -15,7 +15,7 @@
     return {
       restrict: 'E',
       scope:false,
-      template: _template.join('\n'),
+      template: _template,
       link: function (scope,elm,attrs) {
         scope.label = attrs.label || 'Busca ativa:';
         if(scope.searchQueries){
