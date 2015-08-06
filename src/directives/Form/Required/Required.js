@@ -11,6 +11,9 @@
    * ## Exemplo
    * Um exemplo da directive GumgaRequired funcionando pode ser encontrado [aqui](http://embed.plnkr.co/AcjqcgvgGhdJqDh72eHA).
    *
+   * @param {String} label Usado na integração com {@link gumga.core:gumgaErrors} para indicar em qual campo se encontra o erro.
+   * Se o atributo for omitido, a diretiva usará o atributo name do input.
+	 *
    * @example
    *  <pre>
    *    <form name="myForm">

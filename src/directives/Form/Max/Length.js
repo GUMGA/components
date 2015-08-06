@@ -11,6 +11,9 @@
    * ## Nota
    * O valor do atributo/diretiva é **obrigatório** e deve ser um **número**.
    *
+	 * @param {String} label Usado na integração com {@link gumga.core:gumgaErrors} para indicar em qual campo se encontra o erro.
+	 * Se o atributo for omitido, a diretiva usará o atributo name do input.
+	 *
    * @example
    *  Um exemplo da directive GumgaMaxLength funcionando pode ser encontrado [aqui](http://embed.plnkr.co/AcjqcgvgGhdJqDh72eHA).
    *  <pre>

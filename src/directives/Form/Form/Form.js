@@ -53,9 +53,9 @@
 								rangedate:'A data especificada no campo {0} deve estar dentro do alcance: {1}.',
 								rangenumber: 'O número especificado no campo {0} deve estar dentro do alcance: {1}.',
 								required: 'O campo {0} é obrigatório.'
-								}
-							})
+							}
 						})
+					})
 				})();
 
 				function returnObject(name){
@@ -67,7 +67,7 @@
 				scope.$on('$error',function(ev,data){
 					$timeout(function(){
 						var _aux = returnObject(data.name)
-						,		message = _aux.errorMessages[data.error].replace('{1}',data.value).replace('{0}',data.name);
+						,		message = _aux.errorMessages[data.error].replace('{1}',data.value).replace('{0}',data.label);
 						$rootScope.$broadcast('$errorMessage',{
 							name: data.name,
 							message: message,
