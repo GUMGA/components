@@ -1,6 +1,6 @@
 (function(){
 	'use strict';
-	
+
 	Search.$inject = [];
 	function Search(){
 		var template =
@@ -27,6 +27,7 @@
 				scope.attributes = [];
 				scope.normalFields = attrs.fields.split(',');
 				scope.entityToTranslate = attrs.translateEntity;
+				scope.searchQueries = []
 				var eventHandler = {
 					search: attrs.onSearch ? scope.onSearch : angular.noop,
 					advanced: attrs.onAdvancedSearch ? scope.onAdvancedSearch : angular.noop
@@ -49,6 +50,10 @@
 				};
 
 				scope.$on('advanced',function(ev,data){
+
+					scope.searchQueries = [];
+					scope.searchQueries = data.source;
+					console.log(data);
 					scope.advanced({param: data});
 					eventHandler.search();
 	              //ev.stopPropagation() || angular.noop;

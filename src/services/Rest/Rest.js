@@ -29,26 +29,26 @@
 	 * # Métodos
 	 *
 	 *  `GumgaRest.get(params)`
-	 *  
+	 *
 	 *  O método get aceita um parâmetro `url` e retorna uma promise de uma chamada HTTP do tipo GET.
-	 *  
+	 *
 	 *  ### Parâmetros
 	 *  - <label class="label label-warning" style="margin-right: 1%">Object</label> <label class="label label-info">params</label> Parâmetros da query que será feita.
 	 *  ### Retorno
 	 *  - <label class="label label-info">HttpPromise</label> Retona uma promise da chamada HTTP GET.
 	 *  ---
 	 *  `GumgaRest.resetAndGet()`
-	 *  
+	 *
 	 *  O método resetAndGet reseta a query atual e performa uma chamada HTTP do tipo GET.
-	 *  
+	 *
 	 *  ### Retorno
-	 *  
+	 *
 	 *  - <label class="label label-info">HttpPromise</label> Retorna uma promise da chamada HTTP GET.
 	 *
 	 * 	---
 	 *
  	 *  `GumgaRest.getById(id)`
-	 *  
+	 *
 	 *  O método getById aceita um parâmetro `id` e retorna uma promise de uma chamada HTTP do tipo GET.
 	 *  ### Parâmetros
 	 *  - <label class="label label-warning" style="margin-right: 1%">[String|Number]</label> <label class="label label-info">id</label> Identificador do registro que será buscado.
@@ -56,52 +56,52 @@
 	 *  - <label class="label label-info">HttpPromise</label> Retona uma promise da chamada HTTP GET.
 	 *  ---
 	 *  `GumgaRest.getNew()`
-	 *  
+	 *
 	 *  O método getById  retorna uma promise de uma chamada HTTP do tipo GET.
 	 *  ### Retorno
-	 *  
+	 *
 	 *  - <label class="label label-info">HttpPromise</label> Retorna uma promise da chamada HTTP GET.
-	 *  
-	 *  --- 
+	 *
+	 *  ---
  	 *  `GumgaRest.delete(data)`
-	 *  
-	 *  O método delete recebe como parâmetro um objeto que será deletado. O objeto deve ter um parâmetro ID, 
+	 *
+	 *  O método delete recebe como parâmetro um objeto que será deletado. O objeto deve ter um parâmetro ID,
 	 *  que será passado para a url da chamada.
 	 *
  	 *  ### Parâmetros
 	 *  - <label class="label label-warning" style="margin-right: 1%">Object</label> <label class="label label-info">data</label> Registro que será deletado.
-	 * 
+	 *
 	 *  ### Retorno
-	 *  
+	 *
 	 *  - <label class="label label-info">HttpPromise</label> Retorna uma promise da chamada HTTP DELETE.
-	 *  
-	 *  --- 
-	 *  
+	 *
+	 *  ---
+	 *
  	 *  `GumgaRest.sort(field,way)`
-	 *  
+	 *
 	 * O método sort recebe dois parâmetros para fazer a ordenação: `field` e `way`, que determinarão qual campo será ordenado
-	 * e se será 'asc' ou 'desc'. 
+	 * e se será 'asc' ou 'desc'.
 	 *
  	 *  ### Parâmetros
 	 *  - <label class="label label-warning" style="margin-right: 1%">String</label> <label class="label label-info">field</label> Qual campo será feita a ordenação
 	 *  - <label class="label label-warning" style="margin-right: 1%">String</label> <label class="label label-info">way</label> Em que sentido a ordenação será feita, se será ascendente `asc` ou descendente `desc`.
 	 *  ### Retorno
-	 *  
+	 *
 	 *  - <label class="label label-info">HttpPromise</label> Retorna uma promise da chamada HTTP GET.
-	 *  
-	 *  --- 
+	 *
+	 *  ---
 	 *
 	 *  `GumgaRest.deleteCollection(array)`
-	 *  
+	 *
 	 *  O método deleteAll aceita um parâmetro `url`  e retorna uma promise de uma série de chamadas http do tipo DELETE que serão resolvidas ao mesmo tempo.
 	 *  ### Parâmetros
-	 *  - <label class="label label-warning" style="margin-right: 1%">Array</label><label class="label label-info">array</label> Array com todas os registros que serão deletados 
+	 *  - <label class="label label-warning" style="margin-right: 1%">Array</label><label class="label label-info">array</label> Array com todas os registros que serão deletados
 	 *  ### Retorno
 	 *  - <label class="label label-info">HttpPromise</label> Retorna uma promise após todas as chamadas terem sido resolvidas.
 	 *  ---
 	 *
  	 *  `GumgaRest.saveImage(attribute,data)`
-	 *  
+	 *
 	 *  O método saveImage aceita dois parâmetros `attribute` e `data` e retorna uma promise de de uma chamada HTTP POST FORM-DATA.
 	 *  ### Parâmetros
 	 *  - <label class="label label-warning" style="margin-right: 1%">String</label><label class="label label-info">attribute</label> Atributo no qual a imagem será feito o
@@ -112,7 +112,7 @@
 	 *  onde estava a imagem. Esta string é um identificador para quando o registro for enviado através de um post.
 	 *  ---
  	 *  `GumgaRest.deleteImage(attribute,data)`
-	 *  
+	 *
 	 *  O método deleteImage aceita dois parâmetros `url` e `data` e retorna uma promise de de uma chamada HTTP DELETE FORM-DATA.
 	 *  ### Parâmetros
 	 *  - <label class="label label-warning" style="margin-right: 1%">String</label><label class="label label-info">attribute</label> Atributo no qual a imagem será feito o
@@ -123,31 +123,31 @@
 	 *  ---
  	 *
  	 *  `GumgaRest.getSearch(field,param)`
-	 *  
+	 *
 	 *  O método getSearch aceita dois parâmetros `field` e `param` e retorna uma promise de uma chamada HTTP do tipo GET.
 	 *  ### Parâmetros
-	 *  - <label class="label label-warning" style="margin-right: 1%">[String]</label> <label class="label label-info">field</label> Qual campo a busca será feita. Caso 
+	 *  - <label class="label label-warning" style="margin-right: 1%">[String]</label> <label class="label label-info">field</label> Qual campo a busca será feita. Caso
 	 *  queira fazer a busca em mais de um campo, passar uma string com os nomes separados por vírgula.
- 	 *  - <label class="label label-warning" style="margin-right: 1%">[Object]</label> <label class="label label-info">param</label> Objeto que irá conter os parâmetros 
+ 	 *  - <label class="label label-warning" style="margin-right: 1%">[Object]</label> <label class="label label-info">param</label> Objeto que irá conter os parâmetros
  	 *  da busca.
 	 *  ### Retorno
 	 *  - <label class="label label-info">HttpPromise</label> Retona uma promise da chamada HTTP GET.
-	 *  --- 
+	 *  ---
 	 *
  	 *  `GumgaRest.getAdvancedSearch(param)`
-	 *  
+	 *
 	 *  O método getAdvancedSearch aceita um parâmetro `param` e retorna uma promise de uma chamada HTTP do tipo GET.
 	 *  ### Parâmetros
- 	 *  - <label class="label label-warning" style="margin-right: 1%">[Object]</label> <label class="label label-info">param</label> Objeto que irá conter os parâmetros 
+ 	 *  - <label class="label label-warning" style="margin-right: 1%">[Object]</label> <label class="label label-info">param</label> Objeto que irá conter os parâmetros
  	 *  da busca.
 	 *  ### Retorno
 	 *  - <label class="label label-info">HttpPromise</label> Retona uma promise da chamada HTTP GET.
-	 *  ---   
+	 *  ---
    *
  	 *  `GumgaRest.resetDefaultState()`
-	 *  
+	 *
 	 *  O método resetDefaultState retorna o objeto de query ao seu estado padrão.
-	 *  
+	 *
 	 *  ---
 	 */
 	function Base($http,$q){
@@ -228,9 +228,16 @@
 			return this.get();
 		}
 		function _getAdvancedSearch(p){
-			this._query.params = {}
-			this._query.params.aq = p;
-			return $http.get(this._url,this._query);
+			if(typeof p === 'string'){
+				this._query.params = {}
+				this._query.params.aq = p;
+				return $http.get(this._url,this._query);
+			}
+			if(!p.hql || !p.source) throw 'You\'ve passed the wrong parameters to GumgaRest.getAdvancedSearch';
+			this._query.params = {};
+			this._query.params.aq = p.hql;
+			this._query.params.aqo = p.source;
+			return $http.post(this._url + '/aq',this._query);
 		}
 		return RestPrototype;
 	}

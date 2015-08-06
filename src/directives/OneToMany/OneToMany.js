@@ -23,7 +23,7 @@
    * para visualização de dados
    * @param {Function} on-value-visualization-closed Parâmetro não obrigatório que irá conter uma variável que possuirá uma função que irá ser executada quando o usuário tiver fechado o modal
    * para visualização de dados
-	 * 
+	 *
 	 */
 	function OneToMany($modal){
 		var template = [
