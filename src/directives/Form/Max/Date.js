@@ -11,8 +11,11 @@
    * ## Nota
    * Esta diretiva suporta apenas **inputs** do tipo **date**. O valor do atributo/diretiva é **obrigatório** e deve ser uma **data**.
    *
+	 * @param {String} label Usado na integração com {@link gumga.core:gumgaErrors} para indicar em qual campo se encontra o erro.
+	 * Se o atributo for omitido, a diretiva usará o atributo name do input.
+	 *
    * @example
-   *  Um exemplo da directive gumgaMaxDate funcionando pode ser encontrado [aqui](http://embed.plnkr.co/6KjgXFTEAnQq9GgWbbDB).
+   *  Um exemplo da directive gumgaMaxDate funcionando pode ser encontrado [aqui](http://embed.plnkr.co/AcjqcgvgGhdJqDh72eHA).
    *  <pre>
    *    <form name="myForm">
    *      <input type="date" name="maxDate" ng-model="maxDate" gumga-max-date="2015-07-20">
@@ -41,6 +44,7 @@
         	ctrl.$setValidity(error, isValid);
 					scope.$broadcast('$error', {
 						name: attrs.name,
+						label: attrs.label || attrs.name,
 						valid: isValid,
 						error: error,
 						value: attrs.gumgaMaxDate
@@ -52,13 +56,6 @@
         attrs.$observe('gumgaMaxDate', function () {
         	validateMaxDate(ctrl.$viewValue);
         });
-
-        scope.$on('clearFields',function(event, data) {
-         ctrl.$modelValue = null;
-         console.log('directive date clear');
-					// console.log(elm);
-					// console.log(ctrl);
-				});
       }
     }
   }

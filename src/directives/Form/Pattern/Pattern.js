@@ -10,8 +10,11 @@
    * ## Nota
    * O valor do atributo/diretiva é **obrigatório** e deve ser uma **expressão regular**.
    *
+	 * @param {String} label Usado na integração com {@link gumga.core:gumgaErrors} para indicar em qual campo se encontra o erro.
+	 * Se o atributo for omitido, a diretiva usará o atributo name do input.
+	 *
    * @example
-   *  Um exemplo da directive GumgaPattern funcionando pode ser encontrado [aqui](http://embed.plnkr.co/rYRDHYIWwi5nz8YKwGaw).
+   *  Um exemplo da directive GumgaPattern funcionando pode ser encontrado [aqui](http://embed.plnkr.co/AcjqcgvgGhdJqDh72eHA).
    *  <pre>
    *    <form name="myForm">
    *      <input type="text" name="cep" ng-model="cep" gumga-pattern="(\d{5})\-(\d{3})" id="cep" placeholder="99999-999">
@@ -35,6 +38,7 @@
 					ctrl.$setValidity(error, isValid);
 					scope.$broadcast('$error', {
 						name: attrs.name,
+						label: attrs.label || attrs.name,
 						valid: isValid,
 						error: error,
 						value: attrs.patternAlias || attrs.gumgaPattern
