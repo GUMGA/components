@@ -46,10 +46,14 @@
 				scope.$on('$error',function(ev,data){
 					$timeout(function(){
 						var _aux = returnObject(data.name)
-						,		message = _aux.errorMessages[data.error].replace('{1}',data.value).replace('{0}',data.name);
+						,		message = _aux.errorMessages[data.error].replace('{1}',data.value)
+						,		auxMessage = message;
+						data.error != 'required' ? auxMessage.replace('no campo {0}','') :
+						message = message.replace('{0}',data.label);
 						$rootScope.$broadcast('$errorMessage',{
 							name: data.name,
 							message: message,
+							fieldMessage: auxMessage,
 							valid: data.valid,
 						})
 					})

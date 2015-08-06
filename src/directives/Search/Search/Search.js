@@ -50,8 +50,10 @@
 				};
 
 				scope.$on('advanced',function(ev,data){
+
 					scope.searchQueries = [];
 					scope.searchQueries = data.source;
+					console.log(data);
 					scope.advanced({param: data});
 					eventHandler.search();
 	              //ev.stopPropagation() || angular.noop;
