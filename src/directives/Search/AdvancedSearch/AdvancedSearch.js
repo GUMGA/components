@@ -138,7 +138,6 @@
 
 				scope.handleHqlOption = function(hq){
 					scope.query.hql = hq;
-					// document.getElementById('selectableAdvancedValue').focus();
 					scope.selectHQL = false;
 				};
 
@@ -176,7 +175,7 @@
 
 				scope.showArray = function(array){
 					scope.isPanelOpen = false;
-					scope.$emit('advanced',GumgaSearchHelper.translateArrayToHQL(array));
+					scope.$emit('advanced',{hql: GumgaSearchHelper.translateArrayToHQL(array),source: array});
 				};
 
 				scope.doSearch = function(txt){
