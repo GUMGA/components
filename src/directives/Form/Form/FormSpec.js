@@ -94,14 +94,10 @@ describe("DIRECTIVE: GumgaForm",function(){
     scope.MyForm.name.$setViewValue('Juquinha');
     scope.MyForm.age.$setViewValue(11);
     scope.MyForm.daywasborn.$setViewValue('');
-    console.log(scope.MyForm.$error);
-    console.log(scope.GumgaForm.getFormErrors());
   })
 
   it('Should get the default messages when i call the function',function(){
     var aux = scope.GumgaForm.getMessages('age');
-    expect(aux.maxdate).toEqual("A data especificada ultrapassou o limite de: {1}.");
-
-
+    expect(aux.maxdate).toEqual("A data especificada no campo {0} não deve ultrapassar o limite de: {1}.");
   })
 })

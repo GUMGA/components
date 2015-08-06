@@ -150,7 +150,7 @@ describe('DIRECTIVE: GumgaAdvancedSearch',function(){
       }
       ];
       scope.showArray(arr_);
-      expect(scope.$emit).toHaveBeenCalledWith('advanced', GumgaSearchHelper.translateArrayToHQL(arr_));
+      expect(scope.$emit).toHaveBeenCalledWith('advanced', {hql:GumgaSearchHelper.translateArrayToHQL(arr_),source: arr_});
       expect(scope.isPanelOpen).toBe(false);
     })
   });
