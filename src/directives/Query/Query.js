@@ -7,8 +7,8 @@
         restrict: 'E',
         scope:false,
         link: function (scope,elm,attrs) {
-            if(scope.queries){
-              console.log(searchQueries);
+            if(scope.searchQueries){
+              scope.hasQueries = true;
             }
         }
       }
