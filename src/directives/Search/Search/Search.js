@@ -50,20 +50,16 @@
 				};
 
 				scope.$on('advanced',function(ev,data){
-
 					scope.searchQueries = [];
 					scope.searchQueries = data.source;
-					console.log(data);
 					scope.advanced({param: data});
 					eventHandler.search();
-	              //ev.stopPropagation() || angular.noop;
-	            });
+        });
 
 				scope.$on('normal',function(ev,data){
 					scope.normal({field: data.field,param: data.param});
 					eventHandler.advanced()
-	              //ev.stopPropagation() || angular.noop;
-	            });
+        });
 
 				scope.getAttributes();
 			}
