@@ -1,154 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<title>Teste</title>
-		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-		<link rel="stylesheet" href="./dist/gumga.min.css">
-	</head>
-	<body>
-		<div ng-app="why" class="container">
-			<div ng-controller="MainController">
-				<form name="myForm" gumga-form="form" novalidate>
-					<div class="row">
-						<div class="col-md-12">
-							<gumga-errors></gumga-errors>
+<head>
+	<meta charset="UTF-8">
+	<title>Teste</title>
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="./dist/gumga.min.css">
+</head>
+<body>
+	<div ng-app="why" class="container">
+		<div ng-controller="MainController">
+			<form name="myForm" gumga-form="form" novalidate>
+				<div class="row">
+					<div class="col-md-3">
+						<div class="form-group">
+							<label for="maxDate">Max Date</label>
+							<input type="date" name="maxDate" ng-model="form.maxDate" label="Max Date" gumga-error gumga-max-date="2015-07-20" class="form-control" id="maxDate">
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-3">
-							<div class="form-group">
-						    <label for="maxDate">Max Date (2015-07-20)</label>
-						    <input type="date" name="maxDate" ng-model="form.maxDate" label="Max Date" gumga-error gumga-max-date="2015-07-20" class="form-control" id="maxDate">
-						  </div>
-						</div>
-						<div class="col-md-3">
-							<div class="form-group">
-						    <label for="maxNumber">Max Number (100)</label>
-						    <input type="number" name="maxNumber" ng-model="form.maxNumber" label="Max Number" gumga-error gumga-min-number="1" gumga-max-number="100" class="form-control" id="maxNumber">
-						  </div>
-						</div>
-						<div class="col-md-3">
-							<div class="form-group">
-						    <label for="minDate">Min Date (2015-07-20)</label>
-						    <input type="date" name="minDate" ng-model="form.minDate" label="Min Date" gumga-error gumga-min-date="2015-07-20" class="form-control" id="minDate">
-						  </div>
-						</div>
-						<div class="col-md-3">
-							<div class="form-group">
-						    <label for="minNumber">Min Number (100)</label>
-						    <input type="number" name="minNumber" ng-model="form.minNumber" gumga-error gumga-min-number="0" class="form-control" id="minNumber">
-						  </div>
+					<div class="col-md-3">
+						<div class="form-group">
+							<label for="maxNumber">Max Number</label>
+							<input type="number" name="maxNumber" ng-model="form.maxNumber" label="Max Number" gumga-error gumga-min-number="1" gumga-max-number="100" class="form-control" id="maxNumber">
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-3">
-							<div class="form-group">
-								<label for="pattern">Pattern (99-99-9999)</label>
-								<input type="text" name="pattern" ng-model="form.pattern" gumga-error gumga-pattern="(\d{1,2})\-(\d{1,2})\-(\d{4})" pattern-alias="CPF" class="form-control" id="pattern">
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="form-group">
-								<label for="pattern">Required</label>
-								<input type="text" name="required" ng-model="form.required" gumga-error gumga-required class="form-control" id="required">
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="form-group">
-								<label for="rangeNumber">Range Number ({min: 0, max: 10})</label>
-								<input type="number" name="rangeNumber" ng-model="form.rangeNumber" gumga-error gumga-range-number="{min: 0, max: 10}" class="form-control" id="rangenumber">
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="form-group">
-								<label for="rangeDate">Range Date ({min: '1986-12-29', max: '2015-07-20'})</label>
-								<input type="date" name="rangeDate" ng-model="form.rangeDate" gumga-error gumga-range-date="{min: '1986-12-29', max: '2015-07-20'}" class="form-control" id="rangedate">
-							</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							<label for="minDate">Min Date</label>
+							<input type="date" name="minDate" ng-model="form.minDate" label="Min Date" gumga-error gumga-min-date="2015-07-20" class="form-control" id="minDate">
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-6">
-							<div class="form-group">
-								<label for="maxlength">Max Length (10)</label>
-								<input type="text" name="maxLength" ng-model="form.maxLength" gumga-error gumga-max-length="10" class="form-control" id="maxlength">
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label for="minlength">Min Length (10)</label>
-								<input type="text" name="minLength" ng-model="form.minLength" gumga-error gumga-min-length="10" class="form-control" id="minlength">
-							</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							<label for="minNumber">Min Number</label>
+							<input type="number" name="minNumber" ng-model="form.minNumber" gumga-error gumga-min-number="0" class="form-control" id="minNumber">
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-12">
-							<div class="col-md-12">
-								<gumga-queries label="Pesquisa ativa:">
-								</gumga-queries>
-							</div>
-						</div>
-						<div class="col-md-12">
-
-							<gumga-table values="list" columns="name,age"></gumga-table>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<div class="form-group">
+							<label for="pattern">Pattern</label>
+							<input type="text" name="pattern" ng-model="form.pattern" gumga-error gumga-pattern="(\d{1,2})\-(\d{1,2})\-(\d{4})" pattern-alias="CPF" class="form-control" id="pattern">
 						</div>
 					</div>
-				</form>
-
-			</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							<label for="pattern">Required</label>
+							<input type="text" name="required" ng-model="form.required" gumga-error gumga-required class="form-control" id="required">
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							<label for="rangeNumber">Range Number</label>
+							<input type="number" name="rangeNumber" ng-model="form.rangeNumber" gumga-error gumga-range-number="{min: 0, max: 10}" class="form-control" id="rangenumber">
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							<label for="rangeDate">Range Date</label>
+							<input type="date" name="rangeDate" ng-model="form.rangeDate" gumga-error gumga-range-date="{min: '1986-12-29', max: '2015-07-20'}" class="form-control" id="rangedate">
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="maxlength">Max Length</label>
+							<input type="text" name="maxLength" ng-model="form.maxLength" gumga-error gumga-max-length="10" class="form-control" id="maxlength">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="minlength">Min Length</label>
+							<input type="text" name="minLength" ng-model="form.minLength" gumga-error gumga-min-length="10" class="form-control" id="minlength">
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<gumga-errors placement="right" icon="glyphicon glyphicon-question-sign" label="Lista de erros" title="Lista de erros"></gumga-errors>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<gumga-form-buttons submit="save(form)" valid="myForm.$valid"></gumga-form-buttons>
+					</div>
+				</div>
+			</form>
 		</div>
+	</div>
 
-		<script src='bower_components/angular/angular.min.js'></script>
-		<script src='bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'></script>
-		<script src='bower_components/angular-mocks/angular-mocks.js'></script>
-		<script src='bower_components/angular-ui-router/release/angular-ui-router.min.js'></script>
-		<script src='bower_components/jquery/dist/jquery.min.js'></script>
-		<script src='bower_components/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js'></script>
-		<script src='bower_components/mousetrap-latest/mousetrap.min.js'></script>
-		<script src="dist/gumga.min.js"></script>
-		<script>
-		angular.module('why',['gumga.core'])
-		.controller('MainController',function($scope,$rootScope,$q){
-      $scope.searchQueries = [
-        {
-          "attribute":{
-            "name":"descricao",
-            "type":"string"
-          },
-          "hql":{
-            "after":"'",
-            "before":"='",
-            "hql":"eq",
-            "label":"igual"
-          },
-          "value":"josualdo"
-        },
-				{
-          "attribute":{
-            "name":"teste",
-            "type":"string"
-          },
-          "hql":{
-            "after":"'",
-            "before":"='",
-            "hql":"eq",
-            "label":"igual"
-          },
-          "value":"josualdo"
-        }
-      ]
-			$scope.list = [
-				{name: 'Luke Skywalker',age: 19,dead: false,pet: {name:'Yoda'}},
-                {name: 'Princess Leia Organa of Alderaan',age: 21,dead: false,pet: {name:'Joaquim'} },
-                {name: 'Anakin Skywalker',age: 45,dead: true,pet: {name:'Wookie'}},
-                {name: 'Frodo Baggins',age: 50,dead: false,pet: {name:'Sam'}},
-                {name: 'Bilbo Baggins',age: 75,dead: true,pet: {name:'Frodo'}},
-                {name: 'Gandalf the Grey',age: 95,dead: false,pet: {name:'Frodo and Bilbo'}},
-                {name: 'Tom Bombadil',age: 96,dead: true,pet: {name:'Joaquim'}}
-            ];
-       	});
+	<script src='bower_components/angular/angular.min.js'></script>
+	<script src='bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'></script>
+	<script src='bower_components/angular-mocks/angular-mocks.js'></script>
+	<script src='bower_components/angular-ui-router/release/angular-ui-router.min.js'></script>
+	<script src='bower_components/jquery/dist/jquery.min.js'></script>
+	<script src='bower_components/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js'></script>
+	<script src='bower_components/mousetrap-latest/mousetrap.min.js'></script>
+	<script src="dist/gumga.min.js"></script>
+	<script>
+	angular.module('why',['gumga.core'])
+	.controller('MainController',function($scope,$rootScope,$q){
+		$scope.save = function(data) {
+			console.log(data);
+			console.log('save');
+		}
+		// $scope.list = [
+		// 	{name: 'Luke Skywalker',age: 19,dead: false,pet: {name:'Yoda'}},
+		//           {name: 'Princess Leia Organa of Alderaan',age: 21,dead: false,pet: {name:'Joaquim'} },
+		//           {name: 'Anakin Skywalker',age: 45,dead: true,pet: {name:'Wookie'}},
+		//           {name: 'Frodo Baggins',age: 50,dead: false,pet: {name:'Sam'}},
+		//           {name: 'Bilbo Baggins',age: 75,dead: true,pet: {name:'Frodo'}},
+		//           {name: 'Gandalf the Grey',age: 95,dead: false,pet: {name:'Frodo and Bilbo'}},
+		//           {name: 'Tom Bombadil',age: 96,dead: true,pet: {name:'Joaquim'}}
+		//       ];
+	});
 
 
-		</script>
-	</body>
+	</script>
+</body>
 </html>
