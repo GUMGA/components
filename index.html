@@ -83,19 +83,18 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12">
+							<div class="col-md-12">
+								<gumga-queries label="Pesquisa ativa:">
+								</gumga-queries>
+							</div>
+						</div>
+						<div class="col-md-12">
+
 							<gumga-table values="list" columns="name,age"></gumga-table>
 						</div>
 					</div>
 				</form>
-      <gumga-advanced-label ng-repeat="query in searchQueries"
-                            attr="{{query.attribute.name}}"
-                            hql="{{query.hql.label}}"
-                            value="query.value"
-                            index="$index"
-                            disabled="true"
-                             style="margin-right: 1%">
 
-      </gumga-advanced-label>
 			</div>
 		</div>
 
@@ -126,7 +125,7 @@
         },
 				{
           "attribute":{
-            "name":"descricao",
+            "name":"teste",
             "type":"string"
           },
           "hql":{
