@@ -67,20 +67,6 @@
 						</div>
 						<div class="col-md-12">
 							<gumga-queries input-placeholder="Salvar busca" save-query="saveQuery(query,name)"></gumga-queries>
-=======
-				</div>
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="maxlength">Max Length</label>
-							<input type="text" name="maxLength" ng-model="form.maxLength" gumga-error gumga-max-length="10" class="form-control" id="maxlength">
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="minlength">Min Length</label>
-							<input type="text" name="minLength" ng-model="form.minLength" gumga-error gumga-min-length="10" class="form-control" id="minlength">
->>>>>>> upstream/v1.1.x_dev
 						</div>
 					</div>
 				</div>
@@ -97,62 +83,6 @@
 			</form>
 		</div>
 	</div>
-
-<<<<<<< HEAD
-		<script src='bower_components/angular/angular.min.js'></script>
-		<script src='bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'></script>
-		<script src='bower_components/angular-mocks/angular-mocks.js'></script>
-		<script src='bower_components/angular-ui-router/release/angular-ui-router.min.js'></script>
-		<script src='bower_components/jquery/dist/jquery.min.js'></script>
-		<script src='bower_components/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js'></script>
-		<script src='bower_components/mousetrap-latest/mousetrap.min.js'></script>
-		<script src="dist/gumga.min.js"></script>
-		<script>
-		angular.module('why',['gumga.core'])
-		.controller('MainController',function($scope,$rootScope,$q){
-			$scope.saveQuery = function(query,name){
-				console.log(query,name);
-			}
-
-      $scope.searchQueries = [
-        {
-          "attribute":{
-            "name":"descricao",
-            "type":"string"
-          },
-          "hql":{
-            "after":"'",
-            "before":"='",
-            "hql":"eq",
-            "label":"igual"
-          },
-          "value":"josualdo"
-        },
-				{
-          "attribute":{
-            "name":"teste",
-            "type":"string"
-          },
-          "hql":{
-            "after":"'",
-            "before":"='",
-            "hql":"eq",
-            "label":"igual"
-          },
-          "value":"josualdo"
-        }
-      ]
-			$scope.list = [
-				{name: 'Luke Skywalker',age: 19,dead: false,pet: {name:'Yoda'}},
-                {name: 'Princess Leia Organa of Alderaan',age: 21,dead: false,pet: {name:'Joaquim'} },
-                {name: 'Anakin Skywalker',age: 45,dead: true,pet: {name:'Wookie'}},
-                {name: 'Frodo Baggins',age: 50,dead: false,pet: {name:'Sam'}},
-                {name: 'Bilbo Baggins',age: 75,dead: true,pet: {name:'Frodo'}},
-                {name: 'Gandalf the Grey',age: 95,dead: false,pet: {name:'Frodo and Bilbo'}},
-                {name: 'Tom Bombadil',age: 96,dead: true,pet: {name:'Joaquim'}}
-            ];
-       	});
-=======
 	<script src='bower_components/angular/angular.min.js'></script>
 	<script src='bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'></script>
 	<script src='bower_components/angular-mocks/angular-mocks.js'></script>
@@ -178,9 +108,6 @@
 		//           {name: 'Tom Bombadil',age: 96,dead: true,pet: {name:'Joaquim'}}
 		//       ];
 	});
->>>>>>> upstream/v1.1.x_dev
-
-
 	</script>
 </body>
 </html>
