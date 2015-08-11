@@ -34,41 +34,32 @@
 
     function ctrl($scope, $element, $attrs, $transclude){
       var vm = this;
+      function verifyEmpty($v,other){return (!$attrs.$v ? other : vm[$v])};
       vm.data = vm.data || [];
       vm.config = vm.config || {};
-
-      function verifyEmpty($v,other){return (!$attrs.$v ? other : vm[$v])};
+      vm.config.selection = (vm.config.selection || 'single');
+      vm.config.itemsPerPage = (vm.config.itemsPerPage || 10);
+      vm.config.sortDefault = (vm.config.sortDefault || 0);
+      vm.config.selectedValues = (vm.config.selectedValues || []);
+      vm.config.columns = (vm.config.columns || ensureColumns(vm.data[0]));
+      vm.config.conditional = (vm.config.conditional || angular.noop);
+      vm.config.sort = verifyEmpty('sort',angular.noop);
+      vm.config.class = verifyEmpty('class','table');
+      vm.config.onClick = verifyEmpty('onClick',angular.noop);
+      vm.config.onDoublelick = verifyEmpty('onDoublelick',angular.noop);
+      vm.config.onSort = verifyEmpty('onSort',angular.noop);
       function ensureColumns(obj){
-        var _aux = [], order = 0;
-        for(var key in obj) if (obj.hasOwnProperty(key)){
-          _aux.push({
-            title: key.toUppercase(),
+        return Object.keys(obj).map(function(key,$index){
+          return {
+            title: key.toUpperCase(),
             size: 'col-md-3',
-            ordering: (order == 0 ? order : order++),
+            ordering: ($index),
             content: '{{$value.' + key + '}}',
             sortable: true,
             conditional: angular.noop
-          })
-        }
-        return _aux;
+          }
+        })
       }
-
-      vm.generalConfig = {
-        sort: verifyEmpty('sort',angular.noop),
-        class: verifyEmpty('class','table'),
-        data: vm.data,
-        onClick: verifyEmpty('onClick',angular.noop),
-        onDoubleClick: verifyEmpty('onDoubleClick',angular.noop),
-        onSort: verifyEmpty('onSort',angular.noop),
-        jsConfig: {
-            selection: vm.config.selection || 'single',
-            itemsPerPage: vm.config.ItensPerPage || 10,
-            sortDefault: vm.config.sortDefault || '',
-            selectedValues: vm.config.selectedValues || $scope.$parent.selectedValues,
-            columns: vm.config.columns || ensureColumns(vm.data[0]),
-            conditional: vm.config.conditional || angular.noop
-        }
-      };
     };
 
     return {

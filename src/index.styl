@@ -103,6 +103,24 @@ body
   background-color #fff
   height 100%
 
+.input-group-sm > .form-control,
+.input-group-sm > .input-group-btn {
+  box-sizing: content-box;
+  -moz-box-sizing: content-box;
+}
+.input-group.input-group-sm {
+  height: 18px;
+}
+.input-group-sm > .form-control {
+  height: 21px; padding: 0; margin: 0;
+}
+.input-group-sm > .input-group-btn > .btn {
+  border-left: 0px;
+  height: 23px;
+  margin-left: -4px;
+  padding: 0px 4px;
+}
+
 div
   100%
   > .gumga-container
@@ -399,7 +417,8 @@ full-width-without-padding-small
   overflow hidden
   font-size 14px
   padding 10px 5px 5px 10px
-  border-botto none
+  border-bottom none
+  padding-bottom 0
   border-top none
   > i
     padding-left 1em

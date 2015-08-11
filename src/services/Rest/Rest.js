@@ -149,6 +149,16 @@
 	 *  O método resetDefaultState retorna o objeto de query ao seu estado padrão.
 	 *
 	 *  ---
+	 *
+	 *  `GumgaRest.saveQuery(query)`
+	 *
+	 *  O método saveQuery aceita um parâmetro `query` e retorna uma promise de uma chamada HTTP do tipo POST.
+	 *  ### Parâmetros
+	 *  - <label class="label label-warning" style="margin-right: 1%">[Object]</label> <label class="label label-info">query</label> Objeto que irá conter três atributos necessários
+	 *  para salvar a query. Os atributos são: `page`, `data` e `name`. Onde `page` é o nome da página atual, `data` é a busca e `name` é o nome da query a ser salva.
+	 *  ### Retorno
+	 *  - <label class="label label-info">HttpPromise</label> Retona uma promise da chamada HTTP POST.
+	 *  ---
 	 */
 	function Base($http,$q){
 		function RestPrototype(url){
@@ -234,14 +244,22 @@
 				this._query.params.aq = p;
 				return $http.get(this._url,this._query);
 			}
+			console.log(this._query);
 			this._query.params = {};
 			this._query.params.aq = p.hql;
 			this._query.params.aqo = p.source;
-			return $http.post(this._url + '/aq',this._query);
+			console.log(this._query);
+			return $http.get(this._url,this._query);
 		}
 
 		function _saveQuery(q){
-
+			var _aux = {
+				page: location.hash,
+				data: q.query,
+				name: q.name
+			};
+			console.log(q,_aux);
+			return $http.post(this._url + '/saq',_aux);
 		}
 
 

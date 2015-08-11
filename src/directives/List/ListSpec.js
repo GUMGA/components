@@ -26,7 +26,7 @@ describe('DIRECTIVE: GumgaList',function () {
 
         scope = $rootScope.$new();
         scope.arrayList = getData(100);
-        var element = angular.element('<gumga-list></gumga-list>');
+        var element = angular.element('<gumga-list data="arrayList"></gumga-list>');
         $compile(element)(scope);
         controller = element.controller('gumgaList');
       }
@@ -35,7 +35,7 @@ describe('DIRECTIVE: GumgaList',function () {
 
   describe('Getting the right configs',function(){
     it('get the attribute configs ',function(){
-
+      console.log(controller)
     })
   })
 })

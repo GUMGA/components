@@ -20,14 +20,22 @@
 				advanced: '&advancedMethod',
 				normal: '&searchMethod',
 				onSearch: '&',
-				onAdvancedSearch: '&'
+				onAdvancedSearch: '&',
+				getQueries: '&?'
 			},
 			link: function(scope,elm,attrs,controller,transcludeFn){
 				scope.adv = false;
 				scope.attributes = [];
 				scope.normalFields = attrs.fields.split(',');
 				scope.entityToTranslate = attrs.translateEntity;
-				scope.$parent.searchQueries = []
+				scope.$parent.searchQueries = [];
+				scope.availableQueries = [];
+				// TODO: GetQueries
+				// if(attrs.getQueries){
+					// scope.getQueries({page: location.hash})
+					// .then(function(){})
+				// }
+
 				var eventHandler = {
 					search: attrs.onSearch ? scope.onSearch : angular.noop,
 					advanced: attrs.onAdvancedSearch ? scope.onAdvancedSearch : angular.noop
