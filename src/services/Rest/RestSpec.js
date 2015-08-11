@@ -27,9 +27,8 @@ describe('SERVICE: GumgaRest',function(){
 	function getData(number){
 		var names = ['João','Juca','Marcos','José','Amarildo','Wladnelson','Jefferson','Maria','Jacinto','Júlia','Carla','Maria Cláudia'];
 		var surnames = ['Santana','Silva','Miranda','Souza','Santos','Pereira','Oliveira','Lima','Araújo','Ribeiro','Mendes','Barros','Pinto'];
-		var professions = ['Padeiro','Açougueiro','Vendedor de coco','Carpinteiro','Professor de Tecnologia da Informação','Vagabundo','Programador','Analsita de Testes', 'Analista de Aviões de Papel','Manufaturador de Aviões de Papel','Campeão do Gumga Ball','Jogador de Futebol']
+		var professions = ['Padeiro','Açougueiro','Vendedor de coco','Carpinteiro','Professor de Tecnologia da Informação','Desempregado','Programador','Analsita de Testes', 'Analista de Aviões de Papel','Manufaturador de Aviões de Papel','Campeão do minicurso de Android','Jogador de Futebol']
 		var _data = [];
-
 		function isEven(number){ return number % 2 == 0}
 		for(var i = 0; i < number;i++){
 			_data.push({
@@ -39,6 +38,7 @@ describe('SERVICE: GumgaRest',function(){
 				hasDog: isEven(Math.floor(Math.random()*4))
 			})
 		}
+		return _data;
 	}
 
 	beforeEach(module('gumga.services.rest'));
@@ -101,7 +101,7 @@ describe('SERVICE: GumgaRest',function(){
 	it('Should execute resetAndGet',function(){
 		Service._query.params = {sortField: 'teste',pageSize: 40,start: 30};
 		var x = Service.resetAndGet();
-		$httpBackend.flush();	
+		$httpBackend.flush();
 		$rootScope.$digest();
 		expect(Service._query.params).toEqual({start: 0,pageSize: 10})
 		expect(x.$$state.value.status).toEqual(200);

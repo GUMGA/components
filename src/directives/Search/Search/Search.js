@@ -27,7 +27,7 @@
 				scope.attributes = [];
 				scope.normalFields = attrs.fields.split(',');
 				scope.entityToTranslate = attrs.translateEntity;
-				scope.searchQueries = []
+				scope.$parent.searchQueries = []
 				var eventHandler = {
 					search: attrs.onSearch ? scope.onSearch : angular.noop,
 					advanced: attrs.onAdvancedSearch ? scope.onAdvancedSearch : angular.noop
@@ -50,15 +50,15 @@
 				};
 
 				scope.$on('advanced',function(ev,data){
-					scope.searchQueries = [];
-					scope.searchQueries = data.source;
+					scope.$parent.searchQueries = [];
+					scope.$parent.searchQueries = data.source;
 					scope.advanced({param: data});
-					eventHandler.search();
+					eventHandler.advanced();
         });
 
 				scope.$on('normal',function(ev,data){
 					scope.normal({field: data.field,param: data.param});
-					eventHandler.advanced()
+					eventHandler.search()
         });
 
 				scope.getAttributes();

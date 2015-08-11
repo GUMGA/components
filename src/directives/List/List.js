@@ -9,7 +9,7 @@
      *
      * Atributo:
      *  1. Sort {Function} [Função que será chamada para fora da directive para fazer o sort]
-     *  2. Class {String} [Classe que será colocada na table **BOOTSTRAP**]
+     *  2. Class {String} [Classe que será colocada na table **BOOTSTRAP** ***PARA MUDAR PRECISA TER A CLASSE TABLE***]
      *  3. Data {Array} [Array que será mostrado na tabela]
      *  4. OnClick {Function} [Função que será executada quando o usuário clicar em um registro]
      *  5. OnSort {Function} [Função que será executada quando o sort for executado]
@@ -32,18 +32,43 @@
      * 6. Conditional {Function} [Função que receberá o valor da linha como parâmetro e retornará um JSON para marcar as cores irão para o background da coluna]
      */
 
-
     function ctrl($scope, $element, $attrs, $transclude){
       var vm = this;
+      vm.data = vm.data || [];
+      vm.config = vm.config || {};
 
-      function verifyEmpty(value,_default){
-        return (!$attrs.value ? _default : vm[value])
+      function verifyEmpty($v,other){return (!$attrs.$v ? other : vm[$v])};
+      function ensureColumns(obj){
+        var _aux = [], order = 0;
+        for(var key in obj) if (obj.hasOwnProperty(key)){
+          _aux.push({
+            title: key.toUppercase(),
+            size: 'col-md-3',
+            ordering: (order == 0 ? order : order++),
+            content: '{{$value.' + key + '}}',
+            sortable: true,
+            conditional: angular.noop
+          })
+        }
+        return _aux;
       }
 
-      vm.config = {
-        sort: verifyEmpty('sort',angular.noop)
+      vm.generalConfig = {
+        sort: verifyEmpty('sort',angular.noop),
+        class: verifyEmpty('class','table'),
+        data: vm.data,
+        onClick: verifyEmpty('onClick',angular.noop),
+        onDoubleClick: verifyEmpty('onDoubleClick',angular.noop),
+        onSort: verifyEmpty('onSort',angular.noop),
+        jsConfig: {
+            selection: vm.config.selection || 'single',
+            itemsPerPage: vm.config.ItensPerPage || 10,
+            sortDefault: vm.config.sortDefault || '',
+            selectedValues: vm.config.selectedValues || $scope.$parent.selectedValues,
+            columns: vm.config.columns || ensureColumns(vm.data[0]),
+            conditional: vm.config.conditional || angular.noop
+        }
       };
-
     };
 
     return {
@@ -54,14 +79,14 @@
         data: '=',
         onClick: '&?',
         onDoubleClick: '&?',
-        onSort: '&?'
+        onSort: '&?',
+        config: '='
       },
       controller: ctrl,
       controllerAs: 'vm',
       bindToController: true
     }
   }
-
 
   angular.module('gumga.directives.list',[])
   .directive('gumgaList',List);

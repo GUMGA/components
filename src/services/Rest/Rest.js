@@ -169,6 +169,7 @@
 		RestPrototype.prototype.getSearch = _getSearch;
 		RestPrototype.prototype.getAdvancedSearch = _getAdvancedSearch;
 		RestPrototype.prototype.resetDefaultState = _resetQuery;
+		RestPrototype.prototype.saveQuery = _saveQuery;
 		function _get(page){
 			if (page) {
 				this._query.params.start = (page - 1) * this._query.params.pageSize;
@@ -233,12 +234,18 @@
 				this._query.params.aq = p;
 				return $http.get(this._url,this._query);
 			}
-			if(!p.hql || !p.source) throw 'You\'ve passed the wrong parameters to GumgaRest.getAdvancedSearch';
 			this._query.params = {};
 			this._query.params.aq = p.hql;
 			this._query.params.aqo = p.source;
 			return $http.post(this._url + '/aq',this._query);
 		}
+
+		function _saveQuery(q){
+
+		}
+
+
+
 		return RestPrototype;
 	}
 
