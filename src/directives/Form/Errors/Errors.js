@@ -3,8 +3,7 @@
 	/**
 	 * @ngdoc directive
 	 * @name gumga.core:gumgaErrors
-	 * @element input
-	 * @restrict A
+	 * @restrict E
 	 * @description O componente gumgaErrors serve para mostrar todas mensagens de validações do formulário de forma agrupada.
 	 *
 	 * @param {String} placement Onde irá aparecer, o padrão é top, mas também aceita right, bottom e left.
@@ -17,7 +16,7 @@
 	 *  <pre>
 	 *    <form name="myForm">
 	 *      <input type="number" name="minNumber" ng-model="minNumber" gumga-min-number="20">
-	 *      <gumga-errors></gumga-errors>
+	 *      <gumga-errors placement="right" icon="glyphicon glyphicon-info-sign" label="Campos inválidos" title="Campos inválidos"></gumga-errors>
 	 *    </form>
 	 *  </pre>
 	*/
@@ -74,7 +73,7 @@
 				, attrs.label
 				,	'</button>'
 				,	'<script id="template.html" type="text/ng-template">'
-				,	'<ol class="list-errors"><li ng-repeat="error in errors" >{{ error.message }}</li></ol>'
+				,	'<ol class="list-errors text-danger"><li ng-repeat="error in errors" >{{ error.message }}</li></ol>'
 				,	'</script>'
 				].join("\n");
 				elm.append($compile(template)(scope));
