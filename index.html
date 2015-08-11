@@ -9,6 +9,13 @@
 <body>
 	<div ng-app="why" class="container">
 		<div ng-controller="MainController">
+
+			<gumga-nav
+						 title="Teste"
+						 multi-entity="true"
+						 state="logout">
+			</gumga-nav>
+
 			<form name="myForm" gumga-form="form" novalidate>
 				<div class="row">
 					<div class="col-md-3">
@@ -78,7 +85,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-						<gumga-errors placement="right" icon="glyphicon glyphicon-question-sign" label="Lista de erros" title="Lista de erros"></gumga-errors>
+						<gumga-errors placement="right" icon="glyphicon glyphicon-info-sign" label="Campos inválidos" title="Campos inválidos"></gumga-errors>
 					</div>
 				</div>
 				<div class="row">
