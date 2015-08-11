@@ -7,8 +7,26 @@ describe('DIRECTIVE: GumgaList',function () {
   beforeEach(
     inject(
       function($rootScope,$compile){
+        function getData(number){
+          var names = ['João','Juca','Marcos','José','Amarildo','Wladnelson','Jefferson','Maria','Jacinto','Júlia','Carla','Maria Cláudia'];
+          var surnames = ['Santana','Silva','Miranda','Souza','Santos','Pereira','Oliveira','Lima','Araújo','Ribeiro','Mendes','Barros','Pinto'];
+          var professions = ['Padeiro','Açougueiro','Vendedor de coco','Carpinteiro','Professor de Tecnologia da Informação','Desempregado','Programador','Analsita de Testes', 'Analista de Aviões de Papel','Manufaturador de Aviões de Papel','Campeão do minicurso de Android','Jogador de Futebol']
+          var _data = [];
+          function isEven(number){ return number % 2 == 0}
+          for(var i = 0; i < number;i++){
+            _data.push({
+              name: names[Math.floor(Math.random()*names.length)] + ' ' + surnames[Math.floor(Math.random()*surnames.length)],
+              age: Math.floor(Math.random()*50),
+              profession: professions[Math.floor(Math.random()*professions.length)],
+              hasDog: isEven(Math.floor(Math.random()*4))
+            })
+          }
+          return _data;
+        }
+
         scope = $rootScope.$new();
-        var element = angular.element('<gumga-list name="ToDo"></gumga-list>');
+        scope.arrayList = getData(100);
+        var element = angular.element('<gumga-list data="arrayList"></gumga-list>');
         $compile(element)(scope);
         controller = element.controller('gumgaList');
       }
@@ -16,8 +34,8 @@ describe('DIRECTIVE: GumgaList',function () {
   )
 
   describe('Getting the right configs',function(){
-    it('Should do it right',function(){
-      
+    it('get the attribute configs ',function(){
+      console.log(controller)
     })
   })
 })

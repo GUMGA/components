@@ -69,6 +69,7 @@
 	 * 		- `resetAndGet`
 	 * 		- `getById`
 	 * 		- `update`
+	 * 		- `saveQuery`
 	 * 		- `delete`
 	 *
 	 *    - `sort`
@@ -168,6 +169,7 @@
 			sort: true,
 			search: true,
 			advancedSearch: true,
+			saveQuery: true,
 			resetQuery: true
 		};
 		configs['base-form'] = {
@@ -202,6 +204,15 @@
 			}
 		}
 
+		methods.saveQuery = function(Scope,Service,Id){
+				Scope[Id.toLowerCase() + 'SaveQuery'] = function(query,name){
+					Scope.$broadcast('beforeSaveQuery',{query: query, name: name});
+					Service.saveQuery({query: query, name: name})
+					.then(function(data){
+						Scope.$broadcast('afterSaveQuery',data);
+					})
+				}
+		}
 
 		methods.saveAsync = function(Scope,Service,Id){
 			Scope[Id.toLowerCase() + 'AsyncSave'] = function(value,param){

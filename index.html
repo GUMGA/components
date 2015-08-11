@@ -68,18 +68,12 @@
 							<input type="date" name="rangeDate" ng-model="form.rangeDate" gumga-error gumga-range-date="{min: '1986-12-29', max: '2015-07-20'}" class="form-control" id="rangedate">
 						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="maxlength">Max Length</label>
-							<input type="text" name="maxLength" ng-model="form.maxLength" gumga-error gumga-max-length="10" class="form-control" id="maxlength">
+<<<<<<< HEAD
+					<div class="row">
+						<div class="col-md-12">
 						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="minlength">Min Length</label>
-							<input type="text" name="minLength" ng-model="form.minLength" gumga-error gumga-min-length="10" class="form-control" id="minlength">
+						<div class="col-md-12">
+							<gumga-queries input-placeholder="Salvar busca" save-query="saveQuery(query,name)"></gumga-queries>
 						</div>
 					</div>
 				</div>
@@ -96,7 +90,6 @@
 			</form>
 		</div>
 	</div>
-
 	<script src='bower_components/angular/angular.min.js'></script>
 	<script src='bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'></script>
 	<script src='bower_components/angular-mocks/angular-mocks.js'></script>
@@ -122,8 +115,6 @@
 		//           {name: 'Tom Bombadil',age: 96,dead: true,pet: {name:'Joaquim'}}
 		//       ];
 	});
-
-
 	</script>
 </body>
 </html>

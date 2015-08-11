@@ -48,7 +48,6 @@ gulp.task('sonar', function () {
             projectKey: 'sonar:components:1.1.0',
             projectName: 'Components',
             projectVersion: '1.1.0',
-            // comma-delimited string of source directories
             sources: 'src/',
             language: 'js',
             sourceEncoding: 'UTF-8',

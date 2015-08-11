@@ -5,6 +5,9 @@
 	function AdvancedSearch(GumgaSearchHelper){
 		var template =
 		'   <div class="input-group">' +
+		'				<span class="input-group-btn">'+
+		'						'+
+		'				</span>'+
 		'       <input type="text" ng-model="searchInputText" class="form-control" ng-disabled="isPanelOpen" id="textMain"/> ' +
 		'       <span class="input-group-btn">' +
 		'           <button class="my-button btn-default" ng-click="showLittlePanel = !showLittlePanel"><span class="glyphicon glyphicon-chevron-down"></span></button>' +
