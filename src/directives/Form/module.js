@@ -15,6 +15,7 @@
     'gumga.directives.form.range.date',
     'gumga.directives.form.range.number',
     'gumga.directives.form.required',
+    'gumga.directives.formbuttons'
   ])
 
 
