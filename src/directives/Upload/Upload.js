@@ -5,18 +5,18 @@
 	 * @ngdoc directive
 	 * @name gumga.core:gumgaUpload
 	 * @restrict
-	 * @description 
+	 * @description
 	 * 	O componente gumgaUpload pode ser utilizado para fazer upload de imagens. O framework GUMGA usa um método de upload
-	 * 	de imagens que faz o upload do arquivo para uma pasta temporária e retorna um token. Quando o registro é salvo, o framework gumga 
+	 * 	de imagens que faz o upload do arquivo para uma pasta temporária e retorna um token. Quando o registro é salvo, o framework gumga
 	 * 	faz o bind da string que está no atributo com o arquivo temporário.
 	 * 	@param {Objet} model Objeto que irá conter as informações da imagem.
 	 * 	@param {Function} upload-method Função que será executada para fazer o upload da imagem para o arquivo temporário.
 	 * 	@param {Function} delete-method Função que será executada para deletar a imagem do espaço temporário.
 	 * 	@param {String} tooltip-text Mensagem que irá aparecer no tooltip da imagem.
 	 */
-	function Upload($http,$parse,$timeout){  
+	function Upload($http,$parse,$timeout){
 
-		var img = 	
+		var img =
 		'<div ng-click="fireClick()" ng-show="flag" class="col-md-1" tooltip="{{::tooltipText}}" tooltip-placement="right">'+
 		'	<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="128px" height="128px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">'+
 		'		<path id="avatar" fill="#cccccc" d="M490.579,383.029c-14.152-22.086-61.763-35.824-108.835-55.453c-47.103-19.633-58.268-26.439-58.268-26.439'+
@@ -27,12 +27,11 @@
 		'			c-47.104,19.629-94.683,33.367-108.851,55.453c-12.7,19.777-8.882,114.875-8.882,114.875h470.946' +
 		'			C499.462,497.904,503.281,402.806,490.579,383.029z"/>' +
 		'	</svg>' +
-		'</div>'
-;loca
+		'</div>';
 
 		var template =
 		'<div class="full-width-without-padding">' +
-		img + 
+		img +
 		'   <img src="#" alt="Uploaded Image" ng-show="!flag" class="img-rounded" style="object-fit: cover"/>' +
 		'   <input type="file" id="upload" ng-hide="true"/>' +
 		'   <div class="col-md-12" style="padding-left: 0">' +
@@ -59,7 +58,7 @@
 				scope.fireClick = function(){
 					$timeout(function(){
 						document.getElementById('upload')
-							.click();	
+							.click();
 					});
 				}
 

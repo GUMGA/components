@@ -13,6 +13,9 @@ navbarLogoColor = #EBF1E9
 tableBorder = #bdc3c7
 /* Altera as propriedades das cores de erro/sucesso */
 
+gumgaNavBackground = #4CA089
+gumgaNavOpenHoverFocus = #33856F
+
 borderRadius()
   -webkit-border-radius: arguments;
   -moz-border-radius: arguments;
@@ -699,3 +702,41 @@ html,body
   padding-bottom 5px
   &:last-child
     padding-bottom 0px
+
+.navbar-gumga
+  background-color gumgaNavBackground
+
+.navbar-gumga li,
+.navbar-gumga a
+  color #FFF
+
+.navbar-gumga .navbar-nav > li > a.icon
+  padding-top 13px
+  padding-bottom 13px
+  font-size 1.8em
+
+.navbar-gumga .navbar-nav > li > a.profile
+  padding-top 5px
+  padding-bottom 5px
+
+.nav > li > a:focus,
+.nav > li > a:hover
+  background gumgaNavOpenHoverFocus
+
+.nav .open > a,
+.nav .open > a:focus,
+.nav .open > a:hover
+  background-color gumgaNavOpenHoverFocus
+
+
+.navbar-gumga .badge
+  top 3px
+  position absolute
+  right 3px
+  font-size 0.3em
+  padding 5px
+  border-radius 8px
+  background-color: red
+
+.navbar-gumga .dropdown-menu
+  width auto
