@@ -13,6 +13,9 @@ navbarLogoColor = #EBF1E9
 tableBorder = #bdc3c7
 /* Altera as propriedades das cores de erro/sucesso */
 
+gumgaNavBackground = #4CA089
+gumgaNavOpenHoverFocus = #33856F
+
 borderRadius()
   -webkit-border-radius: arguments;
   -moz-border-radius: arguments;
@@ -82,11 +85,17 @@ transition()
 
 @import "../bower_components/bootstrap-stylus/bootstrap/index"
 
-
 body
   font-family fonts
   height 100%
   background-color #FCFCFC
+
+
+.query
+  @extend .col-md-5
+  @extend .col-md-offset-7
+  margin-top 0
+  margin-bottom 0
 
 .gumga-container
   padding-left 0.5em
@@ -97,6 +106,23 @@ body
   background-color #fff
   height 100%
 
+.input-group-sm > .form-control,
+.input-group-sm > .input-group-btn {
+  box-sizing: content-box;
+  -moz-box-sizing: content-box;
+}
+.input-group.input-group-sm {
+  height: 18px;
+}
+.input-group-sm > .form-control {
+  height: 21px; padding: 0; margin: 0;
+}
+.input-group-sm > .input-group-btn > .btn {
+  border-left: 0px;
+  height: 23px;
+  margin-left: -4px;
+  padding: 0px 4px;
+}
 
 div
   100%
@@ -394,7 +420,8 @@ full-width-without-padding-small
   overflow hidden
   font-size 14px
   padding 10px 5px 5px 10px
-  border-botto none
+  border-bottom none
+  padding-bottom 0
   border-top none
   > i
     padding-left 1em
@@ -665,3 +692,51 @@ html,body
   width 100%
   font-size 0.9em
   height 100%
+
+.list-errors
+  margin 0
+  padding 0
+  font-size: 12px
+  list-style none
+.list-errors li
+  padding-bottom 5px
+  &:last-child
+    padding-bottom 0px
+
+.navbar-gumga
+  background-color gumgaNavBackground
+
+.navbar-gumga li,
+.navbar-gumga a
+  color #FFF
+
+.navbar-gumga .navbar-nav > li > a.icon
+  padding-top 13px
+  padding-bottom 13px
+  font-size 1.8em
+
+.navbar-gumga .navbar-nav > li > a.profile
+  padding-top 5px
+  padding-bottom 5px
+
+.nav > li > a:focus,
+.nav > li > a:hover
+  background gumgaNavOpenHoverFocus
+
+.nav .open > a,
+.nav .open > a:focus,
+.nav .open > a:hover
+  background-color gumgaNavOpenHoverFocus
+
+
+.navbar-gumga .badge
+  top 3px
+  position absolute
+  right 3px
+  font-size 0.3em
+  padding 5px
+  border-radius 8px
+  background-color: red
+
+.navbar-gumga .dropdown-menu
+  width auto

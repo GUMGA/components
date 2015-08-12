@@ -20,14 +20,22 @@
 				advanced: '&advancedMethod',
 				normal: '&searchMethod',
 				onSearch: '&',
-				onAdvancedSearch: '&'
+				onAdvancedSearch: '&',
+				getQueries: '&?'
 			},
 			link: function(scope,elm,attrs,controller,transcludeFn){
 				scope.adv = false;
 				scope.attributes = [];
 				scope.normalFields = attrs.fields.split(',');
 				scope.entityToTranslate = attrs.translateEntity;
-				scope.searchQueries = []
+				scope.$parent.searchQueries = [];
+				scope.availableQueries = [];
+				// TODO: GetQueries
+				// if(attrs.getQueries){
+					// scope.getQueries({page: location.hash})
+					// .then(function(){})
+				// }
+
 				var eventHandler = {
 					search: attrs.onSearch ? scope.onSearch : angular.noop,
 					advanced: attrs.onAdvancedSearch ? scope.onAdvancedSearch : angular.noop
@@ -50,20 +58,16 @@
 				};
 
 				scope.$on('advanced',function(ev,data){
-
-					scope.searchQueries = [];
-					scope.searchQueries = data.source;
-					console.log(data);
+					scope.$parent.searchQueries = [];
+					scope.$parent.searchQueries = data.source;
 					scope.advanced({param: data});
-					eventHandler.search();
-	              //ev.stopPropagation() || angular.noop;
-	            });
+					eventHandler.advanced();
+        });
 
 				scope.$on('normal',function(ev,data){
 					scope.normal({field: data.field,param: data.param});
-					eventHandler.advanced()
-	              //ev.stopPropagation() || angular.noop;
-	            });
+					eventHandler.search()
+        });
 
 				scope.getAttributes();
 			}

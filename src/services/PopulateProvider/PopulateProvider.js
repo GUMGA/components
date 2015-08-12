@@ -6,10 +6,10 @@
 	 * @ngdoc service
 	 * @name gumga.core:$populateProvider
 	 * @description O service **$populate** é utilizado para adicionar funções básicas de CRUD, que já fazem a conexão com o Service
-	 *  (*Melhor utilizado com o service GumgaRest*), possibilitando assim que o $scope fique limpo. É possível também criar uma configuração 
+	 *  (*Melhor utilizado com o service GumgaRest*), possibilitando assim que o $scope fique limpo. É possível também criar uma configuração
 	 *  nova para ser utilizada, extender as já criadas e recuperar o objeto de controle da configuração.
 	 *
-	 * 	As funções criam um objeto com o nome do ID passado para armazenar os dados. Além disso, o identificador é utilizado para nomear as funções. Caso o Identificador 
+	 * 	As funções criam um objeto com o nome do ID passado para armazenar os dados. Além disso, o identificador é utilizado para nomear as funções. Caso o Identificador
 	 * 	passado seja `User` e a função seja `get`, o nome da função será `userGet`, para evitar colisão de nomes.
 	 * 	Todas as funções possuem eventos que são disparados antes e depois da execução da função, para ajudar o desenvolvedor a extender as funcionalidades
 	 * 	das funções sem precisar sobrescrever-las. Para utilizar estes eventos, basta adicionar um listener no $scope, como por exemplo:
@@ -22,7 +22,7 @@
 	 *		  // values é retorno da função asíncrona.
 	 * 		})
 	 * 	</pre>
-	 * 		
+	 *
 	 *
 	 * # Como utilizar:
 	 *
@@ -69,31 +69,32 @@
 	 * 		- `resetAndGet`
 	 * 		- `getById`
 	 * 		- `update`
+	 * 		- `saveQuery`
 	 * 		- `delete`
-	 * 		
+	 *
 	 *    - `sort`
 	 *    - `search`
 	 *    - `advancedSearch`
-	 *    
-	 *    
+	 *
+	 *
 	 * 	- `base-form`: A configuração `base-form` serve para incluir funções gerais que são necessárias em páginas de formulário, que são:
 	 * 		- `getNew`
 	 * 		- `getById`
 	 * 		- `save`
 	 * 		- `update`
 	 * 		- `saveImage`
-	 * 		
+	 *
 	 *    - `deleteImage`
 	 *
-	 * 
+	 *
 	 * 	- `many-to-many`: A configuração `many-to-many` serve para incluir funções que comumente são utilizadas em relações muitos para muitos, que são:
-	 * 		- `search` 
+	 * 		- `search`
 	 * 		- `save`
 	 * 		- `searchAsync`
 	 * 		- `saveAsync`
 	 *
-	 * 	- `many-to-one`: A configuração `many-to-one` serve para incluir funções que comumente são utilizadas em relações muitos para um, que são: 
-	 * 		- `search` 
+	 * 	- `many-to-one`: A configuração `many-to-one` serve para incluir funções que comumente são utilizadas em relações muitos para um, que são:
+	 * 		- `search`
 	 * 		- `save`
 	 * 		- `saveAsync`
 	 *
@@ -102,17 +103,17 @@
 	 *
 	 *	# Métodos
 	 *  `$populate.setConfig(name,value)`
-	 *  
+	 *
 	 *  O método setConfig aceita dois parâmetros `name` e `value`, o nome da configuração e o objeto que irá fazer a configuração.
 	 *  ### Parâmetros
 	 *  - <label class="label label-warning" style="margin-right: 1%">String</label><label class="label label-info">name</label> String que será usada para identificar o objeto que será criado.
 	 *  - <label class="label label-warning" style="margin-right: 1%">Object</label> <label class="label label-info">value</label> Objeto de configuração que será usado.
 	 *   Para adicionar a função, coloque o nome da função e o valor dele como `true`
-	 *  
+	 *
 	 *  ---
-	 *  
+	 *
 	 *  `$populate.getConfig(name)`
-	 *  
+	 *
 	 *  O método getConfig aceita um parâmetro `name`, que é o nome da configuração desejada.
 	 *  ### Parâmetros
 	 *  - <label class="label label-warning" style="margin-right: 1%">String</label><label class="label label-info">name</label> String que será usada para identificar o objeto que será recuperado.
@@ -120,16 +121,15 @@
 	 *
 	 * 	### Retorno
 	 *
-	 * 
 	 *  - <label class="label label-info">Object</label> Configuração que será recuperada da função.
 	 *
-	 * 
-	 *  --- 	
-	 *  
+	 *
+	 *  ---
+	 *
 	 *  `$populate.setMethod(name,config,function)`
-	 *  
+	 *
 	 *  O método setMethod aceita três parâmetros: `name`,`config`, `function`. Este método é utilizado para extender as funcionalidades de uma configuração.
-	 *  
+	 *
 	 *  ### Parâmetros
 	 *  - <label class="label label-warning" style="margin-right: 1%">String</label><label class="label label-info">name</label> String que será usada para identificar como será o nome da função a ser adicionada.
 	 *   Para adicionar a função, coloque o nome da função e o valor dele como `true`
@@ -138,22 +138,22 @@
 	 *  - <label class="label label-warning" style="margin-right: 1%">Function</label><label class="label label-info">function</label> Função que será adicionada ao $scope. *Ao passar a função, o desenvolvedor
 	 *  tem acesso a 4 parâmetros que serão utilizados para definir a função no scope: `Scope`, `Service`,`Id`*.
 	 *
-	 *  --- 	
+	 *  ---
 	 *
- 	 *  
+ 	 *
 	 *  `$populate.populateScope(scope,service,id,config)`
-	 *  
+	 *
 	 *  O método populateScope aceita quatro parâmetros: `scope`,`service`, `id` e `config`. Este método é utilizado para popular o $scope do controlador com as funções da configuração.
-	 *  
+	 *
 	 *  ### Parâmetros
 	 *  - <label class="label label-warning" style="margin-right: 1%">Object</label><label class="label label-info">scope</label> Objeto onde as funções são colocadas, caso sejam num controlador, no *$scope*.
 	 *   Para adicionar a função, coloque o nome da função e o valor dele como `true`
 	 *  - <label class="label label-warning" style="margin-right: 1%">String</label><label class="label label-info">id</label> Identificador que será utilizado para armazenar os dados no $scope, além de nomear
 	 *  as funções.
  	 *  - <label class="label label-warning" style="margin-right: 1%">String</label><label class="label label-info">config</label> String que será utilizada para definir qual configuração será utilizada.
-	 *  --- 	 
+	 *  ---
 	 */
-	
+
 	function Populate(){
 		var helpers = {}, configs = {}, methods = {};
 		helpers.guaranteeString = function(s){ return (s && angular.isString(s))};
@@ -169,6 +169,7 @@
 			sort: true,
 			search: true,
 			advancedSearch: true,
+			saveQuery: true,
 			resetQuery: true
 		};
 		configs['base-form'] = {
@@ -203,6 +204,15 @@
 			}
 		}
 
+		methods.saveQuery = function(Scope,Service,Id){
+				Scope[Id.toLowerCase() + 'SaveQuery'] = function(query,name){
+					Scope.$broadcast('beforeSaveQuery',{query: query, name: name});
+					Service.saveQuery({query: query, name: name})
+					.then(function(data){
+						Scope.$broadcast('afterSaveQuery',data);
+					})
+				}
+		}
 
 		methods.saveAsync = function(Scope,Service,Id){
 			Scope[Id.toLowerCase() + 'AsyncSave'] = function(value,param){
@@ -365,7 +375,7 @@
 				}
 			},
 			$get: function(){
-				return null;
+				return this;
 			}
 		}
 	}
