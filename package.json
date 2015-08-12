@@ -1,6 +1,6 @@
 {
   "name": "GumgaComponents",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Those component's were made by the Front End Developing Team of Gumga S/A.",
   "main": "gulpfile.js",
   "scripts": {
@@ -40,6 +40,7 @@
   },
   "dependencies": {
     "gulp-rename": "^1.2.2",
+    "gulp-sonar": "^1.0.3",
     "gulp-stylus": "^2.0.5"
   }
 }

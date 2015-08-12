@@ -12,8 +12,9 @@ var gulp = require('gulp')
 ,		sourcemaps = require('gulp-sourcemaps')
 ,		Server = require('karma').Server
 ,		ngAnnotate = require('gulp-ng-annotate')
+,		sonar = require('gulp-sonar')
 ,		paths = {
-	src: ['./src/**/*.js','!**/*Spec.js'],
+	src: ['./src/**/*.js','!**/*Spec.js','!./src/directives/List/**/*.js','!./src/directives/Query/**/*.js','!./src/directives/List/**/*.js',,'!./src/services/Notification/**/*.js'],
 	stylus: ['./src/index.styl'],
 	dist: ['./dist/']
 };
@@ -33,6 +34,35 @@ gulp.task('build-css',function(){
 	.pipe(gulp.dest('./dist'))
 	})
 
+gulp.task('sonar', function () {
+    var options = {
+        sonar: {
+            host: {
+                url: 'http://192.168.25.201:9000'
+            },
+            jdbc: {
+                url: 'jdbc:mysql://192.168.25.201:3306/sonar',
+                username: 'gumga',
+                password: 'senha'
+            },
+            projectKey: 'sonar:components:1.1.0',
+            projectName: 'Components',
+            projectVersion: '1.1.0',
+            sources: 'src/',
+            language: 'js',
+            sourceEncoding: 'UTF-8',
+            javascript: {
+                lcov: {
+                    reportPath: 'test/sonar_report/lcov.info'
+                }
+            }
+        }
+    };
+
+
+  return gulp.src(paths.src,{ read: false })
+      .pipe(sonar(options))
+});
 
 gulp.task('build-dist',function(){
 	return gulp.src(paths.src)
@@ -85,7 +115,7 @@ gulp.task('ngdocs',function(){
 			services: {
 				title: 'Services',
 				glob: ['./src/services/**/*.js','!**/*Spec.js']
-			}	
+			}
 			}))
 	.pipe(ngDocs.process(options))
 	.pipe(gulp.dest('./docs'))
@@ -99,4 +129,3 @@ gulp.task('prod',['plato','build-dist','ngdocs','build-css'],function(){
 gulp.task('generate-doc',function(){
 	gulp.watch(paths.src,['build-dist','ngdocs'])
 })
-

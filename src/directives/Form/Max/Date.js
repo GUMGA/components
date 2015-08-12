@@ -7,12 +7,15 @@
    * @restrict A
    * @scope false
    * @description O componente GumgaMaxDate serve para validar datas máximas em entradas de formulários.
-   * 
+   *
    * ## Nota
    * Esta diretiva suporta apenas **inputs** do tipo **date**. O valor do atributo/diretiva é **obrigatório** e deve ser uma **data**.
    *
+	 * @param {String} label Usado na integração com {@link gumga.core:gumgaErrors} para indicar em qual campo se encontra o erro.
+	 * Se o atributo for omitido, a diretiva usará o atributo name do input.
+	 *
    * @example
-   *  Um exemplo da directive gumgaMaxDate funcionando pode ser encontrado [aqui](http://embed.plnkr.co/6KjgXFTEAnQq9GgWbbDB).
+   *  Um exemplo da directive gumgaMaxDate funcionando pode ser encontrado [aqui](http://embed.plnkr.co/AcjqcgvgGhdJqDh72eHA).
    *  <pre>
    *    <form name="myForm">
    *      <input type="date" name="maxDate" ng-model="maxDate" gumga-max-date="2015-07-20">
@@ -25,36 +28,34 @@
      return {
       restrict: 'A',
       require: 'ngModel',
-      link: function (scope, elm, attr, ctrl) {
-       if (attr.type != 'date') {
-        throw 'Esta diretiva suporta apenas inputs do tipo date';
-      }
-      if (!attr.gumgaMaxDate) {
-        throw "O valor da diretiva gumga-max-date não foi informado.";
-      }
-        // if (!GumgaDateService.validateFormat('YMD', attr.gumgaMaxDate)) {
-        //   throw 'O valor da diretiva não corresponde ao formato yyyy-mm-dd';
-        // }
+      link: function (scope, elm, attrs, ctrl) {
+	      if (attrs.type != 'date') {
+	        throw 'Esta diretiva suporta apenas inputs do tipo date';
+	      }
+	      if (!attrs.gumgaMaxDate) {
+	        throw "O valor da diretiva gumga-max-date não foi informado.";
+	      }
         var validateMaxDate = function (inputValue) {
+					var error = 'maxdate';
         	var format = 'yyyy-MM-dd';
         	var input = $filter('date')(inputValue, format);
-        	var max = $filter('date')(attr.gumgaMaxDate, format);
+        	var max = $filter('date')(attrs.gumgaMaxDate, format);
         	var isValid = input <= max;
-        	ctrl.$setValidity('maxdate', isValid);
+        	ctrl.$setValidity(error, isValid);
+					scope.$broadcast('$error', {
+						name: attrs.name,
+						label: attrs.label || attrs.name,
+						valid: isValid,
+						error: error,
+						value: attrs.gumgaMaxDate
+					});
         	return inputValue;
         };
         ctrl.$parsers.unshift(validateMaxDate);
         ctrl.$formatters.push(validateMaxDate);
-        attr.$observe('gumgaMaxDate', function () {
+        attrs.$observe('gumgaMaxDate', function () {
         	validateMaxDate(ctrl.$viewValue);
         });
-
-        scope.$on('clearFields',function(event, data) {
-         ctrl.$modelValue = null;
-         console.log('directive date clear');
-					// console.log(elm);
-					// console.log(ctrl);
-				});
       }
     }
   }

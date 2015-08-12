@@ -1,12 +1,12 @@
 (function(){
 	'use strict';
-	
+
 	AdvancedLabel.$inject = [];
 	function AdvancedLabel(){
 		var template =
 		'<div class="btn-group">' +
-		'   <button class="btn btn-default btn-xs" id="btn{{attr}}" ng-click="orOrAnd(value)"><strong>{{attr}}</strong> {{hql}} <strong>{{value}}</strong></button>' +
-		'   <button class="btn btn-default btn-xs" ng-click="emitDelete()" ng-if="getVisibility(value)"><span aria-hidden="true">&times;</span></button>' +
+		'   <button class="btn btn-default btn-xs" ng-disabled="disabled" id="btn{{attr}}" ng-click="orOrAnd(value)"><strong>{{attr}}</strong> {{hql}} <strong>{{value}}</strong></button>' +
+		'   <button class="btn btn-default btn-xs" ng-disabled="disabled" ng-click="emitDelete()" ng-if="getVisibility(value)"><span aria-hidden="true">&times;</span></button>' +
 		'</div>';
 
 		return {
@@ -16,9 +16,11 @@
 				attr: '@',
 				hql: '@',
 				value: '=',
-				index: '='
+				index: '=',
+				disabled: '='
 			},
 			link: function(scope,$elm,$attrs){
+				if(!$attrs.disabled) scope.disabled = false;
 				scope.bol = false;
 
 				scope.orOrAnd = function(){
