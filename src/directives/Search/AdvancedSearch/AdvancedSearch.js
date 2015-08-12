@@ -5,9 +5,18 @@
 	function AdvancedSearch(GumgaSearchHelper){
 		var template =
 		'   <div class="input-group">' +
-		'				<span class="input-group-btn">'+
-		'						'+
-		'				</span>'+
+		'       	<span class="input-group-btn" dropdown is-open="status.isopen" ng-show="$parent.saveQuery">'+
+		'						<span dropdown on-toggle="toggled(open)">'+
+		'							<a href id="simple-dropdown" class="btn btn-default" style="margin-right:-3px;" dropdown-toggle>'+
+		'								<i class="glyphicon glyphicon-hourglass"></i>	'+
+		'							</a>'+
+		'							<ul class="dropdown-menu" aria-labelledby="simple-dropdown" style="width: auto;">'+
+		'								<li ng-repeat="choice in $parent.availableQueries">'+
+		'									<a href>{{choice.name}}</a>'+
+		'								</li>'+
+		'							</ul>'+
+		'						</span>'+
+	'       	</span>' +
 		'       <input type="text" ng-model="searchInputText" class="form-control" ng-disabled="isPanelOpen" id="textMain"/> ' +
 		'       <span class="input-group-btn">' +
 		'           <button class="my-button btn-default" ng-click="showLittlePanel = !showLittlePanel"><span class="glyphicon glyphicon-chevron-down"></span></button>' +

@@ -30,11 +30,14 @@
 				scope.entityToTranslate = attrs.translateEntity;
 				scope.$parent.searchQueries = [];
 				scope.availableQueries = [];
-				// TODO: GetQueries
-				// if(attrs.getQueries){
-					// scope.getQueries({page: location.hash})
-					// .then(function(){})
-				// }
+				scope.saveQuery = false;
+				if(attrs.getQueries){
+					scope.saveQuery = true;
+					scope.getQueries({page: location.hash})
+					.then(function(data){
+						scope.availableQueries = data;
+					})
+				}
 
 				var eventHandler = {
 					search: attrs.onSearch ? scope.onSearch : angular.noop,

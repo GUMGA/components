@@ -70,6 +70,7 @@
 	 * 		- `getById`
 	 * 		- `update`
 	 * 		- `saveQuery`
+	 * 		- `getQuery`
 	 * 		- `delete`
 	 *
 	 *    - `sort`
@@ -170,6 +171,7 @@
 			search: true,
 			advancedSearch: true,
 			saveQuery: true,
+			getQuery: true,
 			resetQuery: true
 		};
 		configs['base-form'] = {
@@ -201,6 +203,16 @@
 				.then(function (data) {
 					return data.data.values;
 				});
+			}
+		}
+
+		methods.getQuery = function(Scope,Service,Id){
+			Scope[Id.toLowerCase() + 'GetQuery'] = function(){
+				return Service.getQuery(location.origin)
+				.then(function(data){
+					// TODO esperar munif;
+				})
+
 			}
 		}
 

@@ -10,173 +10,75 @@
 	<div ng-app="why" class="container">
 		<div ng-controller="MainController">
 
-			<nav class="navbar navbar-gumga">
-			  <div class="container-fluid">
-			    <!-- Brand and toggle get grouped for better mobile display -->
-			    <div class="navbar-header">
-			      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-			        <span class="sr-only">Toggle navigation</span>
-			        <span class="icon-bar"></span>
-			        <span class="icon-bar"></span>
-			        <span class="icon-bar"></span>
-			      </button>
-			      <a class="navbar-brand" href="#">Brand</a>
-			    </div>
+			<gumga-search
+				fields="id,name"
+			  advanced="true"
+				search-method="search(field,param)"
+				advanced-method="advancedSearch(param)"
+				translate-entity="changepasswordticket"
+			>
+				<advanced-field name="id" type="number"></advanced-field>
+				<advanced-field name="nome" type="string"></advanced-field>
+				<advanced-field name="codigoUniversal" type="string"></advanced-field>
+			</gumga-search>
 
-			    <!-- Collect the nav links, forms, and other content for toggling -->
-			    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-			      <ul class="nav navbar-nav">
-			        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-			        <li><a href="#">Link</a></li>
-			      </ul>
-			      <form class="navbar-form navbar-left" role="search">
-			        <div class="form-group">
-			          <input type="text" class="form-control" placeholder="Search">
-			        </div>
-			        <button type="submit" class="btn btn-default">Submit</button>
-			      </form>
-			      <ul class="nav navbar-nav navbar-right">
-							<li dropdown on-toggle="toggled(open)">
-								<a class="icon" dropdown-toggle>
-									<i class="glyphicon glyphicon-bell"></i>
-									<span class="badge">{{ notificationsCount }}</span>
-								</a>
-								<ul class="dropdown-menu" aria-labelledby="simple-dropdown">
-									<li ng-repeat="n in notifications"><a>{{ n.senderLogin }} - {{ n.message }}</a></li>
-								</ul>
-							</li>
 
-							<li dropdown on-toggle="toggled(open)">
-								<a class="profile" dropdown-toggle>
-									<img class="img-circle" src="avatar.svg" />
-									Nome do usuário
-								</a>
-								<ul class="dropdown-menu" aria-labelledby="simple-dropdown">
-									<!-- <li ng-repeat="user in users">
-										<a href>{{user.name}}</a>
-									</li> -->
-								</ul>
-							</li>
-			      </ul>
-			    </div><!-- /.navbar-collapse -->
-			  </div><!-- /.container-fluid -->
-			</nav>
-			<!-- </nav>
-			<nav id="navbar">
-				<a href="#" class="navbar-logo" style=" float: left;">{{title | uppercase}}</a>
-				<span style="color: white; font-size: 1.4em;margin-left: 2%; float: left;"><small>{{info.organization}}</small></span>
-				<!-- <div class="navbar-form navbar-left" ng-transclude></div> -->
-				<!-- <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-					<ul class="nav navbar-nav">
-						<li>
-							<i class="glyphicon glyphicon-globe"></i>
-						</li>
-						<li>
-							<span dropdown on-toggle="toggled(open)">
-								<a href id="simple-dropdown" dropdown-toggle>
-									<i class="glyphicon glyphicon-bell"></i>
-								</a>
-								<ul class="dropdown-menu" aria-labelledby="simple-dropdown">
-									<li ng-repeat="choice in items">
-										<a href>{{choice}}</a>
-									</li>
-								</ul>
-							</span>
-						</li>
-					</ul>
-				</div>
-				<b class="pull-right">
-					<img ng-show="info.picture" class="img-circle" style="width: 40px; height: 40px; margin-right:10px;" src="{{info.picture}}" />
-					<a href ng-blur="hidePanel()" class="status-navbar" ng-click="showPanelNavBar()">
-						<small  style="font-size: 85%;">{{info.name}} &nbsp;&nbsp; <i class="glyphicon glyphicon-triangle-bottom" style="margin-left: 1px"></i> </small>
-					</a>
-				</b>
-				<span ng-if="multientity" ng-click="treatUrl()" class="glyphicon glyphicon-search btn pull-right" style="color:#fff; padding-top: 1%; margin-right: 5%; height: 100%;"></span>
-				<input ng-if="multientity" type="text" id="inputSearch" ng-keyup="submitSearch($event)" style="background: none repeat scroll 0 0 rgba(244, 214, 214, 0.15); border: double; font-size: 14px; outline: 0; color: #fff; height: 100%; margin: 0; border-color: rgba(0, 0, 0, 0); z-index: 2000;" ng-model="search" ng-show="inputVisible" class="navbar-input flip-right" placeholder="Search">
+	<script src='bower_components/angular/angular.min.js'></script>
+	<script src='bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'></script>
+	<script src='bower_components/angular-mocks/angular-mocks.js'></script>
+	<script src='bower_components/angular-ui-router/release/angular-ui-router.min.js'></script>
+	<script src='bower_components/jquery/dist/jquery.min.js'></script>
+	<script src='bower_components/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js'></script>
+	<script src='bower_components/mousetrap-latest/mousetrap.min.js'></script>
+	<script src="dist/gumga.min.js"></script>
+	<script>
+	angular.module('why',['gumga.core'])
+	.controller('MainController',function($scope,$rootScope,$q){
+		function getData(number){
+			var names = ['João','Juca','Marcos','José','Amarildo','Wladnelson','Jefferson','Maria','Jacinto','Júlia','Carla','Maria Cláudia'];
+			var surnames = ['Santana','Silva','Miranda','Souza','Santos','Pereira','Oliveira','Lima','Araújo','Ribeiro','Mendes','Barros','Pinto'];
+			var professions = ['Padeiro','Açougueiro','Vendedor de coco','Carpinteiro','Professor de Tecnologia da Informação','Desempregado','Programador','Analsita de Testes', 'Analista de Aviões de Papel','Manufaturador de Aviões de Papel','Campeão do minicurso de Android','Jogador de Futebol']
+			var _data = [];
+			function isEven(number){ return number % 2 == 0}
+			for(var i = 0; i < number;i++){
+				_data.push({
+					name: names[Math.floor(Math.random()*names.length)] + ' ' + surnames[Math.floor(Math.random()*surnames.length)],
+					age: Math.floor(Math.random()*50),
+					profession: professions[Math.floor(Math.random()*professions.length)],
+					hasDog: isEven(Math.floor(Math.random()*4))
+				})
+			}
+			return _data;
+		}
 
-			</nav>
-			<div class="nav-panel" ng-show="showPanelNav">
-				<div class="panel-body" id="navPanelBody">
-					<button ng-repeat="link in navlinks" ng-click="handle(link)" class="btn btn-link" style="display:block;width: 100%;color: black; font-size: 0.9em;"><i class="{{link.glyphicon}}"> </i>{{link.text}} </button>
-				</div>
-			</div> -->
-			<!-- <gumga-nav
-			title="Teste"
-			multi-entity="true"
-			state="logout">
-		</gumga-nav> -->
-		<!-- <form name="myForm" gumga-form="form" novalidate>
-			<div class="row">
-				<div class="col-md-3">
-					<div class="form-group">
-						<label for="maxDate">Max Date</label>
-						<input type="date" name="maxDate" ng-model="form.maxDate" label="Max Date" gumga-error gumga-max-date="2015-07-20" class="form-control" id="maxDate">
-					</div>
-				</div>
-				<div class="col-md-3">
-					<div class="form-group">
-						<label for="maxNumber">Max Number</label>
-						<input type="number" name="maxNumber" ng-model="form.maxNumber" label="Max Number" gumga-error gumga-min-number="1" gumga-max-number="100" class="form-control" id="maxNumber">
-					</div>
-				</div>
-				<div class="col-md-3">
-					<div class="form-group">
-						<label for="minDate">Min Date</label>
-						<input type="date" name="minDate" ng-model="form.minDate" label="Min Date" gumga-error gumga-min-date="2015-07-20" class="form-control" id="minDate">
-					</div>
-				</div>
-				<div class="col-md-3">
-					<div class="form-group">
-						<label for="minNumber">Min Number</label>
-						<input type="number" name="minNumber" ng-model="form.minNumber" gumga-error gumga-min-number="0" class="form-control" id="minNumber">
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-3">
-					<div class="form-group">
-						<label for="pattern">Pattern</label>
-						<input type="text" name="pattern" ng-model="form.pattern" gumga-error gumga-pattern="(\d{1,2})\-(\d{1,2})\-(\d{4})" pattern-alias="CPF" class="form-control" id="pattern">
-					</div>
-				</div>
-				<div class="col-md-3">
-					<div class="form-group">
-						<label for="pattern">Required</label>
-						<input type="text" name="required" ng-model="form.required" gumga-error gumga-required class="form-control" id="required">
-					</div>
-				</div>
-				<div class="col-md-3">
-					<div class="form-group">
-						<label for="rangeNumber">Range Number</label>
-						<input type="number" name="rangeNumber" ng-model="form.rangeNumber" gumga-error gumga-range-number="{min: 0, max: 10}" class="form-control" id="rangenumber">
-					</div>
-				</div>
-				<div class="col-md-3">
-					<div class="form-group">
-						<label for="rangeDate">Range Date</label>
-						<input type="date" name="rangeDate" ng-model="form.rangeDate" gumga-error gumga-range-date="{min: '1986-12-29', max: '2015-07-20'}" class="form-control" id="rangedate">
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-					</div>
-					<div class="col-md-12">
-						<gumga-queries input-placeholder="Salvar busca" save-query="saveQuery(query,name)"></gumga-queries>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<gumga-errors placement="right" icon="glyphicon glyphicon-info-sign" label="Campos inválidos" title="Campos inválidos"></gumga-errors>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<gumga-form-buttons submit="save(form)" valid="myForm.$valid"></gumga-form-buttons>
-				</div>
-			</div>
-		</form> -->
-	</div>
+		function getAsyncData(size){
+			var def = $q.defer();
+			def.resolve({value:getData(size)});
+			return def.promise;
+		}
+		$scope.getQueries = function(){
+
+				return getAsyncData(20)
+					.then(function(values){
+						return values.value;
+					})
+
+		}
+		$scope.save = function(data) {
+			console.log(data);
+		}
+		// $scope.list = [
+		// 	{name: 'Luke Skywalker',age: 19,dead: false,pet: {name:'Yoda'}},
+		//           {name: 'Princess Leia Organa of Alderaan',age: 21,dead: false,pet: {name:'Joaquim'} },
+		//           {name: 'Anakin Skywalker',age: 45,dead: true,pet: {name:'Wookie'}},
+		//           {name: 'Frodo Baggins',age: 50,dead: false,pet: {name:'Sam'}},
+		//           {name: 'Bilbo Baggins',age: 75,dead: true,pet: {name:'Frodo'}},
+		//           {name: 'Gandalf the Grey',age: 95,dead: false,pet: {name:'Frodo and Bilbo'}},
+		//           {name: 'Tom Bombadil',age: 96,dead: true,pet: {name:'Joaquim'}}
+		//       ];
+	});
+	</script>
+=======
 </div>
 <script src='bower_components/angular/angular.min.js'></script>
 <script src='bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'></script>
@@ -203,5 +105,6 @@ angular.module('why',['gumga.core'])
 	// });
 });
 </script>
+>>>>>>> abae58edfa6ae77d3359e33551752a499f2c2183
 </body>
 </html>
