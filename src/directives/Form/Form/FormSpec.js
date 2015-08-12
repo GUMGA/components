@@ -100,12 +100,4 @@ describe("DIRECTIVE: GumgaForm",function(){
     var aux = scope.GumgaForm.getMessages('age');
     expect(aux.maxdate).toEqual("A data especificada no campo {0} não deve ultrapassar o limite de: {1}.");
   })
-
-  it('Should change the defaults messages of an input when i call changeMessage()',function () {
-      var aux = scope.GumgaForm.changeMessage('age','maxdate','O valor {1} é o limite para o campo {0}');
-      expect(aux).toBeTruthy();
-      var _aux = scope.GumgaForm.getMessages('age','maxdate');
-      expect(_aux).toEqual('O valor {1} é o limite para o campo {0}');
-  })
-  
 })

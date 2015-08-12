@@ -6,25 +6,25 @@
 	 * @ngdoc directive
 	 * @name gumga.core:gumgaManyToMany
 	 * @restrict E
-	 * @description
+	 * @description 
 	 * 	O componente gumgaManyToMany é um componente que é utilizado para mostrar duas listas lado a lado, e permitir que um registro seja trocado de uma lista para outra,
 	 * 	assim como também visualizado os seus valores(caso seja um objeto). Um exemplo do componente pode ser encontrado [aqui](http://embed.plnkr.co/gyrqAKQQGuEHwp2npv8G/).
 	 *
 	 * ---
 	 * ## Configuração de como será mostrado o valor na lista
 	 *
-	 *Para que o programador possa escolher como os valores serão demonstrados, foram desenvolvidas duas tags que devem estar dentro do componente manyToMany.
+	 *Para que o programador possa escolher como os valores serão demonstrados, forão desenvolvidas duas tags que devem estar dentro do componente manyToMany.
 	 * 		<pre> <left-field>{{$value}}</left-field>
-	 * 		<right-field>{{$value}}</right-field></pre>
-	 *
+	 * 		<left-field>{{$value}}</left-field></pre>
+	 * 
 	 * @param {Array} left-list Parâmetro obrigatório que irá conter uma variável que possuirá um array, para ser mostrado na lista da esquerda.
 	 *  *A lista da esquerda será filtrada e não conterá resultados iguais a da lista da direita.*
 	 * @param {Array} right-list Parâmetro obrigatório que irá conter uma variável que possuirá um array, para ser mostrado na lista da direita.
 	 * @param {Function} left-search Parâmetro obrigatório que irá conter uma variável que possuirá uma função que irá ser executada toda vez
 	 * que o usuário digitar algo no input acima da lista. Essa função terá o valor do input como parâmetro. O parâmetro deverá ser este: `left-search="doSearch(text)"`
 	 * @param {Function} right-search Parâmetro obrigatório que irá conter uma variável que possuirá uma função que irá ser executada toda vez
-	 * que o usuário digitar algo no input acima da lista. Essa função terá o valor do input como parâmetro. O parâmetro deverá ser este: `right-search="doSearch(text)"`
-	 * @param {Function} post-method Parâmetro não obrigatório que irá conter uma variável que possuirá uma função que irá ser executada quando o usuário desejar adicionar um valor
+	 * que o usuário digitar algo no input acima da lista. Essa função terá o valor do input como parâmetro. O parâmetro deverá ser este: `left-search="doSearch(text)"`
+	 * @param {Function} post-method Parâmetro não obrigatório que irá conter uma variável que possuirá uma função que irá ser executada quando o usuário desejar adicionar um valor 
 	 * caso sua busca não tenha trazido resultados.
 	 * @param {Function} on-list-change Parâmetro não obrigatório que irá conter uma variável que possuirá uma função que irá ser executada quando o usuário tiver clicado em um registro
 	 * e o mesmo tiver trocado de lista.
@@ -57,8 +57,6 @@
 			},
 			transclude: true,
 			link: function (scope, elm, attrs, ctrl, transcludeFn) {
-				scope.left = scope.left || [];
-				scope.right = scope.right || [];
 				if (!attrs.authorizeAdd) scope.authorizeAdd = true;
 				var mockObject = {};
 				scope.texts = {left: '',right: ''};
@@ -96,6 +94,9 @@
 				}
 				function checkErrors(){
 					var errorTexts = [];
+					if(!scope.left || !scope.right){
+						errorTexts.push('You haven\'t provided a list to GumgaManyToMany directive');
+					}
 					if(!scope.texts.left || !scope.texts.right){
 						errorTexts.push('You have\'nt provided the content to GumgaManyToMany directive');
 					}

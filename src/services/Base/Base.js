@@ -5,14 +5,14 @@
 	/**
 	 * @ngdoc service
 	 * @name gumga.core:GumgaBase
-	 * @description
+	 * @description 
 	 * 	O service GumgaBase pode ser utilizado como helper para fazer chamadas HTTP. Ele permite que o programador não precise incluir o service $http
 	 * 	do AngularJS e já vem com algumas funções incluídas. Para utilizar o GumgaBase, basta íncluí-lo como dependência.
 	 *
 	 *
 	 *  # Métodos
 	 *  `GumgaBase.get(url,params)`
-	 *
+	 *  
 	 *  O método get aceita dois parâmetros `url` e `params` e retorna uma promise de uma chamada HTTP do tipo GET.
 	 *  ### Parâmetros
 	 *  - <label class="label label-warning" style="margin-right: 1%">String</label><label class="label label-info">url</label>  Endereço no qual a chamada http será feita.
@@ -21,7 +21,7 @@
 	 *  - <label class="label label-info">HttpPromise</label> Retona uma promise da chamada HTTP GET.
 	 *  ---
  	 *  `GumgaBase.getById(url,id)`
-	 *
+	 *  
 	 *  O método getById aceita dois parâmetros `url` e `id` e retorna uma promise de uma chamada HTTP do tipo GET.
 	 *  ### Parâmetros
 	 *  - <label class="label label-warning" style="margin-right: 1%">String</label><label class="label label-info">url</label>  Endereço no qual a chamada http será feita.
@@ -30,7 +30,7 @@
 	 *  - <label class="label label-info">HttpPromise</label> Retona uma promise da chamada HTTP GET.
 	 *  ---
 	 *  `GumgaBase.getNew(url)`
-	 *
+	 *  
 	 *  O método getById aceita um parâmetro `url` e retorna uma promise de uma chamada HTTP do tipo GET.
 	 *  ### Parâmetros
 	 *  - <label class="label label-warning" style="margin-right: 1%">String</label><label class="label label-info">url</label>  Endereço no qual a chamada http será feita e na qual
@@ -39,16 +39,16 @@
 	 *  - <label class="label label-info">HttpPromise</label> Retorna uma promise da chamada HTTP GET.
 	 *  ---
  	 *  `GumgaBase.deleteAll(url,array)`
-	 *
+	 *  
 	 *  O método deleteAll aceita dois parâmetros `url` e `array` e retorna uma promise de uma série de chamadas http do tipo DELETE que serão resolvidas ao mesmo tempo.
 	 *  ### Parâmetros
 	 *  - <label class="label label-warning" style="margin-right: 1%">String</label><label class="label label-info">url</label>  Endereço no qual a chamada http será feita.
-	 *  - <label class="label label-warning" style="margin-right: 1%">Array</label><label class="label label-info">array</label> Array com todas os registros que serão deletados
+	 *  - <label class="label label-warning" style="margin-right: 1%">Array</label><label class="label label-info">array</label> Array com todas os registros que serão deletados 
 	 *  ### Retorno
 	 *  - <label class="label label-info">HttpPromise</label> Retorna uma promise após todas as chamadas terem sido resolvidas.
 	 *  ---
 	 *  `GumgaBase.save(url,data)`
-	 *
+	 *  
 	 *  O método save aceita dois parâmetros `url` e `data` e retorna uma promise de de uma chamada HTTP POST.
 	 *  ### Parâmetros
 	 *  - <label class="label label-warning" style="margin-right: 1%">String</label><label class="label label-info">url</label>  Endereço no qual a chamada http será feita.
@@ -57,16 +57,16 @@
 	 *  - <label class="label label-info">HttpPromise</label> Retorna uma promise da chamada HTTP POST.
 	 *  ---
  	 *  `GumgaBase.update(url,data)`
-	 *
+	 *  
 	 *  O método deleteAll aceita dois parâmetros `url` e `data` e retorna uma promise de de uma chamada HTTP PUT.
 	 *  ### Parâmetros
 	 *  - <label class="label label-warning" style="margin-right: 1%">String</label><label class="label label-info">url</label>  Endereço no qual a chamada http será feita.
 	 *  - <label class="label label-warning" style="margin-right: 1%">Object</label><label class="label label-info">data</label> Objeto que deseja ser atualizado.
 	 *  ### Retorno
 	 *  - <label class="label label-info">HttpPromise</label> Retorna uma promise da chamada HTTP POST.
-	 *  ---
+	 *  ---  
  	 *  `GumgaBase.del(url,data)`
-	 *
+	 *  
 	 *  O método del aceita dois parâmetros `url` e `data` e retorna uma promise de de uma chamada HTTP DELETE. Esta função é chamada para cada registro passado dentro do Array
 	 *  na função deleteAll.
 	 *  ### Parâmetros
@@ -76,7 +76,7 @@
 	 *  - <label class="label label-info">HttpPromise</label> Retorna uma promise da chamada HTTP DELETE.
 	 *  ---
 	 *  `GumgaBase.postImage(url,attribute,data)`
-	 *
+	 *  
 	 *  O método postImage aceita três parâmetros `url`,`attribute` e `data` e retorna uma promise de de uma chamada HTTP POST FORM-DATA.
 	 *  ### Parâmetros
 	 *  - <label class="label label-warning" style="margin-right: 1%">String</label><label class="label label-info">url</label>  Endereço no qual a chamada http será feita.
@@ -88,7 +88,7 @@
 	 *  onde estava a imagem. Esta string é um identificador para quando o registro for enviado através de um post.
 	 *  ---
  	 *  `GumgaBase.deleteImage(url,attribute,data)`
-	 *
+	 *  
 	 *  O método del aceita três parâmetros `url`, `attribute` e `data` e retorna uma promise de uma chamada HTTP DELETE FORM-DATA.
 	 *  ### Parâmetros
 	 *  - <label class="label label-warning" style="margin-right: 1%">String</label><label class="label label-info">url</label> Endereço no qual a chamada http será feita.
@@ -110,7 +110,7 @@
 		this.del = del;
 		this.postImage = postImage;
 		this.deleteImage = deleteImage;
-
+		
 		function get(url,params) {
 			if (!params) {
 				params = defaultParams;
