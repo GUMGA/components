@@ -10,11 +10,26 @@
 	<div ng-app="why" class="container">
 		<div ng-controller="MainController">
 
-			<gumga-nav
+			<!-- <gumga-nav
 						 title="Teste"
 						 multi-entity="true"
 						 state="logout">
-			</gumga-nav>
+			</gumga-nav> -->
+
+
+			<gumga-search
+				fields="id,name"
+			  advanced="true"
+				search-method="search(field,param)"
+				advanced-method="advancedSearch(param)"
+				translate-entity="changepasswordticket"
+			>
+				<advanced-field name="id" type="number"></advanced-field>
+				<advanced-field name="nome" type="string"></advanced-field>
+				<advanced-field name="codigoUniversal" type="string"></advanced-field>
+			</gumga-search>
+
+
 
 			<form name="myForm" gumga-form="form" novalidate>
 				<div class="row">
@@ -68,7 +83,6 @@
 							<input type="date" name="rangeDate" ng-model="form.rangeDate" gumga-error gumga-range-date="{min: '1986-12-29', max: '2015-07-20'}" class="form-control" id="rangedate">
 						</div>
 					</div>
-<<<<<<< HEAD
 					<div class="row">
 						<div class="col-md-12">
 						</div>
@@ -101,9 +115,38 @@
 	<script>
 	angular.module('why',['gumga.core'])
 	.controller('MainController',function($scope,$rootScope,$q){
+		function getData(number){
+			var names = ['João','Juca','Marcos','José','Amarildo','Wladnelson','Jefferson','Maria','Jacinto','Júlia','Carla','Maria Cláudia'];
+			var surnames = ['Santana','Silva','Miranda','Souza','Santos','Pereira','Oliveira','Lima','Araújo','Ribeiro','Mendes','Barros','Pinto'];
+			var professions = ['Padeiro','Açougueiro','Vendedor de coco','Carpinteiro','Professor de Tecnologia da Informação','Desempregado','Programador','Analsita de Testes', 'Analista de Aviões de Papel','Manufaturador de Aviões de Papel','Campeão do minicurso de Android','Jogador de Futebol']
+			var _data = [];
+			function isEven(number){ return number % 2 == 0}
+			for(var i = 0; i < number;i++){
+				_data.push({
+					name: names[Math.floor(Math.random()*names.length)] + ' ' + surnames[Math.floor(Math.random()*surnames.length)],
+					age: Math.floor(Math.random()*50),
+					profession: professions[Math.floor(Math.random()*professions.length)],
+					hasDog: isEven(Math.floor(Math.random()*4))
+				})
+			}
+			return _data;
+		}
+
+		function getAsyncData(size){
+			var def = $q.defer();
+			def.resolve({value:getData(size)});
+			return def.promise;
+		}
+		$scope.getQueries = function(){
+
+				return getAsyncData(20)
+					.then(function(values){
+						return values.value;
+					})
+
+		}
 		$scope.save = function(data) {
 			console.log(data);
-			console.log('save');
 		}
 		// $scope.list = [
 		// 	{name: 'Luke Skywalker',age: 19,dead: false,pet: {name:'Yoda'}},

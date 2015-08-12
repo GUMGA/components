@@ -159,6 +159,18 @@
 	 *  ### Retorno
 	 *  - <label class="label label-info">HttpPromise</label> Retona uma promise da chamada HTTP POST.
 	 *  ---
+	 *
+	 *  `GumgaRest.getQuery(page)`
+	 *
+	 *  O método getQuery aceita um parâmetro `page` e retorna uma promise de uma chamada HTTP do tipo GET. Este Parâmetro `page` é o valor de retorno do objeto `location.hash` disponível
+	 *  através do browser. Exemplo: `GumgaRest.getQuery(location.hash);`. É necessário este atributo para pegar apenas as queries relacionadas a página. As informações do usuário já são
+	 *  passadas através do token.
+	 *  ### Parâmetros
+	 *  - <label class="label label-warning" style="margin-right: 1%">[String]</label> <label class="label label-info">page</label> String que será utilizada para fazer a pesquisa das
+	 *  queries relacionadas com a página.
+	 *  ### Retorno
+	 *  - <label class="label label-info">HttpPromise</label> Retona uma promise da chamada HTTP GET.
+	 *  ---
 	 */
 	function Base($http,$q){
 		function RestPrototype(url){
@@ -180,6 +192,7 @@
 		RestPrototype.prototype.getAdvancedSearch = _getAdvancedSearch;
 		RestPrototype.prototype.resetDefaultState = _resetQuery;
 		RestPrototype.prototype.saveQuery = _saveQuery;
+		RestPrototype.prototype.getQuery = _getQuery;
 		function _get(page){
 			if (page) {
 				this._query.params.start = (page - 1) * this._query.params.pageSize;
@@ -218,7 +231,7 @@
 		function _saveImage(a,m){
 			var fd = new FormData();
 			fd.append(a,m);
-			return $http.post(this._url + '/' +a ,fd,{
+			return $http.post(this._url + '/' +a + '/',fd,{
 				transformRequest: angular.identity,
 				headers: {'Content-Type': undefined}
 			});
@@ -258,12 +271,12 @@
 				data: q.query,
 				name: q.name
 			};
-			console.log(q,_aux);
 			return $http.post(this._url + '/saq',_aux);
 		}
 
-
-
+		function _getQuery(){
+				// TODO: url do munif
+		}
 		return RestPrototype;
 	}
 
