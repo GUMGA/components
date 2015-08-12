@@ -57,7 +57,7 @@
           }
 				});
 
-        var template = '<ol class="list-errors text-danger"><li ng-repeat="error in errors" >{{ error.fieldMessage }}</li></ol>';
+        var template = '<ul><li ng-repeat="error in errors" >{{ error.fieldMessage }}</li></ul>';
         elm.after($compile(template)(scope));
       }
     }

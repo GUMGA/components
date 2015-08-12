@@ -3,20 +3,16 @@
 	/**
 	 * @ngdoc directive
 	 * @name gumga.core:gumgaErrors
-	 * @restrict E
+	 * @element input
+	 * @restrict A
 	 * @description O componente gumgaErrors serve para mostrar todas mensagens de validações do formulário de forma agrupada.
-	 *
-	 * @param {String} placement Onde irá aparecer, o padrão é top, mas também aceita right, bottom e left.
-	 * @param {String} icon Ícone do botão, por padrão é glyphicon glyphicon-info-sign
-	 * @param {String} label Texto do botão
-	 * @param {String} title Título do popover de erros
 	 *
 	 * @example
 	 *  Um exemplo da directive gumgaErrors funcionando pode ser encontrado [aqui](http://embed.plnkr.co/AcjqcgvgGhdJqDh72eHA).
 	 *  <pre>
 	 *    <form name="myForm">
-	 *      <input type="number" name="minNumber" ng-model="minNumber" gumga-min-number="20">
-	 *      <gumga-errors placement="right" icon="glyphicon glyphicon-info-sign" label="Campos inválidos" title="Campos inválidos"></gumga-errors>
+	 *      <gumga-errors></gumga-errors>
+	 *      <input type="number" name="minNumber" ng-model="minNumber" gumga-error gumga-min-number="20">
 	 *    </form>
 	 *  </pre>
 	*/
@@ -24,9 +20,8 @@
   function Errors($compile) {
     return {
       restrict: 'E',
-			scope: {
-				errors: '='
-			},
+			scope: {},
+			template: '<ul><li ng-repeat="error in errors" >{{ error.message }}</li></ul>',
       require: '^form',
       link: function (scope, elm, attrs, ctrl) {
 				scope.errors = [];
@@ -62,25 +57,9 @@
 						scope.removeError(data);
 					}
 				});
-
-				var title = attrs.title || 'Erros';
-				var placement = attrs.placement || 'top';
-				var icon = attrs.icon || 'glyphicon glyphicon-info-sign';
-
-				var template = [
-					'<button popover-placement="'+placement+'" popover-template="\'template.html\'" popover-title="'+title+'" type="button" class="btn btn-sm btn-danger">'
-				,	'<i class="'+icon+'"></i>'
-				, attrs.label
-				,	'</button>'
-				,	'<script id="template.html" type="text/ng-template">'
-				,	'<ol class="list-errors text-danger"><li ng-repeat="error in errors" >{{ error.message }}</li></ol>'
-				,	'</script>'
-				].join("\n");
-				elm.append($compile(template)(scope));
-
       }
     }
   }
-	angular.module('gumga.directives.form.errors',['ui.bootstrap'])
+	angular.module('gumga.directives.form.errors',[])
 	.directive('gumgaErrors',Errors);
 })();

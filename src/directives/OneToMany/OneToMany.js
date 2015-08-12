@@ -1,7 +1,7 @@
 (function(){
 	'use strict';
 
-	OneToMany.$inject = ['$modal','$populate'];
+	OneToMany.$inject = ['$modal'];
 	/**
 	 * @ngdoc directive
 	 * @name gumga.core:gumgaOneToMany
@@ -25,7 +25,7 @@
    * para visualização de dados
 	 *
 	 */
-	function OneToMany($modal,$populate){
+	function OneToMany($modal){
 		var template = [
 		'<div class="col-md-12" style="padding-left: 0;padding-right: 0">',
 		'   <button type="button" class="btn btn-default" ng-click="newModal()">New</button>',
@@ -95,9 +95,6 @@
 							},
 							title: function(){
 								return scope.name;
-							},
-							populateScope: function(){
-								return $populate.populateScope;
 							}
 						}
 					});
@@ -109,7 +106,7 @@
 		};
 	}
 
-	angular.module('gumga.directives.onetomany',['gumga.services.populate'])
+	angular.module('gumga.directives.onetomany',[])
 		.directive('gumgaOneToMany',OneToMany)
 
 
