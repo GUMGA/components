@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Teste</title>
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="./dist/gumga.min.css">
+</head>
+<body>
+	<div ng-app="why" class="container">
+		<div ng-controller="MainController">
+
+			<gumga-search
+				fields="id,name"
+			  advanced="true"
+				search-method="search(field,param)"
+				advanced-method="advancedSearch(param)"
+				translate-entity="changepasswordticket"
+			>
+				<advanced-field name="id" type="number"></advanced-field>
+				<advanced-field name="nome" type="string"></advanced-field>
+				<advanced-field name="codigoUniversal" type="string"></advanced-field>
+			</gumga-search>
+
+
+	<script src='bower_components/angular/angular.min.js'></script>
+	<script src='bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'></script>
+	<script src='bower_components/angular-mocks/angular-mocks.js'></script>
+	<script src='bower_components/angular-ui-router/release/angular-ui-router.min.js'></script>
+	<script src='bower_components/jquery/dist/jquery.min.js'></script>
+	<script src='bower_components/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js'></script>
+	<script src='bower_components/mousetrap-latest/mousetrap.min.js'></script>
+	<script src="dist/gumga.min.js"></script>
+	<script>
+	angular.module('why',['gumga.core'])
+	.controller('MainController',function($scope,$rootScope,$q){
+		function getData(number){
+			var names = ['João','Juca','Marcos','José','Amarildo','Wladnelson','Jefferson','Maria','Jacinto','Júlia','Carla','Maria Cláudia'];
+			var surnames = ['Santana','Silva','Miranda','Souza','Santos','Pereira','Oliveira','Lima','Araújo','Ribeiro','Mendes','Barros','Pinto'];
+			var professions = ['Padeiro','Açougueiro','Vendedor de coco','Carpinteiro','Professor de Tecnologia da Informação','Desempregado','Programador','Analsita de Testes', 'Analista de Aviões de Papel','Manufaturador de Aviões de Papel','Campeão do minicurso de Android','Jogador de Futebol']
+			var _data = [];
+			function isEven(number){ return number % 2 == 0}
+			for(var i = 0; i < number;i++){
+				_data.push({
+					name: names[Math.floor(Math.random()*names.length)] + ' ' + surnames[Math.floor(Math.random()*surnames.length)],
+					age: Math.floor(Math.random()*50),
+					profession: professions[Math.floor(Math.random()*professions.length)],
+					hasDog: isEven(Math.floor(Math.random()*4))
+				})
+			}
+			return _data;
+		}
+
+		function getAsyncData(size){
+			var def = $q.defer();
+			def.resolve({value:getData(size)});
+			return def.promise;
+		}
+		$scope.getQueries = function(){
+
+				return getAsyncData(20)
+					.then(function(values){
+						return values.value;
+					})
+
+		}
+		$scope.save = function(data) {
+			console.log(data);
+		}
+		// $scope.list = [
+		// 	{name: 'Luke Skywalker',age: 19,dead: false,pet: {name:'Yoda'}},
+		//           {name: 'Princess Leia Organa of Alderaan',age: 21,dead: false,pet: {name:'Joaquim'} },
+		//           {name: 'Anakin Skywalker',age: 45,dead: true,pet: {name:'Wookie'}},
+		//           {name: 'Frodo Baggins',age: 50,dead: false,pet: {name:'Sam'}},
+		//           {name: 'Bilbo Baggins',age: 75,dead: true,pet: {name:'Frodo'}},
+		//           {name: 'Gandalf the Grey',age: 95,dead: false,pet: {name:'Frodo and Bilbo'}},
+		//           {name: 'Tom Bombadil',age: 96,dead: true,pet: {name:'Joaquim'}}
+		//       ];
+	});
+	</script>
+=======
+</div>
+<script src='bower_components/angular/angular.min.js'></script>
+<script src='bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'></script>
+<script src='bower_components/angular-mocks/angular-mocks.js'></script>
+<script src='bower_components/angular-ui-router/release/angular-ui-router.min.js'></script>
+<script src='bower_components/jquery/dist/jquery.min.js'></script>
+<script src='bower_components/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js'></script>
+<script src='bower_components/mousetrap-latest/mousetrap.min.js'></script>
+<script src="dist/gumga.min.js"></script>
+<script>
+angular.module('why',['gumga.core'])
+.controller('MainController',function($scope,$rootScope,$q,$timeout,GumgaNotification){
+	var notification = GumgaNotification;
+	notification.getEvent().addEventListener('message', function(event) {
+		$timeout(function() {
+			var n = JSON.parse(event.data);
+			$scope.notifications = n.newMessages;
+			$scope.notificationsCount = n.newMessagesCount;
+		});
+	}, false);
+
+	// $timeout(function() {
+	// 	$scope.notifications = GumgaNotification.newMessages();
+	// });
+});
+</script>
+>>>>>>> abae58edfa6ae77d3359e33551752a499f2c2183
+</body>
+</html>
