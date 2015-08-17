@@ -35,7 +35,7 @@ describe('DIRECTIVE: GumgaList',function () {
 
   describe('Getting the right configs',function(){
     it('get the attribute configs ',function(){
-      console.log(controller)
+      // console.log(controller)
     })
   })
 })
