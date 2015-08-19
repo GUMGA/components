@@ -165,7 +165,7 @@ gulp.task('report',['sonar','plato']);
  * Valida qualidade do código com JSHint, executa os testes
  * unitários e faz o report de cobertura e complexidade.
  */
-gulp.task('ci-validate',['hint','tests','report']);
+gulp.task('ci-validate',['hint','tests']);
 
 /**
  * Executa as validações, minifica o CSS, JS e gera documentação.
