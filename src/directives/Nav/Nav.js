@@ -1,4 +1,5 @@
 (function(){
+
   'use strict';
   Nav.$inject = ['$state','GumgaWebStorage','$modal','$rootScope'];
   /**
