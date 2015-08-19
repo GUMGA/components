@@ -14,7 +14,7 @@ var gulp = require('gulp')
 ,		ngAnnotate = require('gulp-ng-annotate')
 ,		sonar = require('gulp-sonar')
 ,		paths = {
-      src: ['./src/**/*.js','!**/*Spec.js','!./src/directives/List/**/*.js','!./src/directives/Query/**/*.js','!./src/directives/List/**/*.js',,'!./src/services/Notification/**/*.js'],
+      src: ['./src/**/*.js','!**/*Spec.js','!./src/directives/List/**/*.js','!./src/directives/Query/**/*.js','!./src/directives/List/**/*.js','!./src/services/Notification/**/*.js'],
     	stylus: ['./src/index.styl'],
     	dist: ['./dist/']
     };
@@ -67,34 +67,34 @@ gulp.task('tests',function(done){
 /**
  * Reporta a cobertura de testes.
  */
-gulp.task('sonar', function () {
-  var options = {
-    sonar: {
-      host: {
-        url: 'http://192.168.25.201:9000'
-      },
-      jdbc: {
-        url: 'jdbc:mysql://192.168.25.201:3306/sonar',
-        username: 'gumga',
-        password: 'senha'
-      },
-      projectKey: 'sonar:components:1.1.0',
-      projectName: 'Components',
-      projectVersion: '1.1.0',
-      sources: 'src/',
-      language: 'js',
-      sourceEncoding: 'UTF-8',
-      javascript: {
-        lcov: {
-          reportPath: 'test/sonar_report/lcov.info'
-        }
-      }
-    }
-  };
-
-  return gulp.src(paths.src, { read: false })
-    .pipe(sonar(options))
-});
+// gulp.task('sonar', function () {
+//   var options = {
+//     sonar: {
+//       host: {
+//         url: 'http://192.168.25.201:9000'
+//       },
+//       jdbc: {
+//         url: 'jdbc:mysql://192.168.25.201:3306/sonar',
+//         username: 'gumga',
+//         password: 'senha'
+//       },
+//       projectKey: 'sonar:components:1.1.0',
+//       projectName: 'Components',
+//       projectVersion: '1.1.0',
+//       sources: 'src/',
+//       language: 'js',
+//       sourceEncoding: 'UTF-8',
+//       javascript: {
+//         lcov: {
+//           reportPath: 'test/sonar_report/lcov.info'
+//         }
+//       }
+//     }
+//   };
+//
+//   return gulp.src(paths.src, { read: false })
+//     .pipe(sonar(options))
+// });
 
 /**
  * Reporta complexidade do código.
@@ -159,7 +159,7 @@ gulp.task('tdd',function(){
 /**
  * Reporta cobertura de testes e complexidade do código.
  */
-gulp.task('report',['sonar','plato']);
+gulp.task('report',['plato']);
 
 /**
  * Valida qualidade do código com JSHint, executa os testes
