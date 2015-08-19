@@ -70,7 +70,7 @@ describe('SERVICE: GumgaRest',function(){
 		$httpBackend.when('GET','http://www.gumga.com.br/api?pageSize=10&sortDir=asc&sortField=name&start=0')
 		.respond(httpResponse);
 
-		$httpBackend.when('POST','http://www.gumga.com.br/api/attribute')
+		$httpBackend.when('POST','http://www.gumga.com.br/api/attribute/')
 		.respond('Image saved successfully');
 
 		$httpBackend.when('DELETE','http://www.gumga.com.br/api/attribute')
