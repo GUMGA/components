@@ -170,4 +170,4 @@ gulp.task('ci-validate',['hint','tests']);
 /**
  * Executa as validações, minifica o CSS, JS e gera documentação.
  */
-gulp.task('ci-build',['ci-validate','minify-css','minify-js','docs']);
+gulp.task('ci-build',['tests']);
