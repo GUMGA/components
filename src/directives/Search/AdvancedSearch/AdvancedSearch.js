@@ -187,6 +187,7 @@
 
 				scope.showArray = function(array){
 					scope.isPanelOpen = false;
+					console.log(JSON.stringify(array));
 					scope.$emit('advanced',{hql: GumgaSearchHelper.translateArrayToHQL(array),source: array});
 				};
 

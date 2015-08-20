@@ -34,6 +34,7 @@
 
     function ctrl($scope, $element, $attrs, $transclude){
       var vm = this;
+      var isHex = '/(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/';
       function verifyEmpty($v,other){return (!$attrs.$v ? other : vm[$v])};
       vm.data = vm.data || [];
       vm.config = vm.config || {};
@@ -46,7 +47,7 @@
       vm.config.sort = verifyEmpty('sort',angular.noop);
       vm.config.class = verifyEmpty('class','table');
       vm.config.onClick = verifyEmpty('onClick',angular.noop);
-      vm.config.onDoublelick = verifyEmpty('onDoublelick',angular.noop);
+      vm.config.onDoubleClick = verifyEmpty('onDoublelick',angular.noop);
       vm.config.onSort = verifyEmpty('onSort',angular.noop);
       function ensureColumns(obj){
         return Object.keys(obj).map(function(key,$index){
@@ -61,17 +62,16 @@
         })
       }
     };
-
     return {
       restrict: 'E',
       scope:{
-        sort: '&?',
-        class: '&?',
-        data: '=',
-        onClick: '&?',
-        onDoubleClick: '&?',
-        onSort: '&?',
-        config: '='
+        'sort': '&?',
+        'class': '&?',
+        'data': '=',
+        'onClick': '&?',
+        'onDoubleClick': '&?',
+        'onSort': '&?',
+        'config': '=configuration'
       },
       controller: ctrl,
       controllerAs: 'vm',

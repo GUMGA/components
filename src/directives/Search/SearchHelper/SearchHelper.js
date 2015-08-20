@@ -1,6 +1,6 @@
 (function(){
 	'use strict';
-	
+
 	SearchHelper.$inject = [];
 	function SearchHelper(){
 		var types ={
@@ -22,7 +22,7 @@
 				{hql: "gt",label:"maior que", before: ">",after:""},
 				{hql: "ge",label:"maior igual", before: ">=",after:""},
 				{hql: "lt",label:"menor que", before: "<",after:""},
-				{hql: "le",label:"maior igual", before: "<=",after:""}]
+				{hql: "le",label:"menor igual", before: "<=",after:""}]
 			},
 			"money": {
 				"HQLPossibilities": [

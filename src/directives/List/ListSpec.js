@@ -1,6 +1,8 @@
 describe('DIRECTIVE: GumgaList',function () {
   var scope
-  ,   controller;
+  ,   controller
+  ,   columns
+  ,   isHex = '/(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/';
 
   beforeEach(module('gumga.directives.list'));
 
@@ -26,16 +28,67 @@ describe('DIRECTIVE: GumgaList',function () {
 
         scope = $rootScope.$new();
         scope.arrayList = getData(100);
-        var element = angular.element('<gumga-list data="arrayList"></gumga-list>');
+         columns = Object.keys(scope.arrayList[0]).map(function(key,$index){
+          return {
+            title: key.toUpperCase(),
+            size: 'col-md-3',
+            ordering:($index),
+            content: '{{$value.'+key+'}}',
+            sortable: true,
+            conditional: angular.noop
+          }
+        })
+        scope.configz = {};
+        var element = angular.element('<gumga-list data="arrayList" configuration="configz"</gumga-list>');
         $compile(element)(scope);
         controller = element.controller('gumgaList');
       }
     )
   )
-
-  describe('Getting the right configs',function(){
-    it('get the attribute configs ',function(){
-      // console.log(controller)
+  describe('Passing data to the component:',function(){
+    it('should get the default if i don\t pass anything',function(){
+      expect(controller.config.selection).toEqual('single');
+      expect(controller.config.itemsPerPage).toEqual(10);
+      expect(controller.config.sortDefault).toEqual(0);
+      expect(controller.config.selectedValues).toEqual([]);
+      expect(controller.config.columns).toEqual(columns);
+      expect(controller.config.conditional).toEqual(angular.noop);
+      expect(controller.config.sort).toEqual(angular.noop);
+      expect(controller.config.class).toEqual('table');
+      expect(controller.config.onClick).toEqual(angular.noop);
+      expect(controller.config.onDoubleClick).toEqual(angular.noop);
+      expect(controller.config.onSort).toEqual(angular.noop);
     })
+    it('should get only the columns configuration',function(){
+      scope.configz.columns = [
+
+        {
+          title: 'Idade do Usuário',
+          size: 'col-md-6',
+          ordering: 0,
+          content: '{{$value.age | lowercase}}',
+          sortable: false,
+          conditional: function($value){
+            return {
+              '#ff0000': $value.age < 18,
+              '#009e2f': $value.age >=18
+            }
+          }
+        }
+      ]
+      expect(controller.config.selection).toEqual('single');
+      expect(controller.config.itemsPerPage).toEqual(10);
+      expect(controller.config.sortDefault).toEqual(0);
+      expect(controller.config.selectedValues).toEqual([]);
+      expect(controller.config.conditional).toEqual(angular.noop);
+      expect(controller.config.sort).toEqual(angular.noop);
+      expect(controller.config.class).toEqual('table');
+      expect(controller.config.onClick).toEqual(angular.noop);
+      expect(controller.config.onDoubleClick).toEqual(angular.noop);
+      expect(controller.config.onSort).toEqual(angular.noop);
+    });
+
+
+
   })
 })
