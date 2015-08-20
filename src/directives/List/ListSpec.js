@@ -39,6 +39,26 @@ describe('DIRECTIVE: GumgaList',function () {
           }
         })
         scope.configz = {};
+        scope.configz.columns = [
+          {
+            title: 'Idade do Usuário',
+            size: 'col-md-3',
+            ordering: 0,
+            content: '{{$value.age | lowercase}}',
+            sortable: false,
+            conditional: function($value){
+              return {
+                '#ff0000': $value.age < 18,
+                '#009e2f': $value.age >=18
+              }
+            }
+          },
+          {
+            title: 'Nome do Usuário',
+            content: '{{$value.name}}',
+            sortable: true
+          }
+        ]
         var element = angular.element('<gumga-list data="arrayList" configuration="configz"</gumga-list>');
         $compile(element)(scope);
         controller = element.controller('gumgaList');
@@ -46,49 +66,34 @@ describe('DIRECTIVE: GumgaList',function () {
     )
   )
   describe('Passing data to the component:',function(){
-    it('should get the default if i don\t pass anything',function(){
+    it('should get all the needed configuration',function(){
       expect(controller.config.selection).toEqual('single');
       expect(controller.config.itemsPerPage).toEqual(10);
       expect(controller.config.sortDefault).toEqual(0);
       expect(controller.config.selectedValues).toEqual([]);
-      expect(controller.config.columns).toEqual(columns);
       expect(controller.config.conditional).toEqual(angular.noop);
       expect(controller.config.sort).toEqual(angular.noop);
       expect(controller.config.class).toEqual('table');
       expect(controller.config.onClick).toEqual(angular.noop);
       expect(controller.config.onDoubleClick).toEqual(angular.noop);
       expect(controller.config.onSort).toEqual(angular.noop);
-    })
-    it('should get only the columns configuration',function(){
-      scope.configz.columns = [
-
-        {
-          title: 'Idade do Usuário',
-          size: 'col-md-6',
-          ordering: 0,
-          content: '{{$value.age | lowercase}}',
-          sortable: false,
-          conditional: function($value){
-            return {
-              '#ff0000': $value.age < 18,
-              '#009e2f': $value.age >=18
-            }
+      expect(JSON.stringify(controller.config.columns[0])).toEqual(JSON.stringify({title: 'Idade do Usuário',size: 'col-md-3',ordering: 0, content: '{{$value.age | lowercase}}',sortable: false,
+        conditional: function($value){
+          return {
+            '#ff0000': $value.age < 18,
+            '#009e2f': $value.age >=18
           }
         }
-      ]
-      expect(controller.config.selection).toEqual('single');
-      expect(controller.config.itemsPerPage).toEqual(10);
-      expect(controller.config.sortDefault).toEqual(0);
-      expect(controller.config.selectedValues).toEqual([]);
-      expect(controller.config.conditional).toEqual(angular.noop);
-      expect(controller.config.sort).toEqual(angular.noop);
-      expect(controller.config.class).toEqual('table');
-      expect(controller.config.onClick).toEqual(angular.noop);
-      expect(controller.config.onDoubleClick).toEqual(angular.noop);
-      expect(controller.config.onSort).toEqual(angular.noop);
+      }));
+      expect(JSON.stringify(controller.config.columns[1])).toEqual(JSON.stringify({
+        title: 'Nome do Usuário',
+        size: 'col-md-3',
+        ordering: 1,
+        content: '{{$value.name}}',
+        sortable: true,
+        conditional: angular.noop
+      }))
+
     });
-
-
-
   })
 })

@@ -153,7 +153,7 @@ gulp.task('dev',function(){
  * reexecuta a minificação JS e os testes a cada alteração.
  */
 gulp.task('tdd',function(){
-	gulp.watch(paths.src,['minify-js','tests']);
+	gulp.watch('./src/**/*.js',['minify-js','tests']);
 });
 
 /**
