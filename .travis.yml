@@ -9,4 +9,4 @@ before_script:
  - npm install -g karma-cli
  - bower install
 script:
- - gulp ci
+ - gulp ci-build
