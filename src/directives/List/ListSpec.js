@@ -3,7 +3,6 @@ describe('DIRECTIVE: GumgaList',function () {
   ,   controller
   ,   columns
   ,   isHex = '/(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/';
-
   beforeEach(module('gumga.directives.list'));
 
   beforeEach(
@@ -28,37 +27,34 @@ describe('DIRECTIVE: GumgaList',function () {
 
         scope = $rootScope.$new();
         scope.arrayList = getData(100);
-         columns = Object.keys(scope.arrayList[0]).map(function(key,$index){
+        columns = Object.keys(scope.arrayList[0]).map(function(key,$index){
           return {
             title: key.toUpperCase(),
             size: 'col-md-3',
             ordering:($index),
             content: '{{$value.'+key+'}}',
-            sortable: true,
+            sortable: null,
             conditional: angular.noop
           }
         })
         scope.configz = {};
-        scope.configz.columns = [
-          {
+        scope.configz.columns = [{
             title: 'Idade do Usuário',
             size: 'col-md-3',
-            ordering: 0,
+            ordering: 1,
             content: '{{$value.age | lowercase}}',
-            sortable: false,
             conditional: function($value){
               return {
                 '#ff0000': $value.age < 18,
                 '#009e2f': $value.age >=18
               }
-            }
-          },
+            }},
           {
             title: 'Nome do Usuário',
             content: '{{$value.name}}',
-            sortable: true
-          }
-        ]
+            ordering: 0,
+            sortField: 'name'
+          }];
         var element = angular.element('<gumga-list data="arrayList" configuration="configz"</gumga-list>');
         $compile(element)(scope);
         controller = element.controller('gumgaList');
@@ -77,7 +73,7 @@ describe('DIRECTIVE: GumgaList',function () {
       expect(controller.config.onClick).toEqual(angular.noop);
       expect(controller.config.onDoubleClick).toEqual(angular.noop);
       expect(controller.config.onSort).toEqual(angular.noop);
-      expect(JSON.stringify(controller.config.columns[0])).toEqual(JSON.stringify({title: 'Idade do Usuário',size: 'col-md-3',ordering: 0, content: '{{$value.age | lowercase}}',sortable: false,
+      expect(JSON.stringify(controller.config.columns[2])).toEqual(JSON.stringify({title: 'Idade do Usuário',size: 'col-md-3',ordering: 1, content: '{{$value.age | lowercase}}',sortField: null,
         conditional: function($value){
           return {
             '#ff0000': $value.age < 18,
@@ -87,13 +83,30 @@ describe('DIRECTIVE: GumgaList',function () {
       }));
       expect(JSON.stringify(controller.config.columns[1])).toEqual(JSON.stringify({
         title: 'Nome do Usuário',
-        size: 'col-md-3',
-        ordering: 1,
+        size: '',
+        ordering: 0,
         content: '{{$value.name}}',
-        sortable: true,
+        sortField: 'name',
         conditional: angular.noop
       }))
-
     });
+  })
+
+  describe('Testing functions',function(){
+    it('should change the array when i click on a registry',function(){
+      controller.selectRow(0,scope.arrayList[20]);
+      controller.selectRow(1,scope.arrayList[11]);
+      controller.selectRow(2,scope.arrayList[7]);
+      controller.selectRow(3,scope.arrayList[3]);
+      expect(scope.selectedValues[0]).toEqual(scope.arrayList[20]);
+      expect(scope.selectedValues[1]).toEqual(scope.arrayList[11]);
+      expect(scope.selectedValues[2]).toEqual(scope.arrayList[7]);
+      expect(scope.selectedValues[3]).toEqual(scope.arrayList[3]);
+      controller.selectRow(0,scope.arrayList[20]);
+      expect(scope.selectedValues.length).toEqual(3);
+      expect(scope.selectedValues[0]).toEqual(scope.arrayList[11]);
+      expect(scope.selectedValues[1]).toEqual(scope.arrayList[7]);
+      expect(scope.selectedValues[2]).toEqual(scope.arrayList[3]);
+    })
   })
 })

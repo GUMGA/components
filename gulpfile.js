@@ -14,7 +14,7 @@ var gulp = require('gulp')
 ,		ngAnnotate = require('gulp-ng-annotate')
 ,		sonar = require('gulp-sonar')
 ,		paths = {
-      src: ['./src/**/*.js','!**/*Spec.js','!./src/directives/List/**/*.js','!./src/directives/Query/**/*.js','!./src/directives/List/**/*.js','!./src/services/Notification/**/*.js'],
+      src: ['./src/**/*.js','!**/*Spec.js','!./src/directives/Query/**/*.js'],
     	stylus: ['./src/index.styl'],
     	dist: ['./dist/']
     };
