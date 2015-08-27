@@ -92,8 +92,6 @@
 					}
 				});
 
-
-
 				if(!scope.$parent.normalFields.length > 0 || !scope.$parent.entityToTranslate){
 					throw 'Missing some parameters in GumgaSearch';
 				}

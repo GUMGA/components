@@ -12,6 +12,5 @@
 		'gumga.services.populate',
 		'gumga.services.rest',
 		'gumga.services.notification'
-
 		]);
 })();
