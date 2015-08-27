@@ -37,6 +37,5 @@ module.exports = function(config){
 		    browsers: ['Chrome'],
 		    singleRun: false
 			}
-	process.env.TRAVIS ? karmaConf.browsers = ['PhantomJS'] : function(){};
 	config.set(karmaConf)
 }
