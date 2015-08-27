@@ -92,8 +92,6 @@
 					}
 				});
 
-
-
 				if(!scope.$parent.normalFields.length > 0 || !scope.$parent.entityToTranslate){
 					throw 'Missing some parameters in GumgaSearch';
 				}
@@ -187,7 +185,6 @@
 
 				scope.showArray = function(array){
 					scope.isPanelOpen = false;
-					console.log(JSON.stringify(array));
 					scope.$emit('advanced',{hql: GumgaSearchHelper.translateArrayToHQL(array),source: array});
 				};
 
