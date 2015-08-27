@@ -34,7 +34,6 @@ describe('Gumga.core:services:Populate',function(){
 			$rootScope = _$rootScope_;
 			scope = $rootScope.$new();
 			provider = $populate;
-			console.log(provider);
 			function getData(number){
 				var names = ['João','Juca','Marcos','José','Amarildo','Wladnelson','Jefferson','Maria','Jacinto','Júlia','Carla','Maria Cláudia'];
 				var surnames = ['Santana','Silva','Miranda','Souza','Santos','Pereira','Oliveira','Lima','Araújo','Ribeiro','Mendes','Barros','Pinto'];
