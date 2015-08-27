@@ -28,24 +28,13 @@ describe('Gumga.core:services:Populate',function(){
 	}
 
 
-	angular.module('myApp',[]);
 	beforeEach(module('gumga.services.populate'))
-	beforeEach(function(){
-		angular.module('testApp',function(){})
-		.config(function($populateProvider){
-			$populateProvider.setConfig('grandsFunctions',{
-				get: true,
-				getById: true,
-				save: true,
-				update: true
-			})
-			provider = $populateProvider;
-		})
-		module('myApp','testApp');
-		inject(function(_$rootScope_,$q){
+	beforeEach(
+		inject(function(_$rootScope_,$q,$populate){
 			$rootScope = _$rootScope_;
 			scope = $rootScope.$new();
-
+			provider = $populate;
+			console.log(provider);
 			function getData(number){
 				var names = ['João','Juca','Marcos','José','Amarildo','Wladnelson','Jefferson','Maria','Jacinto','Júlia','Carla','Maria Cláudia'];
 				var surnames = ['Santana','Silva','Miranda','Souza','Santos','Pereira','Oliveira','Lima','Araújo','Ribeiro','Mendes','Barros','Pinto'];
@@ -106,8 +95,8 @@ describe('Gumga.core:services:Populate',function(){
 			spyOn(FormService,'deleteImage').and.returnValue(_def_.promise);
 			/* ------------------------ */
 			spyOn(scope,'$broadcast');
-		});
-})
+		}));
+
 	it('Should populate the scope with the form-functions',function(){
 		provider.populateScope(scope,FormService,'User','base-form');
 		expect(scope.userGetNew).toBeDefined();
@@ -131,13 +120,6 @@ describe('Gumga.core:services:Populate',function(){
 		expect(scope.userResetQuery).toBeDefined();
 	})
 
-	it('Should populate the scope with the createdConfig',function(){
-		provider.populateScope(scope,ListService,'User','grandsFunctions');
-		expect(scope.userGet).toBeDefined();
-		expect(scope.userGetById).toBeDefined();
-		expect(scope.userSave).toBeDefined();
-		expect(scope.userUpdate).toBeDefined();
-	})
 	//  ListService
 	it('Should get the list inside the content when i call get',function(){
 		provider.populateScope(scope,ListService,'User','base-list');
