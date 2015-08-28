@@ -18,6 +18,8 @@
 		'gumga.directives.table',
 		'gumga.directives.upload',
 		'gumga.directives.form',
+		'gumga.directives.translate',
+		'gumga.directives.mask',
 		'gumga.directives.list',
 		'gumga.directives.translate'
 		]);

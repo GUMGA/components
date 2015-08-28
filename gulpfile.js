@@ -15,10 +15,10 @@ var gulp = require('gulp')
 ,		sonar = require('gulp-sonar')
 ,   shell = require('gulp-shell')
 ,		paths = {
-  src: ['./src/**/*.js','!**/*Spec.js'],
-  stylus: ['./src/index.styl'],
-  dist: ['./dist/']
-};
+    src: ['./src/**/*.js','!**/*Spec.js'],
+    stylus: ['./src/index.styl'],
+    dist: ['./dist/']
+  };
 
 /**
 * Minifica o CSS escrito com stylus, renomeia e coloca no dir. dist.
