@@ -260,8 +260,7 @@
 			console.log(this._query);
 			this._query.params = {};
 			this._query.params.aq = p.hql;
-			this._query.params.aqo = p.source;
-			console.log(this._query);
+			this._query.params.aqo = JSON.stringify(p.source);
 			return $http.get(this._url,this._query);
 		}
 
