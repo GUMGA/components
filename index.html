@@ -10,196 +10,209 @@
 	<div ng-app="why">
 		<div ng-controller="MainController">
 
-			<nav class="navbar navbar-gumga">
-			  <div class="container-fluid">
-			    <div class="navbar-header">
-						<button type="button" class="navbar-toggle" ng-click="isCollapsed = !isCollapsed">
-			        <span class="sr-only">Toggle navigation</span>
-			        <span class="icon-bar"></span>
-			        <span class="icon-bar"></span>
-			        <span class="icon-bar"></span>
-			      </button>
-			      <a class="navbar-brand" href="#">{{ info.organization }}</a>
-			    </div>
-			    <div class="collapse navbar-collapse" collapse="isCollapsed">
-			      <ul class="nav navbar-nav navbar-right">
-							<li class="notification hidden-sm hidden-xs" dropdown on-toggle="toggled(open)">
-								<a class="icon" href dropdown-toggle>
-									<i class="glyphicon glyphicon-bell"></i>
-									<span class="badge">{{ notifications.length }}</span>
-								</a>
-								<ul class="dropdown-menu" aria-labelledby="simple-dropdown">
-									<li ng-if="notifications.length == 0" class="read">
-										<div class="text-center">
-											<p>Nenhuma mensagem nova</p>
-											<i class="glyphicon glyphicon-bell"></i>
-										</div>
-									</li>
-									<li ng-if="notifications.length > 0" ng-repeat="n in notifications">
-										<a href="">
-											<i class="glyphicon glyphicon-flag"></i>
-											{{ n.senderLogin }} - {{ n.message }}</a>
-									</li>
-								</ul>
-							</li>
 
-							<li dropdown on-toggle="toggled(open)">
-								<a class="profile" href dropdown-toggle>
-									<img class="img-rounded" src="avatar.svg" />
-									Nome do usuário
-									<i class="glyphicon glyphicon-triangle-bottom"></i>
-								</a>
-								<ul class="dropdown-menu" aria-labelledby="simple-dropdown">
-									<li ng-repeat="link in navlinks">
-										<a href="">
-											<i class="{{link.glyphicon}}"></i> {{link.text}}
-										</a>
-									</li>
-								</ul>
-							</li>
-			      </ul>
-						<form class="navbar-form navbar-right" role="search">
+			<form class="" action="index.html" method="post">
+				{{ cpf }}
+				<input type="text" name="cpf" value="" ng-model="cpf" gumga-mask="999.999.999-99" gumga-mask-options="maskOptions">
+				{{ form.cpf }}
+			</form>
+			<!-- <form class="col-sm-9 col-md-10 ng-pristine ng-valid" style="margin-top: 5%">
+				<gumga-search class="ng-isolate-scope" fields="name" advanced="true" search-method="search(field,param)" advanced-method="advancedSearch(param)" translate-entity=" changepasswordticket"><div class="full-width-without-padding">
+					<div class="ng-scope" ng-if="adv">
+						<gumga-advanced-search>
 							<div class="input-group">
-					      <input type="text" class="form-control" placeholder="Search for...">
-					      <span class="input-group-btn">
-					        <button class="btn btn-default" type="button">
-					        	<i class="glyphicon glyphicon-search"></i>
-					        </button>
-					      </span>
-					    </div>
-			      </form>
-			    </div><!-- /.navbar-collapse -->
-			  </div><!-- /.container-fluid -->
-			</nav>
+								<span class="input-group-btn dropdown ng-hide" dropdown="" is-open="status.isopen" ng-show="$parent.saveQuery">
+									<span class="dropdown" dropdown="" on-toggle="toggled(open)">
+										<a aria-expanded="false" aria-haspopup="true" href="" id="simple-dropdown" class="btn btn-default dropdown-toggle" style="margin-right:-3px;" dropdown-toggle="">
+											<i class="glyphicon glyphicon-hourglass"></i>
+										</a>
+										<ul class="dropdown-menu" aria-labelledby="simple-dropdown" style="width: auto;">
 
-			<!-- <gumga-nav
-				title="Teste"
-				multi-entity="true"
-				state="logout">
-			</gumga-nav> -->
+										</ul>
+									</span>
+								</span>
+								<input ng-model="searchInputText" class="form-control ng-pristine ng-valid ng-touched" ng-disabled="isPanelOpen" id="textMain" type="text">
+								<span class="input-group-btn">
+									<button class="my-button btn-default" ng-click="showLittlePanel = !showLittlePanel">
+										<span class="glyphicon glyphicon-chevron-down"></span></button>
+										<button class="my-button btn-default" type="button" ng-click="isPanelOpen = !isPanelOpen">
+											<span class="glyphicon glyphicon-filter"></span>
+										</button><button class="my-button btn-primary last" type="button" ng-disabled="isPanelOpen" ng-click="doSearch(searchInputText)">Search <span class="glyphicon glyphicon-search"></span>
+										</button></span></div>   <div class="panel-advanced ng-hide" ng-show="isPanelOpen">
+											<div class="panel-body">
+												<div class="col-md-3">
+													<h3 style="margin-top: 0;margin-bottom: 0"><small>Advanced Search</small></h3>
+												</div>
+												<div class="form-inline col-md-9">
+													<div class="form-group">
+														<div class="list-holder">
+															<ul class="list-selectable" ng-show="selectAttribute">
+																<li ng-repeat="attr in attributes" ng-click="attributeHasChanged(attr)" class="hover-list ng-scope">
+																	<button class="btn btn-link ng-binding">name</button>
+																</li>
+															</ul>
+														</div>
+														<button type="button" class="btn btn-default ng-binding" ng-click="selectAttribute = !selectAttribute">Attribute<span class="caret"></span></button>
+														<div class="list-holder">
+															<ul class="list-selectable ng-hide" ng-show="selectHQL">
 
-			<form class="col-sm-9 col-md-10" style="margin-top: 5%">
-        <gumga-search
-          fields="name"
-          advanced="true"
-          search-method="search(field,param)"
-          advanced-method="advancedSearch(param)"
-          translate-entity=" changepasswordticket">
-          <advanced-field name="name" type="string">
-          </advanced-field>
-        </advanced-field> </gumga-search>
-      </form>
-			<!-- </nav>
-			<nav id="navbar">
-				<a href="#" class="navbar-logo" style=" float: left;">{{title | uppercase}}</a>
-				<span style="color: white; font-size: 1.4em;margin-left: 2%; float: left;"><small>{{info.organization}}</small></span>
-				<!-- <div class="navbar-form navbar-left" ng-transclude></div> -->
-				<!-- <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-					<ul class="nav navbar-nav">
-						<li>
-							<i class="glyphicon glyphicon-globe"></i>
-						</li>
-						<li>
-							<span dropdown on-toggle="toggled(open)">
-								<a href id="simple-dropdown" dropdown-toggle>
-									<i class="glyphicon glyphicon-bell"></i>
-								</a>
-								<ul class="dropdown-menu" aria-labelledby="simple-dropdown">
-									<li ng-repeat="choice in items">
-										<a href>{{choice}}</a>
-									</li>
-								</ul>
-							</span>
-						</li>
-					</ul>
-				</div>
-				<b class="pull-right">
-					<img ng-show="info.picture" class="img-circle" style="width: 40px; height: 40px; margin-right:10px;" src="{{info.picture}}" />
-					<a href ng-blur="hidePanel()" class="status-navbar" ng-click="showPanelNavBar()">
-						<small  style="font-size: 85%;">{{info.name}} &nbsp;&nbsp; <i class="glyphicon glyphicon-triangle-bottom" style="margin-left: 1px"></i> </small>
-					</a>
-				</b>
-				<span ng-if="multientity" ng-click="treatUrl()" class="glyphicon glyphicon-search btn pull-right" style="color:#fff; padding-top: 1%; margin-right: 5%; height: 100%;"></span>
-				<input ng-if="multientity" type="text" id="inputSearch" ng-keyup="submitSearch($event)" style="background: none repeat scroll 0 0 rgba(244, 214, 214, 0.15); border: double; font-size: 14px; outline: 0; color: #fff; height: 100%; margin: 0; border-color: rgba(0, 0, 0, 0); z-index: 2000;" ng-model="search" ng-show="inputVisible" class="navbar-input flip-right" placeholder="Search">
+															</ul>
+														</div>
+														<button type="button" class="btn btn-default ng-binding" ng-click="selectHQL = !selectHQL"> HQL <span class="caret"></span></button>
+														<input class="form-control col-x-3 ng-pristine ng-untouched ng-valid" ng-model="query.value" id="selectableAdvancedValue" ng-init="input = this" type="">
+														<button disabled="disabled" type="button" class="btn btn-default" ng-click="addQuery(query)" ng-disabled="query.value.length > 0 ? false : true"><span class="glyphicon glyphicon-plus"></span></button>
+													</div>
+												</div>
+											</div>
+											<hr>
+											<div class="col-md-12" style="padding-bottom: 2%">
+												<div class="col-md-12" style="margin-top: 1%;">
+													<button disabled="disabled" class="btn btn-primary pull-right" type="button" ng-disabled="queries.length == 0" ng-click="showArray(queries)">Advanced Search<span class="glyphicon glyphicon-search"></span>
+													</button>
+												</div>
+											</div>
+											<div class="clearfix" style="margin-bottom: 2%"></div>
+										</div>
+										<div class="little-panel ng-hide" ng-show="showLittlePanel">
+											<div class="panel-body">
+												<label class="ng-scope" ng-repeat="field in normalFields" style="display: block">
+													<input class="ng-pristine ng-untouched ng-valid" ng-model="models[field.value]" style="margin-right: 1%" type="checkbox"><span class="ng-binding">name</span></label>
+												</div>
+											</div>
+										</gumga-advanced-search>
+									</div>
+								</div>
+							</gumga-search>
+						</form> -->
 
-			</nav>
-			<div class="nav-panel" ng-show="showPanelNav">
-				<div class="panel-body" id="navPanelBody">
-					<button ng-repeat="link in navlinks" ng-click="handle(link)" class="btn btn-link" style="display:block;width: 100%;color: black; font-size: 0.9em;"><i class="{{link.glyphicon}}"> </i>{{link.text}} </button>
-				</div>
-			</div> -->
-		<!-- <form name="myForm" gumga-form="form" novalidate>
-			<div class="row">
-				<div class="col-md-3">
-					<div class="form-group">
-						<label for="maxDate">Max Date</label>
-						<input type="date" name="maxDate" ng-model="form.maxDate" label="Max Date" gumga-error gumga-max-date="2015-07-20" class="form-control" id="maxDate">
-					</div>
-				</div>
-				<div class="col-md-3">
-					<div class="form-group">
-						<label for="maxNumber">Max Number</label>
-						<input type="number" name="maxNumber" ng-model="form.maxNumber" label="Max Number" gumga-error gumga-min-number="1" gumga-max-number="100" class="form-control" id="maxNumber">
-					</div>
-				</div>
-				<div class="col-md-3">
-					<div class="form-group">
-						<label for="minDate">Min Date</label>
-						<input type="date" name="minDate" ng-model="form.minDate" label="Min Date" gumga-error gumga-min-date="2015-07-20" class="form-control" id="minDate">
-					</div>
-				</div>
-				<div class="col-md-3">
-					<div class="form-group">
-						<label for="minNumber">Min Number</label>
-						<input type="number" name="minNumber" ng-model="form.minNumber" gumga-error gumga-min-number="0" class="form-control" id="minNumber">
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-3">
-					<div class="form-group">
-						<label for="pattern">Pattern</label>
-						<input type="text" name="pattern" ng-model="form.pattern" gumga-error gumga-pattern="(\d{1,2})\-(\d{1,2})\-(\d{4})" pattern-alias="CPF" class="form-control" id="pattern">
-					</div>
-				</div>
-				<div class="col-md-3">
-					<div class="form-group">
-						<label for="pattern">Required</label>
-						<input type="text" name="required" ng-model="form.required" gumga-error gumga-required class="form-control" id="required">
-					</div>
-				</div>
-				<div class="col-md-3">
-					<div class="form-group">
-						<label for="rangeNumber">Range Number</label>
-						<input type="number" name="rangeNumber" ng-model="form.rangeNumber" gumga-error gumga-range-number="{min: 0, max: 10}" class="form-control" id="rangenumber">
-					</div>
-				</div>
-				<div class="col-md-3">
-					<div class="form-group">
-						<label for="rangeDate">Range Date</label>
-						<input type="date" name="rangeDate" ng-model="form.rangeDate" gumga-error gumga-range-date="{min: '1986-12-29', max: '2015-07-20'}" class="form-control" id="rangedate">
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-					</div>
-					<div class="col-md-12">
-						<gumga-queries input-placeholder="Salvar busca" save-query="saveQuery(query,name)"></gumga-queries>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<gumga-errors placement="right" icon="glyphicon glyphicon-info-sign" label="Campos inválidos" title="Campos inválidos"></gumga-errors>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<gumga-form-buttons submit="save(form)" valid="myForm.$valid"></gumga-form-buttons>
-				</div>
-			</div>
+						<!-- <gumga-nav
+						title="Teste"
+						multi-entity="true"
+						state="logout">
+					</gumga-nav> -->
+
+					<!-- <form class="col-sm-9 col-md-10" style="margin-top: 5%">
+					<gumga-search
+					fields="name"
+					advanced="true"
+					search-method="search(field,param)"
+					advanced-method="advancedSearch(param)"
+					translate-entity=" changepasswordticket">
+					<advanced-field name="name" type="string">
+				</advanced-field>
+			</advanced-field> </gumga-search>
 		</form> -->
-	</div>
+		<!-- </nav>
+		<nav id="navbar">
+		<a href="#" class="navbar-logo" style=" float: left;">{{title | uppercase}}</a>
+		<span style="color: white; font-size: 1.4em;margin-left: 2%; float: left;"><small>{{info.organization}}</small></span>
+		<!-- <div class="navbar-form navbar-left" ng-transclude></div> -->
+		<!-- <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		<ul class="nav navbar-nav">
+		<li>
+		<i class="glyphicon glyphicon-globe"></i>
+	</li>
+	<li>
+	<span dropdown on-toggle="toggled(open)">
+	<a href id="simple-dropdown" dropdown-toggle>
+	<i class="glyphicon glyphicon-bell"></i>
+</a>
+<ul class="dropdown-menu" aria-labelledby="simple-dropdown">
+<li ng-repeat="choice in items">
+<a href>{{choice}}</a>
+</li>
+</ul>
+</span>
+</li>
+</ul>
+</div>
+<b class="pull-right">
+<img ng-show="info.picture" class="img-circle" style="width: 40px; height: 40px; margin-right:10px;" src="{{info.picture}}" />
+<a href ng-blur="hidePanel()" class="status-navbar" ng-click="showPanelNavBar()">
+<small  style="font-size: 85%;">{{info.name}} &nbsp;&nbsp; <i class="glyphicon glyphicon-triangle-bottom" style="margin-left: 1px"></i> </small>
+</a>
+</b>
+<span ng-if="multientity" ng-click="treatUrl()" class="glyphicon glyphicon-search btn pull-right" style="color:#fff; padding-top: 1%; margin-right: 5%; height: 100%;"></span>
+<input ng-if="multientity" type="text" id="inputSearch" ng-keyup="submitSearch($event)" style="background: none repeat scroll 0 0 rgba(244, 214, 214, 0.15); border: double; font-size: 14px; outline: 0; color: #fff; height: 100%; margin: 0; border-color: rgba(0, 0, 0, 0); z-index: 2000;" ng-model="search" ng-show="inputVisible" class="navbar-input flip-right" placeholder="Search">
+
+</nav>
+<div class="nav-panel" ng-show="showPanelNav">
+<div class="panel-body" id="navPanelBody">
+<button ng-repeat="link in navlinks" ng-click="handle(link)" class="btn btn-link" style="display:block;width: 100%;color: black; font-size: 0.9em;"><i class="{{link.glyphicon}}"> </i>{{link.text}} </button>
+</div>
+</div> -->
+<!-- <form name="myForm" gumga-form="form" novalidate>
+<div class="row">
+<div class="col-md-3">
+<div class="form-group">
+<label for="maxDate">Max Date</label>
+<input type="date" name="maxDate" ng-model="form.maxDate" label="Max Date" gumga-error gumga-max-date="2015-07-20" class="form-control" id="maxDate">
+</div>
+</div>
+<div class="col-md-3">
+<div class="form-group">
+<label for="maxNumber">Max Number</label>
+<input type="number" name="maxNumber" ng-model="form.maxNumber" label="Max Number" gumga-error gumga-min-number="1" gumga-max-number="100" class="form-control" id="maxNumber">
+</div>
+</div>
+<div class="col-md-3">
+<div class="form-group">
+<label for="minDate">Min Date</label>
+<input type="date" name="minDate" ng-model="form.minDate" label="Min Date" gumga-error gumga-min-date="2015-07-20" class="form-control" id="minDate">
+</div>
+</div>
+<div class="col-md-3">
+<div class="form-group">
+<label for="minNumber">Min Number</label>
+<input type="number" name="minNumber" ng-model="form.minNumber" gumga-error gumga-min-number="0" class="form-control" id="minNumber">
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-3">
+<div class="form-group">
+<label for="pattern">Pattern</label>
+<input type="text" name="pattern" ng-model="form.pattern" gumga-error gumga-pattern="(\d{1,2})\-(\d{1,2})\-(\d{4})" pattern-alias="CPF" class="form-control" id="pattern">
+</div>
+</div>
+<div class="col-md-3">
+<div class="form-group">
+<label for="pattern">Required</label>
+<input type="text" name="required" ng-model="form.required" gumga-error gumga-required class="form-control" id="required">
+</div>
+</div>
+<div class="col-md-3">
+<div class="form-group">
+<label for="rangeNumber">Range Number</label>
+<input type="number" name="rangeNumber" ng-model="form.rangeNumber" gumga-error gumga-range-number="{min: 0, max: 10}" class="form-control" id="rangenumber">
+</div>
+</div>
+<div class="col-md-3">
+<div class="form-group">
+<label for="rangeDate">Range Date</label>
+<input type="date" name="rangeDate" ng-model="form.rangeDate" gumga-error gumga-range-date="{min: '1986-12-29', max: '2015-07-20'}" class="form-control" id="rangedate">
+</div>
+</div>
+<div class="row">
+<div class="col-md-12">
+</div>
+<div class="col-md-12">
+<gumga-queries input-placeholder="Salvar busca" save-query="saveQuery(query,name)"></gumga-queries>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-12">
+<gumga-errors placement="right" icon="glyphicon glyphicon-info-sign" label="Campos inválidos" title="Campos inválidos"></gumga-errors>
+</div>
+</div>
+<div class="row">
+<div class="col-md-12">
+<gumga-form-buttons submit="save(form)" valid="myForm.$valid"></gumga-form-buttons>
+</div>
+</div>
+</form> -->
+</div>
 
 </div>
 <script src='bower_components/angular/angular.min.js'></script>
@@ -213,6 +226,13 @@
 <script>
 angular.module('why',['gumga.core'])
 .controller('MainController',function($scope,$rootScope,$q,$timeout,GumgaNotification){
+	$scope.maskOptions = {
+		maskDefinitions: {
+			'seuRegex': /[regex]/
+		},
+		clearOnBlur: false
+	};
+
 	$scope.info = {
 		organization: "Gumga"
 	};
