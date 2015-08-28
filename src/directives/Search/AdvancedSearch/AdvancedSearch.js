@@ -5,18 +5,18 @@
 	function AdvancedSearch(GumgaSearchHelper){
 		var template =
 		'   <div class="input-group">' +
-		'       	<span class="input-group-btn" dropdown is-open="status.isopen" ng-show="$parent.saveQuery">'+
+		'       	<span class="input-group-btn" dropdown is-open="status.isopen">'+
 		'						<span dropdown on-toggle="toggled(open)">'+
 		'							<a href id="simple-dropdown" class="btn btn-default" style="margin-right:-3px;" dropdown-toggle>'+
 		'								<i class="glyphicon glyphicon-hourglass"></i>	'+
 		'							</a>'+
 		'							<ul class="dropdown-menu" aria-labelledby="simple-dropdown" style="width: auto;">'+
 		'								<li ng-repeat="choice in $parent.availableQueries">'+
-		'									<a href>{{choice.name}}</a>'+
+		'									<a href ng-click="doQuery(choice)">{{choice.description}}</a>'+
 		'								</li>'+
 		'							</ul>'+
 		'						</span>'+
-	'       	</span>' +
+		'       	</span>' +
 		'       <input type="text" ng-model="searchInputText" class="form-control" ng-disabled="isPanelOpen" id="textMain"/> ' +
 		'       <span class="input-group-btn">' +
 		'           <button class="my-button btn-default" ng-click="showLittlePanel = !showLittlePanel"><span class="glyphicon glyphicon-chevron-down"></span></button>' +
@@ -74,6 +74,11 @@
 				scope.searchField = '';
 				scope.translate = scope.$parent.entityToTranslate;
 
+				scope.doQuery = function (choice) {
+					var query = JSON.parse(choice.value);
+					scope.$emit('advanced', {hql: GumgaSearchHelper.translateArrayToHQL(query), source: query});
+				}
+
 				scope.$on('_doSearch',function(){
 					if(scope.queries.length != 0){
 						scope.showArray(scope.queries);
@@ -91,8 +96,6 @@
 						document.getElementById('textMain').focus();
 					}
 				});
-
-
 
 				if(!scope.$parent.normalFields.length > 0 || !scope.$parent.entityToTranslate){
 					throw 'Missing some parameters in GumgaSearch';

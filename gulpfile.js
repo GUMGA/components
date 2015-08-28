@@ -13,61 +13,61 @@ var gulp = require('gulp')
 ,		Server = require('karma').Server
 ,		ngAnnotate = require('gulp-ng-annotate')
 ,		sonar = require('gulp-sonar')
+,   shell = require('gulp-shell')
 ,		paths = {
-      // src: ['./src/**/*.js','!**/*Spec.js','!./src/directives/List/**/*.js','!./src/directives/Query/**/*.js','!./src/directives/List/**/*.js','!./src/services/Notification/**/*.js'],
-      src: ['./src/**/*.js','!**/*Spec.js'],
-    	stylus: ['./src/index.styl'],
-    	dist: ['./dist/']
-    };
+    src: ['./src/**/*.js','!**/*Spec.js'],
+    stylus: ['./src/index.styl'],
+    dist: ['./dist/']
+  };
 
 /**
- * Minifica o CSS escrito com stylus, renomeia e coloca no dir. dist.
- */
+* Minifica o CSS escrito com stylus, renomeia e coloca no dir. dist.
+*/
 gulp.task('minify-css',function(){
-	return gulp.src(paths.stylus)
-  	.pipe(stylus())
-  	.pipe(rename('gumga.min.css'))
-  	.pipe(minifyCss())
-  	.pipe(gulp.dest('./dist'))
+  return gulp.src(paths.stylus)
+  .pipe(stylus())
+  .pipe(rename('gumga.min.css'))
+  .pipe(minifyCss())
+  .pipe(gulp.dest('./dist'))
 })
 
 /**
- * Minifica o JS, renomeia e coloca no dir. dist.
- */
+* Minifica o JS, renomeia e coloca no dir. dist.
+*/
 gulp.task('minify-js',function(){
-	return gulp.src(paths.src)
-  	.pipe(ngAnnotate({remove: true,add:true}))
-  	.pipe(sourcemaps.init())
-  	.pipe(concat('gumga.min.js'))
-  	.pipe(sourcemaps.write())
-  	.pipe(uglify())
-  	.pipe(gulp.dest('dist/'));
+  return gulp.src(paths.src)
+  .pipe(ngAnnotate({remove: true,add:true}))
+  .pipe(sourcemaps.init())
+  .pipe(concat('gumga.min.js'))
+  .pipe(sourcemaps.write())
+  // .pipe(uglify())
+  .pipe(gulp.dest('dist/'));
 })
 
 /**
- * Executa o JSHint em cima dos arquivos Javascript.
- */
+* Executa o JSHint em cima dos arquivos Javascript.
+*/
 gulp.task('hint',function(){
-	return gulp.src(paths.src)
-  	.pipe(hint())
-  	.pipe(hint.reporter(stylish))
+  return gulp.src(paths.src)
+  .pipe(hint())
+  .pipe(hint.reporter(stylish))
 })
 
 /**
- * Executa os testes unitários.
- */
+* Executa os testes unitários.
+*/
 gulp.task('tests',function(done){
-	var config = {
-		configFile: __dirname + '/karma.conf.js',
-		singleRun: isTravis
-	};
-	var server = new Server(config,done);
-	server.start();
+  var config = {
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: isTravis
+  };
+  var server = new Server(config,done);
+  server.start();
 })
 
 /**
- * Reporta a cobertura de testes.
- */
+* Reporta a cobertura de testes.
+*/
 // gulp.task('sonar', function () {
 //   var options = {
 //     sonar: {
@@ -98,77 +98,77 @@ gulp.task('tests',function(done){
 // });
 
 /**
- * Reporta complexidade do código.
- */
+* Reporta complexidade do código.
+*/
 gulp.task('plato', function () {
-	return gulp.src(paths.src)
-  	.pipe(plato('report', {
-  		jshint: {
-  			options: {
-  				strict: true
-  			}
-  		},
-  		complexity: {
-  			trycatch: true
-  		}
-  	}));
+  return gulp.src(paths.src)
+  .pipe(plato('report', {
+    jshint: {
+      options: {
+        strict: true
+      }
+    },
+    complexity: {
+      trycatch: true
+    }
+  }));
 });
 
 /**
- * Gerador de documentação.
- */
+* Gerador de documentação.
+*/
 gulp.task('docs',function(){
-	var options = {
-		scripts: [
-		  './dist/gumga.min.js'
-		],
-		html5Mode: false,
-		startPage: '/directives',
-		title: 'Gumga Components',
-	}
-	return (ngDocs.sections({
-		directives: {
-			title: 'Directives',
-			glob: ['./src/directives/**/*.js','!**/*Spec.js']
-		},
-		services: {
-			title: 'Services',
-			glob: ['./src/services/**/*.js','!**/*Spec.js']
-		}
-	}))
-  	.pipe(ngDocs.process(options))
-  	.pipe(gulp.dest('./docs'))
+  var options = {
+    scripts: [
+      './dist/gumga.min.js'
+    ],
+    html5Mode: false,
+    startPage: '/directives',
+    title: 'Gumga Components',
+  }
+  return (ngDocs.sections({
+    directives: {
+      title: 'Directives',
+      glob: ['./src/directives/**/*.js','!**/*Spec.js']
+    },
+    services: {
+      title: 'Services',
+      glob: ['./src/services/**/*.js','!**/*Spec.js']
+    }
+  }))
+  .pipe(ngDocs.process(options))
+  .pipe(gulp.dest('./docs'))
 });
 
 /**
- * Usado para desenvolvimento,
- * reexecuta as minificações CSS e JS a cada alteração.
- */
-gulp.task('dev',function(){
-	gulp.watch(paths.src,['minify-js']);
-	gulp.watch(paths.stylus,['minify-css']);
+* Usado para desenvolvimento,
+* reexecuta as minificações CSS e JS a cada alteração.
+*/
+gulp.task('dev',['minify-js','minify-css'],function(){
+  gulp.watch(paths.src,['minify-js']);
+  gulp.watch(paths.stylus,['minify-css'])
 });
 
 /**
- * Usado para desenvolvimento,
- * reexecuta a minificação JS e os testes a cada alteração.
- */
+* Usado para desenvolvimento,
+* reexecuta a minificação JS e os testes a cada alteração.
+*/
 gulp.task('tdd',function(){
-	gulp.watch(paths.src,['minify-js','tests']);
+  gulp.watch('./src/**/*.js',['minify-js','tests']);
 });
 
 /**
- * Reporta cobertura de testes e complexidade do código.
- */
+* Reporta cobertura de testes e complexidade do código.
+*/
 gulp.task('report',['plato']);
 
 /**
- * Valida qualidade do código com JSHint, executa os testes
- * unitários e faz o report de cobertura e complexidade.
- */
+* Valida qualidade do código com JSHint, executa os testes
+* unitários e faz o report de cobertura e complexidade.
+*/
 gulp.task('ci-validate',['hint','tests']);
 
 /**
- * Executa as validações, minifica o CSS, JS e gera documentação.
- */
+* Executa as validações, minifica o CSS, JS e gera documentação.
+*/
 gulp.task('ci-build',['tests']);

@@ -222,7 +222,6 @@ scope.selectAll = function(){
 
 scope.cleanSearch = function(){
   $rootScope.$broadcast('normal',{field:scope.tableconfig.columns[1],param: ''});
-  $rootScope.$broadcast('advanced',{hql: ''});
   scope.tableconfig.headings.forEach(function(elm){
     elm.way = null;
   })

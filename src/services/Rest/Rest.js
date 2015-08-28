@@ -257,7 +257,6 @@
 				this._query.params.aq = p;
 				return $http.get(this._url,this._query);
 			}
-			console.log(this._query);
 			this._query.params = {};
 			this._query.params.aq = p.hql;
 			this._query.params.aqo = JSON.stringify(p.source);
@@ -266,15 +265,15 @@
 
 		function _saveQuery(q){
 			var _aux = {
-				page: location.hash,
-				data: q.query,
+				page: location.hash.replace('#','').replace(/\//gi,'_'),
+				data: JSON.stringify(q.query),
 				name: q.name
 			};
 			return $http.post(this._url + '/saq',_aux);
 		}
 
-		function _getQuery(){
-				// TODO: url do munif
+		function _getQuery(page){
+				return $http.get(this._url + '/gumgauserdata/aq;' + page.replace('#','').replace(/\//gi,'_'));
 		}
 		return RestPrototype;
 	}
