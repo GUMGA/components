@@ -10,7 +10,18 @@
 
 - No componente **GumgaUpload**, quando estava dentro de um GumgaForm, estava com erro pois estava sem o atributo `name`.
 
+- Arrumado a integração contínua.
+
+### IMPROVEMENT
+
+- Reorganização das tarefas do gulp.
+- Adição de um changelog.
+- Possibilidade de salvar a query que foi feita através da busca avançada.
+
 ### NEW FEATURES
+
+- **GumgaList**: a directive GumgaList veio como um novo componente para substituir a antiga **GumgaTable**.
+- **GumgaQuery**: a directive GumgaQuery pode ser usada para salvar a Query atual de pesquisa.
 
 # v1.1.0
 
