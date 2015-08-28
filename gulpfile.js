@@ -15,7 +15,7 @@ var gulp = require('gulp')
 ,		sonar = require('gulp-sonar')
 ,   shell = require('gulp-shell')
 ,		paths = {
-  src: ['./src/**/*.js','!**/*Spec.js','!./src/directives/Query/**/*.js'],
+  src: ['./src/**/*.js','!**/*Spec.js'],
   stylus: ['./src/index.styl'],
   dist: ['./dist/']
 };
@@ -40,7 +40,7 @@ gulp.task('minify-js',function(){
   .pipe(sourcemaps.init())
   .pipe(concat('gumga.min.js'))
   .pipe(sourcemaps.write())
-  .pipe(uglify())
+  // .pipe(uglify())
   .pipe(gulp.dest('dist/'));
 })
 
