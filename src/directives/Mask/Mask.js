@@ -139,7 +139,6 @@
           } else {
             linkOptions = options;
           }
-          console.log(linkOptions);
 
           attrs.$observe('gumgaMask', initialize);
           if (angular.isDefined(attrs.gumgaMaskPlaceholder)) {
