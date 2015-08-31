@@ -207,12 +207,11 @@
 		}
 
 		methods.getQuery = function(Scope,Service,Id){
-			Scope[Id.toLowerCase() + 'GetQuery'] = function(){
-				return Service.getQuery(location.origin)
+			Scope[Id.toLowerCase() + 'GetQuery'] = function(page){
+				return Service.getQuery(page)
 				.then(function(data){
-					// TODO esperar munif;
+					return data.data.values;
 				})
-
 			}
 		}
 
@@ -359,6 +358,7 @@
 				Service.resetQuery();
 			}
 		}
+		methods
 		return {
 			setConfig: function(n,v){
 				helpers.guaranteeString(n) && helpers.guaranteeIsDefined(v) ? (configs[n] = v) : angular.noop;

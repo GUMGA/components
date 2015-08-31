@@ -26,6 +26,7 @@
     "gulp-ng-annotate": "^1.0.0",
     "gulp-ngdocs": "^0.2.10",
     "gulp-plato": "^1.0.2",
+    "gulp-shell": "^0.4.2",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-uglify": "^1.2.0",
     "jasmine-core": "^2.3.4",

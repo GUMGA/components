@@ -33,7 +33,7 @@
 		'<div class="full-width-without-padding">' +
 		img +
 		'   <img src="#" alt="Uploaded Image" ng-show="!flag" class="img-rounded" style="object-fit: cover"/>' +
-		'   <input type="file" id="upload" ng-hide="true"/>' +
+		'   <input type="file" name="upload" id="upload" ng-hide="true"/>' +
 		'   <div class="col-md-12" style="padding-left: 0">' +
 		'   <button type="button" class="btn btn-link" ng-hide="flag" ng-click="deleteImage()"> Delete Image <span class="glyphicon glyphicon-trash"></span></button>' +
 		'</div>' +

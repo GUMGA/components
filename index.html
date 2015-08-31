@@ -7,22 +7,86 @@
 	<link rel="stylesheet" href="./dist/gumga.min.css">
 </head>
 <body>
-	<div ng-app="why" class="container">
+	<div ng-app="why">
 		<div ng-controller="MainController">
 
-			<gumga-search
-				fields="id,name"
-			  advanced="true"
-				search-method="search(field,param)"
-				advanced-method="advancedSearch(param)"
-				translate-entity="changepasswordticket"
-			>
-				<advanced-field name="id" type="number"></advanced-field>
-				<advanced-field name="nome" type="string"></advanced-field>
-				<advanced-field name="codigoUniversal" type="string"></advanced-field>
-			</gumga-search>
+			<nav class="navbar navbar-gumga">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" ng-click="isCollapsed = !isCollapsed">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="#">{{ info.organization }}</a>
+					</div>
+					<div class="collapse navbar-collapse" collapse="isCollapsed">
+						<ul class="nav navbar-nav navbar-right">
+							<li class="notification hidden-sm hidden-xs" dropdown on-toggle="toggled(open)">
+								<a class="icon" href dropdown-toggle>
+									<i class="glyphicon glyphicon-bell"></i>
+									<span class="badge">{{ notifications.length }}</span>
+								</a>
+								<ul class="dropdown-menu" aria-labelledby="simple-dropdown">
+									<li ng-if="notifications.length == 0" class="read">
+										<div class="text-center">
+											<p>Nenhuma mensagem nova</p>
+											<i class="glyphicon glyphicon-bell"></i>
+										</div>
+									</li>
+									<li ng-if="notifications.length > 0" ng-repeat="n in notifications">
+										<a href="" ng-click="isViewedMessage(n.message)">
+											<i class="glyphicon glyphicon-flag"></i>
+											{{ n.senderLogin }} - {{ n.message }}</a>
+										</li>
+									</ul>
+								</li>
 
+								<li dropdown on-toggle="toggled(open)">
+									<a class="profile" href dropdown-toggle>
+										<img class="img-rounded" src="avatar.svg" />
+										Nome do usuário
+										<i class="glyphicon glyphicon-triangle-bottom"></i>
+									</a>
+									<ul class="dropdown-menu" aria-labelledby="simple-dropdown">
+										<li ng-repeat="link in navlinks">
+											<a href="">
+												<i class="{{link.glyphicon}}"></i> {{link.text}}
+											</a>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<form class="navbar-form navbar-right" role="search">
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="Search for...">
+									<span class="input-group-btn">
+										<button class="btn btn-default" type="button">
+											<i class="glyphicon glyphicon-search"></i>
+										</button>
+									</span>
+								</div>
+							</form>
+						</div><!-- /.navbar-collapse -->
+					</div><!-- /.container-fluid -->
+				</nav>
 
+				<form class="" action="index.html" method="post">
+					{{cpf}} <br >
+					<input type="text" name="cpf" value="" ng-model="cpf" gumga-mask="AAA.9999.**" gumga-mask-options="maskOptions">
+				</form>
+
+				<form class="col-sm-9 col-md-10" style="margin-top: 5%">
+					<gumga-list data="arrayData" configuration="conf" sort="ordena(field,dir)"></gumga-list>
+					<b>Selected Values</b>
+					<pre>{{ selectedValues | json}}</pre>
+					<b>Items per page</b>
+					<pre>{{ itemsPerPage | json}}</pre>
+				</form>
+			</div>
+		</div>
+	</div>
 	<script src='bower_components/angular/angular.min.js'></script>
 	<script src='bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'></script>
 	<script src='bower_components/angular-mocks/angular-mocks.js'></script>
@@ -33,78 +97,135 @@
 	<script src="dist/gumga.min.js"></script>
 	<script>
 	angular.module('why',['gumga.core'])
-	.controller('MainController',function($scope,$rootScope,$q){
-		function getData(number){
-			var names = ['João','Juca','Marcos','José','Amarildo','Wladnelson','Jefferson','Maria','Jacinto','Júlia','Carla','Maria Cláudia'];
-			var surnames = ['Santana','Silva','Miranda','Souza','Santos','Pereira','Oliveira','Lima','Araújo','Ribeiro','Mendes','Barros','Pinto'];
-			var professions = ['Padeiro','Açougueiro','Vendedor de coco','Carpinteiro','Professor de Tecnologia da Informação','Desempregado','Programador','Analsita de Testes', 'Analista de Aviões de Papel','Manufaturador de Aviões de Papel','Campeão do minicurso de Android','Jogador de Futebol']
-			var _data = [];
-			function isEven(number){ return number % 2 == 0}
-			for(var i = 0; i < number;i++){
-				_data.push({
-					name: names[Math.floor(Math.random()*names.length)] + ' ' + surnames[Math.floor(Math.random()*surnames.length)],
-					age: Math.floor(Math.random()*50),
-					profession: professions[Math.floor(Math.random()*professions.length)],
-					hasDog: isEven(Math.floor(Math.random()*4))
-				})
+	.controller('MainController',function($scope,$rootScope,$q,$timeout,GumgaNotification,GumgaListHelper){
+
+		// var notification = GumgaNotification;
+		// notification.getEvent().addEventListener('message', function(event) {
+		// 	$timeout(function() {
+		// 		var n = JSON.parse(event.data);
+		// 		$scope.notifications = n.newMessages;
+		// 		$scope.notificationsCount = n.newMessagesCount;
+		// 	});
+		// }, false);
+
+		$scope.arrr = [];
+		$scope.sort = function(field,dir){
+			console.log(field,dir);
+		}
+
+		$scope.conf = {
+			columns : 'Nome,Cidade,Idade,teste',
+			itemsPerPage : [2,4,6,8,10],
+			selection : 'multi',
+			columnsConfig : [
+				{
+					name : 'nome',
+					size : 'col-md-2',
+					title : 'Nome do Amiguin'
+				},
+				{
+					name : 'Idade',
+					size : 'col-md-1',
+					title : 'Idade do Fera'
+				},
+				{
+					name : 'Cidade',
+					size : 'col-md-2',
+					title : 'Onde o malandro mora:',
+					sortField : 'ordenacao'
+				},
+				{
+					name : 'teste',
+					title : ' ',
+					content : '<button type="button" class="btn-danger" ng-click="deleteMovement($index)">Deletar</button>',
+					conditional : function(value){
+						return {
+							'2px solid black' : value.Nome == 'Augusto',
+							'2px solid red' : value.Idade == 19,
+							'2px solid blue' : value.Idade == 20,
+							'2px solid pink' : value.Idade > 20
+						}
+					}
+				}
+			]
+		}
+
+		$scope.deleteMovement = function (index) {
+			if ($scope.arrayData) {
+				$scope.arrayData.splice(index, 1);
 			}
-			return _data;
 		}
 
-		function getAsyncData(size){
-			var def = $q.defer();
-			def.resolve({value:getData(size)});
-			return def.promise;
+		$scope.ordena = function(field,dir){
+			console.log(field,dir)
 		}
-		$scope.getQueries = function(){
 
-				return getAsyncData(20)
-					.then(function(values){
-						return values.value;
-					})
+		$scope.arrayData =  [
+			{"Nome":"Augusto",
+			"Idade": '18',
+			"Cidade":"Paranavaí",
+			"Estado":"Paraná",
+			"pais":"Brasil",
+			"Nacionalidade":"Brasileiro",
+			"Naturalidade":"Curitiba",
+			"Telefone":"91536845"
+		},{
+			"Nome":"Mateus",
+			"Idade":"19",
+			"Cidade":"Paranavaí",
+			"Estado":"Rio de Janeiro",
+			"pais":"EUA",
+			"Nacionalidade":"Alemão",
+			"Naturalidade":"San Diego",
+			"Telefone":"444444444"
+		},{
+			"Nome":"Igor",
+			"Idade":"20","Cidade":"Maringá","Estado":"Paraná","pais":"Brasil","Nacionalidade":"Brasileiro","Naturalidade":"Maringá","Telefone":"24242424"},{"Nome":"Rafael","Idade":"21","Cidade":"Sarandi","Estado":"Bahia","pais":"Espanha","Nacionalidade":"Italiano","Naturalidade":"Boston","Telefone":"0102030405"},{"Nome":"Munif","Idade":"40","Cidade":"São Paulo","Estado":"Tocantins","pais":"Austrália","Nacionalidade":"Canadense","Naturalidade":"Nova Iorque","Telefone":"5947515456"},{"Nome":"Gyowanny","Idade":"28","Cidade":"Acapulco","Estado":"Pernambuco","pais":"Canadá","Nacionalidade":"Austríaco","Naturalidade":"França","Telefone":"0000000000"},{"Nome":"Guilherme","Idade":"23","Cidade":"Lisboa","Estado":"Amazonas","pais":"Portugal","Nacionalidade":"Espanhol","Naturalidade":"Grécia","Telefone":"12478921452"}]
 
-		}
-		$scope.save = function(data) {
-			console.log(data);
-		}
-		// $scope.list = [
-		// 	{name: 'Luke Skywalker',age: 19,dead: false,pet: {name:'Yoda'}},
-		//           {name: 'Princess Leia Organa of Alderaan',age: 21,dead: false,pet: {name:'Joaquim'} },
-		//           {name: 'Anakin Skywalker',age: 45,dead: true,pet: {name:'Wookie'}},
-		//           {name: 'Frodo Baggins',age: 50,dead: false,pet: {name:'Sam'}},
-		//           {name: 'Bilbo Baggins',age: 75,dead: true,pet: {name:'Frodo'}},
-		//           {name: 'Gandalf the Grey',age: 95,dead: false,pet: {name:'Frodo and Bilbo'}},
-		//           {name: 'Tom Bombadil',age: 96,dead: true,pet: {name:'Joaquim'}}
-		//       ];
-	});
-	</script>
-=======
-</div>
-<script src='bower_components/angular/angular.min.js'></script>
-<script src='bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'></script>
-<script src='bower_components/angular-mocks/angular-mocks.js'></script>
-<script src='bower_components/angular-ui-router/release/angular-ui-router.min.js'></script>
-<script src='bower_components/jquery/dist/jquery.min.js'></script>
-<script src='bower_components/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js'></script>
-<script src='bower_components/mousetrap-latest/mousetrap.min.js'></script>
-<script src="dist/gumga.min.js"></script>
-<script>
-angular.module('why',['gumga.core'])
-.controller('MainController',function($scope,$rootScope,$q,$timeout,GumgaNotification){
-	var notification = GumgaNotification;
-	notification.getEvent().addEventListener('message', function(event) {
-		$timeout(function() {
-			var n = JSON.parse(event.data);
-			$scope.notifications = n.newMessages;
-			$scope.notificationsCount = n.newMessagesCount;
+
+			$scope.ok = function(value){
+				console.log(value);
+			}
+			$scope.teste = function(value){
+				console.log(value);
+			}
+
+			// $scope.notifications = [
+			// 	{"senderLogin":"Gui Seek","message":"Acessou o sistema"},
+			// 	{"senderLogin":"Gui Seek","message":"Acessou o sistema"},
+			// 	{"senderLogin":"Gui Seek","message":"Acessou o sistema"},
+			// 	{"senderLogin":"Gui Seek","message":"Acessou o sistema"},
+			// 	{"senderLogin":"Gui Seek","message":"Acessou o sistema"},
+			// 	{"senderLogin":"Gui Seek","message":"Acessou o sistema"},
+			// 	{"senderLogin":"Gui Seek","message":"Acessou o sistema"},
+			// 	{"senderLogin":"Gui Seek","message":"Acessou o sistema"},
+			// 	{"senderLogin":"Gui Seek","message":"Acessou o sistema"}
+			// ];
+			$scope.navlinks = [
+				{text: 'Change Password', glyphicon: 'glyphicon glyphicon-user', value: 'pass'},
+				{text: 'Logout', glyphicon: 'glyphicon glyphicon-log-out', value: 'logout'}
+			];
+			$scope.isViewedMessage = function(id) {
+				console.log(id);
+				GumgaNotification.isViewedMessage(id).then(function(data) {
+					console.log(data);
+				}, function(error) {
+					console.log(error);
+				});
+			}
+			var notification = GumgaNotification;
+			notification.getSource().addEventListener('message', function(event) {
+				$timeout(function() {
+					var n = JSON.parse(event.data);
+					$scope.notifications = n.newMessages;
+					$scope.notificationsCount = n.newMessagesCount;
+				});
+			}, false);
+
+			// $timeout(function() {
+			// 	$scope.notifications = GumgaNotification.newMessages();
+			// });
 		});
-	}, false);
-
-	// $timeout(function() {
-	// 	$scope.notifications = GumgaNotification.newMessages();
-	// });
-});
-</script>
->>>>>>> abae58edfa6ae77d3359e33551752a499f2c2183
-</body>
-</html>
+		</script>
+	</body>
+	</html>
