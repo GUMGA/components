@@ -121,17 +121,17 @@
 				{
 					name : 'nome',
 					size : 'col-md-2',
-					title : 'Nome do Amiguin'
+					title : 'Nome'
 				},
 				{
 					name : 'Idade',
 					size : 'col-md-1',
-					title : 'Idade do Fera'
+					title : 'Idade'
 				},
 				{
 					name : 'Cidade',
 					size : 'col-md-2',
-					title : 'Onde o malandro mora:',
+					title : 'Onde mora:',
 					sortField : 'ordenacao'
 				},
 				{
@@ -190,37 +190,37 @@
 				console.log(value);
 			}
 
-			// $scope.notifications = [
-			// 	{"senderLogin":"Gui Seek","message":"Acessou o sistema"},
-			// 	{"senderLogin":"Gui Seek","message":"Acessou o sistema"},
-			// 	{"senderLogin":"Gui Seek","message":"Acessou o sistema"},
-			// 	{"senderLogin":"Gui Seek","message":"Acessou o sistema"},
-			// 	{"senderLogin":"Gui Seek","message":"Acessou o sistema"},
-			// 	{"senderLogin":"Gui Seek","message":"Acessou o sistema"},
-			// 	{"senderLogin":"Gui Seek","message":"Acessou o sistema"},
-			// 	{"senderLogin":"Gui Seek","message":"Acessou o sistema"},
-			// 	{"senderLogin":"Gui Seek","message":"Acessou o sistema"}
-			// ];
+			$scope.notifications = [
+				{"senderLogin":"Gui Seek","message":"Acessou o sistema"},
+				{"senderLogin":"Gui Seek","message":"Acessou o sistema"},
+				{"senderLogin":"Gui Seek","message":"Acessou o sistema"},
+				{"senderLogin":"Gui Seek","message":"Acessou o sistema"},
+				{"senderLogin":"Gui Seek","message":"Acessou o sistema"},
+				{"senderLogin":"Gui Seek","message":"Acessou o sistema"},
+				{"senderLogin":"Gui Seek","message":"Acessou o sistema"},
+				{"senderLogin":"Gui Seek","message":"Acessou o sistema"},
+				{"senderLogin":"Gui Seek","message":"Acessou o sistema"}
+			];
 			$scope.navlinks = [
 				{text: 'Change Password', glyphicon: 'glyphicon glyphicon-user', value: 'pass'},
 				{text: 'Logout', glyphicon: 'glyphicon glyphicon-log-out', value: 'logout'}
 			];
-			$scope.isViewedMessage = function(id) {
-				console.log(id);
-				GumgaNotification.isViewedMessage(id).then(function(data) {
-					console.log(data);
-				}, function(error) {
-					console.log(error);
-				});
-			}
-			var notification = GumgaNotification;
-			notification.getSource().addEventListener('message', function(event) {
-				$timeout(function() {
-					var n = JSON.parse(event.data);
-					$scope.notifications = n.newMessages;
-					$scope.notificationsCount = n.newMessagesCount;
-				});
-			}, false);
+			// $scope.isViewedMessage = function(id) {
+			// 	console.log(id);
+			// 	GumgaNotification.isViewedMessage(id).then(function(data) {
+			// 		console.log(data);
+			// 	}, function(error) {
+			// 		console.log(error);
+			// 	});
+			// }
+			// var notification = GumgaNotification;
+			// notification.getSource().addEventListener('message', function(event) {
+			// 	$timeout(function() {
+			// 		var n = JSON.parse(event.data);
+			// 		$scope.notifications = n.newMessages;
+			// 		$scope.notificationsCount = n.newMessagesCount;
+			// 	});
+			// }, false);
 
 			// $timeout(function() {
 			// 	$scope.notifications = GumgaNotification.newMessages();
