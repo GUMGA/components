@@ -40,9 +40,7 @@
       priority: 100,
       require: 'ngModel',
       restrict: 'A',
-      scope: {
-        gumgaMaskOptions: '=gumgaMaskOptions'
-      },
+      scope: false,
       compile: function gumgaMaskCompilingFunction() {
         var options = {
           maskDefinitions: {
@@ -120,8 +118,8 @@
 
           var linkOptions = options;
 
-          if (scope.gumgaMaskOptions) {
-            linkOptions = scope.gumgaMaskOptions;
+          if (attrs.gumgaMaskOptions) {
+            linkOptions = scope.$eval(attrs.gumgaMaskOptions);
             if (angular.isObject(linkOptions)) {
               linkOptions = (function(original, current) {
                 for (var i in original) {
