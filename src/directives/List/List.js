@@ -84,14 +84,26 @@
       vm.config.onDoubleClick = verifyEmpty('onDoublelick',angular.noop);
       vm.config.onSort = verifyEmpty('onSort',angular.noop);
       if(vm.config.sortDefault)sortProxy(vm.config.sortDefault);
-      if (vm.data && vm.data.length > 0){
-        vm.config.columns =
-        !!vm.config.columns ?
-        GumgaListHelper.ensureDefaultValues(vm.config.columns.split(','),vm.config.columnsConfig) : GumgaListHelper.loadDefaultColumns(vm.data[0]);
+
+      if (vm.config.columns) {
+        vm.config.columns = GumgaListHelper.ensureDefaultValues(vm.config.columns.split(','),vm.config.columnsConfig);
         vm.config.auxColumnsToSort = vm.config.columns;
+        $element.append($compile(GumgaListHelper.mountTable(vm.config))($scope));
+      } else {
+        $scope.$watch('vm.data', function() {
+          if (vm.data.length > 0) {
+            vm.config.columns = GumgaListHelper.loadDefaultColumns(vm.data[0]);
+            vm.config.auxColumnsToSort = vm.config.columns;
+            $element.append($compile(GumgaListHelper.mountTable(vm.config))($scope));
+          }
+        });
       }
 
-      $element.append($compile(GumgaListHelper.mountTable(vm.config))($scope));
+      // vm.config.columns =
+      // !!vm.config.columns ?
+      // GumgaListHelper.ensureDefaultValues(vm.config.columns.split(','),vm.config.columnsConfig) : GumgaListHelper.loadDefaultColumns(vm.data[0]);
+      // vm.config.auxColumnsToSort = vm.config.columns;
+      // $element.append($compile(GumgaListHelper.mountTable(vm.config))($scope));
 
       function selectAll(checkboxBoolean){
         cleanArrays();

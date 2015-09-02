@@ -40,7 +40,7 @@ gulp.task('minify-js',function(){
   .pipe(sourcemaps.init())
   .pipe(concat('gumga.min.js'))
   .pipe(sourcemaps.write())
-  // .pipe(uglify())
+  .pipe(uglify())
   .pipe(gulp.dest('dist/'));
 })
 
