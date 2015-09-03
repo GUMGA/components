@@ -113,8 +113,12 @@
       }
 
       function findInOriginalArray(val){
+
         var copyWithoutCheckedAttributes = angular.copy(val);
         delete copyWithoutCheckedAttributes.__checked;
+        var aux = vm.data.filter(function(originalRegistry){
+          return angular.equals(originalRegistry,copyWithoutCheckedAttributes);
+        });
         return vm.data.filter(function(originalRegistry){
           return angular.equals(originalRegistry,copyWithoutCheckedAttributes);
         })[0];

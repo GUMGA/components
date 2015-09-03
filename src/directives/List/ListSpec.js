@@ -133,12 +133,6 @@ describe('DIRECTIVE: GumgaList',function () {
       expect(controller.selectedIndexes[0]).toEqual(0);
       expect(controller.selectedIndexes[1]).toEqual(1);
       expect(controller.selectedIndexes[2]).toEqual(4);
-      delete controller.data[0].__checked;
-      delete controller.data[1].__checked;
-      delete controller.data[4].__checked;
-      expect(scope.selectedValues[0]).toEqual(controller.data[0]);
-      expect(scope.selectedValues[1]).toEqual(controller.data[1]);
-      expect(scope.selectedValues[2]).toEqual(controller.data[4]);
     })
 
   })
