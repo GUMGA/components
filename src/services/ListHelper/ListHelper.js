@@ -85,7 +85,7 @@
         message += '\t</tr>\n';
         message += '</thead>';
         message += '<tbody>';
-        message += '<tr ng-style="{borderLeft: {{::vm.conditional($value)}} }"  ng-dblclick="vm.double($value)" ng-class="$value.__checked ? \'active\' : \'\'" ng-repeat="$value in vm.data track by $index" ng-click="vm.selectRow($index,$value,$event)" >';
+        message += '<tr ng-style="{borderLeft: {{::vm.conditional($value)}} }"  ng-dblclick="vm.double($value)" ng-class="$value.__checked ? \'active\' : \'\'" ng-repeat="$value in vm.usingData track by $index" ng-click="vm.selectRow($index,$value,$event)" >';
         message += configuration.columns.reduce(mountAllTableCell,'');
         message += '</tr>';
         message += '</tbody>';
