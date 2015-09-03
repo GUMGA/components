@@ -1,9 +1,9 @@
 (function () {
   'use strict';
 
-  List.$inject = ['GumgaListHelper','$compile'];
+  List.$inject = ['GumgaListHelper','$compile','$timeout'];
 
-  function List(GumgaListHelper,$compile){
+  function List(GumgaListHelper,$compile,$timeout){
     /**
     * @ngdoc directive
     * @name gumga.core:gumgaList
@@ -68,11 +68,10 @@
       $scope.$parent.itemsPerPage;
       // Número de itens na página
       vm.page = $scope.$parent.itemsPerPage;
-
-      vm.originalData = vm.data;
-      vm.data = angular.copy(vm.data) || [];
+      vm.data = vm.data || [];
+      vm.usingData = angular.copy(vm.data) || [];
       vm.config = vm.config || {}
-      vm.data.forEach(function(val){val.__checked = false;});
+      vm.usingData.forEach(function(val){val.__checked = false;});
       vm.config.selection = vm.config.selection || 'single';
       vm.config.sortDefault = vm.config.sortDefault;
       vm.config.itemsPerPage = vm.config.itemsPerPage || [10,20,30,40,50];
@@ -88,26 +87,26 @@
       if (vm.config.columns) {
         vm.config.columns = GumgaListHelper.ensureDefaultValues(vm.config.columns.split(','),vm.config.columnsConfig);
         vm.config.auxColumnsToSort = vm.config.columns;
-        $element.append($compile(GumgaListHelper.mountTable(vm.config))($scope));
-      } else {
-        $scope.$watch('vm.data', function() {
-          if (vm.data.length > 0) {
+      }
+      $scope.$watch('vm.data', function() {
+        if (vm.data.length > 0) {
+          if (!vm.config.columns) {
             vm.config.columns = GumgaListHelper.loadDefaultColumns(vm.data[0]);
             vm.config.auxColumnsToSort = vm.config.columns;
-            $element.append($compile(GumgaListHelper.mountTable(vm.config))($scope));
           }
+          copyData();
+        }
+      });
+      function copyData() {
+        $timeout(function() {
+          vm.usingData = angular.copy(vm.data);
         });
       }
-
-      // vm.config.columns =
-      // !!vm.config.columns ?
-      // GumgaListHelper.ensureDefaultValues(vm.config.columns.split(','),vm.config.columnsConfig) : GumgaListHelper.loadDefaultColumns(vm.data[0]);
-      // vm.config.auxColumnsToSort = vm.config.columns;
-      // $element.append($compile(GumgaListHelper.mountTable(vm.config))($scope));
+      $element.append($compile(GumgaListHelper.mountTable(vm.config))($scope));
 
       function selectAll(checkboxBoolean){
         cleanArrays();
-        vm.data.forEach(function(data,index){
+        vm.usingData.forEach(function(data,index){
           data.__checked = checkboxBoolean;
           if(checkboxBoolean)pushToArrays(data,index);
         })
@@ -116,7 +115,7 @@
       function findInOriginalArray(val){
         var copyWithoutCheckedAttributes = angular.copy(val);
         delete copyWithoutCheckedAttributes.__checked;
-        return vm.originalData.filter(function(originalRegistry){
+        return vm.data.filter(function(originalRegistry){
           return angular.equals(originalRegistry,copyWithoutCheckedAttributes);
         })[0];
       }
@@ -129,7 +128,7 @@
         $scope.$parent.selectedValues.push(findInOriginalArray(val));
       }
       function setEveryCheckedToBoolean(bool){
-        vm.data.forEach(function(elm){
+        vm.usingData.forEach(function(elm){
           elm.__checked = bool;
         })
       }
@@ -169,7 +168,7 @@
           selectedValues.forEach(function(val,indx){
             if(angular.equals(val,ngRepeatValue)) indexOfValueSelected = indx;
           })
-          $scope.$parent.selectedValues.splice(indexOfValueSelected, 1);
+          selectedValues.splice(indexOfValueSelected, 1);
           vm.selectedIndexes.splice(vm.selectedIndexes.indexOf(ngRepeatIndex),1);
         }
       }
