@@ -1,11 +1,11 @@
 (function () {
     'use strict';
-    
+
     /**
      * @ngdoc directive
      * @name gumga.core:gumgaPassword
      * @restrict E
-     * @description
+     * @deion
      * A directive gumgaPassword é usada para adicionar ao formulário, um campo de senha com algumas validações que podem ser configuradas.
      * também podendo escolher se irá utilizar confirmação de senha ou não
      * @param {String} value - Parâmetro obrigatório que irá conter uma variável para armazenar o valor digitado pelo usuário.
@@ -33,47 +33,60 @@
             },
             template: '<div class="form-group has-{{status}} has-feedback">'
                     + ' <label>Password</label>'
-                    + ' <input type="password" required="true" class="form-control" ng-change="validate(value)" ng-model="value"/>'
+                    + ' <input type="password" name="password" required="true" class="form-control" ng-model="value"/>'
                     + ' <span class="glyphicon {{status===\'error\' ? \'glyphicon-remove\' : \'glyphicon-ok\'}} form-control-feedback" aria-hidden="true"></span>'
                     + '</div>'
                     + '<div ng-show="confirmation" class="form-group has-{{statusConfirm}} has-feedback">'
                     + ' <label>Confirm Password</label>'
-                    + ' <input type="password" required="{{requiredConfirm}}" class="form-control" ng-change="validateConfirm(confirm)" ng-model="confirm"/>'
+                    + ' <input type="password" name="ConfirmPassword" required="{{requiredConfirm}}" class="form-control" ng-change="validateConfirm(confirm)" ng-model="confirm"/>'
                     + ' <span class="glyphicon {{statusConfirm===\'error\' ? \'glyphicon-remove\' : \'glyphicon-ok\'}} form-control-feedback" aria-hidden="true"></span>'
                     + '</div>',
-            link: function (scope, elem, attrs) {
-                scope.requiredConfirm = true;
+            link: function (scope, elem, attrs,form){
+                scope.requiredConfirm = false;
                 scope.status = 'error';
                 scope.statusConfirm = 'error';
-                if (!scope.valueRequired && typeof scope.valueRequired != "boolean") {                    
+                if (!scope.valueRequired && typeof scope.valueRequired != "boolean") {
                     scope.valueRequired = false;
                 }
-                if (!scope.containsNumbers && typeof scope.containsNumbers != "boolean") {                    
+                if (!scope.containsNumbers && typeof scope.containsNumbers != "boolean") {
                     scope.containsNumbers = false;
                 }
                 if(!scope.containsUppercase && typeof scope.containsUppercase != "boolean"){
-                    scope.containsUppercase = false;                
+                    scope.containsUppercase = false;
                 }
                 if(!scope.containsSymbols && typeof scope.containsSymbols != "boolean"){
-                    scope.containsSymbols = false;                
+                    scope.containsSymbols = false;
                 }
                 if(!scope.confirmation && typeof scope.confirmation != "boolean"){
-                    scope.confirmation = false;                
+                    scope.confirmation = false;
                 }
                 if(!scope.valueMinLength && typeof scope.valueMinLength != "number"){
-                    scope.valueMinLength = 3;                
+                    scope.valueMinLength = 3;
                 }
                 if(!scope.valueMaxLength && typeof scope.valueMaxLength != "number"){
-                    scope.valueMaxLength = 10;                
+                    scope.valueMaxLength = 10;
                 }
                 if(scope.valueMinLength >= scope.valueMaxLength){
                     throw 'O tamanho mínimo da senha tem que ser menor que o valor máximo.';
-                }                
+                }
                 if(scope.confirmation){
                     scope.requiredConfirm = true;
-                }                
+                }
+
+                scope.$watch('value', function (data){
+                    scope.validate(data);
+                });
+
+
                 scope.validate = function (str) {
-                    str && isNumeric(str, scope.containsNumbers) && isSymbols(str,scope.containsSymbols) && isUpperCase(str,scope.containsUppercase) && str.length >= scope.valueMinLength &&str.length <=scope.valueMaxLength ? scope.status = 'success' : scope.status = 'error';
+                  console.log()
+                    if(str && isNumeric(str, scope.containsNumbers) && isSymbols(str,scope.containsSymbols) && isUpperCase(str,scope.containsUppercase) && str.length >= scope.valueMinLength &&str.length <=scope.valueMaxLength) {
+                        scope.status = 'success'
+                        delete form.$error.pattern;
+                    }else{
+                        form.$error.pattern = true
+                        scope.status = 'error';
+                    }
                 };
                 scope.validateConfirm = function (str) {
                     if(scope.confirmation){
@@ -97,7 +110,7 @@
         }
         return true;
     }
-    
+
     function isSymbols(str,bln){
         if(bln){
             return /[!@#$%^&*()_+=\[{\]};:<>|./?,-]/.test(str);

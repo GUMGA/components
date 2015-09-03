@@ -5,7 +5,7 @@ describe('Gumga.core:directives:GumgaPassword', function() {
     scope = $rootScope;
     element = angular.element(
        '<form name="myForm">'
-      +'  <gumga-password value="entity.password" with-uppercase="true" with-numbers="true"></gumga-password>'
+      +'  <gumga-password value="entity.password" contains-uppercase="true" contains-numbers="true"></gumga-password>'
       +'</form>'
     );
     scope.entity = {};
@@ -17,13 +17,15 @@ describe('Gumga.core:directives:GumgaPassword', function() {
   describe('when entity.password pass validation', function() {
     it('when the value is invalid', function(){
       scope.entity.password = 'senha'
+      scope.$digest();
       expect(scope.entity.password).toEqual('senha');
-      expect(scope.status).toEqual('error');
+      expect(form.$error.pattern).toBe(true);
     });
     it('whin the value is valid', function(){
-      scope.entity.password = 'Senha123'
-      expect(scope.entity.password).toEqual('Senha123');
-      expect(scope.status).toEqual('success');
+      scope.entity.password = 'SenhA123'
+      scope.$digest();
+      expect(scope.entity.password).toEqual('SenhA123');
+      expect(form.$error.pattern).toBe(undefined);
     });
   });
 });
