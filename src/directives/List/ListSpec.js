@@ -52,7 +52,7 @@ describe('DIRECTIVE: GumgaList',function () {
         name: '__checkbox',
         size: 'col-md-1',
         sortField: null,
-        title: '<label><input type="checkbox" ng-model="vm.checkAll" ng-change="vm.selectAll(vm.checkAll)"/><strong ><small>Selecionar Todos</small></strong></label>',
+        title: '<label><input type="checkbox" ng-model="vm.checkAll" ng-change="vm.selectAll(vm.checkAll)"/></label>',
         conditional: angular.noop
       })
       expect(controller.config.columns[1]).toEqual({

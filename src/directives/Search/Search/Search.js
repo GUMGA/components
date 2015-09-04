@@ -33,10 +33,15 @@
 				scope.saveQuery = false;
 				if(attrs.getQueries){
 					scope.saveQuery = true;
-					scope.getQueries({page: location.hash})
-					.then(function(data){
-						scope.availableQueries = data;
-					})
+					try {
+						scope.getQueries({page: location.hash})
+						.then(function(data){
+							scope.availableQueries = data;
+						})
+					} catch(e){
+						console.warn('Não foi possível buscar as queries no componente GumgaAdvancedSearch.');
+					}
+
 				}
 
 				var eventHandler = {

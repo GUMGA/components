@@ -72,9 +72,11 @@
 					</div><!-- /.container-fluid -->
 				</nav>
 
-				<form class="" action="index.html" method="post">
-					{{cpf}} <br >
-					<input type="text" name="cpf" value="" ng-model="cpf" gumga-mask="AAA.9999.**" gumga-mask-options="maskOptions">
+				<form>
+					<gumga-search fields="name,document" advanced="true" search-method="buyerSearch(field,param)" get-queries="angular.noop()" advanced-method="buyerAdvancedSearch(param)" translate-entity=" buyer">
+						<advanced-field name="name" type="string"></advanced-field>
+						<advanced-field name="document" type="string"></advanced-field>
+					</gumga-search>
 				</form>
 
 				<form class="col-sm-9 col-md-10" style="margin-top: 5%">

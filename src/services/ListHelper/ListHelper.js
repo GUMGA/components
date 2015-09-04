@@ -50,7 +50,7 @@
       },
       'addCheckbox': function(){
         return {
-          title: '<label><input type="checkbox" ng-model="vm.checkAll" ng-change="vm.selectAll(vm.checkAll)"/><strong ><small>Selecionar Todos</small></strong></label>',
+          title: '<label><input type="checkbox" ng-model="vm.checkAll" ng-change="vm.selectAll(vm.checkAll)"/></label>',
           size: 'col-md-1',
           name:'__checkbox',
           content: '<input name="__checkbox" type="checkbox" ng-model="$value.__checked"/>',
@@ -64,7 +64,7 @@
         }
         function returnFormattableTableHeader(bool,string,sf){
           if(bool){
-            return '<button type="button" class=" btn btn-link btn-sm" ng-click="vm.sortProxy(\''+ sf +'\',' + '\''.concat(sf).concat('\'') +')">' + string + returnFormattableGlyphicon(sf) + '</button>';
+            return '<button type="button" class=" btn btn-link" ng-click="vm.sortProxy(\''+ sf +'\',' + '\''.concat(sf).concat('\'') +')">' + string + returnFormattableGlyphicon(sf) + '</button>';
           }
           return string;
         }

@@ -13,7 +13,6 @@ var gulp = require('gulp')
 ,		Server = require('karma').Server
 ,		ngAnnotate = require('gulp-ng-annotate')
 ,		sonar = require('gulp-sonar')
-,   shell = require('gulp-shell')
 ,		paths = {
     src: ['./src/**/*.js','!**/*Spec.js'],
     stylus: ['./src/index.styl'],
