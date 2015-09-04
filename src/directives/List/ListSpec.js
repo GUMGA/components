@@ -41,7 +41,7 @@ describe('DIRECTIVE: GumgaList',function () {
     it('should get all the needed configuration',function(){
       expect(controller.config.selection).toEqual('single');
       expect(controller.config.sortDefault).toEqual(undefined);
-      expect(controller.config.itemsPerPage).toEqual([10,20,30,40,50]);
+      expect(controller.config.itemsPerPage).toEqual(null);
       expect(controller.config.conditional).toEqual(angular.noop);
       expect(controller.config.sort).toEqual(angular.noop);
       expect(controller.config.onClick).toEqual(angular.noop);
