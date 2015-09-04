@@ -5,7 +5,7 @@
 	function AdvancedSearch(GumgaSearchHelper){
 		var template =
 		'   <div class="input-group">' +
-		'       	<span class="input-group-btn" dropdown is-open="status.isopen">'+
+		'       	<span class="input-group-btn" dropdown is-open="status.isopen"  ng-show="$parent.saveQuery">'+
 		'						<span dropdown on-toggle="toggled(open)">'+
 		'							<a href id="simple-dropdown" class="btn btn-default" style="margin-right:-3px;" dropdown-toggle>'+
 		'								<i class="glyphicon glyphicon-hourglass"></i>	'+
@@ -33,7 +33,7 @@
 		'               <div class="form-group">' +
 		'                   <div class="list-holder">' +
 		'                           <ul class="list-selectable" ng-show="selectAttribute">\n' +
-		'                               <li ng-repeat="attr in attributes" ng-click="attributeHasChanged(attr)" class="hover-list"><button class="btn btn-link">{{attr.name}}</button></li>\n' +
+		'                               <li ng-repeat="attr in attributes" ng-click="attributeHasChanged(attr)" class="hover-list"><button class="btn btn-link" gumga-translate-tag="{{translate + \'.\' + attr.name}}"></button></li>\n' +
 		'                           </ul>\n' +
 		'                       </div>' +
 		'                       <button type=button class="btn btn-default" ng-click="selectAttribute = !selectAttribute" >{{query.attribute.name || \'Attribute\'}}<span class="caret"></span></button>' +
@@ -59,7 +59,7 @@
 		'   </div>' +
 		'<div class="little-panel" ng-show="showLittlePanel">' +
 		'   <div class="panel-body">' +
-		'       <label ng-repeat="field in normalFields" style="display: block" ><input type="checkbox" ng-model="models[field.value]" style="margin-right: 1%" ><span>{{field.value}}</span></label>' +
+		'       <label ng-repeat="field in normalFields" style="display: block" ><input type="checkbox" ng-model="models[field.value]" style="margin-right: 1%" ><span gumga-translate-tag="{{ translate + \'.\' + field.value}}"></span></label>' +
 		'   </div>' +
 		'</div>';
 		return {

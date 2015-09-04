@@ -41,7 +41,7 @@ describe('DIRECTIVE: GumgaList',function () {
     it('should get all the needed configuration',function(){
       expect(controller.config.selection).toEqual('single');
       expect(controller.config.sortDefault).toEqual(undefined);
-      expect(controller.config.itemsPerPage).toEqual([10,20,30,40,50]);
+      expect(controller.config.itemsPerPage).toEqual(null);
       expect(controller.config.conditional).toEqual(angular.noop);
       expect(controller.config.sort).toEqual(angular.noop);
       expect(controller.config.onClick).toEqual(angular.noop);
@@ -52,7 +52,7 @@ describe('DIRECTIVE: GumgaList',function () {
         name: '__checkbox',
         size: 'col-md-1',
         sortField: null,
-        title: '<label><input type="checkbox" ng-model="vm.checkAll" ng-change="vm.selectAll(vm.checkAll)"/><strong ><small>Selecionar Todos</small></strong></label>',
+        title: '<label><input type="checkbox" ng-model="vm.checkAll" ng-change="vm.selectAll(vm.checkAll)"/></label>',
         conditional: angular.noop
       })
       expect(controller.config.columns[1]).toEqual({
