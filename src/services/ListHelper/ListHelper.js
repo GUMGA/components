@@ -50,7 +50,7 @@
       },
       'addCheckbox': function(){
         return {
-          title: '<label><input type="checkbox" ng-model="vm.checkAll" ng-change="vm.selectAll(vm.checkAll)"/></label>',
+          title: '<label><input type="checkbox" ng-model="vm.checkAll" ng-change="vm.selectAll(vm.checkAll)"/><strong ><small>Selecionar Todos</small></strong></label>',
           size: 'col-md-1',
           name:'__checkbox',
           content: '<input name="__checkbox" type="checkbox" ng-model="$value.__checked"/>',
@@ -64,7 +64,7 @@
         }
         function returnFormattableTableHeader(bool,string,sf){
           if(bool){
-            return '<button type="button" class=" btn btn-link" ng-click="vm.sortProxy(\''+ sf +'\',' + '\''.concat(sf).concat('\'') +')">' + string + returnFormattableGlyphicon(sf) + '</button>';
+            return '<button type="button" class=" btn btn-link btn-sm" ng-click="vm.sortProxy(\''+ sf +'\',' + '\''.concat(sf).concat('\'') +')">' + string + returnFormattableGlyphicon(sf) + '</button>';
           }
           return string;
         }
@@ -75,12 +75,11 @@
           return prev += '<td ng-style="{borderLeft: {{::vm.conditionalTableCell($value,\''+ next.name +'\')}} }">' + next.content +'</td>';
         }
 
-        configuration.columns.unshift(this.addCheckbox());
-        configuration.columns = this.sortColumns(configuration.auxColumnsToSort, configuration.columns);
-        var message = '';
-        if(configuration.itemsPerPage != null){
-          message = '<select ng-options="item for item in vm.config.itemsPerPage" ng-model="vm.$parent.itemsPerPage"></select>';
+        if (configuration.checkbox) {
+          configuration.columns.unshift(this.addCheckbox());
         }
+        configuration.columns = this.sortColumns(configuration.auxColumnsToSort, configuration.columns);
+        var message = '<select ng-options="item for item in vm.config.itemsPerPage" ng-model="vm.$parent.itemsPerPage"></select>';
         message += '<table class="'+ configuration.class +'">\n';
         message += '<thead>';
         message += '\t<tr>\n';

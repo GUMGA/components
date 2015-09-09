@@ -111,24 +111,6 @@
 							}
 						})
 					})
-					angular.forEach(elm.find('select'),function(select){
-						_formControllers.push({
-							name: angular.element(select).controller('ngModel').$name,
-							controller: angular.element(select).controller('ngModel'),
-							errorMessages: {
-								maxdate: 'A data especificada no campo {0} não deve ultrapassar o limite de: {1}.',
-								maxlength: 'O texto especificado no campo {0} não deve ultrapassar o limite de: {1}.',
-								maxnumber: 'O número especificado no campo {0} não deve ultrapassar o limite de: {1}.',
-								mindate: 'A data especificada no campo {0} não deve ser menor que o limite mínimo de: {1}.',
-								minlength: 'O texto especificado no campo {0} não deve ser menor que o limite mínimo de: {1}.',
-								minnumber: 'O número especificado no campo {0} não deve ser menor que o limite mínimo de: {1}.',
-								pattern: 'O texto especificado no campo {0} deve estar dentro do padrão: {1}.',
-								rangedate:'A data especificada no campo {0} deve estar dentro do intervalo: {1}.',
-								rangenumber: 'O número especificado no campo {0} deve estar dentro do intervalo: {1}.',
-								required: 'O campo {0} é obrigatório.'
-							}
-						})
-					})
 				})();
 
 				function returnObject(name){

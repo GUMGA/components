@@ -41,52 +41,16 @@ describe('DIRECTIVE: GumgaList',function () {
     it('should get all the needed configuration',function(){
       expect(controller.config.selection).toEqual('single');
       expect(controller.config.sortDefault).toEqual(undefined);
-      expect(controller.config.itemsPerPage).toEqual(null);
+      expect(controller.config.itemsPerPage).toEqual([10,20,30,40,50]);
       expect(controller.config.conditional).toEqual(angular.noop);
       expect(controller.config.sort).toEqual(angular.noop);
       expect(controller.config.onClick).toEqual(angular.noop);
       expect(controller.config.onDoubleClick).toEqual(angular.noop);
       expect(controller.config.onSort).toEqual(angular.noop);
-      expect(controller.config.columns[0]).toEqual({
-        content: '<input name="__checkbox" type="checkbox" ng-model="$value.__checked"/>',
-        name: '__checkbox',
-        size: 'col-md-1',
-        sortField: null,
-        title: '<label><input type="checkbox" ng-model="vm.checkAll" ng-change="vm.selectAll(vm.checkAll)"/></label>',
-        conditional: angular.noop
-      })
-      expect(controller.config.columns[1]).toEqual({
-        conditional: angular.noop,
-        content: '{{$value.name}}',
-        name: 'name',
-        size: '',
-        sortField: null,
-        title: 'NAME'
-      })
-      expect(controller.config.columns[2]).toEqual({
-        conditional: angular.noop,
-        content: '{{$value.age}}',
-        name: 'age',
-        size: '',
-        sortField: null,
-        title: 'AGE'
-      })
-      expect(controller.config.columns[3]).toEqual({
-        conditional: angular.noop,
-        content: '{{$value.profession}}',
-        name: 'profession',
-        size: '',
-        sortField: null,
-        title: 'PROFESSION'
-      })
-      expect(controller.config.columns[4]).toEqual({
-        conditional: angular.noop,
-        content: '{{$value.hasDog}}',
-        name: 'hasDog',
-        size: '',
-        sortField: null,
-        title: 'HASDOG'
-      })
+      expect(controller.config.columns[0]).toEqual({ conditional: angular.noop, content: '{{$value.name}}', name: 'name', size: '', sortField: null, title: 'NAME' })
+      expect(controller.config.columns[1]).toEqual({ conditional: angular.noop, content: '{{$value.age}}', name: 'age', size: '', sortField: null, title: 'AGE' })
+      expect(controller.config.columns[2]).toEqual({ conditional: angular.noop, content: '{{$value.profession}}', name: 'profession', size: '', sortField: null, title: 'PROFESSION' })
+
     });
   })
 
