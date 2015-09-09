@@ -20,8 +20,7 @@
 		'gumga.directives.form',
 		'gumga.directives.mask',
 		'gumga.directives.list',
-		'gumga.directives.translate',
-		'gumga.directives.password'
+		'gumga.directives.translate'
 		]);
 
 })();

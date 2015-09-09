@@ -59,7 +59,7 @@
       // Funções utilizadas
       vm.sortProxy = sortProxy;
       vm.selectRow = selectRow;
-      vm.double = double;''
+      vm.double = double;
       vm.conditional = cond;
       vm.conditionalTableCell = conditionalTableCell;
       vm.selectAll = selectAll;
@@ -74,11 +74,13 @@
       vm.usingData.forEach(function(val){val.__checked = false;});
       vm.config.selection = vm.config.selection || 'single';
       vm.config.sortDefault = vm.config.sortDefault;
-      vm.config.itemsPerPage = vm.config.itemsPerPage || null;
+      vm.config.itemsPerPage = vm.config.itemsPerPage || [10,20,30,40,50];
+      vm.config.columns = vm.config.columns || [];
       vm.config.columnsConfig = vm.config.columnsConfig || [];
       vm.config.conditional = vm.config.conditional || angular.noop;
       vm.config.sort = verifyEmpty('sort',angular.noop);
       vm.config.class = $attrs.class ? 'table ' + $attrs.class : 'table';
+      vm.config.checkbox = vm.config.checkbox;
       vm.config.onClick = verifyEmpty('onClick',angular.noop);
       vm.config.onDoubleClick = verifyEmpty('onDoublelick',angular.noop);
       vm.config.onSort = verifyEmpty('onSort',angular.noop);
@@ -88,14 +90,14 @@
         vm.config.columns = GumgaListHelper.ensureDefaultValues(vm.config.columns.split(','),vm.config.columnsConfig);
         vm.config.auxColumnsToSort = vm.config.columns;
       }
-      $scope.$watch('vm.data', function() {
-        if (vm.data.length > 0) {
+      $scope.$watchCollection('vm.data', function() {
+        if (vm.data && vm.data.length > 0) {
           if (!vm.config.columns) {
             vm.config.columns = GumgaListHelper.loadDefaultColumns(vm.data[0]);
             vm.config.auxColumnsToSort = vm.config.columns;
           }
-          copyData();
         }
+        copyData();
       });
       function copyData() {
         $timeout(function() {
