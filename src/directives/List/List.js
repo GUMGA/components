@@ -75,6 +75,7 @@
       vm.config.selection = vm.config.selection || 'single';
       vm.config.sortDefault = vm.config.sortDefault;
       vm.config.itemsPerPage = vm.config.itemsPerPage || [10,20,30,40,50];
+      vm.config.columns = vm.config.columns || [];
       vm.config.columnsConfig = vm.config.columnsConfig || [];
       vm.config.conditional = vm.config.conditional || angular.noop;
       vm.config.sort = verifyEmpty('sort',angular.noop);
