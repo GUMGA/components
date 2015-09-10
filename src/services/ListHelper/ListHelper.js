@@ -78,8 +78,11 @@
         if (configuration.checkbox) {
           configuration.columns.unshift(this.addCheckbox());
         }
+        var message = '';
         configuration.columns = this.sortColumns(configuration.auxColumnsToSort, configuration.columns);
-        var message = '<select ng-options="item for item in vm.config.itemsPerPage" ng-model="vm.$parent.itemsPerPage"></select>';
+        if(configuration.itemsPerPage){
+          message += '<select ng-options="item for item in vm.config.itemsPerPage" ng-model="vm.$parent.itemsPerPage"></select>';
+        }
         message += '<table class="'+ configuration.class +'">\n';
         message += '<thead>';
         message += '\t<tr>\n';

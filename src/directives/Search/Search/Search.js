@@ -33,10 +33,14 @@
 				scope.saveQuery = false;
 				if(attrs.getQueries){
 					scope.saveQuery = true;
-					scope.getQueries({page: location.hash})
-					.then(function(data){
-						scope.availableQueries = data;
-					})
+					try {
+						scope.getQueries({page: location.hash})
+						.then(function(data){
+							scope.availableQueries = data;
+						})
+					} catch(e){
+						throw	'The return from getQueries must be asynchronous';
+					}
 				}
 
 				var eventHandler = {
