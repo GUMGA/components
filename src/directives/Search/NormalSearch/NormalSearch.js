@@ -1,6 +1,6 @@
 (function(){
 	'use strict';
-	
+
 	NormalSearch.$inject = [];
 	function NormalSearch(){
 		var template =
@@ -58,7 +58,7 @@
 
 				scope.doSearch = function(txt){
 					scope.$emit('normal',{field: scope.models.returnString(),param:txt || ''});
-					scope.showLittlePanel = !scope.showLittlePanel;
+					// scope.showLittlePanel = !scope.showLittlePanel;
 					scope.searchField = '';
 				};
 
