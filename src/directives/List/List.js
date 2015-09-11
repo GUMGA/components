@@ -74,7 +74,7 @@
       vm.usingData.forEach(function(val){val.__checked = false;});
       vm.config.selection = vm.config.selection || 'single';
       vm.config.sortDefault = vm.config.sortDefault;
-      vm.config.itemsPerPage = vm.config.itemsPerPage || [10,20,30,40,50];
+      vm.config.itemsPerPage = vm.config.itemsPerPage || null;
       vm.config.columns = vm.config.columns || [];
       vm.config.columnsConfig = vm.config.columnsConfig || [];
       vm.config.conditional = vm.config.conditional || angular.noop;
