@@ -203,12 +203,14 @@ input#textEnter
     @extend .dropdown-menu
     display inline-block
     position absolute
-    margin-top -0.2%
+    top 48px
+    margin-top 0%
     box-shadow 0
 
-div.panel.panel-default
+div.panel.panel-down
   > hr
     margin-top 0
+    margin-bottom 0
 
 .hover-list
   color #008EE0
@@ -237,6 +239,18 @@ full-width-without-padding-small
 .responsive-button-danger
   @extend .btn
   @extend .btn-danger
+
+.panel-down
+  @extend .panel
+  @extend .panel-default
+  position: absolute
+  right 0px
+  width 700px
+  z-index 9999
+
+.panel-down
+  .btn-group
+    margin-bottom 10px
 
 .panel-advanced
   @extend .panel
