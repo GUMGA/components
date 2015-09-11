@@ -24,36 +24,45 @@
 		'           <button class="my-button btn-primary last" type="button" ng-disabled="isPanelOpen" ng-click="doSearch(searchInputText)">Search <span class="glyphicon glyphicon-search"></span>' +
 		'       </span>' +
 		'   </div>' +
-		'   <div class="panel-advanced" ng-show="isPanelOpen">' +
+		'   <div class="panel panel-down" ng-show="isPanelOpen">' +
 		'       <div class="panel-body">' +
-		'           <div class="col-md-3">' +
-		'           <h3 style="margin-top: 0;margin-bottom: 0"><small>Advanced Search</small></h3>' +
-		'           </div>' +
-		'           <div class="form-inline col-md-9">' +
-		'               <div class="form-group">' +
-		'                   <div class="list-holder">' +
+//		'           <div class="form-inline col-md-12">' +
+		'								<div class="row">' +
+		'										<div class="col-md-3">' +
+		'                   		<div class="list-holder">' +
 		'                           <ul class="list-selectable" ng-show="selectAttribute">\n' +
-		'                               <li ng-repeat="attr in attributes" ng-click="attributeHasChanged(attr)" class="hover-list"><button class="btn btn-link">{{attr.name}}</button></li>\n' +
-		'                           </ul>\n' +
+		'                            		<li ng-repeat="attr in attributes" ng-click="attributeHasChanged(attr)" class="hover-list"><button class="btn btn-link">{{attr.name}}</button></li>\n' +
+		'                       		</ul>\n' +
 		'                       </div>' +
-		'                       <button type=button class="btn btn-default" ng-click="selectAttribute = !selectAttribute" >{{query.attribute.name || \'Attribute\'}}<span class="caret"></span></button>' +
-		'                      <div class="list-holder">' +
-		'                           <ul class="list-selectable" ng-show="selectHQL">\n' +
-		'                               <li ng-repeat="opt in hqlOpts" class="hover-list" ng-click="handleHqlOption(opt)"><button class="btn btn-link" >{{opt.label}}</button></li>\n' +
-		'                           </ul>\n' +
-		'                       </div>' +
-		'                    <button type="button" class="btn btn-default" ng-click="selectHQL = !selectHQL"> {{ query.hql.label || \'HQL\'  }} <span class="caret"></span></button>  '+
-		'                   <input type="{{typeInput}}" class="form-control col-x-3" ng-model="query.value" id="selectableAdvancedValue" ng-init="input = this"/>' +
-		'                   <button type="button" class="btn btn-default" ng-click="addQuery(query)" ng-disabled="query.value.length > 0 ? false : true"><span class="glyphicon glyphicon-plus"></span></button>' +
-		'               </div>' +
-		'           </div>' +
+		'                   		<button type=button class="btn btn-default btn-block" ng-click="selectAttribute = !selectAttribute" >{{query.attribute.name || \'Attribute\'}} <span class="caret"></span></button>' +
+		'										</div>' +
+		'										<div class="col-md-3">' +
+		'                  			<div class="list-holder">' +
+		'                        		<ul class="list-selectable" ng-show="selectHQL">\n' +
+		'                            		<li ng-repeat="opt in hqlOpts" class="hover-list" ng-click="handleHqlOption(opt)"><button class="btn btn-link" >{{opt.label}}</button></li>\n' +
+		'                        		</ul>\n' +
+		'		                		</div>' +
+		'                				<button type="button" class="btn btn-default btn-block" ng-click="selectHQL = !selectHQL"> {{ query.hql.label || \'HQL\'  }} <span class="caret"></span></button>  '+
+		'										</div>' +
+		'										<div class="col-md-4">' +
+		'                 				<input type="{{typeInput}}" class="form-control" ng-model="query.value" id="selectableAdvancedValue" ng-init="input = this"/>' +
+		'										</div>' +
+		'										<div class="col-md-2">' +
+		'                 				<button type="button" class="btn btn-default btn-block" ng-click="addQuery(query)" ng-disabled="query.value.length > 0 ? false : true"><span class="glyphicon glyphicon-plus"></span></button>' +
+		'										</div>' +
+		'								</div>' +
+//		'           </div>' +
 		'       </div>'+
-		'           <hr/>' +
-		'       <div class="col-md-12" style="padding-bottom: 2%">' +
-		'       <gumga-advanced-label ng-repeat="query in queries" attr="{{query.attribute.name}}" hql="{{query.hql.label}}" value="query.value" index="$index" style="margin-right: 1%"></gumga-advanced-label>' +
-		'       <div class="col-md-12" style="margin-top: 1%;">' +
-		'       <button class="btn btn-primary pull-right" type="button" ng-disabled="queries.length == 0" ng-click="showArray(queries)">Advanced Search<span class="glyphicon glyphicon-search"></span>' +
-		'       </div>' +
+		'				<hr/>' +
+		'       <div class="panel-body">' +
+		'				<div class="row">' +
+		'       		<div class="col-md-10">' +
+		'       				<gumga-advanced-label ng-repeat="query in queries" attr="{{query.attribute.name}}" hql="{{query.hql.label}}" value="query.value" index="$index" style="margin-right: 1%"></gumga-advanced-label>' +
+		'						</div>' +
+		'       		<div class="col-md-2">' +
+		'       				<button class="btn btn-primary btn-block" type="button" ng-disabled="queries.length == 0" ng-click="showArray(queries)"><span class="glyphicon glyphicon-search"></span>' +
+		'       		</div>' +
+		'				</div>' +
 		'       </div>' +
 		'       <div class="clearfix" style="margin-bottom: 2%"></div>' +
 		'   </div>' +
