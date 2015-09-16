@@ -11,7 +11,7 @@ describe('DIRECTIVE: Address',function(){
 			scope = $rootScope.$new();
 			scope.addressObject = {};
 			$httpBackend = _$httpBackend_;
-			requestAddress = 
+			requestAddress =
 				$httpBackend.when('GET','http://www.gumga.com.br/services-api/public/cep/87030200')
 					.respond({
 						"resultado": "1",
@@ -28,7 +28,7 @@ describe('DIRECTIVE: Address',function(){
 				);
 				$compile(element)(scope);
 				isolatedScope = element.isolateScope();
-		}	
+		}
 	))
 
 	it('Should get all needed variables',function(){
@@ -54,7 +54,7 @@ describe('DIRECTIVE: Address',function(){
 		expect(isolatedScope.loaderaddress).toBeFalsy();
 		expect(isolatedScope.value)
 			.toEqual({zipCode: '87030200',premisseType: 'Rua',premisse:'São João',localization: 'Maringá',
-								neighbourhood: 'Zona 07',state: 'PR',country: 'Brasil',number: '',information: null})
+								neighbourhood: 'Zona 07',state: 'PR',country: 'Brasil',number: null,information: null})
 	})
 
 	it('Should return the right google maps Address',function(){
