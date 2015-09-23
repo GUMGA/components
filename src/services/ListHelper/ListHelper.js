@@ -64,7 +64,7 @@
         }
         function returnFormattableTableHeader(bool,string,sf){
           if(bool){
-            return '<button type="button" class=" btn btn-link btn-sm" ng-click="vm.sortProxy(\''+ sf +'\',' + '\''.concat(sf).concat('\'') +')">' + string + returnFormattableGlyphicon(sf) + '</button>';
+            return '<a type="button" class=" btn btn-link" ng-click="vm.sortProxy(\''+ sf +'\',' + '\''.concat(sf).concat('\'') +')">' + string + returnFormattableGlyphicon(sf) + '</a>';
           }
           return string;
         }
