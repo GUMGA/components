@@ -1,4 +1,4 @@
-# Directives - gumgaMax[ [Date](#gumgaMaxDate) | [Length](#gumgaMaxLength) | [Number](#gumgaMaxNumber) ]
+# Directives - gumgaMax[ [Date](#gumgamaxdate) | [Length](#gumgamaxlength) | [Number](#gumgamaxnumber) ]
 
 ## gumgaMaxDate
 

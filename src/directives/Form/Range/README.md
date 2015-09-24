@@ -1,4 +1,4 @@
-# Directives - gumgaRange[ [Date](#gumgaRangeDate) | [Number](#gumgaRangeNumber) ]
+# Directives - gumgaRange[ [Date](#gumgarangedate) | [Number](#gumgarangenumber) ]
 
 ## gumgaRangeDate
 
