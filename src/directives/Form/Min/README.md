@@ -1,4 +1,4 @@
-# Directives - gumgaMin[ [Date](#gumgaMinDate) | [Length](#gumgaMinLength) | [Number](#gumgaMinNumber) ]
+# Directives - gumgaMin[ [Date](#gumgamindate) | [Length](#gumgaminlength) | [Number](#gumgaminnumber) ]
 
 ## gumgaMinDate
 
