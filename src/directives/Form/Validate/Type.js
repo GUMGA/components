@@ -6,7 +6,7 @@
    * @element input
    * @restrict A
    * @scope false
-   * @description O componente GumgaMaxDate serve para validar datas máximas em entradas de formulários.
+   * @description O componente GumgaValidateType serve para validar entradas de dados compatíveis seu tipo.
    *
    * ## Nota
    * Esta diretiva suporta apenas **inputs** do tipo **date**. O valor do atributo/diretiva é **obrigatório** e deve ser uma **data**.
@@ -39,7 +39,11 @@
           case 'number': type = 'número'; break;
           case 'url': type = 'URL'; break;
           case 'email': type = 'e-mail'; break;
+					default: type = 'unknown';
 	      }
+				if (type == 'unknown') {
+					throw 'Esta diretiva suporta apenas inputs dos tipos date, datetime-local, time, week, month, number, url e email.';
+				}
         var validateType = function (inputValue) {
           var error = 'validatetype';
         	var isValid = elm[0].validity.valid;
