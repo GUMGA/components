@@ -91,9 +91,14 @@ describe('DIRECTIVE: GumgaAdvancedSearch',function(){
   });
 
   it('Should remove an element from array if \'deletepls\' was emitted',function(){
-    scope.queries = [ 'Maria', 'João'];
-    rootScope.$broadcast('deletepls','Maria');
-    expect(scope.queries.length).toEqual(1);
+    // scope.queries = [ 'Maria', 'João'];
+    scope.queries = [
+      {"attribute":{"name":"name","type":"string","$$hashKey":"object:9"},"hql":{"hql":"eq","label":"igual","before":"='","after":"'","$$hashKey":"object:22"},"value":"qwe","$$hashKey":"object:40"},{"value":"AND","$$hashKey":"object:44"},
+      {"attribute":{"name":"name","type":"string","$$hashKey":"object:9"},"hql":{"hql":"ne","label":"diferente de","before":"!='","after":"'","$$hashKey":"object:23"},"value":"qwe","$$hashKey":"object:45"},{"value":"AND","$$hashKey":"object:51"},
+      {"attribute":{"name":"name","type":"string","$$hashKey":"object:9"},"hql":{"hql":"contains","label":"contém","before":" like '%","after":"%'","$$hashKey":"object:24"},"value":"qwe","$$hashKey":"object:52"}
+    ];
+    rootScope.$broadcast('deletepls', 2);
+    expect(scope.queries.length).toEqual(3);
 
   });
 
