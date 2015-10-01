@@ -21,7 +21,7 @@
 		'       <span class="input-group-btn">' +
 		'           <button class="my-button btn-default" ng-click="showLittlePanel = !showLittlePanel"><span class="glyphicon glyphicon-chevron-down"></span></button>' +
 		'           <button class="my-button btn-default" type="button" ng-click="isPanelOpen = !isPanelOpen"><span class="glyphicon glyphicon-filter"></span>' +
-		'           <button class="my-button btn-primary last" type="button" ng-disabled="isPanelOpen" ng-click="doSearch(searchInputText)">Search <span class="glyphicon glyphicon-search"></span>' +
+		'           <button class="my-button btn-primary last" type="button" ng-disabled="isPanelOpen" ng-click="doSearch(searchInputText)"><span class="glyphicon glyphicon-search"></span> <span gumga-translate-tag="search.searchbutton"></span>' +
 		'       </span>' +
 		'   </div>' +
 		'   <div class="panel panel-down" ng-show="isPanelOpen">' +
@@ -82,6 +82,7 @@
 				scope.models = {};
 				scope.searchField = '';
 				scope.translate = scope.$parent.entityToTranslate;
+				console.log(scope.translate);
 
 				scope.doQuery = function (choice) {
 					var query = JSON.parse(choice.value);
