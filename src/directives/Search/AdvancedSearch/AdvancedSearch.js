@@ -82,7 +82,6 @@
 				scope.models = {};
 				scope.searchField = '';
 				scope.translate = scope.$parent.entityToTranslate;
-				console.log(scope.translate);
 
 				scope.doQuery = function (choice) {
 					var query = JSON.parse(choice.value);
