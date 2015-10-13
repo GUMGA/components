@@ -26,32 +26,31 @@
 		'   </div>' +
 		'   <div class="panel panel-down" ng-show="isPanelOpen">' +
 		'       <div class="panel-body">' +
-//		'           <div class="form-inline col-md-12">' +
-		'								<div class="row">' +
-		'										<div class="col-md-3">' +
-		'                   		<div class="list-holder">' +
-		'                           <ul class="list-selectable" ng-show="selectAttribute">\n' +
-		'                            		<li ng-repeat="attr in attributes" ng-click="attributeHasChanged(attr)" class="hover-list"><button class="btn btn-link" gumga-translate-tag="{{translate + \'.\' + attr.name}}"></button></li>\n' +
-		'                       		</ul>\n' +
-		'                       </div>' +
-		'                   		<button type=button class="btn btn-default btn-block" ng-click="selectAttribute = !selectAttribute" >{{query.attribute.name || \'Attribute\'}} <span class="caret"></span></button>' +
+		'						<div class="row">' +
+		'								<div class="col-md-3">' +
+		'                   <div class="list-holder">' +
+		'												<ul class="list-selectable" ng-show="selectAttribute">\n' +
+		'                        		<li ng-repeat="attr in attributes" ng-click="attributeHasChanged(attr)" class="hover-list"><button class="btn btn-link" gumga-translate-tag="{{translate + \'.\' + attr.name}}"></button></li>\n' +
+		'                    		</ul>\n' +
 		'										</div>' +
-		'										<div class="col-md-3">' +
-		'                  			<div class="list-holder">' +
-		'                        		<ul class="list-selectable" ng-show="selectHQL">\n' +
-		'                            		<li ng-repeat="opt in hqlOpts" class="hover-list" ng-click="handleHqlOption(opt)"><button class="btn btn-link" >{{opt.label}}</button></li>\n' +
-		'                        		</ul>\n' +
-		'		                		</div>' +
-		'                				<button type="button" class="btn btn-default btn-block" ng-click="selectHQL = !selectHQL"> {{ query.hql.label || \'HQL\'  }} <span class="caret"></span></button>  '+
-		'										</div>' +
-		'										<div class="col-md-4">' +
-		'                 				<input type="{{typeInput}}" class="form-control" ng-model="query.value" id="selectableAdvancedValue" ng-init="input = this"/>' +
-		'										</div>' +
-		'										<div class="col-md-2">' +
-		'                 				<button type="button" class="btn btn-default btn-block" ng-click="addQuery(query)" ng-disabled="query.value.length > 0 ? false : true"><span class="glyphicon glyphicon-plus"></span></button>' +
-		'										</div>' +
+		'                		<button type=button class="btn btn-default btn-block" ng-click="selectAttribute = !selectAttribute" >{{query.attribute.name || \'Attribute\'}} <span class="caret"></span></button>' +
 		'								</div>' +
-//		'           </div>' +
+		'								<div class="col-md-3">' +
+		'              			<div class="list-holder">' +
+		'                    		<ul class="list-selectable" ng-show="selectHQL">\n' +
+		'                        		<li ng-repeat="opt in hqlOpts" class="hover-list" ng-click="handleHqlOption(opt)"><button class="btn btn-link" >{{opt.label}}</button></li>\n' +
+		'   		             		</ul>\n' +
+		'		            		</div>' +
+		'            				<button type="button" class="btn btn-default btn-block" ng-click="selectHQL = !selectHQL"> {{ query.hql.label || \'HQL\'  }} <span class="caret"></span></button>  '+
+		'								</div>' +
+		'								<div class="col-md-4">' +
+		'            				<input ng-show="typeInput == \'checkbox\'" type="checkbox" class="form-control" ng-model="query.value" ng-true-value="\'true\'" ng-false-value="\'false\'" id="selectableAdvancedValue" />'  +
+		'            				<input ng-show="typeInput == \'text\'" type="text" class="form-control" ng-model="query.value" id="selectableAdvancedValue" />'  +
+		'								</div>' +
+		'								<div class="col-md-2">' +
+		'            				<button type="button" class="btn btn-default btn-block" ng-click="addQuery(query)" ng-disabled="query.value.length > 0 ? false : true"><span class="glyphicon glyphicon-plus"></span></button>' +
+		'								</div>' +
+		'						</div>' +
 		'       </div>'+
 		'				<hr/>' +
 		'       <div class="panel-body">' +
@@ -150,10 +149,9 @@
 
 				scope.attributeHasChanged = function(attribute) {
 					scope.query.attribute = attribute;
-					if(attribute.type === 'date'){
-						scope.typeInput = 'date';
-					} else {
-						scope.typeInput = 'text';
+					switch (attribute.type) {
+						case 'boolean': scope.typeInput = 'checkbox'; break;
+						default: scope.typeInput = 'text';
 					}
 					scope.hqlOpts = GumgaSearchHelper.getTypeListOfHQLPossibilities(attribute.type);
 					scope.selectHQL = true ;
