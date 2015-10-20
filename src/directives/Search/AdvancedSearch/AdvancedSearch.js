@@ -191,7 +191,7 @@
 					scope.typeInput = 'text';
 				};
 
-				scope.$on('deletepls',function(ev,index){
+				scope.$on('deletepls',function(ev,index){ 
 					if (index == 0 && scope.queries.length == 1) {
 						scope.queries.splice(index, 1);
 					} else if (index == 0 && scope.queries.length > 2) {
