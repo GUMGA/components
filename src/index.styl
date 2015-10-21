@@ -13,6 +13,10 @@ navbarLogoColor = #EBF1E9
 tableBorder = #bdc3c7
 /* Altera as propriedades das cores de erro/sucesso */
 
+gumgaColorPrimary = #4CA089
+gumgaColorSecundary = #33856F
+
+
 borderRadius()
   -webkit-border-radius: arguments;
   -moz-border-radius: arguments;
@@ -82,11 +86,17 @@ transition()
 
 @import "../bower_components/bootstrap-stylus/bootstrap/index"
 
-
 body
   font-family fonts
   height 100%
   background-color #FCFCFC
+
+
+.query
+  @extend .col-md-5
+  @extend .col-md-offset-7
+  margin-top 0
+  margin-bottom 0
 
 .gumga-container
   padding-left 0.5em
@@ -97,14 +107,28 @@ body
   background-color #fff
   height 100%
 
+.input-group-sm > .form-control,
+.input-group-sm > .input-group-btn {
+  box-sizing: content-box;
+  -moz-box-sizing: content-box;
+}
+.input-group.input-group-sm {
+  height: 18px;
+}
+.input-group-sm > .form-control {
+  height: 21px; padding: 0; margin: 0;
+}
+.input-group-sm > .input-group-btn > .btn {
+  border-left: 0px;
+  height: 23px;
+  margin-left: -4px;
+  padding: 0px 4px;
+}
 
 div
   100%
   > .gumga-container
     height 100%
-
-.table
-  border 1px solid #bdc3c7
 
 .error
   border 1px solid #a94442;
@@ -179,12 +203,14 @@ input#textEnter
     @extend .dropdown-menu
     display inline-block
     position absolute
-    margin-top -0.2%
+    top 48px
+    margin-top 0%
     box-shadow 0
 
-div.panel.panel-default
+div.panel.panel-down
   > hr
     margin-top 0
+    margin-bottom 0
 
 .hover-list
   color #008EE0
@@ -213,6 +239,18 @@ full-width-without-padding-small
 .responsive-button-danger
   @extend .btn
   @extend .btn-danger
+
+.panel-down
+  @extend .panel
+  @extend .panel-default
+  position: absolute
+  right 0px
+  width 700px
+  z-index 9999
+
+.panel-down
+  .btn-group
+    margin-bottom 10px
 
 .panel-advanced
   @extend .panel
@@ -245,8 +283,6 @@ full-width-without-padding-small
     margin-top 1.5%
     margin-bottom 1.5%
     display block
-
-
 
 .advanced-search-holder
   @extend .col-md-7
@@ -394,7 +430,8 @@ full-width-without-padding-small
   overflow hidden
   font-size 14px
   padding 10px 5px 5px 10px
-  border-botto none
+  border-bottom none
+  padding-bottom 0
   border-top none
   > i
     padding-left 1em
@@ -465,8 +502,8 @@ full-width-without-padding-small
     > i
       padding-left 0.5em
 
-  li > a
-    font-size 10px
+  // li > a
+  //   font-size 10px
 
 @media screen and (max-width: 600px)
   #menu
@@ -665,3 +702,91 @@ html,body
   width 100%
   font-size 0.9em
   height 100%
+
+.list-errors
+  margin 0
+  padding 0
+  font-size: 12px
+  list-style none
+.list-errors li
+  padding-bottom 5px
+  &:last-child
+    padding-bottom 0px
+
+.navbar-gumga
+  background-color gumgaColorPrimary
+  margin-bottom 5px
+  border-radius 0
+
+.navbar-gumga li,
+.navbar-gumga a
+  color #FFF
+
+.navbar-gumga .navbar-form input
+  background-color gumgaColorSecundary
+  border-color transparent
+  color white
+  box-shadow none
+  &::-webkit-input-placeholder
+    color gumgaColorPrimary
+  &:-moz-placeholder
+    color gumgaColorPrimary
+  &::-moz-placeholder
+    color gumgaColorPrimary
+  &:-ms-input-placeholder
+    color gumgaColorPrimary
+
+.navbar-gumga .navbar-form button
+  background-color gumgaColorSecundary
+  border-color transparent
+  color white
+
+.navbar-gumga .navbar-nav > li > a.icon
+  font-size 1.8em
+  padding-top 13px
+  padding-bottom 12px
+
+.navbar-gumga .navbar-nav > li > a.profile
+  padding-top 5px
+  padding-bottom 5px
+
+.nav > li > a:focus,
+.nav > li > a:hover
+  background gumgaColorSecundary
+
+.nav .open > a,
+.nav .open > a:focus,
+.nav .open > a:hover
+  background-color gumgaColorSecundary
+
+.navbar-gumga .badge
+  top 3px
+  position absolute
+  right 3px
+  font-size 0.4em
+  padding 4px 5px
+  border-radius 5px
+  background-color: red
+
+.navbar-gumga .dropdown-menu
+  width auto
+
+.navbar-gumga .notification > ul
+  overflow-y auto
+  max-height 160px
+// .navbar-gumga .dropdown-menu li.read
+//   background-color #f9f9f9
+
+.navbar-gumga .notification li.read p
+  font-size 0.8em
+  color #999999
+  padding 6px
+
+.navbar-gumga .notification li .glyphicon
+  font-size 1.2em
+
+.navbar-gumga .notification li .glyphicon.red
+  color red
+
+.navbar-gumga .notification li .glyphicon.red
+  color green

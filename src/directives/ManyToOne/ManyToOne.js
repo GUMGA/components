@@ -101,7 +101,7 @@
                     if(async) {
                         scope.postMethod({value: text})
                         .then(function(values){
-                          scope.model = values.data.data;
+                          scope.model = values;
                         })
                     } else {
                         scope.list.push(text);

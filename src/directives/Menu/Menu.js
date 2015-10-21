@@ -129,7 +129,9 @@
 					} else if (param.filhos.length === 0) {
 						template.push('gumga-translate-tag="' + parent.label.toLowerCase() + '.' + param.label.toLowerCase() + '">');
 					}
-					template.push(param.label);
+					if (type == 'submenu') {
+						template.push(param.label);
+					}
 					template.push('</a>');
 
 					if (param.imageUrl) {
