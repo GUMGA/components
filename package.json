@@ -35,9 +35,7 @@
     "karma-chrome-launcher": "^0.2.0",
     "karma-firefox-launcher": "^0.1.6",
     "karma-jasmine": "^0.3.6",
-    "karma-mocha-reporter": "^1.0.2",
-    "karma-phantomjs-launcher": "^0.2.0",
-    "phantomjs": "^1.9.17"
+    "karma-mocha-reporter": "^1.0.2"
   },
   "dependencies": {
     "gulp-rename": "^1.2.2",
