@@ -83,6 +83,7 @@
         if(configuration.itemsPerPage){
           message += '<div style="width: 4%"><select class="form-control input-sm" ng-options="item for item in vm.config.itemsPerPage" ng-model="vm.$parent.itemsPerPage"></select></div>';
         }
+        message += '<div class="table-responsive">'
         message += '<table class="'+ configuration.class +'">\n';
         message += '<thead>';
         message += '\t<tr>\n';
@@ -95,6 +96,7 @@
         message += '</tr>';
         message += '</tbody>';
         message += '</table>\n';
+        message += '</div>'
         return message;
       }
     }

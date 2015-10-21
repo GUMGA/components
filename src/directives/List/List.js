@@ -178,7 +178,6 @@
       restrict: 'E',
       scope:{
         'sort': '&?',
-        'class': '&?',
         'data': '=',
         'onClick': '&?',
         'onDoubleClick': '&?',
