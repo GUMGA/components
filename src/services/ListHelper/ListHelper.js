@@ -64,7 +64,7 @@
         function returnFormattableGlyphicon(string) {
           return '<i ng-class="vm.selectedItem == \'' + string + '\' ? (vm.selectedItemDir == \'asc\' ? \'glyphicon glyphicon-menu-up\' : \'glyphicon glyphicon-menu-down\' ): \'\'"></i>';
         }
-        function returnFormattableTableHeader(bool, string, sf) {
+        function returnFormattableTableHeader(bool, string, sf) { 
           if (bool) {
             return '<button type="button" class=" btn btn-link btn-sm" ng-click="vm.sortProxy(\'' + sf + '\',' + '\''.concat(sf).concat('\'') + ')">' + string + returnFormattableGlyphicon(sf) + '</button>';
           }
