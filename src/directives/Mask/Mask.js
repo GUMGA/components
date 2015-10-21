@@ -1,34 +1,6 @@
 (function(){
   'use strict';
-  /**
-   * @ngdoc directive
-   * @name gumga.core:gumgaMask
-   * @restrict A
-   * @description O componente **GumgaMask** serve para adicionar máscaras aos elementos inputs que se fazem necessário, como CPF, CNPJ, telefone e etc.
-   *
-   * @example
-   * Um exemplo da directive gumgaTable funcionando pode ser encontrado [aqui](http://embed.plnkr.co/SALkp5bKRZ1aywsrpmEX).
-   *  <pre>
-   *  	<form class="" action="index.html" method="post">
-   *  		<input type="text" name="name" value="" ng-model="cpf" gumga-mask="999.999.999-99" gumga-mask-options="maskOptions">
-   *  	</form>
-   *    <script type="text/javascript">
-   *    $scope.maskOptions = {
-   *    	maskDefinitions: {
-   *    		'seuRegex': /[regex]/
-   *    	},
-   *    	clearOnBlur: false,
-   *    	eventsToHandle: ['input', 'keyup', 'click', 'focus']
-   *    };
-   *    </script>
-   *  </pre>
-   *
-   * @param {String} gumga-mask Por padrão o componente tem 3 tipos de regex aceitas, que são **9** (numéricos), **A** (alfanuméricos) e ** * ** (alfanuméricos)
-   * @param {Object} gumga-mask-options Objeto em $scope com regex extras ou sobreescrever configurações default.
-   * @param {String} gumga-mask-placeholder Trabalha em conjunto com o placeholder nativo, contudo, o **gumga-mask-placeholder** deve seguir o mesmo padrão
-   * de caracteres do informado no **gumga-mask**. Enquanto o nativo fica ativo sem atividade no input, ao disparar o evento focus, o gumga-mask-placeholder
-   * ficará ativo.
-   */
+  
   Mask.$inject = ['$parse'];
 
   function Mask($parse) {

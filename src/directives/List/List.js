@@ -4,48 +4,6 @@
   List.$inject = ['GumgaListHelper','$compile','$timeout'];
 
   function List(GumgaListHelper,$compile,$timeout){
-    /**
-    * @ngdoc directive
-    * @name gumga.core:gumgaList
-    * @restrict E
-    * @description
-    * 	A directive gumgaList foi desenvolvida para substituir a antiga gumgaTable. Ela é mais configurável que a antiga table, e traz um meio mais fácil de configurar.
-    *  	O componente possui dois tipos de configuração: diretamente no html e através de um objeto javascript.
-    *
-    * 	# Configuração da table através de um Objeto Javascript
-    *
-    *		Para aplicar a configuração na table, existem os seguintes atributos:
-    *
-    * | Param | Type  | Default | Details |
-    * |-------|-------|---------|----------------|
-    * |selection|String| single | Valor que será utilizado para definir como será a seleção da tabela. Possíveis valores: <label class="label type-hint type-hint-string">[multi / single]</label> |
-    * |itemsPerPage|Array| [10,20,30,40,50] | Valor que será utilizado para definir o número de registros selecionado pelo usuário. O valor escolhido será exposto no $scope através da variável itemsPerPage |
-    * |sortDefault | String | | Valor que será utilizado para definir qual o campo padrão de ordenação. Este valor será o identificador da coluna.
-    * |columns |String| | Valor que irá definir quais as colunas e a ordenação delas. O formato deve estar no seguinte padrão: <label class="label type-hint type-hint-string">[column1,column2,...,columnN]</label>
-    * |conditional | Function | angular.noop | Valor que será utilizado para fazer a formatação condicional do registro. A função deve retornar um objeto que contém a classe e a comparação utilizada <label class="label type-hint type-hint-string">[function(value){ return {'2px solid red': value.age < 18} }]</label>
-    * |columnsConfig |Array |[]| Array que será utilizado para configurar as colunas que foram definidas no atributo columns.
-    *
-    * # Configuração da coluna através de um Objeto Javascript
-    *	Para configurar as colunas, dentro do atributo columnsConfig, são criados objetos que poderão ter as seguintes configurações:
-    *
-    * | Param | Type  | Default | Details |
-    * |-------|-------|---------|----------------|
-    * |name | String |  | Valor que será utilizado para identificar a coluna. Este name deve ser o mesmo que está no atributo 'columns',
-    * |title|String| NOME_DA_COLUNA.toUpperCase() | Valor que será renderizado no título da coluna.
-    * |size|String| 'col-md-3' | Tamanho da coluna baseado nos valores do bootstrap. Exemplo: ** col-md-x **
-    * |content |String|{{$value.NOME_DA_COLUNA}} | Valor que será renderizado no conteúdo da coluna.
-    * |sortField |String | | String que será  usada para fazer a ordenação, e que irá como parâmetro na função de ordenação..
-    * |conditional | Function | angular.noop | Valor que será utilizado para fazer a formatação condicional do registro. A função deve retornar um objeto que contém a classe e a comparação utilizada <label class="label type-hint type-hint-string">[function(value){ return {'2px solid red': value.age < 18} }]</label>
-    *
-    *
-    *	  @param {Function} sort Parâmetro que contém uma função que será chamada para que o desenvolvedor possa fazer a ordenação dos registros.
-    *	  @param {String} class Parâmetro para aplicar na table uma classe específica.
-    *	  @param {Array} data Parâmetro que irá conter os dados que serão mostrados na tabela.
-    *	  @param {Function} onClick Função que será executada quando o usuário clicar em um registro
-    *	  @param {Function} onSort Função que será executada quando a ordenação for realizada
-    *	  @param {Function} onDoubleClick Função que será executada quando o usuário clicar duas vezes em um registro.
-    */
-
 
     function ctrl($scope, $element, $attrs, $transclude){
       function verifyEmpty($v,other){return (!$attrs.$v ? other : vm[$v])};
@@ -115,12 +73,8 @@
       }
 
       function findInOriginalArray(val){
-
         var copyWithoutCheckedAttributes = angular.copy(val);
         delete copyWithoutCheckedAttributes.__checked;
-        var aux = vm.data.filter(function(originalRegistry){
-          return angular.equals(originalRegistry,copyWithoutCheckedAttributes);
-        });
         return vm.data.filter(function(originalRegistry){
           return angular.equals(originalRegistry,copyWithoutCheckedAttributes);
         })[0];
@@ -154,7 +108,7 @@
         }
         var selectedValues = $scope.$parent.selectedValues;
         cleanValueAndArrays(vm.checkAll,vm.checkAll);
-        if($attrs.onClick)vm.onClick({value: ngRepeatValue});
+        if($attrs.onClick)vm.onClick({$value: ngRepeatValue});
         if(vm.config.selection == 'single'){
           if(ngRepeatValue.__checked){
             ngRepeatValue.__checked = false;
@@ -188,7 +142,7 @@
       }
 
       function double(value){
-        if($attrs.onDoubleClick) vm.onDoubleClick({value: value});
+        if($attrs.onDoubleClick) vm.onDoubleClick({$value: value});
       }
 
       function conditionalTableCell(value,ordering){

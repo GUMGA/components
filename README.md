@@ -1,3 +1,17 @@
 # Gumga Components
----
-Components that will be developed by the Gumga Team.
+
+Os componentes da Gumga que estão neste repositório são os componentes utilizados no GumgaFramework.
+
+## Instalação:
+
+`
+bower install gumga-components
+`
+
+## Documentação:
+
+A documentação dos componentes pode ser visualizada diretamente na pasta dos componentes, ou através dos seguintes links:
+
+### Directives
+
+ -

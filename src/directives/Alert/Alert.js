@@ -1,24 +1,6 @@
 (function(){
 	'use strict';
-	/**
-	 * @ngdoc directive
-	 * @name gumga.core:gumgaAlert
-	 * @restrict EA
-	 * @element ANY
-	 * @description O componente gumgaAlert serve para criar notificações growl-like e é baseada em eventos.
-	 * Para o funcionamento da directive, é necessário incluí-la apenas uma vez no seu código html (de preferência no index.html),
-	 * para que os listeners sejam adicionados(Atualmente, na nova versão isto não é mais necessário, ver {@link gumga.core:GumgaAlert}). 
-	 *
-	 * @example
-	 * ## Para que o alerta seja realizado, utilize um dos eventos:
-	 * <pre>
-	 * 	$scope.$emit('dangerMessage',{title: 'Error' ,message: 'Error 404'});
-	 * 	$scope.$emit('successMessage',{title: 'Parabéns!' ,message: 'Sua solicitação foi aceita com sucesso!'});
-	 *  $scope.$emit('warningMessage',{title: 'Cuidado!' ,message: 'A área que você está entrando é restrita.'});
-   * 	$scope.$emit('infoMessage',{title: 'Salvar' ,message: 'Para salvar, entre em contato com o administrador.'});
-	 * </pre>
-	 *  Para ver um exemplo em funcionamento, clique [aqui](http://embed.plnkr.co/wdlI7U4nQf9kNhGlyCfU/)
-	 */
+
 	Alert.$inject = ['$rootScope'];
 	function Alert($rootScope){
 		return {

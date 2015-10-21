@@ -107,6 +107,7 @@
 								pattern: 'O texto especificado no campo {0} deve estar dentro do padrão: {1}.',
 								rangedate:'A data especificada no campo {0} deve estar dentro do intervalo: {1}.',
 								rangenumber: 'O número especificado no campo {0} deve estar dentro do intervalo: {1}.',
+								validatetype: 'O valor digitado no campo {0} deve ser do tipo: {1}',
 								required: 'O campo {0} é obrigatório.'
 							}
 						})

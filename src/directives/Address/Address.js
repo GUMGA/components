@@ -1,30 +1,5 @@
 (function(){
 	'use strict';
-	/**
-	* @ngdoc directive
-	* @name gumga.core:gumgaAddress
-	* @restrict E
-	* @description O componente GumgaAddress recebe um objeto que será preenchido com o endereço, que pode ser pesquisado através do CEP (Utilizando um WebService GUMGA),
-	* ou preenchido manualmente pelo usuário. Este objeto de entrada pode ser vazio ou preferivelmente no formato do objeto GUMGA.
-	* ## Exemplo
-	* Veja um exemplo em funcionamento [aqui](http://embed.plnkr.co/7t9mZtLl9bPuVhmig0oI/).
-	* @param {Object} value Atributo obrigatório que irá conter o nome do objeto no $scope no qual os valores do Endereço serão colocados.
-	* @param {String} name Atributo obrigatório e único que irá conter um nome de identificador para a directive.
-	* @param {String} title Atributo opcional que irá conter o título para o panel da directive.
-	* @param {Boolean} cep Adiciona ou remove bloco de CEP.
-	* @param {Boolean} street Adiciona ou remove um campo do logradouro, sem um campo separado para número.
-	* @param {Boolean} streetNumber Adiciona ou remove um campo do logradouro, com um campo extra para número.
-	* @param {Boolean} complement Adiciona ou remove um campo de complemento.
-	* @param {Boolean} neighbourhood Adiciona ou remove um campo para bairro.
-	* @param {Boolean} cityStateCountry Adiciona ou remove um bloco para cidade, estado e país.
-	* @param {Boolean} maps Adiciona ou remove um botão com link externo para o Google Maps do endereço referenciado.
-	* @param {Function} onSearchCepStart Atributo opcional que irá conter o nome de uma função que será executada quando a busca pelo CEP começar. Requer uso do atributo cep.
-	* @param {Function} onSearchCepSuccess Atributo opcional que irá conter o nome de uma função que será executada quando a busca pelo CEP retornar sucesso.
-	*  Pode ser chamada com um atributo com os valores `on-search-cep-success="doSomething($value)"` e requer uso do atributo cep.
-	* @param {Function} onSearchCepError Atributo opcional que irá conter o nome de uma função que será executada quando a busca pelo CEP retornar erro.
-	*  Pode ser chamada com um atributo com os valores `on-search-cep-error="doSomething($value)"` e requer uso do atributo cep.
-	*/
-
 	AddressDirective.$inject = ['GumgaAddressService','$http','$compile'];
 	function AddressDirective(GumgaAddressService,$http,$compile){
 		var templateBegin =
