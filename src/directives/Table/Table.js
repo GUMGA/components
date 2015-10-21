@@ -15,10 +15,10 @@
    *    $scope.list = [{name: 'Guilherme', age: 28},{name: 'Igor', age: 19}];
    *    </script>
    *  </pre>
-   * 
+   *
    * @param {String} values Atributo obrigatório. Deve ser o nome do array exposto no $scope para popular a tabela.
-   * @param {String} columns Atributo obrigatório. As propriedades do objeto que serão apresentados como colunas na tabela, 
-   * @param {String} size Possuem 3 opções de tamanhos, **large**, **medium** e **small**, que respectivamente ocupam, todo o espaço da row, dois terços e 
+   * @param {String} columns Atributo obrigatório. As propriedades do objeto que serão apresentados como colunas na tabela,
+   * @param {String} size Possuem 3 opções de tamanhos, **large**, **medium** e **small**, que respectivamente ocupam, todo o espaço da row, dois terços e
    * um terço. O valor padrão é large.
    * @param {String} translate-entity Nome da entidade.
    * @param {Array} pages Deve conter os valores para apresentar opções de registros por página.
@@ -27,11 +27,11 @@
    * o componente seguirá a ordem de colunas adicionada ao atributo.
    * @param {Boolean} multi-selection É true por padrão, determina a possibilidade da seleção de várias entidades ou apenas
    * uma por vez.
-   * @param {Function} sort-function Nome da função atribuida ao $scope para manipular a ordenação, a função recebe dois 
+   * @param {Function} sort-function Nome da função atribuida ao $scope para manipular a ordenação, a função recebe dois
    * parâmetros, **field** e **way** que serão, a coluna e a direção da ordenação respectivamente, existem duas direções,
    * **asc** ou **desc**.
    * @param {String} sort-default Deve conter a **coluna** e a **direção** separados por virgula, será a ordenação padrão na primeira exibição da tabela.
-   * @param {Expression} row-class Deve conter uma expressão condicional para marcar determinadas linhas correspondentes como 
+   * @param {Expression} row-class Deve conter uma expressão condicional para marcar determinadas linhas correspondentes como
    * verdadeiras perante a expressão.
    * @param {Function} onSelect Nome da função que será executada ao evento click.
    * @param {Function} onSort Nome da função que será executada ao evento de sort.

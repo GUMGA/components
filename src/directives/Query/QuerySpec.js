@@ -1,5 +1,6 @@
 describe('DIRECTIVE: GumgaQueries',function(){
-  var scope
+  var scope,
+      isolated,
       queries =
       [
         {
@@ -17,7 +18,7 @@ describe('DIRECTIVE: GumgaQueries',function(){
         }
       ];
 
-  beforeEach(module('gumga.directives.query'));
+  beforeEach(module('gumga.directives.queries'));
 
   beforeEach(
     inject(
@@ -25,13 +26,15 @@ describe('DIRECTIVE: GumgaQueries',function(){
         scope = $rootScope.$new();
         scope.searchQueries = queries;
         var template = angular.element('<gumga-queries></gumga-queries>');
+
         $compile(template)(scope);
+        isolated = template.isolateScope();
       }
     )
   )
 
 
   it('should get the array that is on scope',function(){
-    expect(scope.hasQueries).toBeTruthy();
+    expect(isolated.hasQueries).toBeTruthy();
   });
 })
