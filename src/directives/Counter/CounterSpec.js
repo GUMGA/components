@@ -1,6 +1,6 @@
 describe('Gumga.core:directives:Counter', function() {
   beforeEach(module('gumga.directives.counter'));
-  var element;
+  var element, scope, form;
   beforeEach(inject(function($compile, $rootScope) {
     scope = $rootScope;
     element = angular.element(

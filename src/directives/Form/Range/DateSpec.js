@@ -1,6 +1,6 @@
 describe('Gumga.core:directives:RangeDate', function() {
 
-  var compile, mockBackend, scope, filter;
+  var compile, mockBackend, scope, filter, form;
   beforeEach(module('gumga.directives.form.range.date'));
   beforeEach(inject(function($compile, $rootScope, $filter) {
     scope = $rootScope;

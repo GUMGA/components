@@ -1,6 +1,6 @@
 describe('Gumga.core:directives:MaxDate', function() {
 
-	var compile, mockBackend, scope, filter;
+	var compile, mockBackend, scope, filter, form;
 	beforeEach(module('gumga.directives.form.max.date'));
 	beforeEach(inject(function($compile, $rootScope, $filter) {
 		scope = $rootScope;

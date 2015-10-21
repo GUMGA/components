@@ -1,6 +1,6 @@
 describe('Gumga.core:directives:GumgaPassword', function() {
   beforeEach(module('gumga.directives.password'));
-  var element;
+  var element, form, scope;
   beforeEach(inject(function($compile, $rootScope) {
     scope = $rootScope;
     element = angular.element(

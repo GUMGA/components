@@ -256,4 +256,76 @@ describe('Gumga.core:services:Populate',function(){
 		scope.$digest();
 		expect(scope.$broadcast).toHaveBeenCalledWith('afterDeleteImage',true);
 	})
+	describe('createOptions', () => {
+		it('Should return the populated object if a string is passed', () => {
+			let result = provider.createOptions('User');
+			expect(result.identifier).toEqual('User');
+			expect(result.profile).toEqual('all');
+			expect(result.noScope).toEqual(false);
+		})
+		it('Should return the correct object if another object is passed', () => {
+			let result = provider.createOptions({
+				identifier: 'Usuario',
+				profile: 'base-list'
+			})
+			expect(result.identifier).toEqual('Usuario');
+			expect(result.profile).toEqual('base-list');
+			expect(result.noScope).toEqual(false);
+
+			// let result2 = provider.createOptions({
+			// 	identifier: 'User'
+			// })
+			// expect(result2.identifier).toEqual('User');
+			// expect(result2.profile).toEqual('all');
+			// expect(result2.noScope).toEqual(false);
+		})
+	})
+	describe('createRestMethods', () => {
+		it('Should throw an error when the values passed to the first parameters are wrong', () => {
+			expect(()=> {
+				provider.createRestMethods({},{},'Identifier')
+			}).not.toThrow('É necessário passar um objeto no primeiro parâmetro');
+			expect(()=> {
+				provider.createRestMethods('$scope',{},'Identifier')
+			}).toThrow('É necessário passar um objeto no primeiro parâmetro');
+			expect(()=> {
+				provider.createRestMethods(function(){},{},'Identifier')
+			}).toThrow('É necessário passar um objeto no primeiro parâmetro');
+			expect(()=> {
+				provider.createRestMethods([],{},'Identifier')
+			}).toThrow('É necessário passar um objeto no primeiro parâmetro');
+			expect(()=> {
+				provider.createRestMethods(2,{},'Identifier')
+			}).toThrow('É necessário passar um objeto no primeiro parâmetro');
+			expect(()=> {
+				provider.createRestMethods(undefined,{},'Identifier')
+			}).toThrow('É necessário passar um objeto no primeiro parâmetro');
+			expect(()=> {
+				provider.createRestMethods(true,{},'Identifier')
+			}).toThrow('É necessário passar um objeto no primeiro parâmetro');
+		})
+		it('Should throw an error when the values passed to the second parameters are wrong', () => {
+			expect(()=> {
+				provider.createRestMethods({},{},'Identifier')
+			}).not.toThrow('É necessário passar um objeto no segundo parâmetro');
+			expect(()=> {
+				provider.createRestMethods({},'$scope','Identifier')
+			}).toThrow('É necessário passar um objeto no segundo parâmetro');
+			expect(()=> {
+				provider.createRestMethods({},function(){},'Identifier')
+			}).toThrow('É necessário passar um objeto no segundo parâmetro');
+			expect(()=> {
+				provider.createRestMethods({},[],'Identifier')
+			}).toThrow('É necessário passar um objeto no segundo parâmetro');
+			expect(()=> {
+				provider.createRestMethods({},2,'Identifier')
+			}).toThrow('É necessário passar um objeto no segundo parâmetro');
+			expect(()=> {
+				provider.createRestMethods({},undefined,'Identifier')
+			}).toThrow('É necessário passar um objeto no segundo parâmetro');
+			expect(()=> {
+				provider.createRestMethods({},true,'Identifier')
+			}).toThrow('É necessário passar um objeto no segundo parâmetro');
+		})
+	})
 })
