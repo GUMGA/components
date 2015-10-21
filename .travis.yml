@@ -1,11 +1,10 @@
 language: node_js
 node_js:
- - "0.12"
+ - "4.2.0"
 before_script:
  - npm install -g bower
  - npm install -g karma --save-dev
  - npm install -g gulp
- - npm install -g karma-phantomjs-launcher --save-dev
  - npm install -g karma-cli
  - bower install
 script:
