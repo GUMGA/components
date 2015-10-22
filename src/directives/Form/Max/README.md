@@ -3,17 +3,18 @@
 ## gumgaMaxDate
 
 ### Uso:
-  ```html
-  <input gumga-max-date label="{String}"></input>
-  ```
+```html
+<input gumga-max-date label="{String}"></input>
+```
 
 ### Exemplo
-  ```html
-  <form name="myForm">
-    <input type="date" name="maxDate" ng-model="maxDate" gumga-max-date="2015-07-20">
-    <p ng-show="myForm.maxDate.$error.maxdate" class="text-danger">Data superior a esperada</p>
-  </form>
-  ```
+```html
+<form name="myForm">
+  <input type="date" name="maxDate" ng-model="maxDate" gumga-max-date="2015-07-20">
+  <p ng-show="myForm.maxDate.$error.maxdate" class="text-danger">Data superior a esperada</p>
+</form>
+```
+
 Um exemplo da directive gumgaMaxDate funcionando pode ser encontrado [aqui](http://embed.plnkr.co/AcjqcgvgGhdJqDh72eHA).
 
 ### Descrição

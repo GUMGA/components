@@ -1,22 +1,5 @@
 (function () {
     'use strict';
-
-    /**
-     * @ngdoc directive
-     * @name gumga.core:gumgaPassword
-     * @restrict E
-     * @deion
-     * A directive gumgaPassword é usada para adicionar ao formulário, um campo de senha com algumas validações que podem ser configuradas.
-     * também podendo escolher se irá utilizar confirmação de senha ou não
-     * @param {String} value - Parâmetro obrigatório que irá conter uma variável para armazenar o valor digitado pelo usuário.
-     * @param {boolean} containsNumbers - Parâmetro não obrigatório para fazer com que a senha possua números.
-     * @param {boolean} containsUppercase - Parâmetro não obrigatório para fazer com que a senha possua caracteres maiúsculos.
-     * @param {boolean} containsSymbols - Parâmetro não obrigatório para fazer com que a senha possua caracteres especiais.
-     * @param {boolean} confirmation - Parâmetro não obrigatório que cria ou não a confirmação de senha.
-     * @param {number} valueMinLength - Parâmetro não obrigatório para exigir um tamanho mínimo.
-     * @param {number} valueMaxLength - Parâmetro não obrigatório para exigir um tamanho máximo.
-     */
-
     Password.$inject = [];
     function Password() {
         return{

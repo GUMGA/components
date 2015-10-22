@@ -1,21 +1,6 @@
 (function(){
-
   'use strict';
   Nav.$inject = ['$state','GumgaWebStorage','$modal','$rootScope'];
-  /**
-  * @ngdoc directive
-  * @name  gumga.core:gumgaNav
-  * @restrict E
-  * @description O componente gumgaNav é uma directive que cria uma barra de navegação superior, para ajudar o usuário. Dentro da barra de navegação,
-  *  possuímos uma busca que, quando o botão ENTER é pressionado, ele redireciona para a página de Busca Multi-entidades. Possui também informações sobre o usuário que está logado,
-  *  uma opção para fazer o logout e outra para alterar a senha.
-  *  ## Exemplo
-  *  Veja um exemplo em funcionamento [aqui](http://embed.plnkr.co/PeJHAS6viutuekw614ZL/preview).
-  *  @param {String} title Parâmetro não obrigatório que contém uma string que será o título que aparecerá na barra de navegação.
-  *  @param {Boolean} multi-entity Parâmetro nao obrigatório que contém um valor booleano para compilar ou não a busca multientidade. Por padrão, o valor é true.
-  *  @param {String} put-url Parâmetro não obrigatório que contém uma String ou uma variável que estará no $scope da directive para atribuir uma url para fazer o put do alterar a senha.
-  *  @param {String} state Parâmetro obrigatório que contém uma String com o $state para qual será redirecionado quando o usuário clicar em Logout.
-  */
   function Nav($state, GumgaWebStorage, $modal, $rootScope, $timeout) {
     var template = [
       '<nav id="navbar">',
