@@ -169,6 +169,7 @@
 		let configs = {};
 		let methods = {};
 
+
 		configs['base-list']= {
 			get: true,
 			resetAndGet: true,
@@ -285,11 +286,9 @@
 			}
 		};
 		methods.save = function(Scope,Service,Id){
-			Scope[Id.toLowerCase() + 'Save'] = function(value,param){
+			Scope[Id.toLowerCase() + 'Save'] = function(value){
 				Scope.$broadcast('beforeSave',value);
-				var obj = {};
-				obj[param] = value;
-				Service.update(obj)
+				Service.update(value)
 				.then(function(values){
 					Scope.$broadcast('afterSave',values);
 				})
@@ -365,33 +364,8 @@
 				Service.resetQuery();
 			}
 		}
-		function createOptions(identifierOrObject = {}){
-			if(identifierOrObject.constructor === String){
-				return {
-					identifier: identifierOrObject,
-					profile: 'all',
-					noScope: false
-				}
-			}
-			if(identifierOrObject.constructor === Object){
-				let newOptions = identifierOrObject;
-				if(!!newOptions.profile) newOptions.profile = 'all';
-				newOptions.noScope = !!newOptions.noScope;
-				if(!newOptions.identifier) throw 'Você precisa passar um identificador para o objeto de configuração do createRestMethods!';
-				return newOptions;
-			}
-			throw 'Você precisa passar um identificador válido!';
-		}
 
-		function createRestMethods(objectToPopulate = ' ', serviceToPopulate = ' ', identifierOrOptions){
-			if(objectToPopulate.constructor !== Object ) throw 'É necessário passar um objeto no primeiro parâmetro';
-			if(serviceToPopulate.constructor !== Object ) throw 'É necessário passar um objeto no segundo parâmetro';
-			const options = this.createOptions(identifierOrOptions);
-
-		}
 		return {
-			createRestMethods,
-			createOptions,
 			setConfig(name, value = {}){
 				if(!!name) throw 'Você deve passar um nome para o componente $populate';
 				configs[name] = value;
