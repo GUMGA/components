@@ -1,19 +1,6 @@
 (function () {
   'use strict';
-
-  Query.$inject= [];
-  /**
-   * @ngdoc directive
-   * @name gumga.core:gumgaQueries
-   * @restrict E
-   * @description
-   * 	O componente gumgaQueries pode ser utilizado como um complemento para a directive gumgaSearch para quando ela for uma busca avançada. Ele utiliza o array searchQueries que é
-   * 	exposto pelo componente de Busca Avançada.
-   *
-   * @param {Function} save-query Função que será executada quando o botão de salvar a pesquisa for clicado.
-   * @param {String} label String que será colocada como título
-   * @param {String} placeholder String que será colocada como placeholder o input.
-   */
+  Query.$inject = [];
   function Query(){
     var _template =
     '<div class="col-md-12" ng-show="hasQueries && $parent.searchQueries.length > 0">'+
