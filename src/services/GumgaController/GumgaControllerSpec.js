@@ -5,8 +5,8 @@ describe('SERVICE: gumgaCtrl', () => {
 
 	beforeEach(module('gumga.services.gumgactrl'));
 
-	beforeEach(inject(function(_gumgaCtrl_,$q,_$httpBackend_,$http){
-		gumgaCtrl = _gumgaCtrl_;
+	beforeEach(inject(function(_gumgaController_,$q,_$httpBackend_,$http){
+		gumgaCtrl = _gumgaController_;
 		$httpBackend = _$httpBackend_;
 
 		$httpBackend

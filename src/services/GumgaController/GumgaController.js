@@ -222,5 +222,5 @@
   }
 
   angular.module('gumga.services.gumgactrl',[])
-  .factory('gumgaCtrl', GumgaCtrl);
+  .factory('gumgaController', GumgaCtrl);
 }());
