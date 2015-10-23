@@ -6,7 +6,7 @@ O componente gumgaNav é uma directive que cria uma barra de navegação superio
 ### Atributos
 
 | Parametro | Tipo | Detalhe |
-| - | - | - |
+| --- | --- | --- |
 | **title** | `String` | Parâmetro não obrigatório que contém uma String que será o título que aparecerá na barra de navegação. |
 | **multi-entity** | `Boolean` | Parâmetro nao obrigatório que contém um valor booleano para compilar ou não a busca multientidade. Por padrão, o valor é true. |
 | **put-url** | `String` | Parâmetro não obrigatório que contém uma String ou uma variável que estará no $scope da directive para atribuir uma url para fazer o put do alterar a senha. |

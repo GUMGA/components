@@ -6,7 +6,7 @@ O componente **GumgaTable** serve para expor dados em forma de tabela. O compone
 ### Atributos
 
 | Parametro | Tipo | Detalhe |
-| - | - | - |
+| --- | --- | --- |
 | **values** | `String` | Atributo obrigatório. Deve ser o nome do array exposto no $scope para popular a tabela. |
 | **columns** | `String` | Atributo obrigatório. As propriedades do objeto que serão apresentados como colunas na tabela. |
 | **size** | `String` | Possuem 3 opções de tamanhos, **large**, **medium** e **small**, que respectivamente ocupam, todo o espaço da row, dois terços e um terço. O valor padrão é large. |

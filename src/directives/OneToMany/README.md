@@ -5,7 +5,7 @@ A directive gumgaOneToMany pode ser usada quando é necessária a criação de u
 
 ### Atributos
 | Parametro | Tipo | Detalhe |
-| - | - | - |
+| --- | --- | --- |
 | **children** | `Array` | Parâmetro obrigatório que irá conter um Array que será utilizado para construir a lista. |
 | **template-url** | `String` | Parâmetro obrigatório que irá conter uma string referenciando a url na qual o template do modal estará. |
 | **property** | `String` | Parâmetro obrigatório que irá conter uma string com a propriedade do objeto que será mostrada na lista. |
