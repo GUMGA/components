@@ -14,12 +14,10 @@ Parametro | Tipo | Detalhe
 
 ### Uso:
 ```html
-<gumga-nav
-  title="Título"
-  multi-entity="true'"
-  put-url="http://url/logout"
-  state="{String}"
-</gumga-menu>
+<ANY gumga-upload
+  model="{Objet}"
+  upload-method="{Function}"
+  delete-method="{Function}"
+  tooltip-text="{String}">
+</ANY>
 ```
-
-Veja um exemplo em funcionamento [aqui](http://embed.plnkr.co/PeJHAS6viutuekw614ZL/preview).
