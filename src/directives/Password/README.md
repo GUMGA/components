@@ -5,7 +5,7 @@ A directive gumgaPassword é usada para adicionar ao formulário, um campo de se
 
 ### Atributos
 | Parametro | Tipo | Detalhe |
-| - | - | - |
+| --- | --- | --- |
 | **value** | `String` | Parâmetro obrigatório que irá conter uma variável para armazenar o valor digitado pelo usuário. |
 | **contains-numbers** | `Boolean` | Parâmetro não obrigatório para fazer com que a senha possua números. |
 | **contains-uppercase** | `Boolean` | Parâmetro não obrigatório para fazer com que a senha possua caracteres maiúsculos. |
