@@ -169,7 +169,6 @@
 		let configs = {};
 		let methods = {};
 
-
 		configs['base-list']= {
 			get: true,
 			resetAndGet: true,

@@ -2,26 +2,27 @@
   'use strict';
 
   GumgaCtrl.$inject = [];
-  // Modelo utilizado para criar o objeto -----------------------------------------
 
-
-  function Methods(Service){
+  function GumgaController(Service){
     let self = this;
     this.callbacks = {};
     this.data = [];
+    this.and = this;
     this.pageSize = 10;
     this.count = Infinity;
     this.methods = {
       get(page = 1){
         self.emit('getStart');
         Service
-        .get(page)
+        .get(page
+				)
         .then((data)=> {
           self.emit('getSuccess', data.data);
           self.data = data.data.values;
           self.pageSize = data.data.pageSize;
           self.count = data.data.count;1
         }, (err) => {self.emit('getError', err);})
+        return self;
       },
       getId(id = 0 ){
         self.emit('getIdStart');
@@ -33,6 +34,7 @@
           if(self.pageSize) delete self.pageSize;
           if(self.count) delete self.count
         }, (err) => {self.emit('getIdError', err);})
+        return self;
       },
       getNew(){
         self.emit('getNewStart');
@@ -44,6 +46,7 @@
           if(self.pageSize) delete self.pageSize;
           if(self.count) delete self.count
         }, (err) => {self.emit('getNewError', err);})
+        return self;
       },
       put(value){
         self.emit('putStart');
@@ -52,14 +55,16 @@
         .then(function(data){
           self.emit('putSuccess',data);
         }, (err) => {self.emit('putError', err);})
+        return self;
       },
       post(value){
         self.emit('postStart');
         Service
         .save(value)
 				.then((data) => {
-					self.emit('postStart', data);
+					self.emit('postSuccess', data);
 				}, (err) => {self.emit('postError', err);})
+        return self;
       },
       delete(array){
         self.emit('deleteStart');
@@ -68,6 +73,7 @@
 				.then((data) => {
 					self.emit('deleteSuccess',data);
 				}, (err) => {self.emit('deleteError', err);})
+        return self;
       },
       sort(field, way){
         self.emit('sortStart');
@@ -79,6 +85,7 @@
           self.pageSize = data.data.pageSize;
           self.count = data.data.count;
 				}, (err) => {self.emit('sortError', err);})
+        return self;
       },
       search(field, param){
         self.emit('searchStart');
@@ -90,6 +97,7 @@
           self.pageSize = data.data.pageSize;
           self.count = data.data.count;
         }, (err) => {self.emit('searchError', err);})
+        return self;
       },
       advancedSearch(param){
         self.emit('advancedSearchStart');
@@ -101,6 +109,7 @@
           self.pageSize = data.data.pageSize;
           self.count = data.data.count;
 				}, (err) => {self.emit('advancedSearchError', err);})
+        return self;
       },
       postQuery(query, name){
         self.emit('postQueryStart');
@@ -108,21 +117,44 @@
         .then((data) =>{
           self.emit('postQuerySuccess');
         }, (err) => {self.emit('postQueryError', err);})
+        return self;
       },
       getQuery(page){
         self.emit('getQueryStart');
-        return
-        Service
+        return Service
         .getQuery(page)
-				.then(function(data){
+				.then((data) =>{
           self.emit('getQuerySuccess',data.data);
 					return data.data.values;
 				}, (err) => {self.emit('getQueryError', err);})
+      },
+      postImage(attribute, model){
+        self.emit('postImageStart');
+        return Service
+        .saveImage(attribute,model)
+        .then((data) => {
+          self.emit('postImageSuccess');
+          return data;
+        }, (err) => {self.emit('postImageError', err);})
+      },
+      deleteImage(attribute, model){
+        self.emit('deleteImageStart');
+        Service.deleteImage(attribute,model)
+        .then((data) => {
+          self.emit('deleteImageSuccess');
+        }, (err) => {self.emit('deleteImageError', err);})
+        return self;
+      },
+      reset(){
+        self.emit('resetStart');
+        Service.resetDefaultState();
+        return self;
       }
     };
   }
+  GumgaController.prototype.and = GumgaController.prototype;
 
-  Methods.prototype.emit = function(ev,data){
+  GumgaController.prototype.emit = function (ev,data){
     if(this.callbacks[ev]){
       this.callbacks[ev].forEach((cb)=> {
         cb(data);
@@ -131,7 +163,7 @@
     return this;
   }
 
-  Methods.prototype.on = function(ev,cb){
+  GumgaController.prototype.on = function (ev,cb) {
     if(!this.callbacks[ev]){
       this.callbacks[ev] = [];
     }
@@ -139,8 +171,15 @@
     return this;
   }
 
-  // ------------------------------------------------------------------------------
-  // Componente -------------------------------------------------------------------
+  GumgaController.prototype.execute = function (nameOfTheFunction = {}, ...args){
+    if(nameOfTheFunction.constructor !== String) throw 'O primeiro parâmetro deve ser uma string!';
+    if(this.methods[nameOfTheFunction]){
+      this.methods[nameOfTheFunction](...args);
+      return this;
+    }
+    throw 'O nome do método está errado! Por favor coloque um método que está no GumgaController';
+  }
+
   function GumgaCtrl(){
 
     function createRestMethods(container = ' ', service = ' ', identifierOrConfiguration){
@@ -155,9 +194,11 @@
 
       // Obtendo as opções que serão utilizadas.
       const options = this.createOptions(identifierOrConfiguration);
+      if(options.noScope){
+        return new GumgaController(service);
+      }
+      container[options.identifier] = new GumgaController(service);
 
-      let newObject = new Methods(service);
-      return newObject;
     }
 
     function createOptions(identifierOrObject = {}){
