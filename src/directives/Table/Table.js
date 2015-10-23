@@ -1,41 +1,5 @@
 (function(){
   'use strict';
-  /**
-   * @ngdoc directive
-   * @name gumga.core:gumgaTable
-   * @restrict E
-   * @description O componente **GumgaTable** serve para expor dados em forma de tabela.
-   * O componente expõe no $scope.selectedEntities um array contendo os objetos das linhas selecionadas para que o desenvolvedor possa usa-los em ações.
-   *
-   * @example
-   * Um exemplo da directive gumgaTable funcionando pode ser encontrado [aqui](http://embed.plnkr.co/SALkp5bKRZ1aywsrpmEX).
-   *  <pre>
-   *    <gumga-table values="list" columns="name,age"></gumga-table>
-   *    <script>
-   *    $scope.list = [{name: 'Guilherme', age: 28},{name: 'Igor', age: 19}];
-   *    </script>
-   *  </pre>
-   *
-   * @param {String} values Atributo obrigatório. Deve ser o nome do array exposto no $scope para popular a tabela.
-   * @param {String} columns Atributo obrigatório. As propriedades do objeto que serão apresentados como colunas na tabela,
-   * @param {String} size Possuem 3 opções de tamanhos, **large**, **medium** e **small**, que respectivamente ocupam, todo o espaço da row, dois terços e
-   * um terço. O valor padrão é large.
-   * @param {String} translate-entity Nome da entidade.
-   * @param {Array} pages Deve conter os valores para apresentar opções de registros por página.
-   * @param {String} table-class Possuem 3 opções, **bordered**, **striped** e **condensed**, que respectivamente, adiciona bordas a tabela,
-   * alterna cores das linhas e diminui o espaçamento interno das linhas e colunas. O valor padrão é bordered.
-   * o componente seguirá a ordem de colunas adicionada ao atributo.
-   * @param {Boolean} multi-selection É true por padrão, determina a possibilidade da seleção de várias entidades ou apenas
-   * uma por vez.
-   * @param {Function} sort-function Nome da função atribuida ao $scope para manipular a ordenação, a função recebe dois
-   * parâmetros, **field** e **way** que serão, a coluna e a direção da ordenação respectivamente, existem duas direções,
-   * **asc** ou **desc**.
-   * @param {String} sort-default Deve conter a **coluna** e a **direção** separados por virgula, será a ordenação padrão na primeira exibição da tabela.
-   * @param {Expression} row-class Deve conter uma expressão condicional para marcar determinadas linhas correspondentes como
-   * verdadeiras perante a expressão.
-   * @param {Function} onSelect Nome da função que será executada ao evento click.
-   * @param {Function} onSort Nome da função que será executada ao evento de sort.
-   */
    Table.$inject = ['GumgaUtils', '$compile','$rootScope','$state','GumgaKeyboard','$timeout'];
    function Table(GumgaUtils, $compile,$rootScope,$state,GumgaKeyboard,$timeout) {
     return {
