@@ -21,13 +21,14 @@ module.exports = function(config){
 			}
 		],
 		exclude: [],
-		preprocessors: {},
+		preprocessors: {
+			'src/**/*.js': ['babel'],
+		},
 		plugins: [
 			'karma-jasmine',
 			'karma-chrome-launcher',
-			'karma-firefox-launcher',
-			'karma-phantomjs-launcher',
-			'karma-mocha-reporter'
+			'karma-mocha-reporter',
+			'karma-babel-preprocessor'
 		],
 		reporters: ['mocha'],
 		port: 3001,
@@ -48,6 +49,4 @@ module.exports = function(config){
 		karmaConf.browsers = ['Chrome_travis_ci'];
 	}
 	config.set(karmaConf)
-
-
 }

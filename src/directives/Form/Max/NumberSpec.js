@@ -1,6 +1,6 @@
 describe('Gumga.core:directives:MaxNumber', function() {
 
-  var compile, mockBackend, scope;
+  var compile, mockBackend, scope, form;
   beforeEach(module('gumga.directives.form.max.number'));
   beforeEach(inject(function($compile, $rootScope) {
     scope = $rootScope;

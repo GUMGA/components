@@ -1,6 +1,6 @@
 describe('Gumga.core:directives:RangeNumber', function() {
 
-  var compile, mockBackend, scope;
+  var compile, mockBackend, scope, form;
   beforeEach(module('gumga.directives.form.range.number'));
   beforeEach(inject(function($compile, $rootScope) {
     scope = $rootScope;

@@ -1,6 +1,6 @@
 describe('Gumga.core:directives:Pattern', function() {
 
-  var compile, mockBackend, scope;
+  var compile, mockBackend, scope, form;
   beforeEach(module('gumga.directives.form.pattern'));
   beforeEach(inject(function($compile, $rootScope) {
     scope = $rootScope;

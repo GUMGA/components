@@ -1,6 +1,5 @@
 (function(){
 	'use strict';
-
 	Populate.$inject = [];
 	/**
 	 * @ngdoc service
@@ -156,11 +155,20 @@
 	 */
 
 	function Populate(){
-		var helpers = {}, configs = {}, methods = {};
-		helpers.guaranteeString = function(s){ return (s && angular.isString(s))};
-		helpers.guaranteeArray = function(a){ return (a && angular.isArray(a))};
-		helpers.guaranteeIsDefined = function(d){ return angular.isDefined(d)};
-		helpers.guaranteeBasicList = function(s){ return (s && this.guaranteeString(s) && s == 'basic-list')};
+		let helpers = {
+			isString(str){
+				return str && angular.isString(str);
+			},
+			isArray(arr){
+				return arr && angular.isArray(arr);
+			},
+			isBasicList(str){
+				return str && this.isString(str) && str == 'basic-list';
+			}
+		};
+		let configs = {};
+		let methods = {};
+
 		configs['base-list']= {
 			get: true,
 			resetAndGet: true,
@@ -195,7 +203,6 @@
 			searchAsync: true,
 			saveAsync: true
 		}
-
 
 		methods.searchAsync = function(Scope,Service,Id){
 			Scope[Id.toLowerCase() + 'AsyncSearch'] = function(field,value){
@@ -278,11 +285,9 @@
 			}
 		};
 		methods.save = function(Scope,Service,Id){
-			Scope[Id.toLowerCase() + 'Save'] = function(value,param){
+			Scope[Id.toLowerCase() + 'Save'] = function(value){
 				Scope.$broadcast('beforeSave',value);
-				var obj = {};
-				obj[param] = value;
-				Service.update(obj)
+				Service.update(value)
 				.then(function(values){
 					Scope.$broadcast('afterSave',values);
 				})
@@ -358,25 +363,26 @@
 				Service.resetQuery();
 			}
 		}
-		methods
+
 		return {
-			setConfig: function(n,v){
-				helpers.guaranteeString(n) && helpers.guaranteeIsDefined(v) ? (configs[n] = v) : angular.noop;
+			setConfig(name, value = {}){
+				if(!!name) throw 'Você deve passar um nome para o componente $populate';
+				configs[name] = value;
 			},
-			getConfig: function(string){
-				return configs[string];
+			getConfig(name){
+				return configs[name];
 			},
-			setMethod: function(name,config,fn){
-				if(!(helpers.guaranteeString(name) && helpers.guaranteeString(config)))
-					throw 'One of $populateProvider.setMethod arguments is wrong.';
+			setMethod(name,config,fn){
+				if(!!helpers.isString(name)) throw 'O argumento do nome é inválido';
+				if(!!helpers.isString(config)) throw 'O argumento da configuração é inválido';
 				configs[config][name] = true;
 				methods[name] = fn;
 			},
-			populateScope: function(scp,svc,id,config){
-				if(!helpers.guaranteeIsDefined(scp)) throw 'The $scope passed for populateScope wasn\'t defined';
-				if(!helpers.guaranteeIsDefined(id)) throw 'The identifier for populateScope must be passed';
-				if(!helpers.guaranteeIsDefined(config)) throw 'The configuration for populateScope must be passed';
-				if(!helpers.guaranteeIsDefined(svc)) throw 'The service for populateScope must be passed';
+			populateScope(scp,svc,id,config){
+				if(!angular.isDefined(scp)) throw 'The $scope passed for populateScope wasn\'t defined';
+				if(!angular.isDefined(id)) throw 'The identifier for populateScope must be passed';
+				if(!angular.isDefined(config)) throw 'The configuration for populateScope must be passed';
+				if(!angular.isDefined(svc)) throw 'The service for populateScope must be passed';
 				if(configs[config]){
 					scp[id] = {};
 					scp[id].content = {};
@@ -386,7 +392,7 @@
 					}
 				}
 			},
-			$get: function(){
+			$get(){
 				return this;
 			}
 		}

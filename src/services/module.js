@@ -11,6 +11,7 @@
 		'gumga.services.webstorage',
 		'gumga.services.populate',
 		'gumga.services.rest',
-		'gumga.services.notification'
+		'gumga.services.notification',
+		'gumga.services.createmethods'
 		]);
 })();

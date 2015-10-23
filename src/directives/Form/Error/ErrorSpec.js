@@ -1,6 +1,6 @@
 describe('Gumga.core:directives:formError', function() {
 
-  var compile, mockBackend, scope, mock;
+  var compile, mockBackend, scope, mock, form;
   beforeEach(module('gumga.directives.form.max.length'));
   beforeEach(inject(function($compile, $rootScope) {
     scope = $rootScope;
