@@ -1,14 +1,16 @@
 describe('SERVICE: gumgaCtrl', () => {
+	function Service(){};
 	let gumgaCtrl,
-	ListService = {},
-	$httpBackend;
-
+	ListService = new Service(),
+	$httpBackend,
+	$scope;
+	let container = new Function();
 	beforeEach(module('gumga.services.gumgactrl'));
 
-	beforeEach(inject(function(_gumgaController_,$q,_$httpBackend_,$http){
+	beforeEach(inject(function(_gumgaController_,$q,_$httpBackend_,$http, $rootScope){
 		gumgaCtrl = _gumgaController_;
 		$httpBackend = _$httpBackend_;
-
+		$scope = $rootScope.$new();
 		$httpBackend
 		.when('GET', 'http://pokeapi.co/api/v1/pokemon/1')
 		.respond({"pageSize":20,"count":200,"start":0,"values":[]});
@@ -61,23 +63,23 @@ describe('SERVICE: gumgaCtrl', () => {
 		.when('DELETE', '/image')
 		.respond({"pageSize":10,"count":0,"start":0,"values":[]});
 
-		ListService.get = function(){};
-		ListService.getNew = function(){};
-		ListService.resetAndGet = function(){};
-		ListService.getById = function(){};
-		ListService.update = function(){};
-		ListService.save = function(){};
-		ListService.deleteCollection = function(){};
-		ListService.sort = function(){};
-		ListService.getSearch = function(){};
-		ListService.getAdvancedSearch = function(){};
+		Service.prototype.get = function(){};
+		Service.prototype.getNew = function(){};
+		Service.prototype.resetAndGet = function(){};
+		Service.prototype.getById = function(){};
+		Service.prototype.update = function(){};
+		Service.prototype.save = function(){};
+		Service.prototype.deleteCollection = function(){};
+		Service.prototype.sort = function(){};
+		Service.prototype.getSearch = function(){};
+		Service.prototype.getAdvancedSearch = function(){};
 
-		ListService.saveQuery = function(){};
-		ListService.getQuery = function(){};
-		ListService.saveImage = function(){};
-		ListService.deleteImage = function(){};
-		ListService.resetQuery = function(){};
-		ListService.resetDefaultState = function(){};
+		Service.prototype.saveQuery = function(){};
+		Service.prototype.getQuery = function(){};
+		Service.prototype.saveImage = function(){};
+		Service.prototype.deleteImage = function(){};
+		Service.prototype.resetQuery = function(){};
+		Service.prototype.resetDefaultState = function(){};
 
 		spyOn(ListService,'get').and.returnValue($http.get('http://pokeapi.co/api/v1/pokemon/1'));
 		spyOn(ListService,'getNew').and.returnValue($http.get('/new'));
@@ -108,6 +110,7 @@ describe('SERVICE: gumgaCtrl', () => {
 			let result = gumgaCtrl._createOptions({
 				identifier: 'Usuario',
 			})
+
 			expect(result.identifier).toEqual('Usuario');
 			expect(result.noScope).toEqual(false);
 
@@ -128,58 +131,8 @@ describe('SERVICE: gumgaCtrl', () => {
 	})
 
 	describe('createRestMethods', () => {
-		it('Should throw an error when the values passed to the first parameters are wrong', () => {
-			const err = 'É necessário passar um objeto no primeiro parâmetro';
-			expect(()=> {
-				gumgaCtrl.createRestMethods({},{},'Identifier');
-			}).not.toThrow(err);
-			expect(()=> {
-				gumgaCtrl.createRestMethods('$scope',{},'Identifier');
-			}).toThrow(err);
-			expect(()=> {
-				gumgaCtrl.createRestMethods(function(){},{},'Identifier');
-			}).toThrow(err);
-			expect(()=> {
-				gumgaCtrl.createRestMethods([],{},'Identifier');
-			}).toThrow(err);
-			expect(()=> {
-				gumgaCtrl.createRestMethods(2,{},'Identifier');
-			}).toThrow(err);
-			expect(()=> {
-				gumgaCtrl.createRestMethods(undefined,{},'Identifier');
-			}).toThrow(err);
-			expect(()=> {
-				gumgaCtrl.createRestMethods(true,{},'Identifier');
-			}).toThrow(err);
-		})
-		it('Should throw an error when the values passed to the second parameters are wrong', () => {
-			const err = 'É necessário passar um objeto no segundo parâmetro';
-			expect(()=> {
-				gumgaCtrl.createRestMethods({},{},'Identifier');
-			}).not.toThrow(err);
-			expect(()=> {
-				gumgaCtrl.createRestMethods({},'$scope','Identifier');
-			}).toThrow(err);
-			expect(()=> {
-				gumgaCtrl.createRestMethods({},function(){},'Identifier');
-			}).toThrow(err);
-			expect(()=> {
-				gumgaCtrl.createRestMethods({},[],'Identifier');
-			}).toThrow(err);
-			expect(()=> {
-				gumgaCtrl.createRestMethods({},2,'Identifier');
-			}).toThrow(err);
-			expect(()=> {
-				gumgaCtrl.createRestMethods({},undefined,'Identifier');
-			}).toThrow(err);
-			expect(()=> {
-				gumgaCtrl.createRestMethods({},true,'Identifier');
-			}).toThrow(err);
-		})
-
 		it('Should execute get right', () => {
-			let container = {};
-			gumgaCtrl.createRestMethods(container,ListService,'Identifier');
+			gumgaCtrl.createRestMethods($scope,ListService,'Identifier');
 			let fns = {
 				getStart(){},
 				getSuccess(){},
@@ -189,14 +142,14 @@ describe('SERVICE: gumgaCtrl', () => {
 			spyOn(fns,'getSuccess');
 			spyOn(fns,'getErr');
 
-			container['Identifier'].on('getSuccess', fns.getSuccess);
-			container['Identifier'].on('getStart', fns.getStart);
-			container['Identifier'].on('getErr', fns.getErr);
+			$scope['Identifier'].on('getSuccess', fns.getSuccess);
+			$scope['Identifier'].on('getStart', fns.getStart);
+			$scope['Identifier'].on('getErr', fns.getErr);
 
-			container['Identifier'].methods.get();
+			$scope['Identifier'].methods.get();
 			$httpBackend.flush();
-			expect(container['Identifier'].pageSize).toEqual(20);
-			expect(container['Identifier'].count).toEqual(200);
+			expect($scope['Identifier'].pageSize).toEqual(20);
+			expect($scope['Identifier'].count).toEqual(200);
 			expect(ListService.get).toHaveBeenCalledWith(1);
 			expect(fns.getStart).toHaveBeenCalled();
 			expect(fns.getSuccess).toHaveBeenCalled();
@@ -205,8 +158,7 @@ describe('SERVICE: gumgaCtrl', () => {
 		})
 
 		it('Should execute getId right', () => {
-			let container = {};
-			gumgaCtrl.createRestMethods(container,ListService,'Identifier');
+			gumgaCtrl.createRestMethods($scope,ListService,'Identifier');
 
 			let fns = {
 				getIdStart(){},
@@ -218,11 +170,11 @@ describe('SERVICE: gumgaCtrl', () => {
 			spyOn(fns,'getIdSuccess');
 			spyOn(fns,'getIdErr');
 
-			container['Identifier'].on('getIdStart', fns.getIdStart);
-			container['Identifier'].on('getIdSuccess', fns.getIdSuccess);
-			container['Identifier'].on('getIdErr', fns.getIdErr);
+			$scope['Identifier'].on('getIdStart', fns.getIdStart);
+			$scope['Identifier'].on('getIdSuccess', fns.getIdSuccess);
+			$scope['Identifier'].on('getIdErr', fns.getIdErr);
 
-			container['Identifier'].methods.getId();
+			$scope['Identifier'].methods.getId();
 			$httpBackend.flush();
 
 			expect(ListService.getById).toHaveBeenCalledWith(0);
@@ -232,8 +184,7 @@ describe('SERVICE: gumgaCtrl', () => {
 		})
 
 		it('Should execute getNew right', () => {
-			let container = {};
-			gumgaCtrl.createRestMethods(container,ListService,'Identifier');
+			gumgaCtrl.createRestMethods($scope,ListService,'Identifier');
 
 			let fns = {
 				getNewStart(){},
@@ -245,11 +196,11 @@ describe('SERVICE: gumgaCtrl', () => {
 			spyOn(fns,'getNewSuccess');
 			spyOn(fns,'getNewErr');
 
-			container['Identifier'].on('getNewStart', fns.getNewStart);
-			container['Identifier'].on('getNewSuccess', fns.getNewSuccess);
-			container['Identifier'].on('getNewErr', fns.getNewErr);
+			$scope['Identifier'].on('getNewStart', fns.getNewStart);
+			$scope['Identifier'].on('getNewSuccess', fns.getNewSuccess);
+			$scope['Identifier'].on('getNewErr', fns.getNewErr);
 
-			container['Identifier'].methods.getNew();
+			$scope['Identifier'].methods.getNew();
 			$httpBackend.flush();
 
 			expect(ListService.getNew).toHaveBeenCalled();
@@ -259,8 +210,8 @@ describe('SERVICE: gumgaCtrl', () => {
 		})
 
 		it('Should execute put right', () => {
-			let container = {};
-			gumgaCtrl.createRestMethods(container,ListService,'Identifier');
+
+			gumgaCtrl.createRestMethods($scope,ListService,'Identifier');
 
 			let fns = {
 				putStart(){},
@@ -272,11 +223,11 @@ describe('SERVICE: gumgaCtrl', () => {
 			spyOn(fns,'putSuccess');
 			spyOn(fns,'putErr');
 
-			container['Identifier'].on('putStart', fns.putStart);
-			container['Identifier'].on('putSuccess', fns.putSuccess);
-			container['Identifier'].on('putErr', fns.putErr);
+			$scope['Identifier'].on('putStart', fns.putStart);
+			$scope['Identifier'].on('putSuccess', fns.putSuccess);
+			$scope['Identifier'].on('putErr', fns.putErr);
 
-			container['Identifier'].methods.put({id:1,oi:null,nome:'Mateus Miranda de almeida',email:{value:'info.mateusmiranda@gmail.com'}});
+			$scope['Identifier'].methods.put({id:1,oi:null,nome:'Mateus Miranda de almeida',email:{value:'info.mateusmiranda@gmail.com'}});
 			$httpBackend.flush();
 
 			expect(ListService.update).toHaveBeenCalledWith({id:1,oi:null,nome:'Mateus Miranda de almeida',email:{value:'info.mateusmiranda@gmail.com'}});
@@ -285,8 +236,8 @@ describe('SERVICE: gumgaCtrl', () => {
 			expect(fns.putErr).not.toHaveBeenCalled();
 		})
 		it('Should execute post right', () => {
-			let container = {};
-			gumgaCtrl.createRestMethods(container,ListService,'Identifier');
+
+			gumgaCtrl.createRestMethods($scope,ListService,'Identifier');
 
 			let fns = {
 				postStart(){},
@@ -298,11 +249,11 @@ describe('SERVICE: gumgaCtrl', () => {
 			spyOn(fns,'postSuccess');
 			spyOn(fns,'postErr');
 
-			container['Identifier'].on('postStart', fns.postStart);
-			container['Identifier'].on('postSuccess', fns.postSuccess);
-			container['Identifier'].on('postErr', fns.postErr);
+			$scope['Identifier'].on('postStart', fns.postStart);
+			$scope['Identifier'].on('postSuccess', fns.postSuccess);
+			$scope['Identifier'].on('postErr', fns.postErr);
 
-			container['Identifier'].methods.post({id:null,oi:null,nome:'Mateus Miranda de almeida',email:{value:'info.mateusmiranda@gmail.com'}});
+			$scope['Identifier'].methods.post({id:null,oi:null,nome:'Mateus Miranda de almeida',email:{value:'info.mateusmiranda@gmail.com'}});
 			$httpBackend.flush();
 
 			expect(ListService.save).toHaveBeenCalledWith({id:null,oi:null,nome:'Mateus Miranda de almeida',email:{value:'info.mateusmiranda@gmail.com'}});
@@ -312,8 +263,8 @@ describe('SERVICE: gumgaCtrl', () => {
 		})
 
 		it('Should execute delete right', () => {
-			let container = {};
-			gumgaCtrl.createRestMethods(container,ListService,'Identifier');
+
+			gumgaCtrl.createRestMethods($scope,ListService,'Identifier');
 
 			let fns = {
 				deleteStart(){},
@@ -325,11 +276,11 @@ describe('SERVICE: gumgaCtrl', () => {
 			spyOn(fns,'deleteSuccess');
 			spyOn(fns,'deleteErr');
 
-			container['Identifier'].on('deleteStart', fns.deleteStart);
-			container['Identifier'].on('deleteSuccess', fns.deleteSuccess);
-			container['Identifier'].on('deleteErr', fns.deleteErr);
+			$scope['Identifier'].on('deleteStart', fns.deleteStart);
+			$scope['Identifier'].on('deleteSuccess', fns.deleteSuccess);
+			$scope['Identifier'].on('deleteErr', fns.deleteErr);
 
-			container['Identifier'].methods.delete([{id:1},{id:2}]);
+			$scope['Identifier'].methods.delete([{id:1},{id:2}]);
 			$httpBackend.flush();
 
 			expect(ListService.deleteCollection).toHaveBeenCalledWith([{id:1},{id:2}]);
@@ -339,8 +290,8 @@ describe('SERVICE: gumgaCtrl', () => {
 		})
 
 		it('Should execute sort right', () => {
-			let container = {};
-			gumgaCtrl.createRestMethods(container,ListService,'Identifier');
+
+			gumgaCtrl.createRestMethods($scope,ListService,'Identifier');
 
 			let fns = {
 				sortStart(){},
@@ -352,24 +303,24 @@ describe('SERVICE: gumgaCtrl', () => {
 			spyOn(fns,'sortSuccess');
 			spyOn(fns,'sortErr');
 
-			container['Identifier'].on('sortStart', fns.sortStart);
-			container['Identifier'].on('sortSuccess', fns.sortSuccess);
-			container['Identifier'].on('sortErr', fns.sortErr);
+			$scope['Identifier'].on('sortStart', fns.sortStart);
+			$scope['Identifier'].on('sortSuccess', fns.sortSuccess);
+			$scope['Identifier'].on('sortErr', fns.sortErr);
 
-			container['Identifier'].methods.sort('name','asc');
+			$scope['Identifier'].methods.sort('name','asc');
 			$httpBackend.flush();
 
 			expect(ListService.sort).toHaveBeenCalledWith('name','asc');
-			expect(container['Identifier'].pageSize).toEqual(10);
-			expect(container['Identifier'].count).toEqual(0);
+			expect($scope['Identifier'].pageSize).toEqual(10);
+			expect($scope['Identifier'].count).toEqual(0);
 			expect(fns.sortStart).toHaveBeenCalled();
 			expect(fns.sortSuccess).toHaveBeenCalled();
 			expect(fns.sortErr).not.toHaveBeenCalled();
 		})
 
 		it('Should execute search right', () => {
-			let container = {};
-			gumgaCtrl.createRestMethods(container,ListService,'Identifier');
+
+			gumgaCtrl.createRestMethods($scope,ListService,'Identifier');
 
 			let fns = {
 				searchStart(){},
@@ -381,24 +332,24 @@ describe('SERVICE: gumgaCtrl', () => {
 			spyOn(fns,'searchSuccess');
 			spyOn(fns,'searchErr');
 
-			container['Identifier'].on('searchStart', fns.searchStart);
-			container['Identifier'].on('searchSuccess', fns.searchSuccess);
-			container['Identifier'].on('searchErr', fns.searchErr);
-			container['Identifier'].methods.search('name','juca');
+			$scope['Identifier'].on('searchStart', fns.searchStart);
+			$scope['Identifier'].on('searchSuccess', fns.searchSuccess);
+			$scope['Identifier'].on('searchErr', fns.searchErr);
+			$scope['Identifier'].methods.search('name','juca');
 
 			$httpBackend.flush();
 
 			expect(ListService.getSearch).toHaveBeenCalledWith('name','juca');
-			expect(container['Identifier'].pageSize).toEqual(10);
-			expect(container['Identifier'].count).toEqual(0);
+			expect($scope['Identifier'].pageSize).toEqual(10);
+			expect($scope['Identifier'].count).toEqual(0);
 			expect(fns.searchStart).toHaveBeenCalled();
 			expect(fns.searchSuccess).toHaveBeenCalled();
 			expect(fns.searchErr).not.toHaveBeenCalled();
 		})
 
 		it('Should execute advancedSearch right', () => {
-			let container = {};
-			gumgaCtrl.createRestMethods(container,ListService,'Identifier');
+
+			gumgaCtrl.createRestMethods($scope,ListService,'Identifier');
 
 			let fns = {
 				advancedSearchStart(){},
@@ -410,24 +361,24 @@ describe('SERVICE: gumgaCtrl', () => {
 			spyOn(fns,'advancedSearchSuccess');
 			spyOn(fns,'advancedSearchErr');
 
-			container['Identifier'].on('advancedSearchStart', fns.advancedSearchStart);
-			container['Identifier'].on('advancedSearchSuccess', fns.advancedSearchSuccess);
-			container['Identifier'].on('advancedSearchErr', fns.advancedSearchErr);
+			$scope['Identifier'].on('advancedSearchStart', fns.advancedSearchStart);
+			$scope['Identifier'].on('advancedSearchSuccess', fns.advancedSearchSuccess);
+			$scope['Identifier'].on('advancedSearchErr', fns.advancedSearchErr);
 
-			container['Identifier'].methods.advancedSearch('name like juca');
+			$scope['Identifier'].methods.advancedSearch('name like juca');
 			$httpBackend.flush();
 
 			expect(ListService.getAdvancedSearch).toHaveBeenCalledWith('name like juca');
-			expect(container['Identifier'].pageSize).toEqual(10);
-			expect(container['Identifier'].count).toEqual(0);
+			expect($scope['Identifier'].pageSize).toEqual(10);
+			expect($scope['Identifier'].count).toEqual(0);
 			expect(fns.advancedSearchStart).toHaveBeenCalled();
 			expect(fns.advancedSearchSuccess).toHaveBeenCalled();
 			expect(fns.advancedSearchErr).not.toHaveBeenCalled();
 		})
 
 		it('Should execute postQuery right', () => {
-			let container = {};
-			gumgaCtrl.createRestMethods(container,ListService,'Identifier');
+
+			gumgaCtrl.createRestMethods($scope,ListService,'Identifier');
 
 			let fns = {
 				postQueryStart(){},
@@ -439,11 +390,11 @@ describe('SERVICE: gumgaCtrl', () => {
 			spyOn(fns,'postQuerySuccess');
 			spyOn(fns,'postQueryErr');
 
-			container['Identifier'].on('postQueryStart', fns.postQueryStart);
-			container['Identifier'].on('postQuerySuccess', fns.postQuerySuccess);
-			container['Identifier'].on('postQueryErr', fns.postQueryErr);
+			$scope['Identifier'].on('postQueryStart', fns.postQueryStart);
+			$scope['Identifier'].on('postQuerySuccess', fns.postQuerySuccess);
+			$scope['Identifier'].on('postQueryErr', fns.postQueryErr);
 
-			container['Identifier'].methods.postQuery('query','name');
+			$scope['Identifier'].methods.postQuery('query','name');
 			$httpBackend.flush();
 
 			expect(ListService.saveQuery).toHaveBeenCalledWith({
@@ -456,36 +407,36 @@ describe('SERVICE: gumgaCtrl', () => {
 		})
 
 		it('Should execute getQuery right', () => {
-			let container = {};
-			gumgaCtrl.createRestMethods(container,ListService,'Identifier');
+
+			gumgaCtrl.createRestMethods($scope,ListService,'Identifier');
 
 			let fns = {
 				getQueryStart(){}
 			}
 			spyOn(fns,'getQueryStart');
-			container['Identifier'].on('getQueryStart', fns.getQueryStart);
-			container['Identifier'].methods.getQuery('/page');
+			$scope['Identifier'].on('getQueryStart', fns.getQueryStart);
+			$scope['Identifier'].methods.getQuery('/page');
 			$httpBackend.flush();
 			expect(fns.getQueryStart).toHaveBeenCalled();
 		})
 
 		it('Should execute postImage right', () => {
-			let container = {};
-			gumgaCtrl.createRestMethods(container,ListService,'Identifier');
+
+			gumgaCtrl.createRestMethods($scope,ListService,'Identifier');
 
 			let fns = {
 				postImageStart(){}
 			}
 			spyOn(fns,'postImageStart');
-			container['Identifier'].on('postImageStart', fns.postImageStart);
-			container['Identifier'].methods.postImage('/page');
+			$scope['Identifier'].on('postImageStart', fns.postImageStart);
+			$scope['Identifier'].methods.postImage('/page');
 			$httpBackend.flush();
 			expect(fns.postImageStart).toHaveBeenCalled();
 		})
 
 		it('Should execute deleteImage right', () => {
-			let container = {};
-			gumgaCtrl.createRestMethods(container,ListService,'Identifier');
+
+			gumgaCtrl.createRestMethods($scope,ListService,'Identifier');
 
 			let fns = {
 				deleteImageStart(){},
@@ -497,11 +448,11 @@ describe('SERVICE: gumgaCtrl', () => {
 			spyOn(fns,'deleteImageSuccess');
 			spyOn(fns,'deleteImageErr');
 
-			container['Identifier'].on('deleteImageStart', fns.deleteImageStart);
-			container['Identifier'].on('deleteImageSuccess', fns.deleteImageSuccess);
-			container['Identifier'].on('deleteImageErr', fns.deleteImageErr);
+			$scope['Identifier'].on('deleteImageStart', fns.deleteImageStart);
+			$scope['Identifier'].on('deleteImageSuccess', fns.deleteImageSuccess);
+			$scope['Identifier'].on('deleteImageErr', fns.deleteImageErr);
 
-			container['Identifier'].methods.deleteImage('query','name');
+			$scope['Identifier'].methods.deleteImage('query','name');
 			$httpBackend.flush();
 
 			expect(ListService.deleteImage).toHaveBeenCalledWith('query','name');
@@ -511,8 +462,8 @@ describe('SERVICE: gumgaCtrl', () => {
 		})
 
 		it('Should call Service.resetDefaultState when i call reset', ()=> {
-			let container = {};
-			gumgaCtrl.createRestMethods(container,ListService,'Identifier');
+
+			gumgaCtrl.createRestMethods($scope,ListService,'Identifier');
 
 			let fns = {
 				resetStart(){}
@@ -520,9 +471,9 @@ describe('SERVICE: gumgaCtrl', () => {
 
 			spyOn(fns,'resetStart');
 
-			container['Identifier'].on('resetStart', fns.resetStart);
+			$scope['Identifier'].on('resetStart', fns.resetStart);
 
-			container['Identifier'].methods.reset();
+			$scope['Identifier'].methods.reset();
 
 			expect(ListService.resetDefaultState).toHaveBeenCalled();
 			expect(fns.resetStart).toHaveBeenCalled();
@@ -532,11 +483,10 @@ describe('SERVICE: gumgaCtrl', () => {
 
 	describe(`When i use 'and'`, () => {
 		it('Should chain functions', () => {
-			let container = {};
-			gumgaCtrl.createRestMethods(container,ListService,'Identifier');
+			gumgaCtrl.createRestMethods($scope,ListService,'Identifier');
 
 			expect(() => {
-				container['Identifier']
+				$scope['Identifier']
 				.methods.get()
 				.and
 				.methods.post()
@@ -550,14 +500,14 @@ describe('SERVICE: gumgaCtrl', () => {
 
 	describe(`When i use 'execute'`, () => {
 		it('Should call a function when the parameter is right', () => {
-			let container = {};
-			gumgaCtrl.createRestMethods(container,ListService,'Identifier');
 
-			let methods = container['Identifier'].methods;
+			gumgaCtrl.createRestMethods($scope,ListService,'Identifier');
+
+			let methods = $scope['Identifier'].methods;
 			spyOn(methods, 'get');
 			spyOn(methods, 'post')
-			container['Identifier'].execute('get',2);
-			container['Identifier'].execute('post',{
+			$scope['Identifier'].execute('get',2);
+			$scope['Identifier'].execute('post',{
 				name: 'José'
 			});
 			expect(methods.get).toHaveBeenCalledWith(2);
@@ -566,55 +516,54 @@ describe('SERVICE: gumgaCtrl', () => {
 			});
 		})
 		it('Should throw an error when the entry is wrong', () => {
-			let container = {};
-			gumgaCtrl.createRestMethods(container,ListService,'Identifier');
+			gumgaCtrl.createRestMethods($scope,ListService,'Identifier');
 
 			const err = 'O primeiro parâmetro deve ser uma string!';
 			expect(()=> {
-				container['Identifier'].execute({},2);
+				$scope['Identifier'].execute({},2);
 			}).toThrow(err);
 			expect(()=> {
-				container['Identifier'].execute('get',2);
+				$scope['Identifier'].execute('get',2);
 			}).not.toThrow(err);
 			expect(()=> {
-				container['Identifier'].execute(function(){},2);
+				$scope['Identifier'].execute(function(){},2);
 			}).toThrow(err);
 			expect(()=> {
-				container['Identifier'].execute([],2);
+				$scope['Identifier'].execute([],2);
 			}).toThrow(err);
 			expect(()=> {
-				container['Identifier'].execute(190,2);
+				$scope['Identifier'].execute(190,2);
 			}).toThrow(err);
 			expect(()=> {
-				container['Identifier'].execute(undefined,2);
+				$scope['Identifier'].execute(undefined,2);
 			}).toThrow(err);
 			expect(()=> {
-				container['Identifier'].execute(true,2);
+				$scope['Identifier'].execute(true,2);
 			}).toThrow(err);
 		})
 
 		it('Should throw an error when the function passed doesn\'t exist', () => {
-			let container = {};
-			gumgaCtrl.createRestMethods(container,ListService,'Identifier');
+
+			gumgaCtrl.createRestMethods($scope,ListService,'Identifier');
 			const err = 'O nome do método está errado! Por favor coloque um método que está no GumgaController';
 			expect(()=> {
-				container['Identifier'].execute('foo',2);
+				$scope['Identifier'].execute('foo',2);
 			}).toThrow(err);
 			expect(()=> {
-				container['Identifier'].execute('get',2);
-				container['Identifier'].execute('getId',2);
-				container['Identifier'].execute('getNew',2);
-				container['Identifier'].execute('put',2);
-				container['Identifier'].execute('post',2);
-				container['Identifier'].execute('delete',2);
-				container['Identifier'].execute('sort',2);
-				container['Identifier'].execute('search',2);
-				container['Identifier'].execute('advancedSearch',2);
-				container['Identifier'].execute('postQuery',2);
-				container['Identifier'].execute('getQuery',2);
-				container['Identifier'].execute('postImage',2);
-				container['Identifier'].execute('deleteImage',2);
-				container['Identifier'].execute('reset',2);
+				$scope['Identifier'].execute('get',2);
+				$scope['Identifier'].execute('getId',2);
+				$scope['Identifier'].execute('getNew',2);
+				$scope['Identifier'].execute('put',2);
+				$scope['Identifier'].execute('post',2);
+				$scope['Identifier'].execute('delete',2);
+				$scope['Identifier'].execute('sort',2);
+				$scope['Identifier'].execute('search',2);
+				$scope['Identifier'].execute('advancedSearch',2);
+				$scope['Identifier'].execute('postQuery',2);
+				$scope['Identifier'].execute('getQuery',2);
+				$scope['Identifier'].execute('postImage',2);
+				$scope['Identifier'].execute('deleteImage',2);
+				$scope['Identifier'].execute('reset',2);
 			}).not.toThrow(err);
 		})
 	})
