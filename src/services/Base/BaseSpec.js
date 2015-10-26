@@ -12,8 +12,8 @@ describe("SERVICE: GumgaBase", function () {
 
 
 
-
   beforeEach(module('gumga.services.base'));
+
   beforeEach(inject(function(_$httpBackend_,_GumgaBase_){
     $httpBackend = _$httpBackend_;
     GumgaBase = _GumgaBase_;

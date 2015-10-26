@@ -1,6 +1,6 @@
 describe('Gumga.core:directives:MinDate', function() {
 
-	var compile, mockBackend, scope, filter;
+	var compile, mockBackend, scope, filter, form;
 	beforeEach(module('gumga.directives.form.min.date'));
 	beforeEach(inject(function($compile, $rootScope, $filter) {
 		scope = $rootScope;

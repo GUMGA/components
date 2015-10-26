@@ -1,5 +1,5 @@
 describe('SERVICE: WebStorage', function() {
-	var GumgaWebStorage
+	var GumgaWebStorage,
 	jsonMock = {
 		fields: {
 			spike: 'Ambiente de Teste',
@@ -36,7 +36,7 @@ describe('SERVICE: WebStorage', function() {
 				spyOn(localStorage,'getItem').and.callFake(getV);
 				spyOn(localStorage,'removeItem')
 				spyOn(localStorage,'clear');
-			})	
+			})
 		)
 	it('Should call sessionStorage.setItem when WebStorage.setSessionStorageItem is called',
 		function(){
@@ -50,7 +50,7 @@ describe('SERVICE: WebStorage', function() {
 			var aux = GumgaWebStorage.getSessionStorageItem('data');
 			expect(aux).toEqual(jsonMock);
 			expect(sessionStorage.getItem).toHaveBeenCalledWith('data');
-					
+
 		}
 	)
 	it('Should call sessionStorage.removeItem when Webstorage.removeSessionStorageItem',
@@ -78,7 +78,7 @@ describe('SERVICE: WebStorage', function() {
 			var aux = GumgaWebStorage.getLocalStorageItem('data');
 			expect(aux).toEqual(jsonMock);
 			expect(localStorage.getItem).toHaveBeenCalledWith('data');
-					
+
 		}
 	)
 	it('Should call localStorage.removeItem when Webstorage.removeLocalStorageItem',

@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/GUMGA/components.png?label=ready&title=Ready)](https://waffle.io/GUMGA/components)
 # Gumga Components
 
 Os componentes da Gumga que estão neste repositório são os componentes utilizados no GumgaFramework.

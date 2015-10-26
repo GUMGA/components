@@ -1,8 +1,8 @@
 describe("DIRECTIVE: GumgaForm",function(){
-  var scope
-  ,   controller
-  ,   $timeout
-      fields = [
+  var scope,
+  controller,
+  $timeout,
+  fields = [
     {
       field: 'name',
       type: 'text',
@@ -102,10 +102,10 @@ describe("DIRECTIVE: GumgaForm",function(){
   })
 
   it('Should change the defaults messages of an input when i call changeMessage()',function () {
-      var aux = scope.GumgaForm.changeMessage('age','maxdate','O valor {1} é o limite para o campo {0}');
-      expect(aux).toBeTruthy();
-      var _aux = scope.GumgaForm.getMessages('age','maxdate');
-      expect(_aux).toEqual('O valor {1} é o limite para o campo {0}');
+    var aux = scope.GumgaForm.changeMessage('age','maxdate','O valor {1} é o limite para o campo {0}');
+    expect(aux).toBeTruthy();
+    var _aux = scope.GumgaForm.getMessages('age','maxdate');
+    expect(_aux).toEqual('O valor {1} é o limite para o campo {0}');
   })
-  
+
 })

@@ -1,6 +1,6 @@
 describe('Gumga.core:directives:MinLength', function() {
 
-  var compile, mockBackend, scope;
+  var compile, mockBackend, scope, form;
   beforeEach(module('gumga.directives.form.min.length'));
   beforeEach(inject(function($compile, $rootScope) {
     scope = $rootScope;

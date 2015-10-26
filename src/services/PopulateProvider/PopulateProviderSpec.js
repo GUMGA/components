@@ -228,8 +228,12 @@ describe('Gumga.core:services:Populate',function(){
 	})
 	it('Should receive true when the value was saved',function(){
 		provider.populateScope(scope,FormService,'User','base-form');
-		scope.userSave('Juca da Silva','name');
-		expect(scope.$broadcast).toHaveBeenCalledWith('beforeSave','Juca da Silva');
+		scope.userSave({
+			name: 'Juca da Silva'
+		});
+		expect(scope.$broadcast).toHaveBeenCalledWith('beforeSave',{
+			name: 'Juca da Silva'
+		});
 		scope.$digest();
 		expect(scope.$broadcast).toHaveBeenCalledWith('afterSave',true);
 		expect(FormService.update).toHaveBeenCalledWith({name: 'Juca da Silva'});
@@ -256,4 +260,5 @@ describe('Gumga.core:services:Populate',function(){
 		scope.$digest();
 		expect(scope.$broadcast).toHaveBeenCalledWith('afterDeleteImage',true);
 	})
+
 })

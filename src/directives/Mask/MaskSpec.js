@@ -1,6 +1,6 @@
 describe('Gumga.core:directives:Mask', function() {
 
-  var compile, mockBackend, scope;
+  var compile, mockBackend, scope, form;
   beforeEach(module('gumga.directives.mask'));
   beforeEach(inject(function($compile, $rootScope) {
     scope = $rootScope;
