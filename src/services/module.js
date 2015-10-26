@@ -6,6 +6,7 @@
 		'gumga.services.keyboard',
 		'gumga.services.base',
 		'gumga.services.utils',
+		'gumga.services.gumgactrl',
 		'gumga.services.alert',
 		'gumga.services.translate',
 		'gumga.services.webstorage',

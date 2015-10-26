@@ -1,20 +1,19 @@
 (function() {
   'use strict';
 
-  GumgaCtrl.$inject = [];
+
 
   function GumgaController(Service){
     let self = this;
     this.and = this;
     this.data = [];
     this.pageSize = 10;
-    this.count = Infinity;
+    this.count = 0;
     this.methods = {
       get(page = 1){
         self.emit('getStart');
         Service
-        .get(page
-				)
+        .get(page)
         .then((data)=> {
           self.emit('getSuccess', data.data);
           self.data = data.data.values;
@@ -152,11 +151,11 @@
     };
   }
 
-  GumgaController.prototype.and;
+
 
   GumgaController.prototype.callbacks = {};
 
-  GumgaController.prototype.and = GumgaController.prototype;
+  GumgaController.prototype.and = this;
 
   GumgaController.prototype.emit = function (ev,data){
     if(this.callbacks[ev]){
@@ -184,25 +183,30 @@
     throw 'O nome do método está errado! Por favor coloque um método que está no GumgaController';
   }
 
+
+
+
+  GumgaCtrl.$inject = [];
+
   function GumgaCtrl(){
 
-    function createRestMethods(container = ' ', service = ' ', identifierOrConfiguration){
+    function createRestMethods(container, service, identifierOrConfiguration){
       let idConstructor = identifierOrConfiguration.constructor;
-      // Validando as entradas de dados.
-      if(container.constructor !== Object)
-      throw 'É necessário passar um objeto no primeiro parâmetro';
-      if(service.constructor !== Object )
-      throw 'É necessário passar um objeto no segundo parâmetro';
+      // // Validando as entradas de dados.
+      if(!container)
+        throw 'É necessário passar um objeto no primeiro parâmetro';
+      if(!container)
+        throw 'É necessário passar um objeto no segundo parâmetro';
       if(idConstructor !== Object && idConstructor !== String)
-      throw 'É necessário passar um objeto ou uma string no terceiro parâmetro';
-
+        throw 'É necessário passar um objeto ou uma string no terceiro parâmetro';
+      //
       // Obtendo as opções que serão utilizadas.
       const options = this._createOptions(identifierOrConfiguration);
-      if(options.noScope){
+      if(!!options.noScope){
         return new GumgaController(service);
       }
       container[options.identifier] = new GumgaController(service);
-
+      return;
     }
 
     function _createOptions(identifierOrObject = {}){
@@ -214,11 +218,12 @@
       }
       let object = angular.extend({},identifierOrObject);
       object.noScope = !!object.noScope;
-      if(!object.identifier)
-      throw 'Você precisa passar um identificador para o objeto de configuração do createRestMethods!';
-
+      if(!object.identifier){
+        throw 'Você precisa passar um identificador para o objeto de configuração do createRestMethods!';
+      }
       return object;
     }
+
     return {
       createRestMethods,
       _createOptions
