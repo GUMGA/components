@@ -97,21 +97,21 @@ describe('SERVICE: gumgaCtrl', () => {
 
 	}))
 
-	describe('createOptions', () => {
+	describe('_createOptions', () => {
 		it('Should return the populated object if a string is passed', () => {
-			let result = gumgaCtrl.createOptions('User');
+			let result = gumgaCtrl._createOptions('User');
 			expect(result.identifier).toEqual('User');
 			expect(result.noScope).toEqual(false);
 		})
 
 		it('Should return the correct object if another object is passed', () => {
-			let result = gumgaCtrl.createOptions({
+			let result = gumgaCtrl._createOptions({
 				identifier: 'Usuario',
 			})
 			expect(result.identifier).toEqual('Usuario');
 			expect(result.noScope).toEqual(false);
 
-			let anotherResult = gumgaCtrl.createOptions({
+			let anotherResult = gumgaCtrl._createOptions({
 				identifier: 'User',
 				noScope: true
 			})
@@ -120,7 +120,7 @@ describe('SERVICE: gumgaCtrl', () => {
 			expect(anotherResult.noScope).toEqual(true);
 
 			expect(() => {
-				gumgaCtrl.createOptions({
+				gumgaCtrl._createOptions({
 					noScope: true
 				})
 			}).toThrow('Você precisa passar um identificador para o objeto de configuração do createRestMethods!');

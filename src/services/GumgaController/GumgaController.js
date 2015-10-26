@@ -5,9 +5,8 @@
 
   function GumgaController(Service){
     let self = this;
-    this.callbacks = {};
-    this.data = [];
     this.and = this;
+    this.data = [];
     this.pageSize = 10;
     this.count = Infinity;
     this.methods = {
@@ -152,6 +151,11 @@
       }
     };
   }
+
+  GumgaController.prototype.and;
+
+  GumgaController.prototype.callbacks = {};
+
   GumgaController.prototype.and = GumgaController.prototype;
 
   GumgaController.prototype.emit = function (ev,data){
@@ -193,7 +197,7 @@
       throw 'É necessário passar um objeto ou uma string no terceiro parâmetro';
 
       // Obtendo as opções que serão utilizadas.
-      const options = this.createOptions(identifierOrConfiguration);
+      const options = this._createOptions(identifierOrConfiguration);
       if(options.noScope){
         return new GumgaController(service);
       }
@@ -201,7 +205,7 @@
 
     }
 
-    function createOptions(identifierOrObject = {}){
+    function _createOptions(identifierOrObject = {}){
       if(identifierOrObject.constructor === String){
         return {
           identifier: identifierOrObject,
@@ -217,7 +221,7 @@
     }
     return {
       createRestMethods,
-      createOptions
+      _createOptions
     };
   }
 
