@@ -1,8 +1,5 @@
 (function() {
   'use strict';
-
-
-
   function GumgaController(Service){
     let self = this;
     this.and = this;
@@ -59,30 +56,30 @@
         self.emit('postStart');
         Service
         .save(value)
-				.then((data) => {
-					self.emit('postSuccess', data);
-				}, (err) => {self.emit('postError', err);})
+        .then((data) => {
+          self.emit('postSuccess', data);
+        }, (err) => {self.emit('postError', err);})
         return self;
       },
       delete(array){
         self.emit('deleteStart');
-				Service
+        Service
         .deleteCollection(array)
-				.then((data) => {
-					self.emit('deleteSuccess',data);
-				}, (err) => {self.emit('deleteError', err);})
+        .then((data) => {
+          self.emit('deleteSuccess',data);
+        }, (err) => {self.emit('deleteError', err);})
         return self;
       },
       sort(field, way){
         self.emit('sortStart');
-				Service
+        Service
         .sort(field, way)
-				.then((data) => {
+        .then((data) => {
           self.emit('sortSuccess', data.data);
           self.data = data.data.values;
           self.pageSize = data.data.pageSize;
           self.count = data.data.count;
-				}, (err) => {self.emit('sortError', err);})
+        }, (err) => {self.emit('sortError', err);})
         return self;
       },
       search(field, param){
@@ -99,14 +96,14 @@
       },
       advancedSearch(param){
         self.emit('advancedSearchStart');
-				Service
+        Service
         .getAdvancedSearch(param)
-				.then((data) => {
+        .then((data) => {
           self.emit('advancedSearchSuccess', data.data);
           self.data = data.data.values;
           self.pageSize = data.data.pageSize;
           self.count = data.data.count;
-				}, (err) => {self.emit('advancedSearchError', err);})
+        }, (err) => {self.emit('advancedSearchError', err);})
         return self;
       },
       postQuery(query, name){
@@ -121,10 +118,10 @@
         self.emit('getQueryStart');
         return Service
         .getQuery(page)
-				.then((data) =>{
+        .then((data) =>{
           self.emit('getQuerySuccess',data.data);
-					return data.data.values;
-				}, (err) => {self.emit('getQueryError', err);})
+          return data.data.values;
+        }, (err) => {self.emit('getQueryError', err);})
       },
       postImage(attribute, model){
         self.emit('postImageStart');
@@ -150,8 +147,6 @@
       }
     };
   }
-
-
 
   GumgaController.prototype.callbacks = {};
 
@@ -184,7 +179,7 @@
   }
 
 
-
+// -------------------------------------------------------- Componente
 
   GumgaCtrl.$inject = [];
 
@@ -192,19 +187,11 @@
 
     function createRestMethods(container, service, identifierOrConfiguration){
       let idConstructor = identifierOrConfiguration.constructor;
-      // // Validando as entradas de dados.
-      if(!container)
-        throw 'É necessário passar um objeto no primeiro parâmetro';
-      if(!container)
-        throw 'É necessário passar um objeto no segundo parâmetro';
-      if(idConstructor !== Object && idConstructor !== String)
-        throw 'É necessário passar um objeto ou uma string no terceiro parâmetro';
-      //
-      // Obtendo as opções que serão utilizadas.
+      if(!container) throw 'É necessário passar um objeto no primeiro parâmetro';
+      if(!container) throw 'É necessário passar um objeto no segundo parâmetro';
+      if(idConstructor !== Object && idConstructor !== String) throw 'É necessário passar um objeto ou uma string no terceiro parâmetro';
       const options = this._createOptions(identifierOrConfiguration);
-      if(!!options.noScope){
-        return new GumgaController(service);
-      }
+      if(!!options.noScope)return new GumgaController(service);
       container[options.identifier] = new GumgaController(service);
       return;
     }
@@ -232,4 +219,4 @@
 
   angular.module('gumga.services.gumgactrl',[])
   .factory('gumgaController', GumgaCtrl);
-}());
+})();
