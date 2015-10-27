@@ -1,6 +1,6 @@
 # Service - gumgaBase (Depreciado)
 
-Depreciado - Substituido por: [gumgaRest](../Rest/README.md)
+Depreciado - Substituido por: [gumgaRest](../Rest)
 
 ### Descrição
 O service GumgaBase pode ser utilizado como helper para fazer chamadas HTTP. Ele permite que o programador não precise incluir o service $http do AngularJS e já vem com algumas funções incluídas. Para utilizar o GumgaBase, basta íncluí-lo como dependência.

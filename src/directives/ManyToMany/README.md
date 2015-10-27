@@ -1,26 +1,21 @@
-# Directive - gumgaManyToMany (DEPRECATED)
-
-### Deprecated
-
-Novo componente utilizado para criar alertas
-
+# Directive - gumgaManyToMany
 
 ### Uso:
-  ```html
-    <gumga-many-to-many
-          left-list="Array"
-          right-list="Array"
-          left-search="Function"
-          right-search="Function"
-          post-method="Function"
-          on-list-change="Function"
-          on-value-visualization-opened="Function"
-          on-value-visualization-closed="Function"
-          authorize-add="Boolean">
-      <left-field>{{$value.name}}</left-field>
-      <right-field>{{$value.name}}</right-field>
-    </gumga-many-to-many>
-  ```
+```html
+<gumga-many-to-many
+  left-list="Array"
+  right-list="Array"
+  left-search="Function"
+  right-search="Function"
+  post-method="Function"
+  on-list-change="Function"
+  on-value-visualization-opened="Function"
+  on-value-visualization-closed="Function"
+  authorize-add="Boolean">
+  <left-field>{{$value.name}}</left-field>
+  <right-field>{{$value.name}}</right-field>
+</gumga-many-to-many>
+```
 
 ### Descrição
 O componente gumgaManyToMany é um componente que é utilizado para mostrar duas listas lado a lado, e permitir que um registro seja trocado de uma lista para outra,
