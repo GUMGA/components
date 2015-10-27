@@ -4,8 +4,10 @@
   List.$inject = ['GumgaListHelper','$compile','$timeout'];
 
   function List(GumgaListHelper,$compile,$timeout){
+    
+    ctrl.$inject = ['$scope','$element', '$attrs'];
 
-    function ctrl($scope, $element, $attrs, $transclude){
+    function ctrl($scope, $element, $attrs){
       function verifyEmpty($v,other){return (!$attrs.$v ? other : vm[$v])};
       var vm = this;
       // Valores utilizados pela aplicação
