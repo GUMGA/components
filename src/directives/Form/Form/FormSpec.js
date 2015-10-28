@@ -119,7 +119,7 @@ describe("DIRECTIVE: GumgaForm",function(){
       controller.changeStateOfInput('name1','required', false, 10);
       expect(scope.$emit).toHaveBeenCalledWith('name1-invalid', {
         validationType: 'required',
-        message: 'O campo name1  é obrigatório.'
+        message: 'O campo name1 é obrigatório.'
       });
     })
   })
