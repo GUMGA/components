@@ -94,7 +94,6 @@
 				var _formControllers = [];
 				(function() {
 					angular.forEach(elm.find('input'),function(input){
-						console.log(angular.element(input));
 						_formControllers.push({
 							name: angular.element(input).controller('ngModel').$name,
 							controller: angular.element(input).controller('ngModel'),
@@ -144,6 +143,7 @@
 						})
 					})
 				})
+
 				scope.GumgaForm.getMessages = function(name,error){
 					if(!error){
 						return returnObject(name).errorMessages;
@@ -204,5 +204,5 @@
 		}
 	}
 	angular.module('gumga.directives.form.form',[])
-	.directive('gumgaForm',Form);
+	.directive('gumgaFormOne',Form);
 })();
