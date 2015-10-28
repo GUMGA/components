@@ -1,20 +1,6 @@
 (function(){
 	'use strict';
-   /**
-    * @ngdoc directive
-    * @name gumga.core:gumgaError
-    * @element input
-    * @restrict A
-    * @description O componente gumgaError serve para mostrar mensagens de validações abaixo do input responsável pelo erro.
-    *
-    * @example
-    *  Um exemplo da directive gumgaError funcionando pode ser encontrado [aqui](http://embed.plnkr.co/AcjqcgvgGhdJqDh72eHA).
-    *  <pre>
-    *    <form name="myForm">
-    *      <input type="number" name="minNumber" ng-model="minNumber" gumga-error gumga-min-number="20">
-    *    </form>
-    *  </pre>
-   */
+
   Error.$inject = ['$compile'];
 
   function Error($compile) {
