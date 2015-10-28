@@ -1,7 +1,7 @@
 describe("DIRECTIVE: GumgaForm",function(){
   let scope, controller;
 
-  beforeEach(module('gumga.directives.form'));
+  beforeEach(module('gumga.directives.form.form1'));
 
   beforeEach(
     inject(($rootScope,$compile) => {
