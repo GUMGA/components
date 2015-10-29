@@ -32,6 +32,7 @@
 				ctrl.getDefaultMessages	= getDefaultMessages;
 				ctrl.getFormErrors			=	getFormErrors;
 				ctrl.setFormValidity		=	setFormValidity;
+				ctrl.updateFormErrors 	= updateFormErrors;
 
 
 				function changeInputMessage(inputName, obj){
@@ -60,7 +61,7 @@
 					if(inputIsValid){
 						delete objectSentToGumgaError.message;
 					}
-					updateFormErrors(inputName, validationType, inputIsValid, message);
+					ctrl.updateFormErrors(inputName, validationType, inputIsValid, message);
 					$scope.$broadcast('form-changed');
 					$scope.$broadcast(`${inputName.toLowerCase()}-${inputIsValid ? '' : 'in'}valid`, objectSentToGumgaError);
 					return this;
