@@ -51,6 +51,11 @@
 					if(!inputName) throw 'É necessário passar um valor válido como primeiro parâmetro [changeStateOfInput(inputName, validationType, inputIsValid, value)]';
 					if(!validationType) throw 'É necessário passar um valor válido como segundo parâmetro [changeStateOfInput(inputName, validationType, inputIsValid, value)]';
 					if(inputIsValid !== true && inputIsValid !== false) throw 'É necessário passar um booleano como terceiro parâmetro [changeStateOfInput(inputName, validationType, inputIsValid, value)]';
+					console.log('includes', 'teste'.includes('tes'));
+					console.log('updateFormerror', ctrl.updateFormErrors);
+					console.log('$broadcast', $scope.$broadcast);
+					console.log('$replace', 'teste'.replace('te','xe'));
+
 					let custom = ctrl.customMessage[inputName] ? ctrl.customMessage[inputName] : {};
 					let message =
 							(custom[validationType] ? custom[validationType] : defaultMessages[validationType])
