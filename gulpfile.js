@@ -94,6 +94,10 @@ gulp.task('tdd',function(){
   gulp.watch('./src/**/*.js', runSequence('minify-js','tests'));
 });
 
+gulp.task('js-watch', ()=> {
+  gulp.watch(['./src/**/*.js','./index.html'], ['minify-js'])
+})
+
 /**
 * Reporta cobertura de testes e complexidade do código.
 */

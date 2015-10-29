@@ -3,7 +3,7 @@
 
   angular.module('gumga.directives.form',[
     'gumga.directives.form.form',
-    // 'gumga.directives.form.form1',
+    'gumga.directives.form.form1',
     'gumga.directives.form.errors',
     'gumga.directives.form.error',
     'gumga.directives.form.max.date',
