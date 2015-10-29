@@ -2,7 +2,7 @@ describe('Gumga.core:directives:MaxLength', () => {
 
   let scope, controller;
   beforeEach(module('gumga.directives.form.max.length'));
-  beforeEach(module('gumga.directives.form.form1'));
+  beforeEach(module('gumga.directives.form.form'));
 
   beforeEach(inject(($compile, $rootScope) => {
     scope = $rootScope;

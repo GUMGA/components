@@ -1,7 +1,7 @@
 describe("DIRECTIVE: GumgaForm",function(){
   let scope, controller;
 
-  beforeEach(module('gumga.directives.form.form1'));
+  beforeEach(module('gumga.directives.form.form'));
 
   beforeEach(
     inject(($rootScope,$compile) => {
@@ -22,7 +22,6 @@ describe("DIRECTIVE: GumgaForm",function(){
   )
 
   describe('When i call changeInputMessage:', () => {
-
     it('Should throw an error if the first parameter is undefined', () => {
       let err = 'É necessário passar o nome do input [changeInputMessage(inputName, messages)]';
       expect(x => controller.changeInputMessage(undefined, {})).toThrow(err);
@@ -102,18 +101,53 @@ describe("DIRECTIVE: GumgaForm",function(){
     })
 
     it('Should emit the events right', () => {
-      spyOn(scope, '$emit');
+      spyOn(scope, '$broadcast');
       controller.changeStateOfInput('name','maxlength',true, 10);
-      expect(scope.$emit).toHaveBeenCalledWith('name-valid', {validationType: 'maxlength'});
+      expect(scope.$broadcast).toHaveBeenCalledWith('name-valid', {validationType: 'maxlength'});
       controller.changeStateOfInput('name','maxlength', false, 10);
-      expect(scope.$emit).toHaveBeenCalledWith('name-invalid', {
+      expect(scope.$broadcast).toHaveBeenCalledWith('name-invalid', {
         validationType: 'maxlength',
         message: 'O texto especificado no campo name não deve ultrapassar o limite de: 10.'
       });
       controller.changeStateOfInput('name1','required', false, 10);
-      expect(scope.$emit).toHaveBeenCalledWith('name1-invalid', {
+      expect(scope.$broadcast).toHaveBeenCalledWith('name1-invalid', {
         validationType: 'required',
         message: 'O campo name1 é obrigatório.'
+      });
+    })
+  })
+
+  describe('When i call getFormErrors', () => {
+    it('Should return the actual errors', () => {
+      controller.changeStateOfInput('name','maxlength', false, 10);
+      expect(controller.getFormErrors()).toEqual({name: { maxlength: 'O texto especificado no campo name não deve ultrapassar o limite de: 10.' }});
+      controller.changeStateOfInput('name','required', false);
+      expect(controller.getFormErrors()).toEqual({
+        name: {
+          maxlength: 'O texto especificado no campo name não deve ultrapassar o limite de: 10.',
+          required: 'O campo name é obrigatório.'
+        }
+      });
+      controller.changeStateOfInput('name','pattern', false, '/g/');
+      expect(controller.getFormErrors()).toEqual({
+        name: {
+          maxlength: 'O texto especificado no campo name não deve ultrapassar o limite de: 10.',
+          required: 'O campo name é obrigatório.',
+          pattern: 'O texto especificado no campo name deve estar dentro do padrão: /g/.'
+        }
+      });
+      controller.changeStateOfInput('name','maxlength', true, 10);
+      expect(controller.getFormErrors()).toEqual({
+        name: {
+          required: 'O campo name é obrigatório.',
+          pattern: 'O texto especificado no campo name deve estar dentro do padrão: /g/.'
+        }
+      });
+      controller.changeStateOfInput('name','required', true);
+      expect(controller.getFormErrors()).toEqual({
+        name: {
+          pattern: 'O texto especificado no campo name deve estar dentro do padrão: /g/.'
+        }
       });
     })
   })

@@ -2,7 +2,7 @@ describe('Gumga.core:directives:MaxDate', () => {
 	let compile, scope, filter, controller;
 
 	beforeEach(module('gumga.directives.form.max.date'));
-	beforeEach(module('gumga.directives.form.form1'));
+	beforeEach(module('gumga.directives.form.form'));
 	beforeEach(inject(($compile, $rootScope, $filter) => {
 		scope = $rootScope;
 		filter = $filter;

@@ -1,208 +1,112 @@
 (function(){
 	'use strict';
-	Form.$inject = ['$timeout','$rootScope'];
-	/**
-	* @ngdoc directive
-	* @name gumga.core:gumgaForm
-	* @restrict A
-	* @element form
-	* @description A directive gumgaForm é utilizada em conjunto com as directives de validação de input. Ela contém funções que serão
-	* usadas para manipular o formulário. Ela expõe no $scope um objeto GumgaForm para agrupar as funções em um lugar só.
-	*
-	*	# Como utilizar
-	*
-	* O componente GumgaForm deve ser incluído no elemento `form`, que necessita ter um atributo name. É necessário também que os inputs que serão utilizados tenham um atributo name,
-	* pois o controle deles é feito a partir deste atributo.
-	*
-	*	<pre>
-	*  <form name="UserForm" gumga-form>
-	*	   ...
-	*  </form>
-	* </pre>
-	*
-	*	# Métodos
-	*
-	*`$scope.GumgaForm.getMessages(name,error)`
-  *
-  *  O método `getMessages` aceita dois parâmetros `name` e `error`, onde name é o nome do input que desejada
-  *  recuperar a mensagem e o erro. Caso o parâmetro error não seja passado, é retornado o objeto com todas as mensagens do campo.
-  *  ### Parâmetros
-  *  - <label class="label label-warning" style="margin-right: 1%">String</label><label class="label label-info">name</label> String que terá o nome do in put para retornar os errors.
-  *   Para adicionar a função, coloque o nome da função e o valor dele como `true`
-	*  - <label class="label label-warning" style="margin-right: 1%">String</label><label class="label label-info">error</label> String que será terá o nome do erro que será retornado. Caso
-	*  não seja passado este parâmetro, será retornado um objeto com todos os erros.
-  * 	### Retorno
-  *
-  *  - <label class="label label-info">[Object|String]</label> String que conterá a mensagem de erro ou o objeto com todas as mensagens de erro.
-	*
-	* ----
-	*
-	*`$scope.GumgaForm.changeMessage(name,error,message)`
-	*
-	*  O método `changeMessage` aceita três parâmetros, `name`,`error` e `message`, onde `name` é o nome do input que desejada
-	*  recuperar a mensagem, `error` é qual erro que a mensagem será alterada e `message` qual será a nova mensagem .
-	*  ### Parâmetros
-	*  - <label class="label label-warning" style="margin-right: 1%">String</label><label class="label label-info">name</label> String que terá o nome do input para retornar os errors.
-	*   Para adicionar a função, coloque o nome da função e o valor dele como `true`
-	*  - <label class="label label-warning" style="margin-right: 1%">String</label><label class="label label-info">error</label> String que será terá o nome do erro que será retornado. Caso
-	*  não seja passado este parâmetro, será retornado um objeto com todos os erros.
-	*  - <label class="label label-warning" style="margin-right: 1%">String</label><label class="label label-info">message</label> String que será usada como mensagem de erro para a directive.
-	* 	### Retorno
-	*
-	*  - <label class="label label-info">Boolean</label> True caso a mensagem tenha sido alterada, False caso não.
-	*
-	* ----
-	*
-	*`$scope.GumgaForm.setFormValid()`
-	*
-	*  O método `setFormValid` é utilizado para limpar todos os erros que estiverem ativos no formulário. Ele percorre o objeto de erro que o Angular.js cria automaticamente e valida todos os campos
-	*  que estiverem com erro.
-	*
-	* ----
-  *
-	*`$scope.GumgaForm.setFormPristine()`
-	*
-	*  O método `setFormPristine` é utilizado para colocar todos os campos em um estado de $pristine, ou seja, quando ainda não foram atualizados pelo usuário.
-	*
-	* ----
-	*
-	*`$scope.GumgaForm.clearForm()`
-	*
-	*  O método `clearForm` é utilizado para limpar todos os campos do formulário e, além disso, colocar eles em um estado de $pristine.
-	*
-	* ----
-	*
-	*`$scope.GumgaForm.getFormErrors()`
-	*
-	*  O método `getFormErrors` é utilizado para quando deseja-se obter todos os erros que estão presentes no formulário.
-	*
-	* ### Retorno
-	*
-	*  - <label class="label label-info">[Array]</label> Lista que irá conter todos os erros que estão no formulário.
-	*
-	* ----
-	*/
-	function Form($timeout,$rootScope) {
+	Form.$inject = [];
+
+	function Form() {
 		return {
 			restrict: 'A',
-			require: '^form',
 			scope: false,
-			link: function(scope, elm, attrs, ctrl) {
-				if(!attrs.name) throw 'É necessário passar um valor para o atributo "name" do element <form>';
-				scope.GumgaForm = {};
-				var _form = scope[attrs.name];
-				var _formControllers = [];
-				(function() {
-					angular.forEach(elm.find('input'),function(input){
-						_formControllers.push({
-							name: angular.element(input).controller('ngModel').$name,
-							controller: angular.element(input).controller('ngModel'),
-							errorMessages: {
-								maxdate: 'A data especificada no campo {0} não deve ultrapassar o limite de: {1}.',
-								maxlength: 'O texto especificado no campo {0} não deve ultrapassar o limite de: {1}.',
-								maxnumber: 'O número especificado no campo {0} não deve ultrapassar o limite de: {1}.',
-								mindate: 'A data especificada no campo {0} não deve ser menor que o limite mínimo de: {1}.',
-								minlength: 'O texto especificado no campo {0} não deve ser menor que o limite mínimo de: {1}.',
-								minnumber: 'O número especificado no campo {0} não deve ser menor que o limite mínimo de: {1}.',
-								pattern: 'O texto especificado no campo {0} deve estar dentro do padrão: {1}.',
-								rangedate:'A data especificada no campo {0} deve estar dentro do intervalo: {1}.',
-								rangenumber: 'O número especificado no campo {0} deve estar dentro do intervalo: {1}.',
-								validatetype: 'O valor digitado no campo {0} deve ser do tipo: {1}',
-								required: 'O campo {0} é obrigatório.'
+			priority: 501,
+			require: 'form',
+			transclude: false,
+			controller: ['$scope','$element','$attrs','$timeout', function($scope, $element, $attrs, $timeout) {
+				let ctrl = this;
+				const defaultMessages = {
+					maxdate: 'A data especificada no campo {0} não deve ultrapassar o limite de: {1}.',
+					maxlength: 'O texto especificado no campo {0} não deve ultrapassar o limite de: {1}.',
+					maxnumber: 'O número especificado no campo {0} não deve ultrapassar o limite de: {1}.',
+					mindate: 'A data especificada no campo {0} não deve ser menor que o limite mínimo de: {1}.',
+					minlength: 'O texto especificado no campo {0} não deve ser menor que o limite mínimo de: {1}.',
+					minnumber: 'O número especificado no campo {0} não deve ser menor que o limite mínimo de: {1}.',
+					pattern: 'O texto especificado no campo {0} deve estar dentro do padrão: {1}.',
+					rangedate:'A data especificada no campo {0} deve estar dentro do intervalo: {1}.',
+					rangenumber: 'O número especificado no campo {0} deve estar dentro do intervalo: {1}.',
+					validatetype: 'O valor digitado no campo {0} deve ser do tipo: {1}',
+					required: 'O campo {0} é obrigatório.'
+				};
+
+				ctrl.customMessage			= {};
+				ctrl.formErrors					=	{};
+				ctrl.changeInputMessage	= changeInputMessage;
+				ctrl.changeStateOfInput	= changeStateOfInput;
+				ctrl.getDefaultMessages	= getDefaultMessages;
+				ctrl.getFormErrors			=	getFormErrors;
+				ctrl.setFormValidity		=	setFormValidity;
+
+
+				function changeInputMessage(inputName, obj){
+					if(!inputName) throw 'É necessário passar o nome do input [changeInputMessage(inputName, messages)]';
+					if(!obj) throw 'É necessário passar um objeto com as mensagens [changeInputMessage(inputName, messages)]';
+					let isMessagesRight = Object.keys(obj).filter(key => !defaultMessages[key]),
+							moreThanOne 		= isMessagesRight.length > 1;
+					if(isMessagesRight.length > 0){
+						throw `${moreThanOne ? 'Os' : 'O'} ${moreThanOne ? 'tipos' : 'tipo'} de validação ${moreThanOne ? isMessagesRight.join(',') : isMessagesRight} não ${moreThanOne ? 'existem' : 'existe'}.`
+					}
+					ctrl.customMessage[inputName] = obj;
+					return this;
+				}
+
+				function changeStateOfInput(inputName, validationType, inputIsValid, value){
+					if(!inputName) throw 'É necessário passar um valor válido como primeiro parâmetro [changeStateOfInput(inputName, validationType, inputIsValid, value)]';
+					if(!validationType) throw 'É necessário passar um valor válido como segundo parâmetro [changeStateOfInput(inputName, validationType, inputIsValid, value)]';
+					if(inputIsValid !== true && inputIsValid !== false) throw 'É necessário passar um booleano como terceiro parâmetro [changeStateOfInput(inputName, validationType, inputIsValid, value)]';
+					let custom = ctrl.customMessage[inputName] ? ctrl.customMessage[inputName] : {};
+					let message =
+							(custom[validationType] ? custom[validationType] : defaultMessages[validationType])
+								.replace('{0}', inputName)
+								.replace('{1}', validationType.includes('range') ? ('mínimo de ' + value[0] + ' e máximo de ' + value[1]) : value);
+
+					let objectSentToGumgaError = {validationType, message};
+					if(inputIsValid){
+						delete objectSentToGumgaError.message;
+					}
+					updateFormErrors(inputName, validationType, inputIsValid, message);
+					$scope.$broadcast('form-changed');
+					$scope.$broadcast(`${inputName.toLowerCase()}-${inputIsValid ? '' : 'in'}valid`, objectSentToGumgaError);
+					return this;
+				}
+
+				function getDefaultMessages(){
+					return angular.copy(defaultMessages);
+				}
+
+				function getFormErrors(){
+					return angular.copy(ctrl.formErrors);
+				}
+
+				function updateFormErrors(inputName, validationType, isValid, message){
+					let errs = ctrl.formErrors
+					if(errs[inputName] && errs[inputName][validationType] && isValid){
+						delete errs[inputName][validationType];
+						return this;
+					}
+					if(errs[inputName] && errs[inputName][validationType]) return this;
+
+					if(!ctrl.formErrors[inputName]) ctrl.formErrors[inputName] = {};
+
+					ctrl.formErrors[inputName][validationType] = message;
+
+					return this;
+				}
+
+				function setFormValidity(boolean = true){
+					$timeout(() =>{
+						let errors	= $scope[$attrs.name].$error,
+						toExclude 	= [];
+						Object.keys(errors)
+						.forEach(value => errors[value].forEach((x, idx) =>{
+							toExclude.push(x);
+							if(idx == errors[value].length -1){
+								toExclude.forEach(x => x.$setValidity(value,boolean));
+								toExclude = [];
 							}
-						})
-					})
-				})();
-
-				function returnObject(name){
-					return _formControllers.filter(function($v){
-						return $v.name.trim().toLowerCase() === name.trim().toLowerCase();
-					})[0];
+						}));
+						return this;
+					});
 				}
-
-				scope.$on('$error',function(ev,data){
-					$timeout(function(){
-						if (data.error.substring(0,5) == 'range') {
-							var auxValue = scope.$eval(data.value);
-							data.value = 'mínimo de ' + auxValue.min + ' e máximo de ' + auxValue.max;
-						}
-						var _aux = returnObject(data.name)
-						,		message = _aux.errorMessages[data.error].replace('{1}',data.value)
-						,		auxMessage = message;
-						if (data.error != 'required') {
-							auxMessage = auxMessage.replace('no campo {0}','');
-						} else {
-							auxMessage = auxMessage.replace('{0}','');
-						}
-						message = message.replace('{0}',data.label);
-						$rootScope.$broadcast('$errorMessage',{
-							name: data.name,
-							message: message,
-							fieldMessage: auxMessage,
-							valid: data.valid,
-						})
-					})
-				})
-
-				scope.GumgaForm.getMessages = function(name,error){
-					if(!error){
-						return returnObject(name).errorMessages;
-					}
-					if(returnObject(name).errorMessages){
-						return returnObject(name).errorMessages[error] || null;
-					}
-				}
-				scope.GumgaForm.changeMessage = function(input,which,message){
-					if(!input || !which || !message) throw 'Valores passados errados para a função GumgaForm.changeMessage(input,message)'
-					var aux = _formControllers.filter(function(value){
-						return input == value.name;
-					})[0];
-					if(aux.errorMessages && aux.errorMessages[which]){
-						aux.errorMessages[which] = message;
-						return true;
-					}
-					return false;
-				}
-				scope.GumgaForm.setFormValid = function () {
-					for(var key in _form.$error) if(_form.$error.hasOwnProperty(key)){
-						_form.$error[key].forEach(function (value) {
-							value.$setValidity(key,true);
-						})
-					}
-					scope.$apply();
-				}
-				scope.GumgaForm.clearForm = function(){
-					_formControllers.forEach(function(controller){
-						controller.controller.$setViewValue('');
-						controller.controller.$setPristine();
-					})
-					scope.$apply();
-				}
-
-				scope.GumgaForm.setFormPristine = function () {
-					_formControllers.forEach(function(controller){
-						controller.controller.$setPristine();
-					})
-					scope.$apply();
-				}
-
-				scope.GumgaForm.getFormErrors = function(){
-					var _arr = []
-					,		name
-					,		aux = [];
-					for(var key in _form.$error) if(_form.$error.hasOwnProperty(key)){
-						_form.$error[key].forEach(function (value) {
-							aux.push(value.$name);
-						})
-						_arr.push({type: key,fields: aux});
-						aux = [];
-					}
-					return _arr;
-				}
-
-			}
+			}]
 		}
 	}
 	angular.module('gumga.directives.form.form',[])
-	.directive('gumgaFormOne',Form);
+	.directive('gumgaForm',Form);
 })();
