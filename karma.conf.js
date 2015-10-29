@@ -45,8 +45,8 @@ module.exports = function(config){
 		browsers: ['Chrome'],
 		singleRun: false
 	}
-	// if (process.env.TRAVIS) {
-	// 	karmaConf.browsers = ['Chrome_travis_ci'];
-	// }
+	if (process.env.TRAVIS) {
+		karmaConf.browsers = ['Chrome_travis_ci'];
+	}
 	config.set(karmaConf)
 }
