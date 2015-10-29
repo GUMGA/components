@@ -22,7 +22,7 @@ module.exports = function(config){
 		],
 		exclude: [],
 		preprocessors: {
-			'src/**/*.js': ['babel'],
+			'src/**/*.js': ['babel']
 		},
 		plugins: [
 			'karma-jasmine',
@@ -33,7 +33,7 @@ module.exports = function(config){
 		reporters: ['mocha'],
 		port: 3001,
 		colors: true,
-		logLevel: config.LOG_INFO,
+		logLevel: config.LOG_DEBUG,
 		customLaunchers: {
 			Chrome_travis_ci: {
 				base: 'Chrome',
