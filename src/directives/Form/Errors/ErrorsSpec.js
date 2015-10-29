@@ -1,8 +1,7 @@
 describe('Gumga.core:directives:formErrors', function() {
   let scope, controller, directiveScope;
 
-  beforeEach(module('gumga.directives.form.errors'));
-  beforeEach(module('gumga.directives.form.form'));
+  beforeEach(module('gumga.directives.form'));
 
   beforeEach(
     inject(($rootScope,$compile) => {
