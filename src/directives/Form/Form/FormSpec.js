@@ -102,13 +102,14 @@ describe("DIRECTIVE: GumgaForm",function(){
     })
 
     it('Should emit the events right', () => {
+      console.log(scope);
+      console.log(controller);
       spyOn(scope, '$emit');
       controller
       .changeInputMessage('name', {
         'maxlength': 'O campo {0} tem um limite máximo de {1} caracteres.',
         'minlength': 'O campo {0} tem um limite mínimo de {1} caracteres.'
       })
-
       controller.changeStateOfInput('name','maxlength',true, 10);
       expect(scope.$emit).toHaveBeenCalledWith('name-valid', {validationType: 'maxlength'});
       controller.changeStateOfInput('name','maxlength', false, 10);
