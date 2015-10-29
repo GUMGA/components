@@ -51,14 +51,12 @@
 					if(!inputName) throw 'É necessário passar um valor válido como primeiro parâmetro [changeStateOfInput(inputName, validationType, inputIsValid, value)]';
 					if(!validationType) throw 'É necessário passar um valor válido como segundo parâmetro [changeStateOfInput(inputName, validationType, inputIsValid, value)]';
 					if(inputIsValid !== true && inputIsValid !== false) throw 'É necessário passar um booleano como terceiro parâmetro [changeStateOfInput(inputName, validationType, inputIsValid, value)]';
-					let custom = ctrl.customMessage[inputName] ? ctrl.customMessage[inputName] : {};
-					let auxString = (custom[validationType] ? custom[validationType] : defaultMessages[validationType]);
-					let message = auxString.replace('{0}', inputName);
-					message = message.replace('{1}', validationType.includes('range') ? ('mínimo de ' + value[0] + ' e máximo de ' + value[1]) : value);
-					let objectSentToGumgaError = {validationType, message};
-					if(inputIsValid){
-						delete objectSentToGumgaError.message;
-					}
+					let custom 									= ctrl.customMessage[inputName] ? ctrl.customMessage[inputName] : {},
+							auxString 							= (custom[validationType] ? custom[validationType] : defaultMessages[validationType]),
+							message 								= auxString.replace('{0}', inputName).replace('{1}', validationType.includes('range') ? ('mínimo de ' + value[0] + ' e máximo de ' + value[1]) : value),
+							objectSentToGumgaError	= {validationType};
+							
+					if(!inputIsValid) objectSentToGumgaError.message = message;
 					ctrl.updateFormErrors(inputName, validationType, inputIsValid, message);
 					$scope.$broadcast('form-changed');
 					$scope.$broadcast(`${inputName.toLowerCase()}-${inputIsValid ? '' : 'in'}valid`, objectSentToGumgaError);
