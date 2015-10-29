@@ -103,16 +103,12 @@ describe("DIRECTIVE: GumgaForm",function(){
 
     it('Should emit the events right', () => {
       spyOn(scope, '$emit');
-      controller.changeInputMessage('name', {
-        'maxlength': 'O campo {0} tem um limite máximo de {1} caracteres.',
-        'minlength': 'O campo {0} tem um limite mínimo de {1} caracteres.'
-      })
       controller.changeStateOfInput('name','maxlength',true, 10);
       expect(scope.$emit).toHaveBeenCalledWith('name-valid', {validationType: 'maxlength'});
       controller.changeStateOfInput('name','maxlength', false, 10);
       expect(scope.$emit).toHaveBeenCalledWith('name-invalid', {
         validationType: 'maxlength',
-        message: 'O campo name tem um limite máximo de 10 caracteres.'
+        message: 'O texto especificado no campo name não deve ultrapassar o limite de: 10.'
       });
       controller.changeStateOfInput('name1','required', false, 10);
       expect(scope.$emit).toHaveBeenCalledWith('name1-invalid', {
