@@ -1,6 +1,8 @@
 language: node_js
 node_js:
  - "4.2.0"
+env:
+  - NODE_VERSION=4.2.0 CC=clang CXX=clang++
 before_install:
  - export CHROME_BIN=chromium-browser
  - export DISPLAY=:99.0
