@@ -29,11 +29,12 @@ describe('Gumga.core:directives:formErrors', function() {
     scope.$broadcast('form-changed', {
       name:{
         maxlength: "O texto especificado no campo name não deve ultrapassar o limite de: 10.",
-        required:"O campo name é obrigatório."},
+        required:"O campo name é obrigatório."
+      },
       name1:{
         required:"O campo name1 é obrigatório."
       }
-    })
+    });
     expect(directiveScope.errors).toEqual({
       namemaxlength: "O texto especificado no campo name não deve ultrapassar o limite de: 10.",
       namerequired: "O campo name é obrigatório.",
