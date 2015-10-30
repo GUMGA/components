@@ -58,7 +58,7 @@
 
 					objectSentToGumgaError = (!inputIsValid) ? {message, validationType} : {validationType}
 
-					ctrl.updateFormErrors(inputName, validationType, inputIsValid, message);
+					// ctrl.updateFormErrors(inputName, validationType, inputIsValid, message);
 					$scope.$broadcast('form-changed');
 					$scope.$broadcast(`${inputName.toLowerCase()}-${inputIsValid ? '' : 'in'}valid`, objectSentToGumgaError);
 					return this;
