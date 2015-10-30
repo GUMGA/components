@@ -54,11 +54,9 @@
 
 					let custom 									= ctrl.customMessage[inputName] ? ctrl.customMessage[inputName] : {},
 							auxString 							= (custom[validationType] ? custom[validationType] : defaultMessages[validationType]),
-							// message 								= auxString.replace('{0}', inputName).replace('{1}', validationType.includes('range') ? ('mínimo de ' + value[0] + ' e máximo de ' + value[1]) : value),
-							//
+							message 								= auxString.replace('{0}', inputName).replace('{1}', validationType.indexOf('range') != -1 ? ('mínimo de ' + value[0] + ' e máximo de ' + value[1]) : value),
 							objectSentToGumgaError;
 
-							let message = "ximbalaie"
 					objectSentToGumgaError = (!inputIsValid) ? {message, validationType} : {validationType}
 					this.updateFormErrors(inputName, validationType, inputIsValid, message);
 					$scope.$broadcast('form-changed');
