@@ -33,7 +33,7 @@ module.exports = function(config){
 		reporters: ['mocha'],
 		port: 3001,
 		colors: true,
-		logLevel: config.LOG_DEBUG,
+		logLevel: config.LOG_INFO,
 		customLaunchers: {
 			Chrome_travis_ci: {
 				base: 'Chrome',

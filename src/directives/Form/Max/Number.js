@@ -10,7 +10,6 @@
 			link: function (scope, elm, attrs, controllers) {
 				if (attrs.type != 'number') throw 'Esta diretiva suporta apenas inputs do tipo number';
 				if (!attrs.gumgaMaxNumber) throw "O valor da diretiva gumga-max-number não foi informado.";
-				console.log('pimba');
 				let ngModelController 	= controllers[0],
 						gumgaFormController	=	controllers[1],
 						error								=	'maxnumber',
