@@ -34,7 +34,7 @@
 				ctrl.setFormValidity		=	setFormValidity;
 				ctrl.updateFormErrors 	= updateFormErrors;
 
-
+				$scope.$broadcast('_name', $attrs.name);
 				function changeInputMessage(inputName, obj){
 					if(!inputName) throw 'É necessário passar o nome do input [changeInputMessage(inputName, messages)]';
 					if(!obj) throw 'É necessário passar um objeto com as mensagens [changeInputMessage(inputName, messages)]';
