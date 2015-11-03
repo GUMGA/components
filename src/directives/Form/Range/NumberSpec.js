@@ -1,28 +1,37 @@
 describe('Gumga.core:directives:RangeNumber', function() {
 
-  var compile, mockBackend, scope, form;
-  beforeEach(module('gumga.directives.form.range.number'));
-  beforeEach(inject(function($compile, $rootScope) {
-    scope = $rootScope;
-    var element = angular.element(
-      '<form name="myForm">' +
-      '<input type="number" name="idade" ng-model="pessoa.idade" gumga-range-number="{min: 18, max: 60}">' +
-      '</form>'
-      );
-    scope.pessoa = { idade: null };
-    $compile(element)(scope);
-    scope.$digest();
-    form = scope.myForm;
-  }));
+  let compile, scope, filter, controller;
 
+  beforeEach(module('gumga.directives.form'));
+
+  beforeEach(inject(($compile, $rootScope, $filter) => {
+    scope = $rootScope;
+    filter = $filter;
+
+    var template =`
+      <form name="Teste" gumga-form>
+      <input type="number" name="idade" ng-model="pessoa.idade" gumga-range-number="{min: 18, max: 60}">
+      </form>`;
+
+      let elm = angular.element(template);
+      $compile(elm)(scope);
+      controller = elm.controller('gumgaForm')
+      scope.$digest();
+  }));
   it('should valid input value',function() {
-    form.idade.$setViewValue(20);
-    expect(scope.pessoa.idade).toEqual(20);
-    expect(form.idade.$valid).toBe(true);
-  });
-  it('should invalid input value',function() {
-    form.idade.$setViewValue(15);
-    expect(scope.pessoa.idade).toEqual(15);
-    expect(form.idade.$valid).toBe(false);
-  });
+    spyOn(controller,'changeStateOfInput');
+		scope.Teste.idade.$setViewValue(20);
+		expect(scope.pessoa.idade).toEqual(20);
+		expect(controller.changeStateOfInput).toHaveBeenCalledWith('idade', 'rangenumber', true, '{min: 18, max: 60}');
+		expect(scope.Teste.idade.$valid).toBe(true);
+		expect(scope.Teste.idade.$invalid).toBe(false);
+	});
+	it('should invalid input value',function() {
+    spyOn(controller,'changeStateOfInput');
+    scope.Teste.idade.$setViewValue(10);
+    expect(scope.pessoa.idade).toEqual(10);
+    expect(controller.changeStateOfInput).toHaveBeenCalledWith('idade', 'rangenumber', false,  '{min: 18, max: 60}');
+    expect(scope.Teste.idade.$valid).toBe(false);
+    expect(scope.Teste.idade.$invalid).toBe(true);
+	});
 });

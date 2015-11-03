@@ -22,7 +22,7 @@ module.exports = function(config){
 		],
 		exclude: [],
 		preprocessors: {
-			'src/**/*.js': ['babel'],
+			'src/**/*.js': ['babel']
 		},
 		plugins: [
 			'karma-jasmine',

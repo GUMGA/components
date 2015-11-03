@@ -1,31 +1,39 @@
-describe('Gumga.core:directives:MinDate', function() {
+describe('Gumga.core:directives:MaxDate', () => {
+	let compile, scope, filter, controller;
 
-	var compile, mockBackend, scope, filter, form;
 	beforeEach(module('gumga.directives.form.min.date'));
-	beforeEach(inject(function($compile, $rootScope, $filter) {
+	beforeEach(module('gumga.directives.form.form'));
+	beforeEach(inject(($compile, $rootScope, $filter) => {
 		scope = $rootScope;
 		filter = $filter;
-		var element = angular.element(
-			'<form name="myForm">' +
-			'<input type="date" name="nascimento" ng-model="pessoa.nascimento" gumga-min-date="1980-10-10">' +
-			'</form>'
-			);
-		scope.pessoa = { nascimento: null };
-		$compile(element)(scope);
+
+		let template = `
+		<form novalidate gumga-form name="Teste" class="col-md-6 col-md-offset-6">
+			<input type="date" ng-model="pessoa.nascimento" name="nascimento" ng-model="entity.foo" gumga-min-date="1980-10-10"/>
+		</form>`
+
+		let elm = angular.element(template);
+		$compile(elm)(scope);
+		controller = elm.controller('gumgaForm')
 		scope.$digest();
-		form = scope.myForm;
+
 	}));
 
-	it('should valid input value',function() {
-		var date = '1980-10-11';
-		form.nascimento.$setViewValue(date);
-		expect(filter('date')(scope.pessoa.nascimento, 'yyyy-MM-dd')).toEqual(date);
-		expect(form.nascimento.$valid).toBe(true);
+	it('should valid input value',() => {
+		spyOn(controller,'changeStateOfInput');
+		scope.Teste.nascimento.$setViewValue('1980-10-09');
+		expect(filter('date')(scope.pessoa.nascimento, 'yyyy-MM-dd')).toEqual('1980-10-09');
+		expect(controller.changeStateOfInput).toHaveBeenCalledWith('nascimento', 'mindate', false, '1980-10-10');
+		expect(scope.Teste.nascimento.$valid).toBe(false);
+		expect(scope.Teste.nascimento.$invalid).toBe(true);
 	});
-	it('should invalid input value',function() {
-		var date = '1980-10-09';
-		form.nascimento.$setViewValue(date);
-		expect(filter('date')(scope.pessoa.nascimento, 'yyyy-MM-dd')).toEqual(date);
-		expect(form.nascimento.$valid).toBe(false);
+
+	it('should invalid input value', () => {
+		spyOn(controller,'changeStateOfInput');
+		scope.Teste.nascimento.$setViewValue('1980-10-11');
+		expect(filter('date')(scope.pessoa.nascimento, 'yyyy-MM-dd')).toEqual('1980-10-11');
+		expect(controller.changeStateOfInput).toHaveBeenCalledWith('nascimento', 'mindate', true, '1980-10-10');
+		expect(scope.Teste.nascimento.$valid).toBe(true);
+		expect(scope.Teste.nascimento.$invalid).toBe(false);
 	});
 });
