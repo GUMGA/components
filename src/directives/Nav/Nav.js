@@ -89,7 +89,7 @@
               var modalInstance = $modal.open({
                 template: modalTemplate.join('\n'),
                 size: 'sm',
-                controller: function ($scope, $modalInstance, $http, GumgaWebStorage) {
+                controller: ['$scope', '$modalInstance','$http', 'GumgaWebStorage', function ($scope, $modalInstance, $http, GumgaWebStorage) {
                   var userSession = GumgaWebStorage.getSessionStorageItem('user');
                   $scope.btnEnabled = false;
                   $scope.oldPasswordInvalid = false;
@@ -146,7 +146,7 @@
                       $modalInstance.dismiss();
                     };
 
-                  },
+                  }],
                   resolve: {}
                 });
                 modalInstance.result.then(function (selectedItem) {
