@@ -79,7 +79,7 @@ describe('SERVICE: GumgaRest',function(){
 		$httpBackend.when('GET','http://www.gumga.com.br/api?pageSize=10&q=name&searchFields=Teste&start=0')
 		.respond(httpResponse);
 
-		$httpBackend.when('GET','http://www.gumga.com.br/api?aq=obj.name%3D\'teste\'')
+		$httpBackend.when('GET','http://www.gumga.com.br/api?aq=obj.name%3D\'teste\'&pageSize=10&start=0')
 		.respond(httpResponse)
 	}))
 
