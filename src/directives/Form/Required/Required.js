@@ -1,8 +1,8 @@
 (function(){
   'use strict';
 
-  Required.$inject = [];
-  function Required() {
+  Required.$inject = ['$timeout'];
+  function Required($timeout) {
     return {
       restrict: 'A',
       require: ['ngModel','^?gumgaForm'],
@@ -11,12 +11,12 @@
             name      = attrs.name,
             ngModel   = controllers[0],
             gumgaForm = controllers[1];
-
-
         (function() {
-          let isValid = !!(ngModel.$viewValue && ngModel.$viewValue.length > 0);
-          gumgaForm.changeStateOfInput(name, error, isValid, null);
-          ngModel.$setValidity(error,isValid);
+
+            let isValid = !!(ngModel.$viewValue && ngModel.$viewValue.length > 0);
+            gumgaForm.changeStateOfInput(name, error, isValid, null);
+            ngModel.$setValidity(error,isValid);
+
         }());
 
         function validateRequired(inputValue) {

@@ -1,35 +1,48 @@
 (function() {
   'use strict';
 
-  FormClass.$inject = [];
+  FormClass.$inject = ['$compile'];
 
-  function FormClass(){
+  function FormClass($compile) {
 
-    FormClassController.$inject = ['$scope', '$element', '$attrs'];
+    function link($scope,$element,$attrs){
+      if(!$attrs.gumgaFormClass) throw 'É necessário passar para a directive gumgaFormClass o nome do input com o qual ela está relacionada.'
 
-    function FormClassController($scope, $element, $attrs){
-      const isAttribute     = !!$attrs.gumgaFormClass;
-      const classWhenValid  = !!$attrs.validGreen ? 'form-group has-success' : 'form-group';
-      let name = (isAttribute) ? $attrs.gumgaFormClass : $attrs.name;
-      if(!name) throw isAttribute ? 'É necessário passar o nome do input como parâmetro para a directive.' : 'É necessário o atributo name, com o valor respectivo ao nome do input.';
-      $scope.$on('_name', (ev, data) => (formName = data))
+      const isValidGreen = $element[0].outerHTML.split('\n')[0].indexOf('valid-green') != -1;
 
+      let formName  = findParentRecursively('form',$element[0]).name,
+          name      = $attrs.gumgaFormClass;
 
-      let template = `{'form-group': ${formName}.idInClient.$pristine || BrandForm.idInClient.$valid,'form-group has-error': BrandForm.idInClient.$invalid}`
+      function findParentRecursively(wanted, actual){
+        if(actual.nodeName.toLowerCase() != wanted){
+          return findParentRecursively(wanted, actual.parentNode);
+        }
+        return actual;
+      }
+
+      $scope
+        .$watch(`${formName}.${name}.$invalid`, () => {
+          try {
+            if($scope[formName][name].$valid){
+              $attrs.$set('class', isValidGreen ? 'form-group has-success' : 'form-group');
+              return;
+            }
+            $attrs.$set('class', 'form-group has-error');
+          } catch(e){
+            console.error('O componente GumgaFormClass necessita que o nome passada como parâmetro seja igual ao nome do input.')
+          }
+        })
 
     }
 
     let ddo = {
-     restrict: 'AE',
-     controller: FormClassController,
-     controllerAs: 'ctrl',
-     require: '^gumgaForm',
-     scope: false
-   }
+      restrict: 'A',
+      link,
+      scope: false
+    }
 
     return ddo;
   }
-
 
   angular.module('gumga.directives.form.class',[])
   .directive('gumgaFormClass', FormClass);
