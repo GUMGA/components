@@ -11,6 +11,7 @@
 			transclude: false,
 			controller: ['$scope','$element','$attrs','$timeout', function($scope, $element, $attrs, $timeout) {
 				let ctrl = this;
+
 				const defaultMessages = {
 					maxdate: 'A data especificada no campo {0} não deve ultrapassar o limite de: {1}.',
 					maxlength: 'O texto especificado no campo {0} não deve ultrapassar o limite de: {1}.',
@@ -31,6 +32,7 @@
 				ctrl.changeStateOfInput	= changeStateOfInput;
 				ctrl.getDefaultMessages	= getDefaultMessages;
 				ctrl.getFormErrors			=	getFormErrors;
+				ctrl.getFormName				=	getFormName;
 				ctrl.setFormValidity		=	setFormValidity;
 				ctrl.updateFormErrors 	= updateFormErrors;
 
@@ -70,6 +72,10 @@
 
 				function getFormErrors(){
 					return angular.copy(ctrl.formErrors);
+				}
+
+				function getFormName(){
+					return $attrs.name;
 				}
 
 				function updateFormErrors(inputName, validationType, isValid, message){
