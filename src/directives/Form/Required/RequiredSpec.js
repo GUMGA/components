@@ -1,28 +1,39 @@
-describe('Gumga.core:directives:Required', function() {
+describe('Gumga.core:directives:Required', () => {
 
-  var compile, mockBackend, scope, form;
-  beforeEach(module('gumga.directives.form.required'));
-  beforeEach(inject(function($compile, $rootScope) {
+  let compile, scope, filter, controller;
+
+  beforeEach(module('gumga.directives.form'));
+
+  beforeEach(inject(($compile, $rootScope, $filter) => {
     scope = $rootScope;
-    var element = angular.element(
-      '<form name="myForm">' +
-      '<input type="text" name="nome" ng-model="pessoa.nome" gumga-required>' +
-      '</form>'
-      );
-    scope.pessoa = { nome: null };
-    $compile(element)(scope);
-    scope.$digest();
-    form = scope.myForm;
+    filter = $filter;
+
+    let template =`
+      <form name="Teste" gumga-form>
+      <input type="text" name="nome" ng-model="pessoa.nome" gumga-required>
+      </form>`;
+
+      let elm = angular.element(template);
+      $compile(elm)(scope);
+      controller = elm.controller('gumgaForm')
+      scope.$digest();
   }));
 
   it('should valid',function() {
-    form.nome.$setViewValue('texto');
+    spyOn(controller,'changeStateOfInput');
+    scope.Teste.nome.$setViewValue('texto');
     expect(scope.pessoa.nome).toEqual('texto');
-    expect(form.nome.$valid).toBe(true);
+    expect(controller.changeStateOfInput).toHaveBeenCalledWith('nome', 'required', true,null);
+    expect(scope.Teste.nome.$valid).toBe(true);
+    expect(scope.Teste.nome.$invalid).toBe(false);
+
   });
   it('should invalid',function() {
-    form.nome.$setViewValue(null);
-    expect(scope.pessoa.nome).toEqual(null);
-    expect(form.nome.$valid).toBe(false);
+    spyOn(controller,'changeStateOfInput');
+    scope.Teste.nome.$setViewValue('');
+    expect(scope.pessoa.nome).toEqual('');
+    expect(controller.changeStateOfInput).toHaveBeenCalledWith('nome', 'required', false,null);
+    expect(scope.Teste.nome.$valid).toBe(false);
+    expect(scope.Teste.nome.$invalid).toBe(true);
   });
 });
