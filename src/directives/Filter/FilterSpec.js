@@ -9,7 +9,6 @@ describe('DIRECTIVE: GumgaFilter',function(){
   beforeEach(inject(($rootScope,$compile,_$document_) => {
     rootScope = $rootScope;
     scope = $rootScope.$new();
-    // scope.attributes = [{name: 'nome', type: 'string'}, {name: 'idade', type: 'string'}, {name: 'ativo', type: 'boolean'}];
     let element =
     angular.element(
       '<gumga-filter fields="name,idade,active" search="search()" on-search="onSearch()">'+
@@ -27,4 +26,8 @@ describe('DIRECTIVE: GumgaFilter',function(){
     expect(isolatedScope.queries.length).toEqual(0);
   });
 
+  it('Should add query', () => {
+    isolatedScope.addQuery({"value":"Gui","attribute":{"name":"nome","type":"string","$$hashKey":"object:7"},"hql":{"hql":"eq","label":"igual","before":"='","after":"'","$$hashKey":"object:18"}});
+    expect(isolatedScope.queries.length).toEqual(1);
+  });
 })
