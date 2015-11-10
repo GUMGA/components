@@ -39,7 +39,7 @@
     , '       <gumga-advanced-label ng-repeat="query in queries" attr="{{query.attribute.name}}" hql="{{query.hql.label}}" value="query.value" index="$index" style="margin-right: 1%"></gumga-advanced-label>'
     , '     </div>'
     , '     <div class="col-md-2">'
-    , '       <button type="button" name="button" class="btn btn-block btn-default" ng-click="showArray(queries)" ng-disabled="queries.length == 0"><span class="glyphicon glyphicon-search"></button>'
+    , '       <button type="button" name="button" class="btn btn-block btn-default" ng-click="doSearch(queries)" ng-disabled="queries.length == 0"><span class="glyphicon glyphicon-search"></button>'
     , '     </div>'
     , '   </div>'
     , ' </div>'
@@ -104,7 +104,7 @@
 						scope.queries.splice(scope.queries.length, 1, {value: 'AND'}, query);
 					}
 					scope.query = {};
-					// scope.typeInput = 'text';
+					scope.typeInput = 'text';
 				};
 
         scope.$on('deletepls', (ev,index) => {
@@ -117,8 +117,7 @@
 					}
 				});
 
-        scope.showArray = (array) => {
-          console.log({param: {hql: GumgaSearchHelper.translateArrayToHQL(array),source: array}});
+        scope.doSearch = (array) => {
 					scope.search({param: {hql: GumgaSearchHelper.translateArrayToHQL(array),source: array}});
 					eventHandler.search();
 				};
