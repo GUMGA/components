@@ -420,6 +420,32 @@ describe('SERVICE: gumgaCtrl', () => {
 			expect(fns.getQueryStart).toHaveBeenCalled();
 		})
 
+		it('Should execute asyncSearch right', () => {
+			gumgaCtrl.createRestMethods($scope,ListService,'Identifier');
+
+			let fns = {
+				asyncSearchStart(){}
+			}
+			spyOn(fns,'asyncSearchStart');
+			$scope['Identifier'].on('asyncSearchStart', fns.asyncSearchStart);
+			$scope['Identifier'].methods.asyncSearch('pim','ba');
+			$httpBackend.flush();
+			expect(fns.asyncSearchStart).toHaveBeenCalled();
+		})
+
+		it('Should execute asyncPost right', () => {
+			gumgaCtrl.createRestMethods($scope,ListService,'Identifier');
+
+			let fns = {
+				asyncPostStart(){}
+			}
+			spyOn(fns,'asyncPostStart');
+			$scope['Identifier'].on('asyncPostStart', fns.asyncPostStart);
+			$scope['Identifier'].methods.asyncPost('pim','ba');
+			$httpBackend.flush();
+			expect(fns.asyncPostStart).toHaveBeenCalled();
+		})
+
 		it('Should execute postImage right', () => {
 
 			gumgaCtrl.createRestMethods($scope,ListService,'Identifier');
@@ -543,7 +569,6 @@ describe('SERVICE: gumgaCtrl', () => {
 		})
 
 		it('Should throw an error when the function passed doesn\'t exist', () => {
-
 			gumgaCtrl.createRestMethods($scope,ListService,'Identifier');
 			const err = 'O nome do método está errado! Por favor coloque um método que está no GumgaController';
 			expect(()=> {

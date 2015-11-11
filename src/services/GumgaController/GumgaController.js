@@ -7,6 +7,21 @@
     this.pageSize = 10;
     this.count = 0;
     this.methods = {
+      asyncSearch(field, value){
+        self.emit('asyncSearchStart');
+        return
+          Service
+          .getSearch(field, value)
+          .then(function (data) {
+  					return data.data.values;
+  				});
+      },
+      asyncPost(value, param){
+        self.emit('asyncPostStart');
+        let obj = {};
+				obj[param] = value;
+				return Service.save(obj);
+      },
       get(page = 1){
         self.emit('getStart');
         Service
