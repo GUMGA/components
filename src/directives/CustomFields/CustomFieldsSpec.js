@@ -3,7 +3,6 @@ describe('DIRECTIVE: GumgaCustomFields',function(){
   let isolatedScope;
   let template;
   let rootScope;
-
   // beforeEach(module('gumga.directives.search.searchhelper'));
   // beforeEach(module('gumga.directives.filter'));
   // beforeEach(inject(($rootScope,$compile,_$document_) => {
