@@ -9,8 +9,7 @@
     this.methods = {
       asyncSearch(field, value){
         self.emit('asyncSearchStart');
-        return
-          Service
+        return Service
           .getSearch(field, value)
           .then(function (data) {
   					return data.data.values;
