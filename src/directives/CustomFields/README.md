@@ -16,7 +16,7 @@ O componente **gumgaCustomFields** permite que o próprio usuário ou implantado
 <gumga-custom-fields fields="custom"></gumga-custom-fields>
 ```
 
-#### Exemplo de JSON retornado do backend
+#### Exemplo do JSON de atributos genéricos retornado do backend
 ```js
 $scope.custom = {
   "id":null,
