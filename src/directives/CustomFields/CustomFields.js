@@ -14,17 +14,20 @@
         if (!ctrl.fields) throw 'O componente gumgaCustomFields requer o escopo populado com os fields para geração do template.';
 
         angular.forEach(ctrl.fields.gumgaCustomFields, (v) => {
-          if (v.field.type == 'SELECTION' && typeof v.field.options == 'string' && v.field.options.length > 0) {
-            $http.get(v.field.options).then((response) => {
-              v.field.options = response.data;
-            }, (error) => {
-              console.error(error);
-            });
+          if (angular.isString(v.field.options) && v.field.type == 'SELECTION' && v.field.options.charAt(0) == '[') {
+            v.field.selection = JSON.parse(v.field.options);
+          } else {
+              $http.get(v.field.options).then((response) => {
+                v.field.selection = response.data[v.field.optionsCollection];
+                v.field.selection.forEach((b) => b[v.field.optionValueField] = b[v.field.optionValueField].toString());
+              }, (error) => {
+                console.error(error);
+              });
           }
         });
 
         let template = `
-        <div class="row" ng-repeat="f in ctrl.fields.gumgaCustomFields">
+        <div class="row" ng-if="f.field.active" ng-repeat="f in ctrl.fields.gumgaCustomFields">
           <div class="col-md-12">
            <label ng-bind="f.field.name" gumga-translate-tag="f.field.translateKey"></label>
            <div ng-switch="f.field.type" class="form-group">
@@ -38,11 +41,11 @@
                <input type="text" ng-model="f.dateValue" class="form-control" datepicker-popup="fullDate" is-open="opened" ng-click="opened = !opened" />
              </div>
              <div ng-switch-when="SELECTION">
-               <select ng-options="opt[f.field.optionValueField] as opt[f.field.optionLabelField] for opt in f.field.options[f.field.optionsCollection]" ng-model="f.textValue" class="form-control"></select>
+               <select ng-options="opt[f.field.optionValueField] as opt[f.field.optionLabelField] for opt in f.field.selection" ng-model="f.textValue" class="form-control"></select>
              </div>
              <div ng-switch-when="LOGIC">
-               <button type="button" class="btn btn-primary" ng-model="cf.logicValue" btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
-                 {{(cf.logicValue) ? "On" : "Off" }}
+               <button type="button" class="btn" ng-class="{'btn-success': f.logicValue, 'btn-default': !f.logicValue}" ng-model="f.logicValue" btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
+                 {{(f.logicValue) ? "On" : "Off" }}
                </button>
              </div>
            </div>
