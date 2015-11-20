@@ -11,7 +11,7 @@ describe('Componente: GumgaTagColumn', () => {
     scope.entity.data = [];
     scope.search = function($text){};
 
-    let template  = ` <gumga-tag ng-model="entity.data" data-search="search($text)"> <gumga-tag-column></gumga-tag-column></gumga-tag>`,
+    let template  = ` <gumga-tag ng-model="entity.data" data-available-search="search($text)" data-selected-search="search($text)"> <gumga-tag-column></gumga-tag-column></gumga-tag>`,
         element   = angular.element(template);
 
     $compile(element)(scope);
