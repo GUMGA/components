@@ -69,7 +69,7 @@
           return string;
         }
         function mountHeader(prev, next){
-          return prev+= '\t\t<td style="' + next.style + '" class="'+ next.size +'" ><strong>' + returnFormattableTableHeader(!!next.sortField,next.title,next.sortField) + '</strong></td>\n';
+          return prev+= '\t\t<th style="' + next.style + '" class="'+ next.size +'" ><strong>' + returnFormattableTableHeader(!!next.sortField,next.title,next.sortField) + '</strong></th>\n';
         }
         function mountAllTableCell(prev,next){
           return prev += '<td ng-style="{borderLeft: {{::vm.conditionalTableCell($value,\''+ next.name +'\')}} }">' + next.content +'</td>';
