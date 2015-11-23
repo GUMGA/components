@@ -3,63 +3,140 @@
 controller.$inject = ['$scope', '$element', '$attrs', '$transclude', '$q'];
 
 function controller($scope, $element, $attrs, $transclude, $q){
-  const DATASELECTEDSEARCH_ERR     = 'É necessário o atributo ngModel para a directive gumgaTag',
-        DATAAVAILABLESEARCH_ERR  = 'É necessário uma função no atributo dataSearch no seguinte formato: [data-search="foo($text)"]';
+  const DATASELECTEDSEARCH_ERR  = 'É necessário o atributo ngModel para a directive gumgaTag',
+        DATAAVAILABLESEARCH_ERR = 'É necessário uma função no atributo dataSearch no seguinte formato: [data-search="foo($text)"]';
 
   if(!$attrs.selectedSearch) console.error(DATASELECTEDSEARCH_ERR);
   if(!$attrs.availableSearch) console.error(DATAAVAILABLESEARCH_ERR);
 
-  this.filterReference  = {};
-  this.selectedText     = (!!$attrs.selectedText) ? $attrs.selectedText : 'Selecionados';
-  this.availableText    = (!!$attrs.availableText) ? $attrs.availableText : 'Disponíveis';
-  this.tagContent       = getContent();
-  this.searchAvailable  = searchAvailable;
-  this.searchSelected   = searchSelected;
-  this.updateObject     = updateObject;
+  this.filterReference        = {};
+  this.selectedText           = (!!$attrs.selectedText) ? $attrs.selectedText : 'Selecionados';
+  this.availableText          = (!!$attrs.availableText) ? $attrs.availableText : 'Disponíveis';
+  this.addTo                  = addTo;
+  this.getAvailable           = getAvailable;
+  this.getDragElement         = getDragElement;
+  this.getSelected            = getSelected;
+  this.getValueFromAvailable  = getValueFromAvailable;
+  this.getIndexFromSelected   = getIndexFromSelected;
+  this.tagContent             = getContent();
+  this.searchAvailable        = searchAvailable;
+  this.searchSelected         = searchSelected;
+  this.setDragElement         = setDragElement;
+  this.updateAvailable        = updateAvailable;
+  this.updateObject           = updateObject;
+  this.updateSelected         = updateSelected;
+
+  function addTo(panel, tag){
+    let returnFunction,
+        newArray;
+    if(panel == 'right'){
+      newArray        = angular.copy(this.selectedArray);
+      newArray.push(this.getValueFromAvailable(tag));
+      this.updateObject(newArray).updateSelected(newArray);
+      returnFunction  = (value => this.updateAvailable(this.availableArray))
+    } else {
+      this.selectedArray.splice(this.getIndexFromSelected(tag), 1 )
+      newArray  = angular.copy(this.selectedArray);
+      this.updateObject(newArray).updateSelected(newArray);
+      returnFunction  = (text => {
+        this.searchAvailable(text)
+          .then(data => this.updateAvailable(data.data ? data.data : data));
+      })
+    }
+    return returnFunction;
+  }
+
+  function getAvailable(){
+    return this.availableArray;
+  }
 
   function getContent(){
     let content = '{{$value.definition}}';
     $transclude((clone) => {
       angular.forEach(clone, (cloneElement) => {
-        const node = angular.element(cloneElement);
-        if(node[0].nodeName == 'TAG-CONTENT') content = node[0].innerText;
+        const node = angular.element(cloneElement)[0];
+        if(node.nodeName == 'TAG-CONTENT') content = node.innerText;
       })
     })
     return content;
   }
 
-  function searchSelected(){
-    console.log(this.dataAvailableSearch());
-    return $q.when(this.dataSelectedSearch());
+  function getDragElement(){
+    return this.dragElement;
+  }
+
+  function getValueFromAvailable(name){
+    return this.availableArray.filter(value => value.definition.name == name)[0];
+  }
+
+  function getIndexFromSelected(name){
+    let returnedIndex;
+    for(let i = 0, len = this.selectedArray.length; i < len; i++){
+        if(name == this.selectedArray[i].definition.name){
+          returnedIndex = i;
+          break;
+        }
+    }
+    return returnedIndex;
+  }
+
+  function getSelected(){
+    return this.selectedArray;
   }
 
   function searchAvailable($text){
-    console.log(this.dataSelectedSearch());
-    return $q.when(this.dataAvailableSearch({$text}));
+    return $q.when(this.availableSearch({$text}));
   }
 
-  function updateObject(){
+  function searchSelected(){
+    return $q.when(this.selectedSearch());
+  }
+
+  function setDragElement(id){
+    this.dragElement  = id;
+  }
+
+  function updateAvailable(data = []){
+    this.availableArray = data.filter(value => !this.filterReference[value.definition.name]);
+    return this;
+  }
+
+  function updateObject(data = []){
+    if(!Array.isArray(data)) console.error('O objeto retornado pela chamada asíncrona [selected-search="foo()"] precisa ser um Array.');
     this.filterReference = {};
+    data.forEach(value => (this.filterReference[value.definition.name] = value.objectType));
+    return this;
   }
 
-  $q.all([this.searchSelected(), this.searchAvailable()])
-    .then((data) => {
-      console.log(data);
-    })
+  function updateSelected(data = []){
+    this.selectedArray = data;
+    return this;
+  }
+
+  (() => {
+    $q.all([this.searchSelected(), this.searchAvailable(' ')])
+      .then((data) => {
+        let selectedData  = data[0].data ? data[0].data : data[0],
+            availableData = data[1].data ? data[1].data : data[1];
+        this.updateObject(selectedData)
+            .updateAvailable(availableData)
+            .updateSelected(selectedData);
+      })
+  })();
 }
 
 gumgaTag.$inject = [];
 
 function gumgaTag(){
   let template = `
-    <gumga-tag-column has-search="true"></gumga-tag-column>
-    <gumga-tag-column></gumga-tag-column>
+    <gumga-tag-column has-search="true" array="gumgaTag.availableArray" id="left" label="{{::gumgaTag.availableText}}"></gumga-tag-column>
+    <gumga-tag-column array="gumgaTag.selectedArray" id="right" label="{{::gumgaTag.selectedText}}"></gumga-tag-column>
   `
   return {
     restrict: 'E',
     scope: {
-      dataSelectedSearch: '&',
-      dataAvailableSearch: '&'
+      selectedSearch: '&',
+      availableSearch: '&'
     },
     bindToController: true,
     transclude: true,
