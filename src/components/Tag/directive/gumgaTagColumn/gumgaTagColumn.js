@@ -4,10 +4,11 @@ gumgaTagColumn.$inject = [];
 
 function gumgaTagColumn(){
 
-  controller.$inject = ['$scope', '$element', '$attrs', '$compile', 'GumgaKeyboard'];
+  controller.$inject = ['$scope', '$element', '$attrs', '$compile', 'GumgaKeyboard', '$rootScope'];
 
-  function controller($scope, $element, $attrs, $compile, GumgaKeyboard){
-    let tagController   = $element.parent().controller('gumgaTag') || {};
+  function controller($scope, $element, $attrs, $compile, GumgaKeyboard, $rootScope){
+    let tagController   = $element.parent().controller('gumgaTag') || {},
+        context         = this;
 
     const searchString  =`
           <div class="input-group">
@@ -30,22 +31,25 @@ function gumgaTagColumn(){
           ${(!!$attrs.hasSearch) ? searchString : ' '}
           <div class="panel-body body-column" style="display: inline-block;">
             <div class='col-md-12'>
-              <gumga-unity-tag ng-repeat="tag in gumgaTagColumn.tags" name="{{tag.definition.name}}" attributes="tag.values" >
-              </gumga-unity-tag>
+              <span ng-repeat="tag in gumgaTagColumn.tags">
+                <gumga-unity-tag  name="{{::tag.definition.name}}" attributes="tag.values" >
+                </gumga-unity-tag>
+              </span>
             </div>
           </div>
         </div>
       </div>`;
 
 
-    function handleDragStart(e){ tagController.setDragElement($element[0].id); }
+    function handleDragStart(e){
+      tagController.setDragElement($element[0].id);
+    }
 
     function handleDragEnd(e){
       e.preventDefault();
       if(tagController.getDragElement() != $element[0].id){
-        let tag = e.srcElement.innerText.split('(')[0].trim();
+        let tag                       = e.srcElement.innerText.split('(')[0].trim();
         tagController.addTo(tagController.getDragElement(), tag)(' ');
-        $scope.$broadcast(`${tag}-drop`);
       }
     }
 
@@ -54,22 +58,55 @@ function gumgaTagColumn(){
       tagController.setDragElement($element[0].id);
     }
 
-    function search($text = ' '){
-      tagController
-        .searchAvailable($text)
-        .then((data) => tagController.updateAvailable(data.data ? data.data : data));
+
+    function cleanPopovers(){
+      let popovers = document.querySelectorAll('[popover]');
+      angular.forEach(popovers, function( popover ){
+        angular.element(popover).isolateScope().tt_isOpen = false;
+      });
+
+
+      let popoversClasses = document.querySelectorAll('.popover');
+      angular.forEach(popoversClasses, popover => {
+        angular.element(popover).remove();
+      })
     }
 
-    this.ngModelOptions = { updateOn: 'default blur', debounce: { 'default': 150, 'blur': 0 } };
-    this.search = search;
+
+    function setActive(name = null){
+      tagController.activeTag = name;
+    }
+
+    function getActive(){
+      return tagController.activeTag;
+    }
+
+    function on(tag, cb){
+      tagController.on(tag, cb);
+    }
+
     $element[0].addEventListener('dragstart', handleDragStart, false);
     $element[0].addEventListener('dragend', handleDragEnd, false);
     $element[0].addEventListener('dragenter', handleDragEnter, false);
 
+    function search($text = ' '){
+      tagController.searchAvailable($text)
+        .then((data) => tagController.updateAvailable(data.data ? data.data : data));
+    }
 
-    $element.append( $compile(angular.element(template))($scope));
+    this.ngModelOptions = { updateOn: 'default blur', debounce: { 'default': 150, 'blur': 0 } };
+    this.search         = search;
+    this.id             = $attrs.id;
+    this.cleanPopovers  = cleanPopovers;
+    this.setActive      = setActive;
+    this.getActive      = getActive;
+    this.on             = on;
+
+    $element.append($compile(angular.element(template))($scope));
+
     GumgaKeyboard.bindToElement($element[0],'mod+enter',val =>  this.search(this[`searchText${$element[0].id}`]))
     GumgaKeyboard.bindToElement($element[0],'enter',val =>  this.search(this[`searchText${$element[0].id}`]))
+
   }
 
   return {

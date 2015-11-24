@@ -1,44 +1,78 @@
 'use strict';
 
-gumgaUnityTag.$inject= ['$templateCache'];
+gumgaUnityTag.$inject= ['$templateCache','$compile','$rootScope', '$timeout'];
 
-function gumgaUnityTag($templateCache){
+function gumgaUnityTag($templateCache, $compile, $rootScope, $timeout){
 
-  function link($scope, $element, $attrs){
+  function link($scope, $element, $attrs, $controller){
     $attrs.$set('draggable', true);
 
-    $scope.$on(`${$scope.name}-drop`, (ev, data) => {
-      $scope.generateAndAttach($scope.name, $scope.attributes);
-    })
+    const templateString  =`
+    <script type="text/ng-template" id="${format($scope.name).concat('.html')}">
+      <form gumga-form novalidate name="Popover">
+        ${generateAttributes($scope.attributes)}
+        <div class="row">
+          <div class="col-md-12">
+            <button class="btn btn-default btn-sm pull-right" type="button" ng-click="updateTag(data)"><i class="glyphicon glyphicon-ok"></i></button>
+            <button class="btn btn-default btn-sm pull-right" type="button"><i class="glyphicon glyphicon-remove"></i></button>
+          </div>
+        </div>
+      </form>
+    <script>`;
 
-    function generateAndAttach(name, attrs){
-      $scope.isOpen = true;
+
+    function generateAttributes(arr){true
+      return arr.reduce((p, n, i) => {
+        return p+=`
+        \t<div class="form-group">
+        \t\t<label>${n.definition.name}</label>
+        \t\t<input type="text" ng-model="attributes[${i}].value" name="${format(n.definition.name)}" class="form-control" gumga-required/>
+        \t</div>`
+      },' ')
+    }
+
+    function format(str){
+      return str.replace(/[^a-zA-Z ]/g, '').replace(/\s/g,'');
+    }
+    function setActive(name){
+      if(!!name && $controller.getActive() != $scope.name) {
+        $controller.cleanPopovers();
+        $controller.setActive(name);
+        console.log($controller.getActive());
+      };
     }
 
     function popoverHide(element){
       $element.find('div').remove();
     }
 
-    $scope.tooltip = $scope.attributes.reduce((previous, next) => {
-      return previous += `\n [${next.definition.name} : ${next.value || 'Sem valor '}]`;
-    }, `${$scope.attributes.length} atributos: \n`);
+    function updateTag(data = {}){
+      updateTooltip();
+      $controller.setActive();
+      $controller.cleanPopovers();
+    }
 
-    $scope.updatedName        = $scope.name.replace(/\s/g, '');
-    $scope.templateHtml       = `${$scope.updatedName}Template.html`
-    $scope.generateAndAttach  = generateAndAttach;
-    $scope.isOpen             = false;
-    $scope.popoverHide        = popoverHide;
-    let generatedTemplate = $scope.attributes.reduce((previous, next) => {
-      return previous += `
-        <div gumga-form-class="${next.definition.name.normalize()}">
-          <label>${next.definition.name}</label>
-          <input type="text" ng-model="data[${next.definition.name.normalize()}]" class="form-control" name="${next.definition.name.normalize()}" required/>
-        </div>
-      `
-    }, '<form gumga-form name="Form" ng-controller="PopoverController">\n <div class="col-md-12">').concat('</div>\n</form>');
-    $templateCache.put($scope.templateHtml, generatedTemplate);
+    function updateTooltip(){
+      $scope.tooltip  = $scope.attributes.reduce((p, n) => p += `\n\n\n [${n.definition.name}  ${n.value ? ': ' + n.value : ''}]`, ` `);
+    }
+
+    $controller.on($scope.name, () => {
+      $scope.setActive($scope.name);
+    })
+
+
+
+    $scope.format       = format;
+    $scope.popoverHide  = popoverHide;
+    $scope.setActive    = setActive;
+    $scope.updateTag    = updateTag;
+    $scope.parentColumn = $controller.id;
+    $scope.templateUrl  = $scope.format($scope.name).concat('.html');
+
+    updateTooltip();
+
+    $element.append($compile(angular.element(templateString))($scope));
   }
-
   return {
     restrict: 'E',
     link,
@@ -48,16 +82,20 @@ function gumgaUnityTag($templateCache){
     },
     require: '^gumgaTagColumn',
     template:`
-    <label uib-popover-template="templateHtml" popover-is-open="isOpen" popover-placement="bottom">
-      <span class="label label-primary unity-tag" style="margin-top: 2%;display: inline-block;"
-            uib-tooltip="{{tooltip}}" ng-mousedown="popoverHide(this)" tooltip-placement="right">
-        {{name}} <strong>({{attributes.length}})</strong>
-      </span>
-    <label/>
-    `
+    <style>
+      div.bottom.fade.popover.in {
+        min-width: 150%;
+      }
+
+    </style>
+    <span class="label label-primary unity-tag" style="margin-top: 2%;margin-bottom: 2%;display: inline-block;"
+          uib-tooltip="{{tooltip}}" ng-mousedown="popoverHide(this)" ng-mouseup="setActive(parentColumn == 'right' ? name : '')" tooltip-placement="bottom"
+          uib-popover-template="templateUrl" popover-placement="bottom" popover-trigger="click"
+          popover-enable="parentColumn === 'right'" popover-is-open>
+            {{name}} <strong>({{attributes.length}})</strong>
+    </span>`
   }
 }
-
 
 angular.module('gumga.tag.unity', [])
 .directive('gumgaUnityTag', gumgaUnityTag)
