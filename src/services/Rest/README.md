@@ -200,3 +200,61 @@ Parâmetro | Tipo | Detalhes
 
 #### Retorno
 `HttpPromise` Retona uma promise da chamada HTTP GET.
+
+---
+
+`getSelectedTags(id);`
+
+O método getSelectedTags aceita um parâmetro `id` e retorna uma promise de uma chamada HTTP do tipo GET. Este Parâmetro `id` é o identificador da entidade que está sendo editada.
+
+Exemplo:
+```js
+GumgaRest.getSelectedTags(entity.);
+```
+
+Este atributo é necessário para buscar apenas as tags que estão ligadas aquele registro.
+
+#### Parâmetros
+Parâmetro | Tipo     | Detalhes
+---       | ---      | ---
+**id**    | `Number` | Number que será o identificador do registro
+
+#### Retorno
+`HttpPromise` Retona uma promise da chamada HTTP GET.
+
+---
+
+`getAvailableTags();`
+
+O método getSelectedTags não necessita de parâmetros e retorna uma promise de uma chamada HTTP do tipo GET.
+
+Exemplo:
+```js
+GumgaRest.getAvailableTags();
+```
+
+Este método retorna todas as tags que estão disponíveis para a seleção.
+
+#### Retorno
+`HttpPromise` Retona uma promise da chamada HTTP GET.
+
+
+---
+
+`postTags(objectId, values);`
+
+O método postTags é utilizado para salvar as tags que foram selecionadas pelo usuário para este registro
+
+Exemplo:
+```js
+GumgaRest.postTags(entity.id, selectedTags);
+```
+
+#### Parâmetros
+Parâmetro       | Tipo      | Detalhes
+---             | ---       | ---
+**objectId**    | `Number`  | Number que será o identificador do registro
+**values**      | `Array`   | Array que irá conter uma lista das tags que foram selecionadas pelo usuário.
+
+#### Retorno
+`HttpPromise` Retona uma promise da chamada HTTP POST.

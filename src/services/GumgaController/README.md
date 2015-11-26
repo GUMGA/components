@@ -55,6 +55,12 @@ No antigo componente $populate, sentimos que era trabalhoso para o desenvolvedor
 
 - **`reset()`:** Função responsável por resetar os parâmetros para o seu valor inicial. Ela emite apenas um evento, `resetStart`.
 
+- **`getAvailableTags()`:** Função responsável por buscar as tags disponíveis para o registro. Ela emite apenas um evento, `getAvailableTagsStart`
+
+- **`getSelectedTags()`:** Função responsável por buscar as tags que estão selecionadas para o registro. Ela emite apenas um evento, `getSelectedTagsStart`.
+
+- **`postTag()`:** Função responsável por salvar as tags que foram selecionadas na entidade. O resultado da chamada é obtido apenas pelo evento `postTagSuccess` ou `postTagError`.
+
 
 ### Exemplos
 
@@ -81,6 +87,12 @@ No antigo componente $populate, sentimos que era trabalhoso para o desenvolvedor
         // ...
       })
       .methods.post({});
+
+    $scope
+      .sample
+      .on('postTagSuccess', function (data){
+        $scope.sample.execute('post');
+      })
 
 
   }

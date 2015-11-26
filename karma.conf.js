@@ -15,6 +15,7 @@ module.exports = function(config){
 			'src/services/**/*.js',
 			'src/controllers/**/*.js',
 			'src/directives/**/*.js',
+			'src/components/**/*.js',
 			{
 				pattern: 'src/**/*Spec.js',
 				included: false
@@ -22,15 +23,17 @@ module.exports = function(config){
 		],
 		exclude: [],
 		preprocessors: {
-			'src/**/*.js': ['babel']
+			'src/**/*.js': ['babel'],
+			'src/**/*!Spec.js': ['coverage']
 		},
 		plugins: [
 			'karma-jasmine',
 			'karma-chrome-launcher',
 			'karma-mocha-reporter',
-			'karma-babel-preprocessor'
+			'karma-babel-preprocessor',
+			'karma-coverage'
 		],
-		reporters: ['mocha'],
+		reporters: ['mocha', 'coverage'],
 		port: 3001,
 		colors: true,
 		logLevel: config.LOG_INFO,
@@ -43,7 +46,11 @@ module.exports = function(config){
 		,
 		autoWatch: true,
 		browsers: ['Chrome'],
-		singleRun: false
+		singleRun: false,
+		coverageReporter: {
+      type : 'html',
+      dir : 'coverage/'
+    }
 	}
 	if (process.env.TRAVIS) {
 		karmaConf.browsers = ['Chrome_travis_ci'];

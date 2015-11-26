@@ -62,7 +62,6 @@
 
 
                 scope.validate = function (str) {
-                  console.log()
                     if(str && isNumeric(str, scope.containsNumbers) && isSymbols(str,scope.containsSymbols) && isUpperCase(str,scope.containsUppercase) && str.length >= scope.valueMinLength &&str.length <=scope.valueMaxLength) {
                         scope.status = 'success'
                         delete form.$error.pattern;

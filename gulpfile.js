@@ -10,6 +10,7 @@ var gulp = require('gulp')
 ,		concat = require('gulp-concat')
 ,		sourcemaps = require('gulp-sourcemaps')
 ,		Server = require('karma').Server
+,   plumber = require('gulp-plumber')
 ,   babel = require('gulp-babel')
 ,   runSequence = require('run-sequence')
 ,		paths = {
@@ -34,6 +35,7 @@ gulp.task('minify-css',function(){
 */
 gulp.task('minify-js',function(){
   return gulp.src(paths.src)
+  .pipe(plumber())
   .pipe(babel())
   .pipe(concat('gumga.min.js'))
   .pipe(uglify())

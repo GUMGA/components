@@ -30,14 +30,12 @@
 		function newMessages() {
 			getSource().addEventListener('message', function(event) {
 				var data = JSON.parse(event.data);
-				console.log(data.newMessages);
 				return data.newMessages;
 			}, false);
 		}
 		function newMessagesCount() {
 			getSource().addEventListener('message', function(event) {
 				var data = JSON.parse(event.data);
-				console.log(data.newMessagesCount);
 				return data.newMessagesCount;
 			}, false);
 		}
