@@ -168,12 +168,12 @@
         return Service.getSelectedTags(id);
       },
       postTags(id, values){
-        self.emit('postTagStart', data);
+        self.emit('postTagStart', values);
         Service.postTags(id, values)
         .then(data => {
-          self.emit('postTagSuccess', data);
+          self.emit('postTagSuccess', values);
         }, err => {
-          self.emit('postTagError', data);
+          self.emit('postTagError', values);
         })
       }
     };
