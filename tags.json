@@ -1,0 +1,108 @@
+[
+  {
+    "id": 1,
+    "oi": { "value": null },
+    "objectType": "gumga.framework.application.Car",
+    "objectId": 1,
+    "values": [
+      {
+        "id": 1,
+        "oi": {
+          "value": null
+        },
+        "value": "TSi Turbo",
+        "definition": {
+          "id": 1,
+          "oi": {
+            "value": null
+          },
+          "name": "Nome"
+        }
+      },
+      {
+        "id": 2,
+        "oi": {
+          "value": null
+        },
+        "value": "2015",
+        "definition": {
+          "id": 2,
+          "oi": {
+            "value": null
+          },
+          "name": "Ano"
+        }
+      }
+    ],
+    "definition": {
+      "id": 1,
+      "oi": {
+        "value": null
+      },
+      "name": "Versão",
+      "attributes": [
+        {
+          "id": 1,
+          "oi": {
+            "value": null
+          },
+          "name": "Nome"
+        },
+        {
+          "id": 2,
+          "oi": {
+            "value": null
+          },
+          "name": "Ano"
+        }
+      ]
+    }
+  },
+  {
+    "id": 2,
+    "oi": {
+      "value": null
+    },
+    "objectType": "gumga.framework.application.Car",
+    "objectId": 1,
+    "values": [{"id": 3, "oi": { "value": null }, "value": "180cv", "definition": { "id": 3, "oi": { "value": null }, "name": "Potência"}},
+      {
+        "id": 4,
+        "oi": {
+          "value": null
+        },
+        "value": "6",
+        "definition": {
+          "id": 4,
+          "oi": {
+            "value": null
+          },
+          "name": "Cilindros"
+        }
+      }
+    ],
+    "definition": {
+      "id": 2,
+      "oi": {
+        "value": null
+      },
+      "name": "Motorização",
+      "attributes": [
+        {
+          "id": 3,
+          "oi": {
+            "value": null
+          },
+          "name": "Potência"
+        },
+        {
+          "id": 4,
+          "oi": {
+            "value": null
+          },
+          "name": "Cilindros"
+        }
+      ]
+    }
+  }
+]
