@@ -4,21 +4,23 @@ controller.$inject = ['$scope', '$element', '$attrs', '$transclude', '$q', '$roo
 
 function controller($scope, $element, $attrs, $transclude, $q, $rootScope){
   const DATASELECTEDSEARCH_ERR  = 'É necessário o atributo ngModel para a directive gumgaTag',
-        DATAAVAILABLESEARCH_ERR = 'É necessário uma função no atributo dataSearch no seguinte formato: [data-search="foo($text)"]';
+  DATAAVAILABLESEARCH_ERR = 'É necessário uma função no atributo dataSearch no seguinte formato: [data-search="foo($text)"]';
 
-  if(!$attrs.selectedSearch) console.error(DATASELECTEDSEARCH_ERR);
+  if(!$attrs.selectedSearch)  console.error(DATASELECTEDSEARCH_ERR);
   if(!$attrs.availableSearch) console.error(DATAAVAILABLESEARCH_ERR);
+
   this.filterReference        = {};
   this.selectedArray          = [];
+  this.callbacks              = {};
   this.selectedText           = (!!$attrs.selectedText) ? $attrs.selectedText : 'Selecionados';
   this.availableText          = (!!$attrs.availableText) ? $attrs.availableText : 'Disponíveis';
+  this.tagContent             = getContent();
   this.addTo                  = addTo;
   this.getAvailable           = getAvailable;
   this.getDragElement         = getDragElement;
   this.getSelected            = getSelected;
   this.getValueFromAvailable  = getValueFromAvailable;
   this.getIndexFromSelected   = getIndexFromSelected;
-  this.tagContent             = getContent();
   this.searchAvailable        = searchAvailable;
   this.searchSelected         = searchSelected;
   this.setDragElement         = setDragElement;
@@ -26,7 +28,7 @@ function controller($scope, $element, $attrs, $transclude, $q, $rootScope){
   this.updateObject           = updateObject;
   this.updateSelected         = updateSelected;
 
-  this.callbacks = {};
+  // Custom events
   this.emit = function (ev,data){
     if(this.callbacks[ev]) this.callbacks[ev].forEach((cb)=> cb(data));
     return this;
@@ -38,8 +40,7 @@ function controller($scope, $element, $attrs, $transclude, $q, $rootScope){
   }
 
   function addTo(panel, tag){
-    let returnFunction,
-        newArray;
+    let returnFunction, newArray;
     if(panel == 'right'){
       newArray        = angular.copy(this.selectedArray);
       newArray.push(this.getValueFromAvailable(tag));
@@ -51,7 +52,7 @@ function controller($scope, $element, $attrs, $transclude, $q, $rootScope){
       this.updateObject(this.selectedArray);
       returnFunction  = (text => {
         this.searchAvailable(text)
-          .then(data => this.updateAvailable(data.data ? data.data : data));
+        .then(data => this.updateAvailable(data.data ? data.data.values : data));
       })
     }
     return returnFunction;
@@ -77,16 +78,16 @@ function controller($scope, $element, $attrs, $transclude, $q, $rootScope){
   }
 
   function getValueFromAvailable(name){
-    return this.availableArray.filter(value => value.definition.name == name)[0];
+    return this.availableArray.filter(value => value.name == name)[0];
   }
 
   function getIndexFromSelected(name){
     let returnedIndex;
     for(let i = 0, len = this.selectedArray.length; i < len; i++){
-        if(name == this.selectedArray[i].definition.name){
-          returnedIndex = i;
-          break;
-        }
+      if(name == this.selectedArray[i].name){
+        returnedIndex = i;
+        break;
+      }
     }
     return returnedIndex;
   }
@@ -108,55 +109,55 @@ function controller($scope, $element, $attrs, $transclude, $q, $rootScope){
   }
 
   function updateAvailable(data = []){
-    this.availableArray = data.filter(value => !this.filterReference[value.definition.name]);
+    this.availableArray = data.filter(value => !this.filterReference[value.name]);
     return this;
   }
 
   function updateObject(data = []){
     if(!Array.isArray(data)) console.error('O objeto retornado pela chamada asíncrona [selected-search="foo()"] precisa ser um Array.');
     this.filterReference = {};
-    data.forEach(value => (this.filterReference[value.definition.name] = value.objectType));
+    data.forEach(value => (this.filterReference[value.name] = value));
     return this;
   }
 
   function updateSelected(data = [], operation = 'add'){
-    data.forEach(x => this.selectedArray.push(x));
+    data.forEach(value => this.selectedArray.push(value));
     return this;
   }
 
   (() => {
-    $q.all([this.searchSelected(), this.searchAvailable(' ')])
-      .then((data) => {
-        let selectedData  = data[0].data ? data[0].data : data[0],
-            availableData = data[1].data ? data[1].data : data[1];
-        this.updateObject(selectedData)
-            .updateAvailable(availableData)
-            .updateSelected(selectedData);
-      })
+    $q.all([this.searchSelected(), this.searchAvailable()])
+    .then((data) => {
+      let selectedData  = data[0].data ? data[0].data.values : data[0],
+      availableData = data[1].data ? data[1].data.values : data[1];
+      this.updateObject(selectedData);
+      this.updateSelected(selectedData);
+      this.updateAvailable(availableData);
+    })
   })();
-
 }
 
 gumgaTag.$inject = [];
 
 function gumgaTag(){
   let template = `
-    <gumga-tag-column has-search="true" array="gumgaTag.availableArray" id="left" label="{{::gumgaTag.availableText}}"></gumga-tag-column>
-    <gumga-tag-column array="gumgaTag.selectedArray" id="right" label="{{::gumgaTag.selectedText}}" has-collapse="true"></gumga-tag-column>
+  <gumga-tag-column has-search="true" array="gumgaTag.availableArray" id="left" label="{{::gumgaTag.availableText}}"></gumga-tag-column>
+  <gumga-tag-column array="gumgaTag.selectedArray" id="right" label="{{::gumgaTag.selectedText}}" has-collapse="true"></gumga-tag-column>
   `
   return {
     restrict: 'E',
     scope: {
       selectedSearch: '&',
-      availableSearch: '&'
+      availableSearch: '&',
+      selectedArray: '=ngModel'
     },
     bindToController: true,
     transclude: true,
     template,
     controllerAs: 'gumgaTag',
-    controller
+    controller,
   }
 }
 
 angular.module('gumga.tag.tag', [])
-  .directive('gumgaTag', gumgaTag);
+.directive('gumgaTag', gumgaTag);

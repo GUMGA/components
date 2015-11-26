@@ -18,26 +18,17 @@ describe('Componente: GumgaTag', () => {
       templateWithFunctions     = `<gumga-tag data-selected-search="searchSelected()" data-available-search="searchAvailable($text)"></gumga-tag>`,
       elementWithFunctions      = angular.element(templateWithFunctions);
 
-      const availableObject = [{ "id": 1, "oi": { "value": null }, "objectType": "gumga.framework.application.Car", "objectId": 1,
-          "values": [{"id": 1,"oi": { "value": null },"value": "TSi Turbo","definition": {"id": 1,"oi": { "value": null},"name": "Nome"}},
-          {"id": 2,"oi": { "value": null},"value": "2015","definition": {"id": 2,"oi": { "value": null}, "name": "Ano"}}],
-          "definition": { "id": 1, "oi": { "value": null}, "name": "Versão", "attributes": [{"id": 1,"oi": { "value": null },"name": "Nome"}, {"id": 2,"oi": { "value": null },"name": "Ano"}]}},
-
-          {"id": 2, "oi": { "value": null },"objectType": "gumga.framework.application.Car", "objectId": 1,
-          "values": [{"id": 3, "oi": { "value": null }, "value": "180cv", "definition": { "id": 3, "oi": { "value": null }, "name": "Potência"}},
-          {"id": 4, "oi": { "value": null }, "value": "6", "definition": { "id": 4, "oi": { "value": null }, "name": "Cilindros" }}],
-          "definition": {"id": 2,  "oi": { "value": null},  "name": "Motorização", "attributes": [{"id": 3,"oi": { "value": null}, "name": "Potência"},{"id": 4,"oi": { "value": null },"name": "Cilindros"}]}
-        }],
-          selectedObject = [{ "id": 2,"oi": { "value": null }, "objectType": "gumga.framework.application.Car","objectId": 1,
-          "values": [{"id": 3, "oi": { "value": null }, "value": "180cv", "definition": { "id": 3, "oi": { "value": null }, "name": "Potência"}},
-            {"id": 4, "oi": { "value": null }, "value": "6", "definition": { "id": 4, "oi": { "value": null }, "name": "Cilindros" }}],
-          "definition": {"id": 2, "oi": { "value": null },"name": "Motorização", "attributes": [{"id": 3,"oi": { "value": null}, "name": "Potência"},{"id": 4,"oi": { "value": null },"name": "Cilindros"}]}
-        }],
-          availableArray = [{"id": 2, "oi": { "value": null },"objectType": "gumga.framework.application.Car", "objectId": 1,
-          "values": [{"id": 3, "oi": { "value": null }, "value": "180cv", "definition": { "id": 3, "oi": { "value": null }, "name": "Potência"}},
-          {"id": 4, "oi": { "value": null }, "value": "6", "definition": { "id": 4, "oi": { "value": null }, "name": "Cilindros" }}],
-          "definition": {"id": 2,  "oi": { "value": null},  "name": "Motorização", "attributes": [{"id": 3,"oi": { "value": null}, "name": "Potência"},{"id": 4,"oi": { "value": null },"name": "Cilindros"}]}}]
-        ;
+      const availableObject = {
+         "values": [
+          { "id": 6, "oi": { "value": "1." }, "version": 2, "name": "importante", "attributes": [ { "id": 35, "oi": null, "version": 0, "name": "teste" } ]},
+          { "id": 7, "oi": { "value": "1." }, "version": 1, "name": "cor", "attributes": [ { "id": 27, "oi": { "value": "1." }, "version": 0, "name": "valor" }]}
+        ]},
+        selectedObject = [
+          { "id": 7, "oi": { "value": "1." }, "version": 1, "name": "cor", "attributes": [ { "id": 27, "oi": { "value": "1." }, "version": 0, "name": "valor", "value": "azul" }]}
+        ],
+          availableArray = [
+            { "id": 6, "oi": { "value": "1." }, "version": 2, "name": "importante", "attributes": [ { "id": 35, "oi": null, "version": 0, "name": "teste" } ]},
+            { "id": 7, "oi": { "value": "1." }, "version": 1, "name": "cor", "attributes": [ { "id": 27, "oi": { "value": "1." }, "version": 0, "name": "valor" }]}];
 
   beforeEach(module('gumga.tag.tag'));
 
@@ -129,7 +120,8 @@ describe('Componente: GumgaTag', () => {
       $compile(elementWithFunctions)(scope);
       let controller = elementWithFunctions.controller('gumgaTag');
       controller.updateObject(selectedObject);
-      expect(controller.filterReference).toEqual({ 'Motorização': 'gumga.framework.application.Car' });
+      expect(controller.filterReference).toEqual({ 'cor' :
+      { "id": 7, "oi": { "value": "1." }, "version": 1, "name": "cor", "attributes": [ { "id": 27, "oi": { "value": "1." }, "version": 0, "name": "valor", "value": "azul" }]}});
     })
   })
   describe('Testing workflow with incoming data', () => {
@@ -137,8 +129,9 @@ describe('Componente: GumgaTag', () => {
       $compile(elementWithFunctions)(scope);
       let controller = elementWithFunctions.controller('gumgaTag');
       controller.updateObject(selectedObject);
-      expect(controller.filterReference).toEqual({ 'Motorização': 'gumga.framework.application.Car' });
-      controller.updateAvailable(availableObject);
+      expect(controller.filterReference).toEqual({ 'cor' :
+      { "id": 7, "oi": { "value": "1." }, "version": 1, "name": "cor", "attributes": [ { "id": 27, "oi": { "value": "1." }, "version": 0, "name": "valor", "value": "azul" }]}});
+      controller.updateAvailable(availableArray);
       expect(controller.availableArray).not.toEqual(availableArray);
     })
 
@@ -147,7 +140,8 @@ describe('Componente: GumgaTag', () => {
       let controller = elementWithFunctions.controller('gumgaTag');
 
       controller.updateObject(selectedObject);
-      expect(controller.filterReference).toEqual({ 'Motorização': 'gumga.framework.application.Car' });
+      expect(controller.filterReference).toEqual({ 'cor' :
+      { "id": 7, "oi": { "value": "1." }, "version": 1, "name": "cor", "attributes": [ { "id": 27, "oi": { "value": "1." }, "version": 0, "name": "valor", "value": "azul" }]}});
 
       controller.updateSelected(selectedObject);
       expect(controller.selectedArray).toEqual(selectedObject);

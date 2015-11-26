@@ -32,7 +32,7 @@ function gumgaTagColumn(){
           <div class="panel-body body-column" style="display: inline-block;">
             <div class='col-md-12'>
               <span ng-repeat="tag in gumgaTagColumn.tags">
-                <gumga-unity-tag  name="{{::tag.definition.name}}" attributes="tag.values" >
+                <gumga-unity-tag  name="{{::tag.name}}" attributes="tag.attributes" >
                 </gumga-unity-tag>
               </span>
             </div>
@@ -65,13 +65,11 @@ function gumgaTagColumn(){
         angular.element(popover).isolateScope().tt_isOpen = false;
       });
 
-
       let popoversClasses = document.querySelectorAll('.popover');
       angular.forEach(popoversClasses, popover => {
         angular.element(popover).remove();
       })
     }
-
 
     function setActive(name = null){
       tagController.activeTag = name;
@@ -91,10 +89,15 @@ function gumgaTagColumn(){
 
     function search($text = ' '){
       tagController.searchAvailable($text)
-        .then((data) => tagController.updateAvailable(data.data ? data.data : data));
+        .then((data) => tagController.updateAvailable(data.data ? data.data.values : data));
+    }
+
+    function removeMe(tag){
+      tagController.addTo('left', tag)(' ');
     }
 
     this.ngModelOptions = { updateOn: 'default blur', debounce: { 'default': 150, 'blur': 0 } };
+    this.removeMe       = removeMe;
     this.search         = search;
     this.id             = $attrs.id;
     this.cleanPopovers  = cleanPopovers;

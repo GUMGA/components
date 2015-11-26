@@ -7,7 +7,7 @@ O componente gumgaUpload pode ser utilizado para fazer upload de imagens. O fram
 ### Atributos
 Parametro | Tipo | Detalhe
 --- | --- | ---
-**model** | `Objet` |  Objeto que irá conter as informações da imagem.
+**model** | `Object` |  Objeto que irá conter as informações da imagem.
 **upload-method** | `Function` | Função que será executada para fazer o upload da imagem para o arquivo temporário.
 **delete-method** | `Function` | Função que será executada para deletar a imagem do espaço temporário.
 **tooltip-text** | `String` | Mensagem que irá aparecer no tooltip da imagem.
