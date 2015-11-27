@@ -56,12 +56,12 @@ function gumgaUnityTag($templateCache, $compile, $rootScope, $timeout){
     function updateTag(data = {}){
       $controller.setActive();
       $controller.cleanPopovers();
-      updateTooltip();
+      updateTooltip($scope.attributes);
 
     }
 
-    function updateTooltip(){
-      $scope.tooltip  = $scope.attributes.reduce((p, n) => p += `\n\n\n [${n.name}  ${n.value ? ': ' + n.value : ''}]`, ` `);
+    function updateTooltip(arr = []){
+      $scope.tooltip  = arr.reduce((p, n) => p += `\n\n\n [${n.name}  ${n.value ? ': ' + n.value : ''}]`, ` `);
     }
 
     function getActive(){
@@ -91,7 +91,7 @@ function gumgaUnityTag($templateCache, $compile, $rootScope, $timeout){
     $scope.templateUrl    = $scope.format($scope.name).concat('.html');
 
     $element.append($compile(angular.element(templateString))($scope));
-    updateTooltip();
+    updateTooltip($scope.attributes);
 
   }
   return {
