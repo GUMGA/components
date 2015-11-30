@@ -14,7 +14,7 @@
 		'				<div class="form-group">' +
 		'						<label for="input{{::id}}">CEP</label>' +
 		'						<div class="input-group">' +
-		'								<input type="text" class="form-control" ng-model="value.zipCode" id="input{{::id}}" ng-keypress="custom($event,value.zipCode)">' +
+		'								<input type="text" class="form-control" ng-model="value.zipCode" gumga-mask="99.999-999" id="input{{::id}}" ng-keypress="custom($event,value.zipCode)">' +
 		'								<span class="input-group-btn">' +
 		'										<button class="btn btn-primary" type="button" ng-click="searchCep(value.zipCode)" ng-disabled="loader{{::id}}" id="buttonSearch{{::id}}"><i class="glyphicon glyphicon-search"></i></button>' +
 		'								</span>' +
@@ -79,12 +79,12 @@
 		'		</div>' +
 		'</div>'
 		;
-		var blockCityStateCountry =
+		var blockCountryStateCity =
 		'<div class="row">' +
-		'		<div class="col-md-5">' +
+		'		<div class="col-md-4">' +
 		'				<div class="form-group">' +
-		'						<label for="Localidade">Localidade</label>' +
-		'						<input type="text" ng-model="value.localization" class="form-control"/>' +
+		'						<label for="País">País</label>' +
+		'						<select ng-model="value.country" class="form-control" ng-options="pais for pais in factoryData.availableCountries"></select>' +
 		'				</div>' +
 		'		</div>' +
 		'		<div class="col-md-3">' +
@@ -93,10 +93,10 @@
 		'						<select ng-model="value.state" class="form-control" ng-options="uf for uf in factoryData.ufs"></select>' +
 		'				</div>' +
 		'		</div>' +
-		'		<div class="col-md-4">' +
+		'		<div class="col-md-5">' +
 		'				<div class="form-group">' +
-		'						<label for="País">País</label>' +
-		'						<select ng-model="value.country" class="form-control" ng-options="pais for pais in factoryData.availableCountries"></select>' +
+		'						<label for="Localidade">Localidade</label>' +
+		'						<input type="text" ng-model="value.localization" class="form-control"/>' +
 		'				</div>' +
 		'		</div>' +
 		'</div>'
@@ -141,22 +141,22 @@
 				attrs.streetNumber = forceAttr2Bool(attrs.streetNumber);
 				attrs.complement = forceAttr2Bool(attrs.complement);
 				attrs.neighborhood = forceAttr2Bool(attrs.neighborhood);
-				attrs.cityStateCountry = forceAttr2Bool(attrs.cityStateCountry);
+				attrs.countryStateCity = forceAttr2Bool(attrs.countryStateCity || attrs.cityStateCountry);
 				attrs.maps = forceAttr2Bool(attrs.maps);
 
 				if(!attrs.name) throw "É necessário passar um parâmetro 'name' como identificador para GumgaAddress";
-				if((!attrs.street || !attrs.streetNumber) && !attrs.cityStateCountry) throw "É necessário usar ao menos um dos elementos principais [street / city-state-country] para GumgaAddress";
+				if((!attrs.street || !attrs.streetNumber) && !attrs.countryStateCity) throw "É necessário usar ao menos um dos elementos principais [street / city-state-country] para GumgaAddress";
 				if(!attrs.cep && (attrs.onSearchCepStart || attrs.onSearchCepSuccess || attrs.onSearchCepError)) throw "É necessário uso do atributo cep para uso das funções [on-search-cep-start / on-search-cep-success / on-search-cep-error]";
 
 				var template = '';
 				template = template.concat(templateBegin);
 
+				if(attrs.countryStateCity || attrs.cityStateCountry) template = template.concat(blockCountryStateCity);
 				if(attrs.cep) template = template.concat(blockCep);
+				if(attrs.neighborhood) template = template.concat(blockNeighbourhood);
 				if(attrs.street) template = template.concat(blockStreet);
 				if(attrs.streetNumber) template = template.concat(blockStreetNumber);
 				if(attrs.complement) template = template.concat(blockComplement);
-				if(attrs.neighborhood) template = template.concat(blockNeighbourhood);
-				if(attrs.cityStateCountry) template = template.concat(blockCityStateCountry);
 				if(attrs.maps) template = template.concat(blockMaps);
 
 				template = template.concat(templateEnd);
