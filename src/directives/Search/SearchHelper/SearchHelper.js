@@ -10,8 +10,8 @@
 				{hql:"ne",label: "diferente de" , before: "!='",after:"'"},
 				{hql: "contains",label: "contém" , before: " like '\%",after:"\%'"},
 				{hql: "not_contains",label:"não contém" , before: " not like '\%",after:"\%'"},
-				{hql: "starts_with",label:"começa com" , before: "like '",after:"\%'"},
-				{hql: "ends_with",label: "termina com" , before: "like '\%",after:"'"},
+				{hql: "starts_with",label:"começa com" , before: " like '",after:"\%'"},
+				{hql: "ends_with",label: "termina com" , before: " like '\%",after:"'"},
 				{hql: "ge",label:"maior igual" , before: ">='",after:"'"},
 				{hql: "le",label: "menor igual" , before: "<='",after:"'"}]
 			},
@@ -54,15 +54,15 @@
 				return array
 				.map(function(element) {
 					return (
-						(angular.isDefined(element.attribute) ? 'obj.' + element.attribute.name : '!')
+						(angular.isDefined(element.attribute) ? 'obj.' + element.attribute.name : '*')
 						+ '' +
-						(angular.isDefined(element.hql) ? element.hql.before : ' !')
+						(angular.isDefined(element.hql) ? element.hql.before : ' *')
 						+ '' +
 						element.value
-						+ (angular.isDefined(element.hql) ? element.hql.after : ' !') );
+						+ (angular.isDefined(element.hql) ? element.hql.after : ' *') );
 				}).map(function(element){
-					if(element.indexOf('!') != -1){
-						return element.replace(/!/g,'');
+					if(element.indexOf('*') != -1){
+						return element.replace(/\*/g,'');
 					}
 					return element;
 				}).join("");
