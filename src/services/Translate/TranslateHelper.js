@@ -11,7 +11,7 @@
 				,		self = this;
 				function iterate(obj,string){
 					for(var key in obj) if(obj.hasOwnProperty(key)){
-						(typeof obj[key] == 'object') ? 
+						(typeof obj[key] == 'object') ?
 							iterate(obj[key], string + '.' + key) : self._translation[(string + '.' + key).substring(1)] = obj[key];
 					}
 				}
@@ -19,13 +19,13 @@
 					iterate(JSON.parse(localStorage.getItem('GUMGA' + language)),'');
 					return true;
 				}
-				
+
 			},
 			getTranslate: function(toTranslate){
 				var self = this;
 				if (Object.getOwnPropertyNames(self._translation).length === 0)
 					self.__getFromLocalStorage();
-				if(!toTranslate || typeof toTranslate != 'string')  
+				if(!toTranslate || typeof toTranslate != 'string')
 					throw 'The value passed to GumgaTranslate is Wrong!';
 				if(self._translation[toTranslate])
 					return self._translation[toTranslate];
