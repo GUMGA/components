@@ -33,6 +33,7 @@
 				,		alowDismiss = options.alowDismiss || true
 				,		animationEnter = options.animationEnter || 'animated bounceInRight'
 				,		animationExit = options.animationExit || 'animated bounceOutRight';
+
 				$.notify({
 					icon: config.icon,
 					title: title,
@@ -43,16 +44,17 @@
 					timer: timer,
 					delay: delay,
 					alow_dismiss: alowDismiss,
+					z_index: 1500,
 					animate: {
-							enter: animationEnter,
-							exit: animationExit
-						},
+						enter: animationEnter,
+						exit: animationExit
+					},
 					template: '<div data-notify="container" class="col-xs-9 col-sm-3 alert alert-{0}" role="alert">' +
-						'<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
-						'<span data-notify="icon"></span> ' +
-						'<span data-notify="title"><b>{1}</b></span><br> ' +
-						'<span data-notify="message">{2}</span>' +
-						'</div>'
+					'<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+					'<span data-notify="icon"></span> ' +
+					'<span data-notify="title"><b>{1}</b></span><br> ' +
+					'<span data-notify="message">{2}</span>' +
+					'</div>'
 				})
 			},
 			createWarningMessage: function(title,message,options){
@@ -75,5 +77,5 @@
 	}
 
 	angular.module('gumga.services.alert',[])
-		.provider('GumgaAlert',Alert);
+	.provider('GumgaAlert',Alert);
 })();
