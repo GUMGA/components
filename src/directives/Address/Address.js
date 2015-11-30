@@ -14,7 +14,7 @@
 		'				<div class="form-group">' +
 		'						<label for="input{{::id}}">CEP</label>' +
 		'						<div class="input-group">' +
-		'								<input type="text" class="form-control" ng-model="value.zipCode" id="input{{::id}}" ng-keypress="custom($event,value.zipCode)">' +
+		'								<input type="text" class="form-control" ng-model="value.zipCode" gumga-mask="99.999-999" id="input{{::id}}" ng-keypress="custom($event,value.zipCode)">' +
 		'								<span class="input-group-btn">' +
 		'										<button class="btn btn-primary" type="button" ng-click="searchCep(value.zipCode)" ng-disabled="loader{{::id}}" id="buttonSearch{{::id}}"><i class="glyphicon glyphicon-search"></i></button>' +
 		'								</span>' +
