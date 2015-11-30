@@ -20,15 +20,15 @@ describe('Componente: GumgaTag', () => {
 
       const availableObject = {
          "values": [
-          { "id": 6, "oi": { "value": "1." }, "version": 2, "name": "importante", "attributes": [ { "id": 35, "oi": null, "version": 0, "name": "teste" } ]},
-          { "id": 7, "oi": { "value": "1." }, "version": 1, "name": "cor", "attributes": [ { "id": 27, "oi": { "value": "1." }, "version": 0, "name": "valor" }]}
+          { "id": 6, "oi": { "value": "1." }, "version": 2, "definition" : { "name": "importante"}, "attributes": [ { "id": 35, "oi": null, "version": 0, "name": "teste" } ]},
+          { "id": 7, "oi": { "value": "1." }, "version": 1, "definition" : { "name": "cor"}, "attributes": [ { "id": 27, "oi": { "value": "1." }, "version": 0, "name": "valor" }]}
         ]},
         selectedObject = [
-          { "id": 7, "oi": { "value": "1." }, "version": 1, "name": "cor", "attributes": [ { "id": 27, "oi": { "value": "1." }, "version": 0, "name": "valor", "value": "azul" }]}
+          { "id": 7, "oi": { "value": "1." }, "version": 1, "definition" : { "name": "cor"}, "attributes": [ { "id": 27, "oi": { "value": "1." }, "version": 0, "name": "valor", "value": "azul" }]}
         ],
           availableArray = [
-            { "id": 6, "oi": { "value": "1." }, "version": 2, "name": "importante", "attributes": [ { "id": 35, "oi": null, "version": 0, "name": "teste" } ]},
-            { "id": 7, "oi": { "value": "1." }, "version": 1, "name": "cor", "attributes": [ { "id": 27, "oi": { "value": "1." }, "version": 0, "name": "valor" }]}];
+            { "id": 6, "oi": { "value": "1." }, "version": 2, "definition" : { "name": "importante"}, "attributes": [ { "id": 35, "oi": null, "version": 0, "name": "teste" } ]},
+            { "id": 7, "oi": { "value": "1." }, "version": 1, "definition" : { "name": "cor"}, "attributes": [ { "id": 27, "oi": { "value": "1." }, "version": 0, "name": "valor" }]}];
 
   beforeEach(module('gumga.tag.tag'));
 
@@ -120,8 +120,7 @@ describe('Componente: GumgaTag', () => {
       $compile(elementWithFunctions)(scope);
       let controller = elementWithFunctions.controller('gumgaTag');
       controller.updateObject(selectedObject);
-      expect(controller.filterReference).toEqual({ 'cor' :
-      { "id": 7, "oi": { "value": "1." }, "version": 1, "name": "cor", "attributes": [ { "id": 27, "oi": { "value": "1." }, "version": 0, "name": "valor", "value": "azul" }]}});
+      expect(controller.filterReference).toEqual({"cor": { id: 7, oi: { value: '1.' }, version: 1, definition:{ name: 'cor' }, attributes: [ { id: 27, oi: { value: '1.' }, version: 0, name: 'valor', "value": "azul" } ] }});
     })
   })
   describe('Testing workflow with incoming data', () => {
@@ -130,7 +129,7 @@ describe('Componente: GumgaTag', () => {
       let controller = elementWithFunctions.controller('gumgaTag');
       controller.updateObject(selectedObject);
       expect(controller.filterReference).toEqual({ 'cor' :
-      { "id": 7, "oi": { "value": "1." }, "version": 1, "name": "cor", "attributes": [ { "id": 27, "oi": { "value": "1." }, "version": 0, "name": "valor", "value": "azul" }]}});
+      { "id": 7, "oi": { "value": "1." }, "version": 1, definition:{ name: 'cor' }, "attributes": [ { "id": 27, "oi": { "value": "1." }, "version": 0, "name": "valor", "value": "azul" }]}});
       controller.updateAvailable(availableArray);
       expect(controller.availableArray).not.toEqual(availableArray);
     })
@@ -141,7 +140,7 @@ describe('Componente: GumgaTag', () => {
 
       controller.updateObject(selectedObject);
       expect(controller.filterReference).toEqual({ 'cor' :
-      { "id": 7, "oi": { "value": "1." }, "version": 1, "name": "cor", "attributes": [ { "id": 27, "oi": { "value": "1." }, "version": 0, "name": "valor", "value": "azul" }]}});
+      { "id": 7, "oi": { "value": "1." }, "version": 1, definition:{ name: 'cor' }, "attributes": [ { "id": 27, "oi": { "value": "1." }, "version": 0, "name": "valor", "value": "azul" }]}});
 
       controller.updateSelected(selectedObject);
       expect(controller.selectedArray).toEqual(selectedObject);

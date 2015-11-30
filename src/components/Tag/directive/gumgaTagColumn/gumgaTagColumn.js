@@ -32,14 +32,13 @@ function gumgaTagColumn(){
           <div class="panel-body body-column" style="display: inline-block;">
             <div class='col-md-12'>
               <span ng-repeat="tag in gumgaTagColumn.tags">
-                <gumga-unity-tag  name="{{::tag.name}}" attributes="tag.attributes" >
+                <gumga-unity-tag  name="{{::tag.definition.name}}" attributes="tag.definition.attributes" >
                 </gumga-unity-tag>
               </span>
             </div>
           </div>
         </div>
       </div>`;
-
 
     function handleDragStart(e){
       tagController.setDragElement($element[0].id);
@@ -89,7 +88,9 @@ function gumgaTagColumn(){
 
     function search($text = ' '){
       tagController.searchAvailable($text)
-        .then((data) => tagController.updateAvailable(data.data ? data.data.values : data));
+        .then((data) => {
+          tagController.updateAvailable(data.data ? data.data.values : data);
+        });
     }
 
     function removeMe(tag){

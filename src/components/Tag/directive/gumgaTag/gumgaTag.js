@@ -45,6 +45,7 @@ function controller($scope, $element, $attrs, $transclude, $q, $rootScope){
       newArray        = angular.copy(this.selectedArray);
       newArray.push(this.getValueFromAvailable(tag));
       this.updateObject(newArray).updateSelected([this.getValueFromAvailable(tag)]);
+      console.time('oi');
       returnFunction  = (value => this.updateAvailable(this.availableArray));
       this.emit(tag);
     } else {
@@ -78,13 +79,13 @@ function controller($scope, $element, $attrs, $transclude, $q, $rootScope){
   }
 
   function getValueFromAvailable(name){
-    return this.availableArray.filter(value => value.name == name)[0];
+    return this.availableArray.filter(value => value.definition.name == name)[0];
   }
 
   function getIndexFromSelected(name){
     let returnedIndex;
     for(let i = 0, len = this.selectedArray.length; i < len; i++){
-      if(name == this.selectedArray[i].name){
+      if(name == this.selectedArray[i].definition.name){
         returnedIndex = i;
         break;
       }
@@ -109,18 +110,21 @@ function controller($scope, $element, $attrs, $transclude, $q, $rootScope){
   }
 
   function updateAvailable(data = []){
-    this.availableArray = data.filter(value => !this.filterReference[value.name]);
+    this.availableArray = data.map(definition => {
+      if(definition.definition) return definition;
+      return {definition, objectType: null, objectId: null, id: null};
+    }).filter(value => !this.filterReference[value.definition.name]);
     return this;
   }
 
   function updateObject(data = []){
     if(!Array.isArray(data)) console.error('O objeto retornado pela chamada asíncrona [selected-search="foo()"] precisa ser um Array.');
     this.filterReference = {};
-    data.forEach(value => (this.filterReference[value.name] = value));
+    data.forEach(value => (this.filterReference[value.definition.name] = value));
     return this;
   }
 
-  function updateSelected(data = [], operation = 'add'){
+  function updateSelected(data = []){
     data.forEach(value => this.selectedArray.push(value));
     return this;
   }
@@ -128,8 +132,8 @@ function controller($scope, $element, $attrs, $transclude, $q, $rootScope){
   (() => {
     $q.all([this.searchSelected(), this.searchAvailable()])
     .then((data) => {
-      let selectedData  = data[0].data ? data[0].data.values : data[0],
-      availableData = data[1].data ? data[1].data.values : data[1];
+      let selectedData  = data[0].data ? data[0].data : data[0],
+          availableData = data[1].data ? data[1].data.values : data[1];
       this.updateObject(selectedData);
       this.updateSelected(selectedData);
       this.updateAvailable(availableData);
