@@ -26,6 +26,7 @@
 		RestPrototype.prototype.postTags					=	_postTags;
 		RestPrototype.prototype.getAvailableTags	=	_getAvailableTags;
 		RestPrototype.prototype.getSelectedTags		=	_getSelectedTags;
+		RestPrototype.prototype.extend						=	_extend;
 
 		function _get(page){
 			if (page) {
@@ -135,6 +136,11 @@
 
 		function _getSelectedTags(id){
 			return $http.get(`${this._url}/tags/${id}`);
+		}
+
+		function _extend(method = 'GET', urlExtended= ' ', params){
+			if(!$http[method.toLowerCase().trim()]) throw 'O método passado como primeiro parâmetro deve ser um método HTTP válido: GET, HEAD, POST, PUT, DELETE, JSONP, PATCH';
+			return $http[method.toLowerCase().trim()](`${this._url}${urlExtended}`, params)
 		}
 
 		return RestPrototype;

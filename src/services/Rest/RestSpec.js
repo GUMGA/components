@@ -43,7 +43,7 @@ describe('SERVICE: GumgaRest',function(){
 
 	beforeEach(module('gumga.services.rest'));
 
-	beforeEach(inject(function(_$rootScope_,_GumgaRest_,_$httpBackend_){
+	beforeEach(inject(function(_$rootScope_,_GumgaRest_,_$httpBackend_, $http){
 		$rootScope = _$rootScope_;
 		GumgaRest = _GumgaRest_;
 		$httpBackend = _$httpBackend_;
@@ -81,6 +81,15 @@ describe('SERVICE: GumgaRest',function(){
 
 		$httpBackend.when('GET','http://www.gumga.com.br/api?aq=obj.name%3D\'teste\'&pageSize=10&start=0')
 		.respond(httpResponse)
+
+		$httpBackend.when('GET','http://www.gumga.com.br/api/teste')
+		.respond(httpResponse);
+
+		$httpBackend.when('GET','http://www.gumga.com.br/api/teste?foo=bar')
+		.respond(httpResponse);
+
+		$httpBackend.when('POST','http://www.gumga.com.br/api/foo/bar')
+		.respond(httpResponse);
 	}))
 
 	it('Should execute a get',function(){
@@ -169,6 +178,32 @@ describe('SERVICE: GumgaRest',function(){
 		$httpBackend.flush();
 		expect(aux.$$state.value.status).toEqual(200);
 		expect(aux.$$state.value.data).toEqual(httpResponse);
+	})
+
+	it('Should extend the get function',function(){
+		var aux = Service.extend('get', '/teste');
+		$httpBackend.flush();
+		expect(aux.$$state.value.status).toEqual(200);
+		expect(aux.$$state.value.data).toEqual(httpResponse);
+	})
+
+	it('Should extend the post function',function(){
+		var aux = Service.extend('post', '/foo/bar');
+		$httpBackend.flush();
+		expect(aux.$$state.value.status).toEqual(200);
+		expect(aux.$$state.value.data).toEqual(httpResponse);
+	})
+
+	it('Should extend the get function with params',function(){
+		var aux = Service.extend('get', '/teste', {
+			params: {
+				foo: 'bar'
+			}
+		});
+		$httpBackend.flush();
+		expect(aux.$$state.value.status).toEqual(200);
+		expect(aux.$$state.value.data).toEqual(httpResponse);
+		expect(aux.$$state.value.config.params.foo).toEqual('bar');
 	})
 
 });

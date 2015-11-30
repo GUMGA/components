@@ -223,7 +223,7 @@
       if(idConstructor !== Object && idConstructor !== String) throw 'É necessário passar um objeto ou uma string no terceiro parâmetro';
       const options = this._createOptions(identifierOrConfiguration);
       if(!!options.noScope)return new GumgaController(service);
-      container[options.identifier] = new GumgaController(service);
+      container[options.identifier.trim()] = new GumgaController(service);
       return;
     }
 
