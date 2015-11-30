@@ -4,14 +4,14 @@
   Filter.$inject = ['GumgaSearchHelper'];
   function Filter(GumgaSearchHelper){
     let template = [
-      '<div class="panel panel-default">'
+      '<div class="gumga-filter panel panel-default">'
     , ' <div class="panel-body">'
     , '   <div class="row">'
     , '     <div class="col-md-3">'
     , '       <div class="btn-group btn-block" dropdown>'
     , '         <button type="button" class="btn btn-block btn-default" dropdown-toggle></span> <span ng-bind="query.attribute.name || \'Atributo\'"></span> <span class="caret"></span></button>'
     , '         <ul class="dropdown-menu" role="menu">'
-    , '           <li ng-repeat="attr in attributes" ng-click="attributeHasChanged(attr)"><a href="#" ng-bind="attr.name"></a></li>'
+    , '           <li ng-repeat="attr in attributes" ng-click="attributeHasChanged(attr)"><a ng-bind="attr.name"></a></li>'
     , '         </ul>'
     , '       </div>'
     , '     </div>'
@@ -19,7 +19,7 @@
     , '       <div class="btn-group btn-block" dropdown>'
     , '         <button type="button" class="btn btn-block btn-default" dropdown-toggle></span> <span ng-bind="query.hql.label || \'Condição\'"></span> <span class="caret"></span></button>'
     , '         <ul class="dropdown-menu" role="menu">'
-    , '           <li ng-repeat="opt in hqlOpts" ng-click="handleHqlOption(opt)"><a href="#" ng-bind="opt.label"></a></li>'
+    , '           <li ng-repeat="opt in hqlOpts" ng-click="handleHqlOption(opt)"><a ng-bind="opt.label"></a></li>'
     , '         </ul>'
     , '       </div>'
     , '     </div>'
