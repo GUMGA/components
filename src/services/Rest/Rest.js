@@ -122,7 +122,11 @@
 		}
 
 		function _postTags(objectId, values = []){
-			return $http.post(this._url +'/tags', {objectId, values});
+			var tags = [];
+      values.forEach(function(v) {
+        tags.push({objectId: objectId, definition: v});
+      });
+			return $http.post(this._url +'/tags', tags);
 		}
 
 		function _getAvailableTags(){

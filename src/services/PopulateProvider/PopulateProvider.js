@@ -213,7 +213,7 @@
 
 		return {
 			setConfig(name, value = {}){
-				if(!!name) throw 'Você deve passar um nome para o componente $populate';
+				if(!name) throw 'Você deve passar um nome para o componente $populate';
 				configs[name] = value;
 			},
 			getConfig(name){
