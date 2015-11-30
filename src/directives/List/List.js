@@ -4,7 +4,7 @@
   List.$inject = ['GumgaListHelper','$compile','$timeout'];
 
   function List(GumgaListHelper,$compile,$timeout){
-    
+
     ctrl.$inject = ['$scope','$element', '$attrs'];
 
     function ctrl($scope, $element, $attrs){
@@ -45,7 +45,6 @@
       vm.config.onDoubleClick = verifyEmpty('onDoublelick',angular.noop);
       vm.config.onSort = verifyEmpty('onSort',angular.noop);
       if(vm.config.sortDefault)sortProxy(vm.config.sortDefault);
-
       if (vm.config.columns) {
         vm.config.columns = GumgaListHelper.ensureDefaultValues(vm.config.columns.split(','),vm.config.columnsConfig);
         vm.config.auxColumnsToSort = vm.config.columns;
