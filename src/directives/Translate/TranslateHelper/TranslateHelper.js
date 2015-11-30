@@ -6,30 +6,25 @@
 		return {
 			getSessionStorageItem: function(key){
 				var g = window.sessionStorage.getItem(key);
-				if(!g){
-					return null;
-				}
-				try {
-					angular.fromJson(g);
-				}catch(e){
-					return g;
-				}
-				this.translators = angular.fromJson(angular.fromJson(g));
-				return angular.fromJson(angular.fromJson(g));
+				if(!g){ return null; }
+				try { angular.fromJson(g); }catch(e){ return g; }
+				let translateItems = angular.fromJson(angular.fromJson(g));
+				this.setTranslators('pt-br', translateItems);
+				return this.translators;
 			},
 			translators: {},
 			setTranslators: function(language,obj){
-				this.translators = obj;
-				this.setSessionStorageItem(language,JSON.stringify(obj));
-			},
-			setSessionStorageItem: function(key,value){
-				window.sessionStorage.setItem(key,angular.toJson(value));
+				let self = this;
+				function iterate(obj,string){
+					for(var key in obj) if(obj.hasOwnProperty(key)){
+						(typeof obj[key] == 'object') ?
+							iterate(obj[key], string + '.' + key) : self.translators[(string + '.' + key).substring(1).toLowerCase()] = obj[key];
+					}
+				}
+				iterate(obj, '');
 			},
 			returnTranslation: function(string){
-				var array = string.split('.');
-				try {
-					return this.translators[array[0].toLowerCase().trim()][array[1].toLowerCase().trim()];
-				} catch(e){}
+				return this.translators[string];
 			},
 			returnTranslationFrom: function(key, word){
 				var lang = window.sessionStorage.getItem(key);

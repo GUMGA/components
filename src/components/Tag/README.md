@@ -18,7 +18,3 @@ Parametro             | Tipo        | Detalhe
             ng-model="selectedTags">
 </gumga-tag>
 ```
-
-```js
-// Controller da tela
-```
