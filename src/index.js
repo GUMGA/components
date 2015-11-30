@@ -1,5 +1,7 @@
 
-angular.module('gumga.core',
-	['gumga.services',
+angular.module('gumga.core', [
+	'gumga.services',
 	'gumga.controllers',
-	'gumga.directives']);
+	'gumga.directives',
+	'gumga.tag'
+]);

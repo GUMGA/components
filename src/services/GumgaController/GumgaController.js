@@ -158,6 +158,23 @@
         self.emit('resetStart');
         Service.resetDefaultState();
         return self;
+      },
+      getAvailableTags(){
+        self.emit('getAvailableTagsStart');
+        return Service.getAvailableTags();
+      },
+      getSelectedTags(id){
+        self.emit('getSelectedTagsStart');
+        return Service.getSelectedTags(id);
+      },
+      postTags(id, values){
+        self.emit('postTagStart', values);
+        Service.postTags(id, values)
+        .then(data => {
+          self.emit('postTagSuccess', values);
+        }, err => {
+          self.emit('postTagError', values);
+        })
       }
     };
   }
@@ -202,7 +219,7 @@
     function createRestMethods(container, service, identifierOrConfiguration){
       let idConstructor = identifierOrConfiguration.constructor;
       if(!container) throw 'É necessário passar um objeto no primeiro parâmetro';
-      if(!container) throw 'É necessário passar um objeto no segundo parâmetro';
+      if(!service) throw 'É necessário passar um objeto no segundo parâmetro';
       if(idConstructor !== Object && idConstructor !== String) throw 'É necessário passar um objeto ou uma string no terceiro parâmetro';
       const options = this._createOptions(identifierOrConfiguration);
       if(!!options.noScope)return new GumgaController(service);

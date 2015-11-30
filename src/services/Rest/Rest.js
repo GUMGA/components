@@ -7,22 +7,26 @@
 			this._url = url;
 			this._query = {params: {start: 0,pageSize: 10}};
 		}
-		RestPrototype.prototype.get = _get;
-		RestPrototype.prototype.resetAndGet = _resetAndGet;
-		RestPrototype.prototype.getNew = _getNew;
-		RestPrototype.prototype.getById = _getById;
-		RestPrototype.prototype.save = _save;
-		RestPrototype.prototype.update= _update;
-		RestPrototype.prototype.delete = _delete;
-		RestPrototype.prototype.sort = _sort;
-		RestPrototype.prototype.deleteCollection = _deleteCollection;
-		RestPrototype.prototype.saveImage = _saveImage;
-		RestPrototype.prototype.deleteImage = _deleteImage;
-		RestPrototype.prototype.getSearch = _getSearch;
+		RestPrototype.prototype.get 							= _get;
+		RestPrototype.prototype.resetAndGet 			= _resetAndGet;
+		RestPrototype.prototype.getNew 						= _getNew;
+		RestPrototype.prototype.getById 					= _getById;
+		RestPrototype.prototype.save 							= _save;
+		RestPrototype.prototype.update						= _update;
+		RestPrototype.prototype.delete 						= _delete;
+		RestPrototype.prototype.sort 							= _sort;
+		RestPrototype.prototype.deleteCollection 	= _deleteCollection;
+		RestPrototype.prototype.saveImage 				= _saveImage;
+		RestPrototype.prototype.deleteImage 			= _deleteImage;
+		RestPrototype.prototype.getSearch 				= _getSearch;
 		RestPrototype.prototype.getAdvancedSearch = _getAdvancedSearch;
 		RestPrototype.prototype.resetDefaultState = _resetQuery;
-		RestPrototype.prototype.saveQuery = _saveQuery;
-		RestPrototype.prototype.getQuery = _getQuery;
+		RestPrototype.prototype.saveQuery 				= _saveQuery;
+		RestPrototype.prototype.getQuery 					= _getQuery;
+		RestPrototype.prototype.postTags					=	_postTags;
+		RestPrototype.prototype.getAvailableTags	=	_getAvailableTags;
+		RestPrototype.prototype.getSelectedTags		=	_getSelectedTags;
+
 		function _get(page){
 			if (page) {
 				this._query.params.start = (page - 1) * this._query.params.pageSize;
@@ -30,17 +34,29 @@
 			}
 			return $http.get(this._url,this._query);
 		}
-		function _getNew () {return $http.get(this._url + '/new')}
-		function _getById(id){return $http.get(this._url + '/' + id);}
-		function _save (v){return $http.post(this._url,v);}
+		function _getNew () {
+			return $http.get(this._url + '/new')
+		}
+		function _getById(id){
+			return $http.get(this._url + '/' + id);
+		}
+		function _save (v){
+			return $http.post(this._url,v);
+		}
 		function _update (v){
-			if(v.id){
-				return $http.put(this._url + '/' + v.id ,v);
-			}
+			if(v.id) return $http.put(this._url + '/' + v.id ,v);
 			return this.save(v);
 		}
-		function _delete(v){return $http.delete(this._url + '/' + v.id);}
-		function _resetQuery(){this._query = {params: {start: 0,pageSize: 10}};}
+		function _delete(v){
+			return $http.delete(this._url + '/' + v.id);
+		}
+		function _resetQuery(){
+			this._query = {
+				params: {
+					start: 0,pageSize: 10
+				}
+			};
+		}
 
 		function _resetAndGet(){
 			this.resetDefaultState();
@@ -104,6 +120,23 @@
 		function _getQuery(page){
 				return $http.get(this._url + '/gumgauserdata/aq;' + page.replace('#','').replace(/\//gi,'_'));
 		}
+
+		function _postTags(objectId, values = []){
+			var tags = [];
+      values.forEach(function(v) {
+        tags.push({objectId: objectId, definition: v});
+      });
+			return $http.post(this._url +'/tags', tags);
+		}
+
+		function _getAvailableTags(){
+			return $http.get(`${this._url}/tags/`);
+		}
+
+		function _getSelectedTags(id){
+			return $http.get(`${this._url}/tags/${id}`);
+		}
+
 		return RestPrototype;
 	}
 

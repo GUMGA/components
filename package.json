@@ -32,12 +32,14 @@
     "karma": "^0.13.0",
     "karma-babel-preprocessor": "^5.2.2",
     "karma-chrome-launcher": "^0.2.0",
+    "karma-coverage": "^0.5.3",
     "karma-jasmine": "^0.3.6",
     "karma-mocha-reporter": "^1.0.2",
     "run-sequence": "^1.1.4"
   },
   "dependencies": {
     "gulp-babel": "^5.3.0",
+    "gulp-plumber": "^1.0.1",
     "gulp-stylus": "^2.0.5"
   }
 }
