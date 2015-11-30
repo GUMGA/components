@@ -4,22 +4,25 @@
 	AdvancedSearch.$inject = ['GumgaSearchHelper'];
 	function AdvancedSearch(GumgaSearchHelper){
 		var template =`
+			<div class="col-md-12">
+				{{query.attribute}}
+			</div>
 			<div class="input-group">
-				<span class="input-group-btn" dropdown is-open="status.isopen" ng-show="$parent.saveQuery">
-					<span dropdown on-toggle="toggled(open)">
-						<a href id="simple-dropdown" class="btn btn-default" style="margin-right:-3px;" dropdown-toggle>
-							<i class="glyphicon glyphicon-hourglass"></i>
-						</a>
-						<ul class="dropdown-menu" aria-labelledby="simple-dropdown" style="width: auto;">
-							<li ng-repeat="choice in $parent.availableQueries">
-								<a href ng-click="doQuery(choice)">{{choice.description}}</a>
-							</li>
-						</ul>
-					</span>
+			<span class="input-group-btn" dropdown is-open="status.isopen" ng-show="$parent.saveQuery">
+				<span dropdown on-toggle="toggled(open)">
+					<a href id="simple-dropdown" class="btn btn-default" style="margin-right:-3px;" dropdown-toggle>
+						<i class="glyphicon glyphicon-hourglass"></i>
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="simple-dropdown" style="width: auto;">
+						<li ng-repeat="choice in $parent.availableQueries">
+							<a href ng-click="doQuery(choice)">{{choice.description}}</a>
+						</li>
+					</ul>
 				</span>
+			</span>
 				<input type="text" ng-model="searchInputText" class="form-control" ng-disabled="isPanelOpen" id="textMain"/>
 				<span class="input-group-btn">
-          <button class="my-button btn-default" ng-click="showLittlePanel = !showLittlePanel">
+          <button class="my-button btn-default" type="button" ng-click="littlePanelAppears = !littlePanelAppears">
 						<span class="glyphicon glyphicon-chevron-down"></span>
 					</button>
           <button class="my-button btn-default" type="button" ng-click="isPanelOpen = !isPanelOpen">
@@ -60,7 +63,7 @@
 						<input ng-show="typeInput == 'text'" type="text" class="form-control" ng-model="query.value" id="selectableAdvancedValue" />
 					</div>
 					<div class="col-md-2">
-						<button type="button" class="btn btn-default btn-block" ng-click="addQuery(query)" ng-disabled="query.value.length > 0 ? false : true">
+						<button type="button" class="btn btn-default btn-block" ng-click="addQuery(query)" ng-disabled="!query.value.length || !query.hql || !query.attribute">
 							<span class="glyphicon glyphicon-plus"></span>
 						</button>
 					</div>
@@ -81,9 +84,10 @@
 				</div>
 				<div class="clearfix" style="margin-bottom: 2%"></div>
 			</div>
-			<div class="little-panel" ng-show="showLittlePanel">
-       	<label ng-repeat="field in normalFields" style="display: block" >
-					<input type="checkbox" ng-model="models[field.value]" style="margin-right: 1%" >
+			</div>
+			<div class="little-panel" ng-show="littlePanelAppears ">
+       	<label ng-repeat="field in normalFields" style="display: block" for="gumga_normalFields">
+					<input type="checkbox" id="gumga_normalFields"ng-model="models[field.value]" style="margin-right: 1%" >
 					<span gumga-translate-tag="{{ translate + '.' + field.value}}"></span>
 				</label>
 			</div>
@@ -99,8 +103,6 @@
 			scope.attributes = scope.$parent.attributes;
 			scope.hqlOpts = [];
 			scope.queries = [];
-
-
 			scope.doQuery = doQuery;
 
 			function doQuery(choice) {
@@ -192,8 +194,8 @@
 			.on('keydown',function(ev){
 				if(ev.keyCode == 13 && ev.target.value.length > 0){
 					scope.$emit('normal',{field: scope.models.returnString(),param:scope.searchInputText || ''});
-					if(scope.showLittlePanel){
-						scope.showLittlePanel = !scope.showLittlePanel;
+					if(scope.littlePanelAppears){
+						scope.littlePanelAppears = !scope.littlePanelAppears;
 					}
 				}
 			});
