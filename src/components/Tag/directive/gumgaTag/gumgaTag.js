@@ -118,7 +118,6 @@ function controller($scope, $element, $attrs, $transclude, $q, $rootScope){
   }
 
   function updateObject(data = []){
-    console.log(data);
     if(!Array.isArray(data)) console.error('O objeto retornado pela chamada asíncrona [selected-search="foo()"] precisa ser um Array.');
     this.filterReference = {};
     data.forEach(value => (this.filterReference[value.definition.name] = value));
@@ -140,7 +139,6 @@ function controller($scope, $element, $attrs, $transclude, $q, $rootScope){
       this.updateAvailable(availableData);
     })
   })();
-  console.log(this);
 }
 
 gumgaTag.$inject = [];
