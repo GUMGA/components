@@ -227,14 +227,14 @@
       return;
     }
 
-    function _createOptions(identifierOrObject = {}){
-      if(identifierOrObject.constructor === String){
+    function _createOptions(indentifier = {}){
+      if(indentifier.constructor === String){
         return {
-          identifier: identifierOrObject,
+          identifier,
           noScope: false
         }
       }
-      let object = angular.extend({},identifierOrObject);
+      let object = angular.extend({},indentifier);
       object.noScope = !!object.noScope;
       if(!object.identifier){
         throw 'Você precisa passar um identificador para o objeto de configuração do createRestMethods!';

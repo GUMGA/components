@@ -6,6 +6,7 @@
 		return {
 			restrict: 'AEC',
 			scope: false,
+			priority: 9999,
 			link: function($scope,$elm,$attrs){
 				var language = $attrs.gumgaTranslate.toLowerCase() || navigator.language.toLowerCase();
 				if(!TranslateHelper.getSessionStorageItem(language)){

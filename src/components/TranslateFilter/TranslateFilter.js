@@ -9,6 +9,7 @@ function TranslateFilter(TranslateHelper){
       let stringToTranslate = entity ?
           entity.toLowerCase().concat('.').concat(value ? value.toLowerCase() : ' ')
         : (value ? value.toLowerCase() : ' ');
+        console.log(TranslateHelper.returnTranslation(stringToTranslate));
       return TranslateHelper.returnTranslation(stringToTranslate) || value;
     }
     return value;

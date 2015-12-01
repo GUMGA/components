@@ -49,7 +49,7 @@
         vm.config.columns = GumgaListHelper.ensureDefaultValues(vm.config.columns.split(','),vm.config.columnsConfig);
         vm.config.auxColumnsToSort = vm.config.columns;
       }
-      $scope.$watchCollection('vm.data', function() {
+      $scope.$watch('vm.data', function() {
         if (vm.data && vm.data.length > 0) {
           if (!vm.config.columns) {
             vm.config.columns = GumgaListHelper.loadDefaultColumns(vm.data[0]);
@@ -57,7 +57,7 @@
           }
         }
         copyData();
-      });
+      }, true);
       function copyData() {
         $timeout(function() {
           vm.usingData = angular.copy(vm.data);

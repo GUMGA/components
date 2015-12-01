@@ -5,4 +5,4 @@ angular.module('gumga.core', [
 	'gumga.directives',
 	'gumga.tag',
 	'gumga.translate.filter'
-]);
+])

@@ -3,52 +3,61 @@
 
   Filter.$inject = ['GumgaSearchHelper'];
   function Filter(GumgaSearchHelper){
-    let template = [
-      '<div class="gumga-filter panel panel-default">'
-    , ' <div class="panel-body">'
-    , '   <div class="row">'
-    , '     <div class="col-md-3">'
-    , '       <div class="btn-group btn-block" dropdown>'
-    , '         <button type="button" class="btn btn-block btn-default" dropdown-toggle></span> <span ng-bind="query.attribute.name || \'Atributo\'"></span> <span class="caret"></span></button>'
-    , '         <ul class="dropdown-menu" role="menu">'
-    , '           <li ng-repeat="attr in attributes" ng-click="attributeHasChanged(attr)"><a ng-bind="attr.name"></a></li>'
-    , '         </ul>'
-    , '       </div>'
-    , '     </div>'
-    , '     <div class="col-md-3">'
-    , '       <div class="btn-group btn-block" dropdown>'
-    , '         <button type="button" class="btn btn-block btn-default" dropdown-toggle></span> <span ng-bind="query.hql.label || \'Condição\'"></span> <span class="caret"></span></button>'
-    , '         <ul class="dropdown-menu" role="menu">'
-    , '           <li ng-repeat="opt in hqlOpts" ng-click="handleHqlOption(opt)"><a ng-bind="opt.label"></a></li>'
-    , '         </ul>'
-    , '       </div>'
-    , '     </div>'
-    , '     <div class="col-md-4">'
-    , '       <button ng-show="typeInput == \'boolean\'" type="button" class="btn btn-block btn-default" ng-model="query.value" btn-checkbox btn-checkbox-true="\'true\'" btn-checkbox-false="\'false\'">'
-    , '         <span ng-class="{\'glyphicon glyphicon-ok\': query.value == \'true\', \'glyphicon glyphicon-remove\': query.value == \'false\'}"></span>'
-    , '       </button>'
-    , '       <input ng-show="typeInput == \'string\'" type="text" ng-model="query.value" class="form-control">'
-    , '     </div>'
-    , '     <div class="col-md-2">'
-    , '       <button type="button" name="button" class="btn btn-block btn-default" ng-click="addQuery(query)" ng-disabled="query.value.length > 0 ? false : true"><span class="glyphicon glyphicon-plus"></button>'
-    , '     </div>'
-    , '   </div>'
-    , '   <div class="row" ng-show="queries.length > 0">'
-    , '     <hr />'
-    , '     <div class="col-md-10">'
-    , '       <gumga-advanced-label ng-repeat="query in queries" attr="{{query.attribute.name}}" hql="{{query.hql.label}}" value="query.value" index="$index" style="margin-right: 1%"></gumga-advanced-label>'
-    , '     </div>'
-    , '     <div class="col-md-2">'
-    , '       <button type="button" name="button" class="btn btn-block btn-default" ng-click="doSearch(queries)" ng-disabled="queries.length == 0"><span class="glyphicon glyphicon-search"></button>'
-    , '     </div>'
-    , '   </div>'
-    , ' </div>'
-    , '</div>'
-    ];
+    let template = `
+      <div class="gumga-filter panel panel-default">
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="btn-group btn-block" dropdown>
+              <button type="button" class="btn btn-block btn-default" dropdown-toggle>
+                {{(query.attribute.translate || 'Atributo') | gumgaTranslate:translate}}
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li ng-repeat="attr in attributes" ng-click="attributeHasChanged(attr)">
+                  <a gumga-translate-tag="{{entityToTranslate.concat('.').concat(attr.translate)}}"></a>
+                  </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="btn-group btn-block" dropdown>
+              <button type="button" class="btn btn-block btn-default" dropdown-toggle></span> <span ng-bind="query.hql.label || 'Condição'"></span> <span class="caret"></span></button>
+              <ul class="dropdown-menu" role="menu">
+                <li ng-repeat="opt in hqlOpts" ng-click="handleHqlOption(opt)"><a ng-bind="opt.label"></a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <button ng-show="typeInput == 'boolean'" type="button" class="btn btn-block btn-default" ng-model="query.value" btn-checkbox btn-checkbox-true="'true'" btn-checkbox-false="'false'">
+              <span ng-class="{'glyphicon glyphicon-ok': query.value == 'true', 'glyphicon glyphicon-remove': query.value == 'false'}"></span>
+            </button>
+            <input ng-show="typeInput == 'string'" type="text" ng-model="query.value" class="form-control"/>
+            <select ng-show="typeInput == 'array'"  class="form-control" ng-model="query.value" ng-options="item for item in query.attribute.data">
+						</select>
+          </div>
+          <div class="col-md-2">
+            <button type="button" name="button" class="btn btn-block btn-default" ng-click="addQuery(query)" ng-disabled="!query.value || !query.hql || !query.attribute">
+              <span class="glyphicon glyphicon-plus"></span>
+            </button>
+          </div>
+        </div>
+        <div class="row" ng-show="queries.length > 0">
+          <hr />
+          <div class="col-md-10">
+            <gumga-advanced-label ng-repeat="query in queries" attr="{{query.attribute.name}}" translate="{{query.attribute.translate | gumgaTranslate:entityToTranslate}}" hql="{{query.hql.label}}" value="query.value" index="$index" style="margin-right: 1%"></gumga-advanced-label>
+          </div>
+          <div class="col-md-2">
+            <button type="button" name="button" class="btn btn-block btn-default" ng-click="doSearch(queries)" ng-disabled="queries.length == 0"><span class="glyphicon glyphicon-search"></button>
+          </div>
+        </div>
+      </div>
+     </div>
+    `;
 
     return {
       restrict: 'E',
-      template: template.join('\n'),
+      template: template,
       transclude: true,
       scope : {
 				search: '&',
@@ -73,10 +82,16 @@
 					transcludeFn((clone) => {
 						angular.forEach(clone, (cloneEl) => {
 							if(cloneEl.nodeName == 'ADVANCED-FIELD'){
-								scope.attributes.push({
-									name: cloneEl.getAttribute('name'),
-									type: cloneEl.getAttribute('type')
-								});
+                let attribute = {
+                  name: cloneEl.getAttribute('name'),
+                  type: cloneEl.getAttribute('type'),
+                  translate: cloneEl.getAttribute('translate') || cloneEl.getAttribute('name')
+                }
+                if(cloneEl.getAttribute('type').trim().toLowerCase() == 'array'){
+                  attribute.data = scope.$parent[cloneEl.getAttribute('data')] || [];
+                  attribute.arrayItemContent	= cloneEl.getAttribute('array-item-content');
+                }
+                scope.attributes.push(attribute);
 							}
 						});
 					});
@@ -98,6 +113,9 @@
 				};
 
         scope.addQuery = (query) => {
+          if(!scope.query.value || !scope.query.hql || !scope.query.attribute){
+            return;
+          }
 					if(scope.queries.length === 0){
 						scope.queries.push(query);
 					} else if(scope.queries.length >= 1){
@@ -121,6 +139,14 @@
 					scope.search({param: {hql: GumgaSearchHelper.translateArrayToHQL(array),source: array}});
 					eventHandler.search();
 				};
+
+        scope.attributes.forEach((value) => {
+  				if(value.type == 'array'){
+  					value.data = value.data.map((item) => {
+  							return item[value.arrayItemContent];
+  					})
+  				}
+  			})
 
 			}
     }

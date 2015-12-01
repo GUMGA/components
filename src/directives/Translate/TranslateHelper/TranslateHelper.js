@@ -25,16 +25,6 @@
 			},
 			returnTranslation: function(string){
 				return this.translators[string];
-			},
-			returnTranslationFrom: function(key, word){
-				var lang = window.sessionStorage.getItem(key);
-				if (!lang) throw 'Linguagem chamada não foi carregada, verifique o diretório i18n do seu projeto.';
-				var currentLang;
-				currentLang = angular.fromJson(angular.fromJson(lang));
-				var words = word.split('.');
-				try {
-					return currentLang[words[0].toLowerCase().trim()][words[1].toLowerCase().trim()];
-				} catch(e){}
 			}
 		};
 	}

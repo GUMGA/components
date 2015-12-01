@@ -16,6 +16,7 @@
 			restrict: 'E',
 			template: template,
 			transclude: true,
+			priority: 50,
 			scope : {
 				advanced: '&advancedMethod',
 				normal: '&searchMethod',
@@ -55,10 +56,16 @@
 					transcludeFn(function(clone){
 						angular.forEach(clone,function(cloneEl){
 							if(cloneEl.nodeName == 'ADVANCED-FIELD'){
-								scope.attributes.push({
-									name: cloneEl.getAttribute('name'),
-									type: cloneEl.getAttribute('type')
-								});
+									let attribute = {
+										name: cloneEl.getAttribute('name'),
+										type: cloneEl.getAttribute('type'),
+										translate: cloneEl.getAttribute('translate') || cloneEl.getAttribute('name')
+									}
+									if(cloneEl.getAttribute('type').trim().toLowerCase() == 'array'){
+										attribute.data = scope.$parent[cloneEl.getAttribute('data')] || [];
+										attribute.arrayItemContent	= cloneEl.getAttribute('array-item-content');
+									}
+									scope.attributes.push(attribute);
 							}
 						});
 					});
