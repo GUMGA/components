@@ -258,3 +258,28 @@ Parâmetro       | Tipo      | Detalhes
 
 #### Retorno
 `HttpPromise` Retona uma promise da chamada HTTP POST.
+
+---
+
+`extend(method, url,config);`
+
+O método `extend` permite ao programador extender a url que foi construída. O programador pode escolher o método, a url que será adicionada depois da url que foi passada para o construtor e quaisquer configurações necessárias
+
+Exemplo:
+```js
+GumgaRest.extend('get', '/extended', {
+  params: {
+    foo: 'bar'
+  }
+});
+```
+
+#### Parâmetros
+Parâmetro       | Tipo      | Detalhes
+---             | ---       | ---
+**method**      | `String`  | Qual método que será usado para criar a chamada. Ex: `'get','post'`.
+**url**         | `String`  | O que será adicionado ao fim da url que foi passada como parâmetro no construtor do GumgaRest.
+**config**      | `Object`  | Objeto de configuração utilizado nas chamadas [http do Angular](https://docs.angularjs.org/api/ng/service/$http)
+
+#### Retorno
+`HttpPromise` Retona uma promise da chamada HTTP POST.

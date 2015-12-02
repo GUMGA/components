@@ -22,7 +22,9 @@
 		'gumga.directives.list',
 		'gumga.directives.translate',
 		'gumga.directives.customfields',
-		'gumga.directives.filter'
+		'gumga.directives.filter',
+		'gumga.tag',
+		'gumga.translate.filter'
 		]);
 
 })();

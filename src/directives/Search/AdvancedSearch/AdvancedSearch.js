@@ -4,9 +4,6 @@
 	AdvancedSearch.$inject = ['GumgaSearchHelper'];
 	function AdvancedSearch(GumgaSearchHelper){
 		var template =`
-			<div class="col-md-12">
-				{{query.attribute}}
-			</div>
 			<div class="input-group">
 			<span class="input-group-btn" dropdown is-open="status.isopen" ng-show="$parent.saveQuery">
 				<span dropdown on-toggle="toggled(open)">
@@ -39,11 +36,16 @@
 						<div class="col-md-3">
 							<div class="list-holder">
 								<ul class="list-selectable" ng-show="selectAttribute">
-									<li ng-repeat="attr in attributes" ng-click="attributeHasChanged(attr)" class="hover-list"><button class="btn btn-link" gumga-translate-tag="{{translate + '.' + attr.name}}"></button></li>
+									<li ng-repeat="attr in attributes" ng-click="attributeHasChanged(attr)" class="hover-list">
+										<button class="btn btn-link">
+										<span gumga-translate-tag="{{translate.concat('.').concat(attr.translate)}}"></span>
+										</button>
+									</li>
 								</ul>
 							</div>
 							<button type=button class="btn btn-default btn-block" ng-click="selectAttribute = !selectAttribute" >
-								{{query.attribute.name || \'Attribute\'}} <span class="caret"></span>
+								{{(query.attribute.translate || \'Attribute\') | gumgaTranslate:translate}}
+								<span class="caret"></span>
 							</button>
 						</div>
 					<div class="col-md-3">
@@ -58,12 +60,14 @@
 							{{ query.hql.label || \'HQL\'  }} <span class="caret"></span>
 						</button>
 					</div>
-					<div class="col-md-4">
+					<div class="col-md-4" id="">
 						<input ng-show="typeInput == 'checkbox'" type="checkbox" class="form-control" ng-model="query.value" ng-true-value="'true'" ng-false-value="'false'" id="selectableAdvancedValue" />
 						<input ng-show="typeInput == 'text'" type="text" class="form-control" ng-model="query.value" id="selectableAdvancedValue" />
+						<select ng-show="typeInput == 'array'"  class="form-control" ng-model="query.value" ng-options="item for item in query.attribute.data">
+						</select>
 					</div>
 					<div class="col-md-2">
-						<button type="button" class="btn btn-default btn-block" ng-click="addQuery(query)" ng-disabled="!query.value.length || !query.hql || !query.attribute">
+						<button type="button" class="btn btn-default btn-block" ng-click="addQuery(query)" ng-disabled="!query.value || !query.hql || !query.attribute">
 							<span class="glyphicon glyphicon-plus"></span>
 						</button>
 					</div>
@@ -72,7 +76,7 @@
 				<div class="panel-body">
 					<div class="row">
 						<div class="col-md-10">
-     					<gumga-advanced-label ng-repeat="query in queries" attr="{{query.attribute.name}}" hql="{{query.hql.label}}" value="query.value" index="$index" style="margin-right: 1%">
+     					<gumga-advanced-label ng-repeat="query in queries" attr="{{query.attribute.name}}" translate="{{query.attribute.translate | gumgaTranslate:translate}}" hql="{{query.hql.label}}" value="query.value" index="$index" style="margin-right: 1%">
      					</gumga-advanced-label>
 						</div>
 						<div class="col-md-2">
@@ -86,9 +90,9 @@
 			</div>
 			</div>
 			<div class="little-panel" ng-show="littlePanelAppears ">
-       	<label ng-repeat="field in normalFields" style="display: block" for="gumga_normalFields">
-					<input type="checkbox" id="gumga_normalFields"ng-model="models[field.value]" style="margin-right: 1%" >
-					<span gumga-translate-tag="{{ translate + '.' + field.value}}"></span>
+       	<label ng-repeat="field in normalFields" style="display: block" for="{{'gumga_normalFields'.concat(field.value)}}">
+					<input type="checkbox" id="{{'gumga_normalFields'.concat(field.value)}}" ng-model="models[field.value]" style="margin-right: 1%" >
+					<span>{{field.value | gumgaTranslate:translate}}</span>
 				</label>
 			</div>
 		`
@@ -169,9 +173,15 @@
 				scope.query.attribute = attribute;
 				switch (attribute.type) {
 					case 'boolean': scope.typeInput = 'checkbox'; break;
+					case 'array': scope.typeInput	=	'array'; break;
 					default: scope.typeInput = 'text';
 				}
-				scope.hqlOpts = GumgaSearchHelper.getTypeListOfHQLPossibilities(attribute.type);
+				try {
+					scope.hqlOpts = GumgaSearchHelper.getTypeListOfHQLPossibilities(attribute.type);
+				} catch(e){}
+				if(scope.typeInput == 'array'){
+					angular.element(document.getElementById(''))
+				}
 				scope.selectHQL = true ;
 				scope.selectAttribute = false;
 			};
@@ -201,6 +211,9 @@
 			});
 
 			scope.addQuery = function(query){
+				if(!scope.query.value || !scope.query.hql || !scope.query.attribute){
+					return;
+				}
 				if(scope.queries.length === 0){
 					scope.queries.push(query);
 				} else if(scope.queries.length >= 1){
@@ -229,6 +242,16 @@
 				scope.$emit('normal',{field: scope.models.returnString(),param:txt || ''});
 				scope.searchInputText = '';
 			};
+
+
+
+			scope.attributes.forEach((value) => {
+				if(value.type == 'array'){
+					value.data = value.data.map((item) => {
+							return item[value.arrayItemContent];
+					})
+				}
+			})
 		}
 
 		return {
@@ -239,6 +262,6 @@
 			link
 		};
 	}
-	angular.module('gumga.directives.search.advancedsearch',['gumga.directives.search.searchhelper'])
+	angular.module('gumga.directives.search.advancedsearch',['gumga.directives.search.searchhelper', 'gumga.translate.filter.filter'])
 	.directive('gumgaAdvancedSearch',AdvancedSearch)
 })();

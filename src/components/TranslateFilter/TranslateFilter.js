@@ -15,5 +15,5 @@ function TranslateFilter(TranslateHelper){
   };
 }
 
-angular.module('gumga.translate.filter.filter', [])
+angular.module('gumga.translate.filter.filter', ['gumga.directives.translate.translatehelper'])
   .filter('gumgaTranslate', TranslateFilter);

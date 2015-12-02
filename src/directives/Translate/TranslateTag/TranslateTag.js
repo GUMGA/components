@@ -10,11 +10,11 @@
         var translation;
         if (attrs.gumgaTranslateTag.indexOf(',') != -1) {
           var translate = attrs.gumgaTranslateTag.split(',');
-            translation = TranslateHelper.returnTranslationFrom(translate[1], translate[0]);
+            translation = TranslateHelper.returnTranslation(translate[1], translate[0]) ;
         }
         $timeout(() => {
           if(!translation)
-            translation = TranslateHelper.returnTranslation(attrs.gumgaTranslateTag);
+            translation = TranslateHelper.returnTranslation(attrs.gumgaTranslateTag) || attrs.gumgaTranslateTag;
           if (elm[0].childNodes.length > 0 && elm[0].childNodes[0].nodeName != '#text') {
             scope.child = elm[0].childNodes[0];
             elm[0].innerHTML =  translation;
