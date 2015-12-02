@@ -262,6 +262,6 @@
 			link
 		};
 	}
-	angular.module('gumga.directives.search.advancedsearch',['gumga.directives.search.searchhelper'])
+	angular.module('gumga.directives.search.advancedsearch',['gumga.directives.search.searchhelper', 'gumga.translate.filter.filter'])
 	.directive('gumgaAdvancedSearch',AdvancedSearch)
 })();

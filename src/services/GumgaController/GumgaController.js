@@ -223,18 +223,18 @@
       if(idConstructor !== Object && idConstructor !== String) throw 'É necessário passar um objeto ou uma string no terceiro parâmetro';
       const options = this._createOptions(identifierOrConfiguration);
       if(!!options.noScope)return new GumgaController(service);
-      container[options.identifier.trim()] = new GumgaController(service);
+      container[options.identifier] = new GumgaController(service);
       return;
     }
 
-    function _createOptions(indentifier = {}){
-      if(indentifier.constructor === String){
+    function _createOptions(identifier = {}){
+      if(identifier.constructor === String){
         return {
           identifier,
           noScope: false
         }
       }
-      let object = angular.extend({},indentifier);
+      let object = angular.extend({},identifier);
       object.noScope = !!object.noScope;
       if(!object.identifier){
         throw 'Você precisa passar um identificador para o objeto de configuração do createRestMethods!';

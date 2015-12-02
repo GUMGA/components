@@ -9,12 +9,11 @@ function TranslateFilter(TranslateHelper){
       let stringToTranslate = entity ?
           entity.toLowerCase().concat('.').concat(value ? value.toLowerCase() : ' ')
         : (value ? value.toLowerCase() : ' ');
-        console.log(TranslateHelper.returnTranslation(stringToTranslate));
       return TranslateHelper.returnTranslation(stringToTranslate) || value;
     }
     return value;
   };
 }
 
-angular.module('gumga.translate.filter.filter', [])
+angular.module('gumga.translate.filter.filter', ['gumga.directives.translate.translatehelper'])
   .filter('gumgaTranslate', TranslateFilter);

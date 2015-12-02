@@ -152,7 +152,7 @@
     }
   }
 
-  angular.module('gumga.directives.filter', [])
+  angular.module('gumga.directives.filter', ['gumga.translate.filter.filter'])
   .directive('gumgaFilter', Filter);
 
 })();
