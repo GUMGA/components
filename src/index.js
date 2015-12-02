@@ -3,5 +3,6 @@ angular.module('gumga.core', [
 	'gumga.services',
 	'gumga.directives',
 	'gumga.tag',
-	'gumga.translate.filter.filter'
+	'gumga.translate.filter.filter',
+	'gumga.formbuttons'
 ])
