@@ -4,14 +4,13 @@ describe('COMPONENTE: FormButtons', () => {
 
 	beforeEach(module('gumga.formbuttons'));
 
-	beforeEach(inject(($compile, $rootScope, $timeout)=> {
+	beforeEach(inject(($compile, $rootScope, $timeout, $modal)=> {
 		scope	=	$rootScope.$new();
 		scope.age = 10;
 		scope.foo = function(){};
 		let template =`
 		<gumga-form-buttons continue="{{age > 15}}" confirm-dirty="{{age > 15}}" submit="foo()"
 			return-text="Listagem" save-text="Salvar e voltar" keep-inserting-text="Continuar inserindo registros">
-
 		</gumga-form-buttons>
 		`
 		let element = angular.element(template);
