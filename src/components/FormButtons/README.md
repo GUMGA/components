@@ -1,23 +1,22 @@
 # Directive - gumgaFormButtons
 
 ### Descrição
-O componente gumgaFormButtons pode ser utilizado para quando necessite de botões para o formulário, tanto de continuar inserindo, de salvar e retroceder.
+O componente GumgaFormButtons é utilizado para que o desenvolvedor não precise implementar os botões de controle de formulário.
 
 ### Atributos
 
-- **`submit`:** Parâmetro obrigatório que contém uma função que será executada quando o botão de continuar for clicado.
-- **`valid`:** Parâmetro obrigatório que irá conter um valor booleano para validar caso o formulário é válido para liberar o botão de salvar.
-- **`continue`:** Object que deverá conter um atributo booleano chamado `value`, para controlar caso continuará inserindo ou não. Essa
-*  opção aparecerá apenas quando o objeto $stateParams(pertencente ao ui-router) não possuir um id, ou seja, caso esteja numa tela de inserção.
-- **`confirm-dirty`:** Parâmetro não obrigatório que irá conter um booleano para indicar caso deseje ter uma confirmação de saída do formulário
-*  quando este foi alterado alguma vez.
+| Parametro               | Tipo      | Detalhe |
+| ---                     | ---       | ---     |
+| **valid**               | `Boolean` | Atributo que será passado para o componente para que o botão de salvar seja liberado ou não.|
+| **back**                | `String`  | Atributo que será utilizado para definir o estado para qual será retornado quando o usuário clicar em Retornar ou Salvar. Valor default: `NOMEDOSTATE.list`|
+| **submit**              | `Function`| Atributo que irá conter uma função que será chamada quando o usuário clicar em salvar. |
+| **continue**            | `Boolean` | Atributo que irá ser utilizado para determinar se irá aparecer a opção de continuar inserindo. |
+| **confirm-dirty**       | `Boolean` | Atributo usado para determinar se, quando o usuário clicar no botão de retornar e já tiver digitado algo, aparecerá um modal de confirmação de saída da tela. |
+| **keep-inserting-text** | `String ` | Atributo que será utilizado para trocar o texto que aparece do lado do checkbox |
+| **returnText**          | `String ` | Atributo que será utilizado para trocar o texto que aparece no botão de retorno |
+| **saveText**            | `String ` | Atributo que será utilizado para trocar o texto que aparece no botão de salvar  |
 
-### Uso
+### Uso:
 ```html
-<gumga-form-buttons
-  submit="{Function}"
-  valid="{boolean}"
-  continue="{Object}"
-  confirm-dirty="{boolean}">
-</gumga-form-buttons>
+<gumga-form-buttons valid= "Form.$valid" back="person.list" submit="foo()" continue="{{!$stateParams.id}}" confirm-dirty= {{ true }}></gumga-form-buttons>
 ```
