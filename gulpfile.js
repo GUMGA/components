@@ -37,7 +37,7 @@ gulp.task('minify-js',function(){
   return gulp.src(paths.src)
   .pipe(plumber())
   .pipe(babel())
-  .pipe(concat('gumga.min.js'))
+  .pipe(concat('gumga.js'))
   .pipe(uglify())
   .pipe(gulp.dest('dist/'));
 })
