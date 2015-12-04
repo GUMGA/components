@@ -103,7 +103,7 @@ describe("DIRECTIVE: GumgaForm",function(){
     it('Should emit the events right', () => {
       spyOn(scope, '$broadcast');
       controller.changeStateOfInput('name','maxlength',true, 10);
-      expect(scope.$broadcast).toHaveBeenCalledWith('name-valid', {validationType: 'maxlength'});
+      expect(scope.$broadcast).toHaveBeenCalledWith('name-valid', {});
       controller.changeStateOfInput('name','maxlength', false, 10);
       expect(scope.$broadcast).toHaveBeenCalledWith('name-invalid', {
         validationType: 'maxlength',
