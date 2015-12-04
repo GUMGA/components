@@ -1,0 +1,8 @@
+{
+    "localcash":{
+        "menuLabel": "Local Cash"
+        ,"id": "ID"
+        ,"name": "Name"
+        ,"localization": "Localization"
+    }
+}

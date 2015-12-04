@@ -13,7 +13,6 @@ module.exports = function(config){
 			'bower_components/mousetrap-latest/mousetrap.min.js',
 			'src/index.js',
 			'src/services/**/*.js',
-			'src/controllers/**/*.js',
 			'src/directives/**/*.js',
 			'src/components/**/*.js',
 			{

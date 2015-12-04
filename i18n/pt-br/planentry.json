@@ -1,0 +1,10 @@
+{
+    "planentry":{
+        "menuLabel": "Lançamentos e Planos"
+        ,"id": "ID"
+        ,"momment": "Momento"
+        ,"value": "Valor"
+        ,"PlanItem": "Item do Plano"
+        ,"Payment": "Lançamento"
+    }
+}

@@ -1,0 +1,15 @@
+{
+  "titleparcel": {
+    "menuLabel": "Parcelas de Títulos",
+    "id": "ID",
+    "number": "Número",
+    "expiration": "Vencimento",
+    "value": "Valor",
+    "documentNumber": "Número do Documento",
+    "supplier": "Fornecedor",
+    "accept": "Aceite?",
+    "parcelNumber": "Parcela",
+    "latePayment": "Dias de Atraso",
+    "amortizedCost": "Valor amortizado"
+  }
+}

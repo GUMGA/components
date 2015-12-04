@@ -1,0 +1,72 @@
+{
+    "menu": {
+        "cruds": "Cruds",
+        "agreement": "Agreements",
+        "bank": "Banks",
+        "cheque": "Checks",
+        "checkemitted": "Emitted Checks",
+        "checkingaccount": "Checking Accounts",
+        "coisa": "Things",
+        "correctionentry": "Correction Entries",
+        "employeecash": "Employees' Cash",
+        "entry": "Entries",
+        "financeunit": "Finance Units",
+        "individual": "Individuals",
+        "individualcredit": "Personal Loans",
+        "title": "Titles",
+        "titleparcel": "Titles' Parcels",
+        "localcash": "Local Cash",
+        "parcelpayment": "Payments' Parcels",
+        "participation": "Participations",
+        "payment": "Payments",
+        "plan": "Account Plans",
+        "planentry": "Account Plans' Entries",
+        "plantype": "Account Plans' Types",
+        "planitem": "Account Plans' Items",
+        "ratioplan": "Apportionment Plan",
+        "registeredbalance": "Registered Balances",
+        "transfer": "Transfers",
+        "transferentry": "Transfers' Entries",
+        "registry": "Registry",
+        "identify": "Identification",
+        "documenttype": "Document Types",
+        "accounttype": "Account Types",
+        "execution": "Execution",
+        "configuration": "Configurations",
+        "financeconfiguration": "Finance Configurations",
+        "chequeportfolio": "Third Party Cheque Portfolio",
+        "thirdpartycheque": "Third Party Cheques",
+        "gumgatagdefinition": "Tags"
+    },
+    "preventPasteInput": "You cannot paste text into this textbox!",
+    "yes": "Yes",
+    "no": "No",
+    "manyToMany": {
+        "titleLeftList": "Available",
+        "titleRightList": "Selected",
+        "filterLeftList": "Search in Available...",
+        "filterRightList": "Search in Selected..."
+    },
+    "formButton": {
+        "back": "Back",
+        "save": "Save",
+        "new": "New",
+        "delete": "Delete",
+        "edit": "Edit",
+        "lang": {
+            "lang": "Language",
+            "langs": {
+                "pt-br": "Portuguese (pt-br)",
+                "en-us": "English (en-us)"
+            }
+        }
+    },
+    "filter": {
+        "text": "Filter"
+    },
+    "breadcrumb": {
+        "insert": "Insert",
+        "edit": "Edit",
+        "list": "List"
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "checkingaccount":{
+        "menuLabel": "Contas Correntes"
+        ,"id": "ID"
+        ,"name": "Descrição"
+        ,"agency": "Agência"
+        ,"account": "Conta"
+        ,"value": "Valor"
+        ,"Bank": "Banco"
+    }
+}

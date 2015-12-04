@@ -1,0 +1,14 @@
+{
+  "plan": {
+    "menuLabel": "Planos",
+    "id": "ID",
+    "name": "Nome",
+    "type": "Tipo",
+    "children": "Itens",
+    "mask": "Máscara",
+    "effectiveFrom": "Início de Vigência",
+    "namePlaceholder": "Nome do Plano. Ex. Centro de Custo",
+    "maskPlaceholder": "Máscara do Plano. Ex. X.X.X.XX.X ('X' para caractere e '.' para separador)",
+    "maskOverflowMessage": "Foi atingido o número máximo de itens permitido pela máscara informada"
+  }
+}

@@ -1,0 +1,10 @@
+{
+    "entry":{
+        "menuLabel": "Lançamentos"
+        ,"id": "ID"
+        ,"momment": "Momento"
+        ,"value": "Valor"
+        ,"historic": "Histórico"
+        ,"FinanceUnit": "Componente Financeiro"
+    }
+}

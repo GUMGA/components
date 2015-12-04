@@ -1,0 +1,80 @@
+{
+    "menu": {
+        "cruds": "Cruds",
+        "agreement": "Convênios",
+        "bank": "Bancos",
+        "cheque": "Cheques Recebidos",
+        "checkemitted": "Cheques Emitidos",
+        "checkingaccount": "Contas Correntes",
+        "coisa": "Coisas",
+        "correctionentry": "Estornos de Lançamentos",
+        "employeecash": "Caixas de Colaboradores",
+        "entry": "Lançamentos",
+        "financeunit": "Componentes Financeiros",
+        "individual": "Pessoas",
+        "individualcredit": "Créditos Pessoais",
+        "title": "Títulos",
+        "titleparcel": "Parcelas de Títulos",
+        "localcash": "Caixas Físicos",
+        "parcelpayment": "Parcelas de Pagamentos",
+        "participation": "Participações",
+        "payment": "Pagamentos",
+        "plan": "Planos",
+        "planentry": "Lançamentos e Planos",
+        "plantype": "Tipos de Planos",
+        "planitem": "Itens de Planos",
+        "ratioplan": "Planos de Rateio",
+        "registeredbalance": "Saldos Consolidados",
+        "transfer": "Transferências",
+        "transferentry": "Lançamentos de Transferências",
+        "registry": "Movimentações",
+        "identify": "Identificações",
+        "documenttype": "Tipos de Documentos",
+        "accounttype": "Tipos de Contas",
+        "execution": "Execução",
+        "configuration": "Configurações",
+        "financeconfiguration": "Configurações Contas",
+        "chequeportfolio": "Carteira de Cheques de Terceiros",
+        "thirdpartycheque": "Cheques de Terceiros",
+        "gumgatagdefinition": "Tags",
+        "titlelot":"Pagamentos em Lote",
+        "charge":"Cobrança",
+        "shipping":"Envio",
+        "return":"Retorno",
+        "localcashmove":"Movimento",
+        "localcashclose":"Fechamento",
+        "bankmove":"Movimento",
+        "bankconciliation":"Conciliação"
+    },
+    "preventPasteInput": "Você não pode colar um texto neste campo!",
+    "yes": "Sim",
+    "no": "Não",
+    "manyToMany": {
+        "titleLeftList": "Disponíveis",
+        "titleRightList": "Selecionados",
+        "filterLeftList": "Pesquisar Disponíveis...",
+        "filterRightList": "Pesquisar Selecionados..."
+    },
+    "formButton": {
+        "back": "Voltar",
+        "save": "Salvar",
+        "new": "Novo",
+        "delete": "Remover",
+        "edit": "Editar",
+        "lang": {
+            "lang": "Linguagem",
+            "langs": {
+                "pt-br": "Portugês (pt-br)",
+                "en-us": "Inglês (en-us)"
+            }
+        }
+    },
+    "filter": {
+        "text": "Filtrar"
+    },
+    "breadcrumb": {
+        "insert": "Inserção",
+        "edit": "Edição",
+        "list": "Lista"
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "registeredbalance":{
+        "menuLabel": "Registered Balances"
+        ,"id": "ID"
+        ,"momment": "Moment"
+        ,"value": "Value"
+        ,"FinanceUnit": "Finance Unit"
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "checkemitted":{
+        "menuLabel": "Cheques Emitidos"
+        ,"id": "ID"
+        ,"number": "Número"
+        ,"account": "Conta"
+    }
+}

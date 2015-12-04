@@ -1,0 +1,11 @@
+{
+    "ratioplan":{
+        "menuLabel": "Apportionment Plan"
+        ,"id": "ID"
+        ,"label": "Label"
+        ,"name": "Name"
+        ,"description": "Description"
+        ,"script": "Script"
+        ,"Plan": "Account Plan"
+    }
+}

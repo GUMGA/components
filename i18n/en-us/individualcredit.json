@@ -1,0 +1,8 @@
+{
+    "individualcredit":{
+        "menuLabel": "Individual Credit"
+        ,"id": "ID"
+        ,"name": "Name"
+        ,"individual": "Individual"
+    }
+}

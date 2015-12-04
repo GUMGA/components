@@ -1,0 +1,9 @@
+{
+    "registeredbalance":{
+        "menuLabel": "Saldos Consolidados"
+        ,"id": "ID"
+        ,"momment": "Momento"
+        ,"value": "Valor"
+        ,"FinanceUnit": "Componente Financeiro"
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "employeecash":{
+        "menuLabel": "Caixa de Colaboradores"
+        ,"id": "ID"
+        ,"name": "Nome"
+        ,"employee": "Colaborador"
+    }
+}

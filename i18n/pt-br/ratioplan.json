@@ -1,0 +1,11 @@
+{
+    "ratioplan":{
+        "menuLabel": "Planos de Rateio"
+        ,"id": "ID"
+        ,"label": "Etiqueta"
+        ,"name": "Nome"
+        ,"description": "Descrição"
+        ,"script": "Script"
+        ,"Plan": "Plano"
+    }
+}

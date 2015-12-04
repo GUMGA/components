@@ -1,0 +1,35 @@
+{
+    "payment":{
+        "menuLabel": "Pagamento"
+        ,"id": "ID"
+        ,"momment": "Momento"
+        ,"value": "Valor"
+        ,"entry": "Lançamento",
+      "validation":{
+        "bank": {
+          "required":"O banco é obrigatório"
+        },
+        "agency": {
+          "required":"A agência é obrigatória"
+        },
+        "account": {
+          "required":"A conta é obrigatória"
+        },
+        "name": {
+          "required":"O nome é obrigatório"
+        },
+        "cpfCnpj": {
+          "required":"O CPF/CNPJ é obrigatório"
+        },
+        "value": {
+          "required":"O valor é obrigatório"
+        },
+        "number": {
+          "required":"O número do cheque é obrigatório"
+        },
+        "withdrawalLocal": {
+          "required":"O Local do Saque é obrigatório"
+        }
+      }
+    }
+}

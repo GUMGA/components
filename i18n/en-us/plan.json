@@ -1,0 +1,14 @@
+{
+  "plan": {
+    "menuLabel": "Plans",
+    "id": "ID",
+    "name": "Name",
+    "type": "Type",
+    "children": "Items",
+    "mask": "Mask",
+    "effectiveFrom" : "Effective From",
+    "namePlaceholder": "Plan NAme. Ex. Result Center",
+    "maskPlaceholder": "Plan Mask. Ex. X.X.X.XX.X ('X' for character and '.' for separator)",
+    "maskOverflowMessage": "Max number of items allowed by the mask reached"
+  }
+}

@@ -1,0 +1,10 @@
+{
+    "transfer":{
+        "menuLabel": "Transfer"
+        ,"id": "ID"
+        ,"momment": "Moment"
+        ,"value": "Value"
+        ,"source": "Source"
+        ,"destination": "Destination"
+    }
+}

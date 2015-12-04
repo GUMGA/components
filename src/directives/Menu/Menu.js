@@ -57,8 +57,11 @@
 					};
 
 					var urlSelected = location.hash;
-					var url = angular.copy(param.URL);
-					url = '#/'+url.replace('.','/')
+					if(param.URL){
+						var url = angular.copy(param.URL) || ' ';
+						url = '#/'+url.replace('.','/')
+					}
+
 					if (urlSelected==url) {
 							var template = ['<li class="' + type + '-option" style="background: #4ca089" >'];
 					} else {

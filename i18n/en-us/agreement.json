@@ -1,0 +1,8 @@
+{
+    "agreement":{
+        "menuLabel": "Agreements"
+        ,"id": "ID"
+        ,"name": "Name"
+        ,"corporation": "Corporation"
+    }
+}

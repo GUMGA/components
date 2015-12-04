@@ -1,0 +1,8 @@
+{
+    "bank":{
+        "menuLabel": "Bancos"
+        ,"id": "ID"
+        ,"name": "Nome"
+        ,"number": "Número"
+    }
+}

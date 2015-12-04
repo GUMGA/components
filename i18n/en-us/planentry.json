@@ -1,0 +1,10 @@
+{
+    "planentry":{
+        "menuLabel": "Account Plans' Entries"
+        ,"id": "ID"
+        ,"momment": "Moment"
+        ,"value": "Value"
+        ,"PlanItem": "Account Plan's Item"
+        ,"Payment": "Payment"
+    }
+}

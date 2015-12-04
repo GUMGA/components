@@ -1,0 +1,11 @@
+{
+    "transferentry":{
+        "menuLabel": "Transfers' Entries"
+        ,"id": "ID"
+        ,"momment": "Moment"
+        ,"value": "Value"
+        ,"historic": "Historic"
+        ,"FinanceUnit": "Finance Unit"
+        ,"transfer": "Transfer"
+    }
+}

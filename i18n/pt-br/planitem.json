@@ -1,0 +1,9 @@
+{
+    "planitem":{
+        "menuLabel": "Itens do Planod e Contas"
+        ,"id": "ID"
+        ,"code": "Código"
+        ,"name": "Descrição"
+        ,"children": "Sub-Itens"
+    }
+}

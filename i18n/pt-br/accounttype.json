@@ -1,0 +1,8 @@
+{
+    "accounttype":{
+        "menuLabel": "Tipos de Contas"
+        ,"id": "ID"
+        ,"name": "Nome"
+        ,"template": "Modelo"
+    }
+}

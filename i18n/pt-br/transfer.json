@@ -1,0 +1,10 @@
+{
+    "transfer":{
+        "menuLabel": "Transferências"
+        ,"id": "ID"
+        ,"momment": "Momento"
+        ,"value": "Valor"
+        ,"source": "Origem"
+        ,"destination": "Destino"
+    }
+}

@@ -31,6 +31,7 @@ O componente pode ser configurado através de um objeto javascript que deve ser 
 - **`selection`:** String *`opcional`* que será utilizada para definir como será a seleção da tabela. Possíveis valores: `multi` e `single`. Como padrão, o valor é `single`.
 - **`itemsPerPage`:** Array *`opcional`* que será utilizado para mostrar um `select` com as opções do Array. Ele é utilizado para definir quantos itens pela página serão utilizados. O valor selecionado no array será exposto no escopo da tabela através da variável `itemsPerPage`.
 - **`sortDefault`:**  String *`opcional`*  que será utilizada para definir qual o campo padrão de ordenação. Este valor **deve** ser o mesmo identificador que está no atributo `columns`.
+- **`checkbox`:** Boolean *`opcional`* que irá definir se aparecerá a coluna de checkbox
 - **`columns`:** String *`obrigatória`* que irá definir quais as colunas e a ordem que elas terão dentro da tabela.. O formato deve estar no seguinte padrão: `*[column1,column2,...,columnN]*`. Este valor
 - **`conditional`** Função *`opcional`* que será utilizada para fazer a formatação condicional do registro. A função deve retornar um objeto que contém a classe e a comparação utilizada, como por exemplo:
 ```javascript

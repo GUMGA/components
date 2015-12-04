@@ -1,0 +1,9 @@
+{
+    "financeconfiguration":{
+        "menuLabel": "Configurações Contas"
+        ,"id": "ID"
+        ,"planTypeHierarchyMaxLevel": "Máximo Nível de Hierarquia de Tipos de Plano"
+        ,"name": "Nome"
+        ,"effectiveFrom": "Início de Vigência"
+    }
+}

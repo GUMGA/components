@@ -1,0 +1,9 @@
+{
+    "planitem":{
+        "menuLabel": "Account Plans' Items"
+        ,"id": "ID"
+        ,"code": "Code"
+        ,"name": "Name"
+        ,"children": "Sub-Items"
+    }
+}

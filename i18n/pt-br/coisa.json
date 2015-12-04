@@ -1,0 +1,10 @@
+{
+    "coisa":{
+        "menuLabel": "Coisas"
+        ,"id": "ID"
+        ,"descricao": "Descrição"
+        ,"valor": "Valor"
+        ,"ativo": "Situação"
+    }
+}
+

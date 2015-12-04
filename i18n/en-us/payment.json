@@ -1,0 +1,9 @@
+{
+    "payment":{
+        "menuLabel": "Payments"
+        ,"id": "ID"
+        ,"momment": "Moment"
+        ,"value": "Value"
+        ,"entry": "Entry"
+    }
+}

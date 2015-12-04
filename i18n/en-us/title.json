@@ -1,0 +1,11 @@
+{
+    "title":{
+        "menuLabel": "Title"
+        ,"id": "ID"
+        ,"number": "Number"
+        ,"value": "Value"
+        ,"titleType": "Title Type"
+        ,"participations": "Participations"
+        ,"parcel": "Parcels"
+    }
+}

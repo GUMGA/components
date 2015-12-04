@@ -1,7 +1,7 @@
 (function(){
 	'use strict';
-	Translate.$inject = ['$http','TranslateHelper'];
-	function Translate($http,TranslateHelper){
+	Translate.$inject = ['$http','TranslateHelper', '$timeout'];
+	function Translate($http,TranslateHelper, $timeout){
 		var ch = 0;
 		return {
 			restrict: 'AEC',
@@ -9,13 +9,10 @@
 			priority: 9999,
 			link: function($scope,$elm,$attrs){
 				var language = $attrs.gumgaTranslate.toLowerCase() || navigator.language.toLowerCase();
-				if(!TranslateHelper.getSessionStorageItem(language)){
-					$http.get('./i18n/' + language + '.json')
-					.success(function(values){
-						TranslateHelper.setTranslators(language,values);
-					});
-				}
-
+				$http.get('./i18n/' + language + '.json')
+				.success(function(values){
+					TranslateHelper.setTranslators(language,values);
+				});
 			}
 		};
 	}

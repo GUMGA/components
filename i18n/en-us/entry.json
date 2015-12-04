@@ -1,0 +1,10 @@
+{
+    "entry":{
+        "menuLabel": "Entry"
+        ,"id": "ID"
+        ,"momment": "Moment"
+        ,"value": "Value"
+        ,"historic": "Historic"
+        ,"FinanceUnit": "Finance Unit"
+    }
+}

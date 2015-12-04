@@ -1,0 +1,11 @@
+{
+    "transferentry":{
+        "menuLabel": "Lançamentos de Transferência"
+        ,"id": "ID"
+        ,"momment": "Momento"
+        ,"value": "Valor"
+        ,"historic": "Histórico"
+        ,"FinanceUnit": "Componente Financeiro"
+        ,"transfer": "Transferência"
+    }
+}

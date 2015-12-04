@@ -1,0 +1,9 @@
+{
+    "localcash":{
+        "menuLabel": "Caixa Físico"
+        ,"id": "ID"
+        ,"name": "Nome"
+        ,"value": "Valor"
+        ,"localization": "Localização"
+    }
+}

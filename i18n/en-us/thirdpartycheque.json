@@ -1,0 +1,20 @@
+{
+    "thirdpartycheque":{
+        "menuLabel": "Third Party Cheques"
+        ,"id": "ID"
+        ,"bank": "Bank"
+        ,"branch": "Branch"
+        ,"account": "Account"
+        ,"chequeNumber": "Cheque Number"
+        ,"portfolio": "Portfolio"
+        ,"issuer": {
+        "name": "Issuer Name",
+        "document": "Issuer Document"}
+        ,"accountable": "Accountable"
+        ,"value": "Value"
+        ,"issuedAt": "Issued At"
+        ,"validUntil": "Valid Until"
+        ,"postDate": "Post Date"
+        ,"status": "Status"
+    }
+}
