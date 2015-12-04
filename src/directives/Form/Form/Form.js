@@ -59,7 +59,8 @@
 							message 								= auxString.replace('{0}', inputName).replace('{1}', validationType.indexOf('range') != -1 ? ('mínimo de ' + value[0] + ' e máximo de ' + value[1]) : value),
 							objectSentToGumgaError;
 
-					objectSentToGumgaError = (!inputIsValid) ? {message, validationType} : {validationType}
+
+					objectSentToGumgaError = (!inputIsValid) ? {message, validationType} : {}
 					this.updateFormErrors(inputName, validationType, inputIsValid, message);
 					$scope.$broadcast('form-changed');
 					$scope.$broadcast(`${inputName.toLowerCase()}-${inputIsValid ? '' : 'in'}valid`, objectSentToGumgaError);
@@ -79,16 +80,20 @@
 				}
 
 				function updateFormErrors(inputName, validationType, isValid, message){
-					let errs = ctrl.formErrors
-					if(errs[inputName] && errs[inputName][validationType] && isValid){
+					let errs = ctrl.formErrors;
+
+					if(errs[inputName] && errs[inputName][validationType] && isValid === true){
 						delete errs[inputName][validationType];
 						return this;
 					}
+
 					if(errs[inputName] && errs[inputName][validationType]) return this;
 
 					if(!ctrl.formErrors[inputName]) ctrl.formErrors[inputName] = {};
 
-					ctrl.formErrors[inputName][validationType] = message;
+					if(!isValid){
+						ctrl.formErrors[inputName][validationType] = message;
+					}
 
 					return this;
 				}
