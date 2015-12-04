@@ -1,9 +1,0 @@
-{
-    "parcelpayment":{
-        "menuLabel": "Parcels Payments"
-        ,"id": "ID"
-        ,"value": "Value"
-        ,"parcel": "Parcel"
-        ,"payment": "Payment"
-    }
-}

@@ -1,8 +1,0 @@
-{
-    "cheque":{
-        "menuLabel": "Cheques"
-        ,"id": "ID"
-        ,"issuer": "Issuer"
-        ,"responsible": "Responsible"
-    }
-}

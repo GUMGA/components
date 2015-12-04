@@ -1,9 +1,0 @@
-{
-    "financeconfiguration":{
-        "menuLabel": "Finance Configurations"
-        ,"id": "ID"
-        ,"planTypeHierarchyMaxLevel": "Plan Type Max Hierarchic Level"
-        ,"name": "Name"
-        ,"effectiveFrom": "Effective From"
-    }
-}

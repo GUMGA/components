@@ -1,8 +1,0 @@
-{
-    "accounttype":{
-        "menuLabel": "Account Types"
-        ,"id": "ID"
-        ,"name": "Name"
-        ,"template": "Template"
-    }
-}
