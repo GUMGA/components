@@ -30,7 +30,6 @@
 				sessionStorage.setItem('language', angular.toJson(this.translators));
 			},
 			returnTranslation: function(string){
-				console.log(this.translators[string.toLowerCase().replace(/\s/g, '')]);
 				return this.translators[string.toLowerCase().replace(/\s/g, '')];
 			}
 		};
