@@ -10,23 +10,23 @@
     function ctrl($scope, $element, $attrs){
       function verifyEmpty($v,other){return (!$attrs.$v ? other : vm[$v])};
       var vm = this;
-      // Valores utilizados pela aplicação
+
       vm.selectedIndexes = []
       vm.selectedItem;
       vm.selectedItemDir;
       vm.$parent = $scope.$parent;
 
-      // Funções utilizadas
+
       vm.sortProxy = sortProxy;
       vm.selectRow = selectRow;
       vm.double = double;
       vm.conditional = cond;
       vm.conditionalTableCell = conditionalTableCell;
       vm.selectAll = selectAll;
-      // Valores que serão expostos no $scope
+
       $scope.$parent.selectedValues = [];
       $scope.$parent.itemsPerPage;
-      // Número de itens na página
+
       vm.page = $scope.$parent.itemsPerPage;
       vm.data = vm.data || [];
       vm.usingData = angular.copy(vm.data) || [];
@@ -45,10 +45,12 @@
       vm.config.onDoubleClick = verifyEmpty('onDoublelick',angular.noop);
       vm.config.onSort = verifyEmpty('onSort',angular.noop);
       if(vm.config.sortDefault)sortProxy(vm.config.sortDefault);
+
       if (vm.config.columns) {
         vm.config.columns = GumgaListHelper.ensureDefaultValues(vm.config.columns.split(','),vm.config.columnsConfig);
         vm.config.auxColumnsToSort = vm.config.columns;
       }
+
       $scope.$watch('vm.data', function() {
         if (vm.data && vm.data.length > 0) {
           if (!vm.config.columns) {
@@ -58,6 +60,7 @@
         }
         copyData();
       }, true);
+
       function copyData() {
         $timeout(function() {
           vm.usingData = angular.copy(vm.data);
@@ -80,19 +83,23 @@
           return angular.equals(originalRegistry,copyWithoutCheckedAttributes);
         })[0];
       }
+
       function cleanArrays(){
         $scope.$parent.selectedValues = [];
         vm.selectedIndexes = [];
       }
+
       function pushToArrays(val,index){
         vm.selectedIndexes.push(index);
         $scope.$parent.selectedValues.push(findInOriginalArray(val));
       }
+
       function setEveryCheckedToBoolean(bool){
         vm.usingData.forEach(function(elm){
           elm.__checked = bool;
         })
       }
+
       function cleanValueAndArrays(clause,value){
         if(clause){
           setEveryCheckedToBoolean(false);
@@ -100,7 +107,6 @@
         }
         if(value) value = false;
       }
-
 
       function selectRow(ngRepeatIndex,ngRepeatValue,$event){
         if($event.target.type == 'button' || $event.target.tagName == 'A'){
@@ -126,11 +132,15 @@
             return 0;
           }
           var indexOfValueSelected;
+          var auxiliarObject = angular.copy(ngRepeatValue);
+          delete auxiliarObject.__checked;
           selectedValues.forEach(function(val,indx){
-            if(angular.equals(val,ngRepeatValue)) indexOfValueSelected = indx;
+            if(angular.equals(val, auxiliarObject)){
+              indexOfValueSelected = indx;
+            }
           })
           selectedValues.splice(indexOfValueSelected, 1);
-          vm.selectedIndexes.splice(vm.selectedIndexes.indexOf(ngRepeatIndex),1);
+          vm.selectedIndexes.splice(vm.selectedIndexes.indexOf(ngRepeatIndex) ,1);
         }
       }
 
