@@ -39,7 +39,7 @@
         template += '       <div ng-class="showFullView() || authorizeAdd ? \'input-group\' : \'\'">';
         template += '           <input class="form-control"  ng-model="model" type="text" typeahead="$value as $value[field] for $value in proxySearchMethod()">';
         template += '           <span class="input-group-addon" style="background-color: transparent; padding: 3px 12px;border-left:0" ng-show="showFullView()"> ';
-        template += '               <button class="badge" style="background-color: #6ECFFF;border: 0" ng-click="halp(model)" ><i class="glyphicon glyphicon-resize-full"></i></button>';
+        template += '               <button class="text-primary" style="background-color: transparent;border: 0" ng-click="halp(model)" ><i class="glyphicon glyphicon-new-window"></i></button>';
         template += '           </span>';
         template += '           <span class="input-group-addon" style="padding: 0 0.25%" ng-show="authorizeAdd"> ';
         template += '               <button type="button" style="border: 0;background-color: transparent" ng-click="addNew(model)" ><i class="glyphicon glyphicon-plus"></i></button>';
@@ -122,15 +122,17 @@
                     template += '   </div>\n';
                     template += '</div>\n';
                     eventHandler.valueVisualizationOpened();
+                    var ManyToOneModalController = function($scope,$value,$modalInstance){
+                        $scope.$value = $value;
+                        $scope.back = function(){
+                            $modalInstance.dismiss();
+                        }
+                    }
+                    ManyToOneModalController.$inject = ['$scope','$value','$modalInstance'];
                     var mi = $modal.open({
                         template: template,
                         size: 'sm',
-                        controller: function($scope,$value,$modalInstance){
-                            $scope.$value = $value;
-                            $scope.back = function(){
-                                $modalInstance.dismiss();
-                            }
-                        },
+                        controller: ManyToOneModalController,
                         resolve: {
                             $value: function(){
                                 return obj;
