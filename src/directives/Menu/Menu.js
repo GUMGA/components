@@ -13,6 +13,10 @@
 
 				var menuOpen = false;
 
+				var keyIsValid = function (key) {
+					return scope.keys.indexOf(key) != -1;
+				};
+
 				$http.get(attrs.menuUrl).then(function (data) {
 					scope.dados = data.data;
 				}, function (data) {
@@ -50,15 +54,17 @@
 				};
 
 				var gerarNavPill = function (param, type, parent) {
-
 					scope.v[count] = {
 						isActive: false,
 						parent: parent.count
 					};
 
 					var urlSelected = location.hash;
-					var url = angular.copy(param.URL);
-					url = '#/'+url.replace('.','/')
+					if(param.URL){
+						var url = angular.copy(param.URL) || ' ';
+						url = '#/'+url.replace('.','/')
+					}
+
 					if (urlSelected==url) {
 							var template = ['<li class="' + type + '-option" style="background: #4ca089" >'];
 					} else {
@@ -77,14 +83,15 @@
 						}
 					}
 
-					template.push('<a ui-sref="' + param.URL + '" ng-class="v[' + count + '].isActive ? \'is-active\' : \' \'"');
+					template.push(`<a ${param.URL ? `ui-sref="${param.URL}"` : ` ` } ng-class="v[${count}].isActive ? 'is-active' : ' '" `);
+
 					if (parent.label === null || param.filhos.length > 0) {
 						template.push('gumga-translate-tag="' + param.label.toLowerCase() + '.menuLabel">');
 					} else if (param.filhos.length === 0) {
 						template.push('gumga-translate-tag="' + parent.label.toLowerCase() + '.' + param.label.toLowerCase() + '">');
 					}
 					if (type == 'submenu') {
-						template.push(param.label);
+						template.push('gumga-translate-tag="' + param.label.toLowerCase() + '.menuLabel">');
 					}
 					template.push('</a>');
 
@@ -94,6 +101,7 @@
 						}else
 						template.push('<a ui-sref="' + param.URL + '"><img  src="' + param.imageUrl + '" style="width: 20px; height: 20px;" ng-click="resetarMenu(' + count + ')"></i></a>');
 					}
+
 
 					var aux = count;
 
@@ -129,9 +137,7 @@
 
 				};
 
-				var keyIsValid = function (key) {
-					return scope.keys.indexOf(key) != -1;
-				};
+
 
 				function setarTrue(index) {
 					if (index >= 0) {
@@ -163,8 +169,9 @@
 				}
 
 			}
-		};
-	}
+		}
+
+}
 
 	angular.module('gumga.directives.menu',[])
 	.directive('gumgaMenu',Menu);

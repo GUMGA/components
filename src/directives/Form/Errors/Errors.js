@@ -7,7 +7,7 @@
 		return {
 			restrict: 'E',
 			scope: {
-				errors: '='
+				errors: '=?'
 			},
 			require: '?^gumgaForm',
 			link: (scope, elm, attrs, gumgaFormController) => {
@@ -31,8 +31,8 @@
 				}
 
 				scope.$on('form-changed', (ev,data) => {
-					scope.hasError = hasError();
 					scope.errors = flatObject(gumgaFormController.getFormErrors(), {}, 'main');
+					scope.hasError = hasError();
 				})
 
 				function hasIcon(){

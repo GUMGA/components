@@ -42,6 +42,12 @@
 				{hql: "eq", label: "igual", before: "='", after: "'"},
 				{hql: "ge", label: "maior igual", before: ">='", after: "'"},
 				{hql: "le", label: "menor igual", before: "<='", after: "'"}]
+			},
+			"array": {
+				"HQLPossibilities": [
+					{hql:"eq",label: "igual" , before: "='",after:"'"},
+					{hql:"ne",label: "diferente de" , before: "!='",after:"'"}
+				]
 			}
 		};
 		return {

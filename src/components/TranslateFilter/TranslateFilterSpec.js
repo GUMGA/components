@@ -1,6 +1,7 @@
 describe('Componente: TranslateFilter', () => {
   let $filter;
-  beforeEach(module('gumga.translate.filter.filter'));
+  // beforeEach(module('gumga.directives.translate.helper'));
+  beforeEach(module('gumga.core'));
   beforeEach(( ) => {
     module(function ($provide) {
       $provide.value('TranslateHelper', {

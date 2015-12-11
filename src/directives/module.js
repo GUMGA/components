@@ -8,7 +8,6 @@
 		'gumga.directives.alert',
 		'gumga.directives.breadcrumb',
 		'gumga.directives.counter',
-		'gumga.directives.formbuttons',
 		'gumga.directives.manytomany',
 		'gumga.directives.manytoone',
 		'gumga.directives.menu',
@@ -22,7 +21,9 @@
 		'gumga.directives.list',
 		'gumga.directives.translate',
 		'gumga.directives.customfields',
-		'gumga.directives.filter'
+		'gumga.directives.filter',
+		'gumga.tag',
+		'gumga.translate.filter'
 		]);
 
 })();
