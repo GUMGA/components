@@ -23,7 +23,6 @@ function gumgaTagColumn(){
             </span>
           </div>`;
 
-    // O template de busca será compilado apenas se o atributo has-search estiver  no componente gumgaTagColumn.
     let template  =`
       <div class="col-sm-3 col-md-3">
         <label class="control-label">{{gumgaTagColumn.label}}</label>
@@ -41,13 +40,14 @@ function gumgaTagColumn(){
       </div>`;
 
     function handleDragStart(e){
+      e.dataTransfer.setData('text/html', 'anything');
       tagController.setDragElement($element[0].id);
     }
 
     function handleDragEnd(e){
       e.preventDefault();
       if(tagController.getDragElement() != $element[0].id){
-        let tag                       = e.srcElement.innerText.split('(')[0].trim();
+        let tag                       = e.target.innerText.split('(')[0].trim();
         tagController.addTo(tagController.getDragElement(), tag)(' ');
       }
     }
