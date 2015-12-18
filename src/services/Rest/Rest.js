@@ -125,9 +125,19 @@
 		function _postTags(objectId, values = []){
 			var tags = [];
       values.forEach(function(v) {
-        tags.push({objectId: objectId, definition: v});
+				let newObj = angular.copy(v.definition);
+				delete newObj.attributes
+        tags.push({objectId: objectId, definition: newObj, values: v.definition.attributes.map(function(v){
+					let another = angular.copy(v);
+					delete another.value;
+					return {
+						definition: another,
+						value: v.value
+					}
+				})});
       });
-			return $http.post(this._url +'/tags', tags);
+			console.log(tags);
+			return $http.post(this._url +'/tags', { tags });
 		}
 
 		function _getAvailableTags(){

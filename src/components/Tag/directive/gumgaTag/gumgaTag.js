@@ -45,7 +45,6 @@ function controller($scope, $element, $attrs, $transclude, $q, $rootScope){
       newArray        = angular.copy(this.selectedArray);
       newArray.push(this.getValueFromAvailable(tag));
       this.updateObject(newArray).updateSelected([this.getValueFromAvailable(tag)]);
-      console.time('oi');
       returnFunction  = (value => this.updateAvailable(this.availableArray));
       this.emit(tag);
     } else {
