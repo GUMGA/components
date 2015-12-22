@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-
+  //TODO: Alterar o valor __checked dos atributos da lista e trocar por $, pois o angular.equals ignora atributos que começam com $.
   List.$inject = ['GumgaListHelper','$compile','$timeout'];
 
   function List(GumgaListHelper,$compile,$timeout){
@@ -68,12 +68,14 @@
       }
       $element.append($compile(GumgaListHelper.mountTable(vm.config))($scope));
 
+
       function selectAll(checkboxBoolean){
         cleanArrays();
         vm.usingData.forEach(function(data,index){
           data.__checked = checkboxBoolean;
-          if(checkboxBoolean)pushToArrays(data,index);
+          if(checkboxBoolean) pushToArrays(data,index);
         })
+        $scope.wasSelected = checkboxBoolean;
       }
 
       function findInOriginalArray(val){
@@ -105,7 +107,6 @@
           setEveryCheckedToBoolean(false);
           cleanArrays();
         }
-        if(value) value = false;
       }
 
       function selectRow(ngRepeatIndex,ngRepeatValue,$event){
@@ -114,7 +115,7 @@
           return null;
         }
         var selectedValues = $scope.$parent.selectedValues;
-        cleanValueAndArrays(vm.checkAll,vm.checkAll);
+        if($scope.wasSelected) vm.checkAll = false;
         if($attrs.onClick)vm.onClick({$value: ngRepeatValue});
         if(vm.config.selection == 'single'){
           if(ngRepeatValue.__checked){
@@ -126,7 +127,9 @@
             ngRepeatValue.__checked = true;
           }
         } else {
-          ngRepeatValue.__checked = vm.selectedIndexes.filter(function(val){return val == ngRepeatIndex}).length < 1;
+          ngRepeatValue.__checked = vm.selectedIndexes.filter(function(val){
+            return val == ngRepeatIndex
+          }).length < 1;
           if((ngRepeatValue.__checked) || vm.selectedIndexes.length == 0 ){
             pushToArrays(ngRepeatValue,ngRepeatIndex);
             return 0;
@@ -139,6 +142,7 @@
               indexOfValueSelected = indx;
             }
           })
+
           selectedValues.splice(indexOfValueSelected, 1);
           vm.selectedIndexes.splice(vm.selectedIndexes.indexOf(ngRepeatIndex) ,1);
         }

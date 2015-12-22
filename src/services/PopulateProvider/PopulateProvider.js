@@ -75,6 +75,8 @@
 					Service.saveQuery({query: query, name: name})
 					.then(function(data){
 						Scope.$broadcast('afterSaveQuery',data);
+					}, function(err){
+						Scope.$broadcast('afterSaveQueryError',err );
 					})
 				}
 		}
@@ -95,6 +97,8 @@
 				.then(function (values) {
 					Scope[Id].content = values;
 					Scope.$broadcast('afterGet',values);
+				}, function(err){
+					Scope.$broadcast('afterGetError',err );
 				})
 			}
 			Scope[Id.toLowerCase() + 'Get']();
@@ -107,6 +111,8 @@
 				.then(function(values){
 					Scope[Id].content = values;
 					Scope.$broadcast('afterResetAndGet',values);
+				}, function(err){
+					Scope.$broadcast('afterResetAndGetError',err );
 				})
 			}
 		};
@@ -118,6 +124,8 @@
 				.then(function(values){
 					Scope.$broadcast('afterGetNew',values);
 					Scope[Id]['new' + Id] = values;
+				}, function(err){
+					Scope.$broadcast('afterGetNewError',err );
 				})
 			}
 		};
@@ -128,6 +136,8 @@
 				.then(function(values){
 					Scope[Id]['id' + id] = values;
 					Scope.$broadcast('afterGetById',values);
+				}, function(err){
+					Scope.$broadcast('afterGetByIdError',err );
 				})
 			}
 		};
@@ -137,6 +147,8 @@
 				Service.update(value)
 				.then(function(values){
 					Scope.$broadcast('afterSave',values);
+				}, function(err){
+					Scope.$broadcast('afterSaveError',err );
 				})
 			}
 		};
@@ -146,6 +158,8 @@
 				Service.update(value)
 				.then(function(values){
 					Scope.$broadcast('afterUpdate',values);
+				}, function(err){
+					Scope.$broadcast('afterUpdateError',err );
 				})
 			}
 		};
@@ -156,6 +170,8 @@
 				.then(function(values){
 					Scope.$broadcast('afterDelete',values);
 					Scope[Id.toLowerCase() + 'Get']();
+				}, function(err){
+					Scope.$broadcast('afterDeleteError',err );
 				})
 			}
 		};
@@ -166,6 +182,8 @@
 				.then(function(values){
 					Scope[Id].content = values;
 					Scope.$broadcast('afterSort',values);
+				}, function(err){
+					Scope.$broadcast('afterSortError',err );
 				})
 			}
 		};
@@ -181,6 +199,8 @@
 				Service.deleteImage(attribute,model)
 				.then(function(values){
 					Scope.$broadcast('afterDeleteImage',values);
+				}, function(err){
+					Scope.$broadcast('afterDeleteImageError',err );
 				})
 			}
 		};
@@ -191,6 +211,8 @@
 				.then(function(values){
 					Scope[Id].content = values;
 					Scope.$broadcast('afterSearch',values);
+				}, function(err){
+					Scope.$broadcast('afterSearchError',err );
 				})
 			}
 		}
@@ -201,6 +223,8 @@
 				.then(function(values){
 					Scope[Id].content = values;
 					Scope.$broadcast('afterAdvancedSearch',values)
+				}, function(err){
+					Scope.$broadcast('afterAdvancedSearchError',err );
 				})
 			}
 		}

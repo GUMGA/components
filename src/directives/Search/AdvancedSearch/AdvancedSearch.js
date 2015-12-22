@@ -38,13 +38,14 @@
 								<ul class="list-selectable" ng-show="selectAttribute">
 									<li ng-repeat="attr in attributes" ng-click="attributeHasChanged(attr)" class="hover-list">
 										<button class="btn btn-link">
-										<span gumga-translate-tag="{{translate.concat('.').concat(attr.translate)}}"></span>
+											<span gumga-translate-tag="{{translate.concat('.').concat(attr.translate)}}"></span>
 										</button>
 									</li>
 								</ul>
 							</div>
-							<button type=button class="btn btn-default btn-block" ng-click="selectAttribute = !selectAttribute" >
-								{{(query.attribute.translate || \'Attribute\') | gumgaTranslate:translate}}
+							<button type="button" class="btn btn-default btn-block" ng-click="selectAttribute = !selectAttribute" >
+								<span ng-if="query.attribute" gumga-translate-tag="{{translate.concat('.').concat(query.attribute.translate)}}"></span>
+								<span ng-hide="query.attribute">Atributos</span>
 								<span class="caret"></span>
 							</button>
 						</div>
@@ -57,7 +58,7 @@
 							</ul>
 						</div>
 						<button type="button" class="btn btn-default btn-block" ng-click="selectHQL = !selectHQL">
-							{{ query.hql.label || \'HQL\'  }} <span class="caret"></span>
+							{{ query.hql.label || \'Condição\'  }} <span class="caret"></span>
 						</button>
 					</div>
 					<div class="col-md-4" id="">
@@ -90,10 +91,12 @@
 			</div>
 			</div>
 			<div class="little-panel" ng-show="littlePanelAppears ">
-       	<label ng-repeat="field in normalFields" style="display: block" for="{{'gumga_normalFields'.concat(field.value)}}">
-					<input type="checkbox" id="{{'gumga_normalFields'.concat(field.value)}}" ng-model="models[field.value]" style="margin-right: 1%" >
-					<span>{{field.value | gumgaTranslate:translate}}</span>
-				</label>
+				<div class="panel-body">
+					<label ng-repeat="field in normalFields" style="display: block" for="{{'gumga_normalFields'.concat(field.value)}}">
+						<input type="checkbox" id="{{'gumga_normalFields'.concat(field.value)}}" ng-model="models[field.value]" style="margin-right: 1%" >
+						<span gumga-translate-tag="{{translate.concat(\'.\').concat(field.value)}}">{{field.value | gumgaTranslate:translate}}</span>
+					</label>
+				</div>
 			</div>
 		`
 
@@ -240,10 +243,7 @@
 
 			scope.doSearch = function(txt){
 				scope.$emit('normal',{field: scope.models.returnString(),param:txt || ''});
-				scope.searchInputText = '';
 			};
-
-
 
 			scope.attributes.forEach((value) => {
 				if(value.type == 'array'){

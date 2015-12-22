@@ -5,15 +5,16 @@
 	function NormalSearch(){
 		var template =
 		'<div class="input-group">' +
-		'   <input type="text" class="form-control" ng-model="searchField" placeholder="Search"/>' +
+		'   <input type="text" class="form-control" ng-model="searchField" placeholder="{{\'searchbutton\' | gumgaTranslate:\'search\'}}"/>' +
 		'   <span class="input-group-btn">' +
 		'       <button class="my-button btn-default" ng-click="showLittlePanel = !showLittlePanel"><span class="glyphicon glyphicon-chevron-down"></span></button>' +
-		'       <button class="my-button btn-primary last" type="button" ng-disabled="!searchField" ng-click="doSearch(searchField)" >Search <span class="glyphicon glyphicon-search"></span></button>' +
+		'       <button class="my-button btn-primary last" type="button" ng-click="doSearch(searchField)" ><span gumga-translate-tag="search.searchbutton"></span> <span class="glyphicon glyphicon-search"></span></button>' +
 		'   </span>' +
 		'</div>' +
 		'<div class="little-panel" ng-show="showLittlePanel">' +
 		'   <div class="panel-body">' +
-		'       <label ng-repeat="field in normalFields" style="display: block" ><input type="checkbox" ng-model="models[field.value]" style="margin-right: 1%" ><span>{{field.value}}</span></label>' +
+		'       <label ng-repeat="field in normalFields" style="display: block" >' +
+		'				<input type="checkbox" ng-model="models[field.value]" style="margin-right: 1%" ><span gumga-translate-tag="{{translate.concat(\'.\').concat(field.value)}}"></span></label>' +
 		'   </div>' +
 		'</div>';
 		return {

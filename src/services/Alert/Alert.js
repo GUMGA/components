@@ -29,7 +29,7 @@
 				var config = this.__config[type]
 				,		offset = options.offset || 50
 				,		timer = options.timer || 100
-				,		delay = options.delay || 3500
+				,		delay = options.delay || 6000
 				,		alowDismiss = options.alowDismiss || true
 				,		animationEnter = options.animationEnter || 'animated bounceInRight'
 				,		animationExit = options.animationExit || 'animated bounceOutRight';
