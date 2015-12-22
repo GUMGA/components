@@ -136,7 +136,6 @@
 					}
 				})});
       });
-			console.log(tags);
 			return $http.post(this._url +'/tags', { tags });
 		}
 

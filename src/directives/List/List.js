@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-
+  //TODO: Alterar o valor __checked dos atributos da lista e trocar por $, pois o angular.equals ignora atributos que começam com $.
   List.$inject = ['GumgaListHelper','$compile','$timeout'];
 
   function List(GumgaListHelper,$compile,$timeout){
@@ -132,6 +132,7 @@
             return 0;
           }
           var indexOfValueSelected;
+
           var auxiliarObject = angular.copy(ngRepeatValue);
           delete auxiliarObject.__checked;
           selectedValues.forEach(function(val,indx){
