@@ -43,8 +43,10 @@
 									</li>
 								</ul>
 							</div>
+
 							<button type="button" class="btn btn-default btn-block" ng-click="selectAttribute = !selectAttribute" >
-								<span ng-if="query.attribute" gumga-translate-tag="{{translate.concat('.').concat(query.attribute.translate)}}"></span>
+
+								<span ng-if="query.attribute" gumga-translate-tag="{{entityToTranslate.concat('.').concat(query.attribute.translate)}}"></span>
 								<span ng-hide="query.attribute">Atributos</span>
 								<span class="caret"></span>
 							</button>
