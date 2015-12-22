@@ -13,8 +13,12 @@
 				let nameOfInput = attrs.name.toLowerCase(),
 						template 		= `<ol class="list-errors text-danger"><li ng-repeat="(key, value) in ${nameOfInput.concat('errors')}" ><label>{{ value }}</li></ol>`,
 						err = scope[`${nameOfInput.concat('errors')}`];
-				scope.$on(`${nameOfInput}-valid`, (ev, data) => (err[data.validationType] ? (delete err[data.validationType]) : angular.noop));
-				scope.$on(`${nameOfInput}-invalid`, (ev, data) => (!err[data.validationType] ? (err[data.validationType] = data.message) : angular.noop))
+				scope.$on(`${nameOfInput}-valid`, (ev, data) => {
+					(err[data.validationType] ? (delete err[data.validationType]) : angular.noop);
+				});
+				scope.$on(`${nameOfInput}-invalid`, (ev, data) =>{
+					if(!err[data.validationType]) err[data.validationType] = data.message
+				})
         elm.after($compile(template)(scope));
       }
     }
