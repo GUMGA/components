@@ -14,7 +14,7 @@
 		'<div class="little-panel" ng-show="showLittlePanel">' +
 		'   <div class="panel-body">' +
 		'       <label ng-repeat="field in normalFields" style="display: block" >' +
-		'				<input type="checkbox" ng-model="models[field.value]" style="margin-right: 1%" ><span>{{field.value | gumgaTranslate:translate}}</span></label>' +
+		'				<input type="checkbox" ng-model="models[field.value]" style="margin-right: 1%" ><span gumga-translate-tag="{{translate.concat(\'.\').concat(field.value)}}"></span></label>' +
 		'   </div>' +
 		'</div>';
 		return {

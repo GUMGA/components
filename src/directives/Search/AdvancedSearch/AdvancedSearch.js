@@ -91,10 +91,12 @@
 			</div>
 			</div>
 			<div class="little-panel" ng-show="littlePanelAppears ">
-       	<label ng-repeat="field in normalFields" style="display: block" for="{{'gumga_normalFields'.concat(field.value)}}">
-					<input type="checkbox" id="{{'gumga_normalFields'.concat(field.value)}}" ng-model="models[field.value]" style="margin-right: 1%" >
-					<span>{{field.value | gumgaTranslate:translate}}</span>
-				</label>
+				<div class="panel-body">
+					<label ng-repeat="field in normalFields" style="display: block" for="{{'gumga_normalFields'.concat(field.value)}}">
+						<input type="checkbox" id="{{'gumga_normalFields'.concat(field.value)}}" ng-model="models[field.value]" style="margin-right: 1%" >
+						<span gumga-translate-tag="{{translate.concat(\'.\').concat(field.value)}}">{{field.value | gumgaTranslate:translate}}</span>
+					</label>
+				</div>
 			</div>
 		`
 
