@@ -2,7 +2,7 @@ describe('DIRECTIVE: GumgaNormalSearch',function(){
   var scope;
   var isolatedScope;
   var template;
-  beforeEach(module('gumga.directives.search.normalsearch'));
+  beforeEach(module('gumga.core'));
 
   beforeEach(inject(function($rootScope,$compile){
     scope = $rootScope.$new();
