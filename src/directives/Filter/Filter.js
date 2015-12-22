@@ -8,14 +8,20 @@
         Adicionar
         <span class="caret"></span>
       </button>
-      <div style="position: absolute; width: auto;" ng-show="showFilter">
-      <div class="gumga-filter panel panel-default" style="min-width: 500px;">
+      <div style="position: relative; width: auto;" ng-show="showFilter">
+      <div class="gumga-filter panel panel-default" style="min-width: 500px; position: absolute; z-index: 1000">
       <div class="panel-body">
         <div class="row">
           <div class="col-md-3" style="padding-right: 0; width: auto;">
             <div class="btn-group btn-block" dropdown>
-              <button type="button" class="btn btn-block btn-default" dropdown-toggle>
-                {{(query.attribute.translate || 'Atributo') | gumgaTranslate:translate}}
+              <button type="button" class="btn btn-default" dropdown-toggle >
+                <span ng-show="query.attribute">
+                {{query.attribute.translate | gumgaTranslate:entityToTranslate}}
+                </span>
+                <span ng-show="!query.attribute">
+                Atributos
+                </span>
+
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu" role="menu">
