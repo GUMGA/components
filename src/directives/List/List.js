@@ -75,6 +75,7 @@
           data.__checked = checkboxBoolean;
           if(checkboxBoolean) pushToArrays(data,index);
         })
+        $scope.wasSelected = checkboxBoolean;
       }
 
       function findInOriginalArray(val){
@@ -93,7 +94,6 @@
       function pushToArrays(val,index){
         vm.selectedIndexes.push(index);
         $scope.$parent.selectedValues.push(findInOriginalArray(val));
-
       }
 
       function setEveryCheckedToBoolean(bool){
@@ -115,6 +115,7 @@
           return null;
         }
         var selectedValues = $scope.$parent.selectedValues;
+        if($scope.wasSelected) vm.checkAll = false;
         if($attrs.onClick)vm.onClick({$value: ngRepeatValue});
         if(vm.config.selection == 'single'){
           if(ngRepeatValue.__checked){
