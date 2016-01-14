@@ -21,16 +21,16 @@
             defaultCssClass     = 'table ',
             defaultSelection    = 'single',
             defaultItemsPerPage = [],
-            defaultSortedColumn = null,
-            defaultCheckbox     = true
+            defaultSortedColumn = null
 
       function guaranteeColumns(columns = ' ', columnsConfig = []){
-        return columns.split(',').map(column => {
-          let configuration = columnsConfig.filter(value => value.name == column)[0] || {},
-              title         = configuration.title       ||  (column.trim().charAt(0).toUpperCase() + column.trim().slice(1)),
+        return columns.split(',').map(rawColumn => {
+          let column        = rawColumn.trim(),
+              configuration = columnsConfig.filter(value => value.name == column)[0] || { name: column},
+              title         = configuration.title       || (column.charAt(0).toUpperCase() + column.slice(1)),
               size          = configuration.size        ||  ' ',
-              name          = configuration.name        ||  column.trim(),
-              content       = configuration.content     ||  '{{$value.' + column.trim() + '}}',
+              name          = configuration.name        ||  column,
+              content       = configuration.content     ||  '{{$value.' + column + '}}',
               sortField     = configuration.sortField   ||  null,
               conditional   = configuration.conditional || angular.noop
           return { title, size, name, content, sortField, conditional }
@@ -58,7 +58,6 @@
       if(!hasAttr('data'))           console.error(errorMessages.noData)
       if(!hasAttr('configuration'))  console.error(errorMessages.noConfig)
       if(!hasConfig('columns'))      console.error(errorMessages.noColumns)
-
       // Variáveis e funções utilizadas pelo componente durante tempo de execução.
       ctrl.selectedValues       = []
       ctrl.selectedMap          = {}
@@ -66,14 +65,17 @@
 
       ctrl.conditional          = conditional
       ctrl.conditionalTableCell = conditionalTableCell
+
       ctrl.doSort               = doSort
       ctrl.doubleClick          = doubleClick
       ctrl.select               = select
       ctrl.selectAll            = selectAll
 
+      if(ctrl.config.sortDefault != null) ctrl.doSort(ctrl.config.sortDefault)
+
       $scope.$parent.selectedValues = ctrl.selectedValues
 
-      $scope.$watch('ctrl.data', newVal => updateMap(newVal) , true)
+      $scope.$watch('ctrl.data', () => updateMap(ctrl.data), true)
 
       $scope.$watch('ctrl.selectedValues', (newVal = [], oldVal = []) => updateSelected(newVal, newVal.length - oldVal.length >= 0, oldVal), true)
 
@@ -88,6 +90,7 @@
       }
 
       function updateMap(newVal = []){
+        ctrl.selectedMap = {};
         newVal.forEach((value, index) => (ctrl.selectedMap[index] = { checkbox: false, value }))
         updateSelectedValues()
       }
@@ -117,7 +120,6 @@
                           .map(val => ctrl.selectedMap[val].value)
         $scope.$parent.selectedValues = selected
         ctrl.selectedValues           = selected
-
       }
 
       function uncheckSelectedMap(){
@@ -167,13 +169,12 @@
         ctrl.onDoubleClick({ $value })
       }
 
-      function select(index, event = { target: {} }, selection){
+      function select(index, event = { target: {} }){
         ctrl.onClick({ $value: ctrl.selectedMap[index].value })
-        if(event.target.name == '$checkbox' && selection == 'single') uncheckSelectedMap()
-        if(event.target.name == '$checkbox' && selection == 'multi') ctrl.selectedMap[index].checkbox = !ctrl.selectedMap[index].checkbox
+        if(event.target.name == '$checkbox' && ctrl.config.selection == 'single') uncheckSelectedMap()
+        if(event.target.name == '$checkbox' && ctrl.config.selection == 'multi') ctrl.selectedMap[index].checkbox = !ctrl.selectedMap[index].checkbox
         if(ctrl.checkAll) ctrl.checkAll = false
-        if(selection == 'single' && !ctrl.selectedMap[index].checkbox) uncheckSelectedMap()
-
+        if(ctrl.config.selection == 'single' && !ctrl.selectedMap[index].checkbox) uncheckSelectedMap()
         ctrl.selectedMap[index].checkbox = !ctrl.selectedMap[index].checkbox
         updateSelectedValues()
       }
@@ -184,8 +185,10 @@
       }
 
       // Compilação do componente na tela.
-      const element = angular.element(listCreator.mountTable(ctrl.config, ctrl.class))
-      $element.append($compile(element)($scope))
+      try {
+        const element = angular.element(listCreator.mountTable(ctrl.config, ctrl.class))
+        $element.append($compile(element)($scope))
+      } catch(err){}
 
     }
 
@@ -207,6 +210,6 @@
   }
 
   angular.module('gumga.list', ['gumga.list.creator'])
-    .directive('gumgaListTwo', List)
+    .directive('gumgaList', List)
 
 })()
