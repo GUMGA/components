@@ -1,22 +1,22 @@
 describe('COMPONENTE: GumgaList', () => {
   let scope,
-      $compile,
-      simple                                = angular.element('<gumga-list></gumga-list>'),
-      simpleWithData                        = angular.element('<gumga-list data="arrayData"></gumga-list>'),
-      simpleWithConfig                      = angular.element('<gumga-list configuration="tableConfig"></gumga-list>'),
-      simpleWithConfigAndData               = angular.element('<gumga-list data="arrayData" configuration="emptyObject"></gumga-list>'),
-      simpleWithNoError                     = angular.element('<gumga-list data="arrayData" configuration="objectWithColumns"></gumga-list>'),
-      simpleWithNoErrorAndSort              = angular.element('<gumga-list data="arrayData" configuration="objectWithColumns" sort="sort(field, dir)"></gumga-list>'),
-      simpleWithNoErrorAndSortAndSortEvent  = angular.element('<gumga-list data="arrayData" configuration="objectWithColumns" sort="sort(field, dir)" on-sort="onSort(field, dir)">></gumga-list>'),
-      simpleWithNoErrorAndClass             = angular.element('<gumga-list data="arrayData" configuration="objectWithColumns" class="table-condensed table-striped"></gumga-list>'),
-      simpleWithNoErrorAndClickEvent        = angular.element('<gumga-list data="arrayData" configuration="objectWithColumns" on-click="onClick($value)"></gumga-list>'),
-      simpleWithNoErrorAndDoubleClickEvent  = angular.element('<gumga-list data="arrayData" configuration="objectWithColumns" on-double-click="onDoubleClick($value)"></gumga-list>'),
-      simpleWithNoErrorAndSortEvent         = angular.element('<gumga-list data="arrayData" configuration="objectWithColumns" on-sort="onSort(field, dir)"></gumga-list>'),
-      simpleWithConfigThatHasCheckbox       = angular.element('<gumga-list data="arrayData" configuration="objectWithColumnsAndCheckbox"></gumga-list>'),
-      simpleWithConfigThatHasSelection      = angular.element('<gumga-list data="arrayData" configuration="objectWithColumnsAndSelection"></gumga-list>'),
-      simpleWithConfigThatHasSortDefault    = angular.element('<gumga-list data="arrayData" configuration="objectWithColumnsAndSortDefault"></gumga-list>'),
-      simpleWithConfigThatHasConditional    = angular.element('<gumga-list data="arrayData" configuration="objectWithColumnsAndConditional"></gumga-list>'),
-      simpleWithConfigThatHasColumnsConfig  = angular.element('<gumga-list data="arrayData" configuration="objectWithColumnsAndColumnsConfig"></gumga-list>')
+  $compile,
+  simple                                = angular.element('<gumga-list></gumga-list>'),
+  simpleWithData                        = angular.element('<gumga-list data="arrayData"></gumga-list>'),
+  simpleWithConfig                      = angular.element('<gumga-list configuration="tableConfig"></gumga-list>'),
+  simpleWithConfigAndData               = angular.element('<gumga-list data="arrayData" configuration="emptyObject"></gumga-list>'),
+  simpleWithNoError                     = angular.element('<gumga-list data="arrayData" configuration="objectWithColumns"></gumga-list>'),
+  simpleWithNoErrorAndSort              = angular.element('<gumga-list data="arrayData" configuration="objectWithColumns" sort="sort(field, dir)"></gumga-list>'),
+  simpleWithNoErrorAndSortAndSortEvent  = angular.element('<gumga-list data="arrayData" configuration="objectWithColumns" sort="sort(field, dir)" on-sort="onSort(field, dir)">></gumga-list>'),
+  simpleWithNoErrorAndClass             = angular.element('<gumga-list data="arrayData" configuration="objectWithColumns" class="table-condensed table-striped"></gumga-list>'),
+  simpleWithNoErrorAndClickEvent        = angular.element('<gumga-list data="arrayData" configuration="objectWithColumns" on-click="onClick($value)"></gumga-list>'),
+  simpleWithNoErrorAndDoubleClickEvent  = angular.element('<gumga-list data="arrayData" configuration="objectWithColumns" on-double-click="onDoubleClick($value)"></gumga-list>'),
+  simpleWithNoErrorAndSortEvent         = angular.element('<gumga-list data="arrayData" configuration="objectWithColumns" on-sort="onSort(field, dir)"></gumga-list>'),
+  simpleWithConfigThatHasCheckbox       = angular.element('<gumga-list data="arrayData" configuration="objectWithColumnsAndCheckbox"></gumga-list>'),
+  simpleWithConfigThatHasSelection      = angular.element('<gumga-list data="arrayData" configuration="objectWithColumnsAndSelection" selected-values="arr"></gumga-list>'),
+  simpleWithConfigThatHasSortDefault    = angular.element('<gumga-list data="arrayData" configuration="objectWithColumnsAndSortDefault"></gumga-list>'),
+  simpleWithConfigThatHasConditional    = angular.element('<gumga-list data="arrayData" configuration="objectWithColumnsAndConditional"></gumga-list>'),
+  simpleWithConfigThatHasColumnsConfig  = angular.element('<gumga-list data="arrayData" configuration="objectWithColumnsAndColumnsConfig"></gumga-list>')
 
   const errorMessages = {
     noData: 'O componente gumgaList necessita de um atributo data, que irá conter os dados que serão visualizados.',
@@ -46,7 +46,7 @@ describe('COMPONENTE: GumgaList', () => {
       scope.onDoubleClick = angular.noop
       scope.onSort        = angular.noop
       scope.arrayData     = [{ name: 'Igor', age: 20}, {name: 'Juca', age: 122}]
-
+      scope.arr           = []
     })
   )
 
@@ -310,6 +310,66 @@ describe('COMPONENTE: GumgaList', () => {
       expect(controller.selectedMap['1']).toEqual({ checkbox: false, value: { name: 'Juca', age: 122} })
       expect(controller.selectedValues).toEqual([])
       expect(scope.selectedValues).toEqual([])
+    })
+
+    it('Should change the checkbox value from outside the list', () => {
+      expect(() => $compile(simpleWithConfigThatHasSelection)(scope)).not.toThrow()
+      let controller  = simpleWithConfigThatHasSelection.controller('gumgaList')
+      scope.$apply()
+      expect(controller.selectedMap['0']).toEqual({ checkbox: false, value: { name: 'Igor', age: 20} })
+      expect(controller.selectedMap['1']).toEqual({ checkbox: false, value: { name: 'Juca', age: 122} })
+      scope.arr.push({ name: 'Igor', age: 20})
+      scope.$apply()
+      expect(controller.selectedMap['0']).toEqual({ checkbox: true, value: { name: 'Igor', age: 20} })
+      expect(controller.selectedMap['1']).toEqual({ checkbox: false, value: { name: 'Juca', age: 122} })
+      scope.arr.push({ name: 'Juca', age: 122})
+      scope.$apply()
+      expect(controller.selectedMap['0']).toEqual({ checkbox: true, value: { name: 'Igor', age: 20} })
+      expect(controller.selectedMap['1']).toEqual({ checkbox: true, value: { name: 'Juca', age: 122} })
+      scope.arr.pop()
+      scope.$apply()
+      expect(controller.selectedMap['0']).toEqual({ checkbox: true, value: { name: 'Igor', age: 20} })
+      expect(controller.selectedMap['1']).toEqual({ checkbox: false, value: { name: 'Juca', age: 122} })
+      scope.arr.pop()
+      scope.$apply()
+      expect(controller.selectedMap['0']).toEqual({ checkbox: false, value: { name: 'Igor', age: 20} })
+      expect(controller.selectedMap['1']).toEqual({ checkbox: false, value: { name: 'Juca', age: 122} })
+    })
+
+
+    it('Should change the checkbox value from outside the list without a selected-values attribute', () => {
+      expect(() => $compile(simpleWithConfigThatHasSelection)(scope)).not.toThrow()
+      let controller  = simpleWithConfigThatHasSelection.controller('gumgaList')
+      scope.$apply()
+      expect(controller.selectedMap['0']).toEqual({ checkbox: false, value: { name: 'Igor', age: 20} })
+      expect(controller.selectedMap['1']).toEqual({ checkbox: false, value: { name: 'Juca', age: 122} })
+      scope.selectedValues.push({ name: 'Igor', age: 20})
+      scope.$apply()
+      expect(controller.selectedMap['0']).toEqual({ checkbox: true, value: { name: 'Igor', age: 20} })
+      expect(controller.selectedMap['1']).toEqual({ checkbox: false, value: { name: 'Juca', age: 122} })
+      scope.selectedValues.push({ name: 'Juca', age: 122})
+      scope.$apply()
+      expect(controller.selectedMap['0']).toEqual({ checkbox: true, value: { name: 'Igor', age: 20} })
+      expect(controller.selectedMap['1']).toEqual({ checkbox: true, value: { name: 'Juca', age: 122} })
+      scope.selectedValues.pop()
+      scope.$apply()
+      expect(controller.selectedMap['0']).toEqual({ checkbox: true, value: { name: 'Igor', age: 20} })
+      expect(controller.selectedMap['1']).toEqual({ checkbox: false, value: { name: 'Juca', age: 122} })
+      scope.selectedValues.pop()
+      scope.$apply()
+      expect(controller.selectedMap['0']).toEqual({ checkbox: false, value: { name: 'Igor', age: 20} })
+      expect(controller.selectedMap['1']).toEqual({ checkbox: false, value: { name: 'Juca', age: 122} })
+    })
+
+    it('Should select every item in the selectedMap when i use selectAll', () => {
+      expect(() => $compile(simpleWithConfigThatHasSelection)(scope)).not.toThrow()
+      let controller  = simpleWithConfigThatHasSelection.controller('gumgaList')
+      scope.$apply()
+      expect(controller.selectedMap['0']).toEqual({ checkbox: false, value: { name: 'Igor', age: 20} })
+      expect(controller.selectedMap['1']).toEqual({ checkbox: false, value: { name: 'Juca', age: 122} })
+      controller.selectAll(true)
+      expect(controller.selectedMap['0']).toEqual({ checkbox: true, value: { name: 'Igor', age: 20} })
+      expect(controller.selectedMap['1']).toEqual({ checkbox: true, value: { name: 'Juca', age: 122} })
     })
   })
 
