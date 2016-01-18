@@ -59,7 +59,7 @@
 			},
 			createWarningMessage: function(title,message,options){
 				if(!options) options = {};
-				this._notify('warning',title,message,options);
+				this._notify('warn',title,message,options);
 			},
 			createDangerMessage: function(title,message,options){
 				if(!options) options = {};

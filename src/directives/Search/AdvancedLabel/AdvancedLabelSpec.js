@@ -45,7 +45,7 @@ describe('DIRECTIVE: GumgaAdvancedLabel',function(){
 
     it('Should change the value',function(){
       isolatedScope.orOrAnd();
-      expect(isolatedScope.value).toBe('OR');
+      expect(isolatedScope.value).toBe('AND');
     });
 
     it('Should emit deletepls',function(){

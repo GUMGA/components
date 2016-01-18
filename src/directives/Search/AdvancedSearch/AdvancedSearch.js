@@ -17,7 +17,7 @@
 					</ul>
 				</span>
 			</span>
-				<input type="text" ng-model="searchInputText" class="form-control" ng-disabled="isPanelOpen" id="textMain"/>
+				<input type="text" ng-model="searchInputText" class="form-control" ng-disabled="isPanelOpen" id="textMain" ng-keyup="doSearch(searchInputText, $event)"/>
 				<span class="input-group-btn">
           <button class="my-button btn-default" type="button" ng-click="littlePanelAppears = !littlePanelAppears">
 						<span class="glyphicon glyphicon-chevron-down"></span>
@@ -230,7 +230,7 @@
 				if(scope.queries.length === 0){
 					scope.queries.push(query);
 				} else if(scope.queries.length >= 1){
-					scope.queries.splice(scope.queries.length,1,{value: 'AND'},query);
+					scope.queries.splice(scope.queries.length,1,{value: 'E'},query);
 				}
 				scope.query = {};
 				scope.typeInput = 'text';
@@ -251,8 +251,9 @@
 				scope.$emit('advanced',{hql: GumgaSearchHelper.translateArrayToHQL(array),source: array});
 			};
 
-			scope.doSearch = function(txt){
-				scope.$emit('normal',{field: scope.models.returnString(), param:txt || ''});
+			scope.doSearch = function(txt, ev){
+				if(!ev) scope.$emit('normal',{field: scope.models.returnString(), param:txt || ''});
+				if(ev && ev.keyCode == 13) scope.$emit('normal',{field: scope.models.returnString(), param:txt || ''});
 			};
 
 			scope.attributes.forEach((value) => {

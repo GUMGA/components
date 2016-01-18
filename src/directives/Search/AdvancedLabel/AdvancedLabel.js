@@ -5,7 +5,7 @@
 	function AdvancedLabel(){
 		var template =
 		'<div class="btn-group">' +
-		'   <button class="btn btn-default btn-xs" ng-disabled="disabled" id="btn{{attr}}" ng-click="orOrAnd(value)"><strong gumga-translate-tag="{{label.concat(\'.\').concat(attr)}}"></strong> {{hql}} <strong>{{value}}</strong></button>' +
+		'   <button class="btn btn-default btn-xs" ng-disabled="disabled" id="btn{{attr}}" ng-click="orOrAnd(value)"><strong ng-show="attr" gumga-translate-tag="{{label.concat(\'.\').concat(attr)}}"></strong> {{hql}} <strong>{{value}}</strong></button>' +
 		'   <button class="btn btn-default btn-xs" ng-disabled="disabled" ng-click="emitDelete()" ng-if="getVisibility(value)"><span aria-hidden="true">&times;</span></button>' +
 		'</div>';
 
@@ -23,13 +23,13 @@
 			link: function(scope,$elm,$attrs){
 				if(!$attrs.disabled) scope.disabled = false;
 				scope.bol = false;
-				
+
 
 				scope.orOrAnd = function(){
-					if(typeof scope.value === 'string' && scope.value.toUpperCase() === 'OR' && !scope.hql){
-						scope.value = 'AND';
-					}   else  if(scope.value.toUpperCase() === 'AND' && !scope.hql){
-						scope.value = 'OR';
+					if(typeof scope.value === 'string' && scope.value.toUpperCase() === 'OU' && !scope.hql){
+						scope.value = 'E';
+					}   else  if(scope.value.toUpperCase() === 'E' && !scope.hql){
+						scope.value = 'OU';
 					}
 				};
 
@@ -39,7 +39,7 @@
 
 
 				scope.getVisibility = function(val){
-					return !(val == 'AND' || val == 'OR');
+					return !(val == 'E' || val == 'OU');
 				}
 			}
 		};
