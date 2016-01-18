@@ -45,11 +45,11 @@
                   </div>
                   <!--<div class="col-md-3" style="width: auto;padding-left: 0;padding-right: 0;">-->
                   <div class="form-group">
-                    <div class="radio">
-                      <label ng-show="typeInput == 'boolean' && boolean.trueValue">
+                    <div class="radio" ng-show="typeInput == 'boolean' && boolean.trueValue || boolean.falseValue">
+                      <label ng-show="boolean.trueValue">
                         <input type="radio" ng-model="query.value" ng-value="'true'" ng-show="boolean.trueValue"> {{boolean.trueValue}}
                       </label>
-                      <label ng-show="typeInput == 'boolean' && boolean.falseValue">
+                      <label ng-show="boolean.falseValue">
                         <input type="radio" ng-model="query.value" ng-value="'false'" ng-show="boolean.falseValue"> {{boolean.falseValue}}
                       </label>
                     </div>
@@ -109,7 +109,6 @@
                   type: cloneEl.getAttribute('type'),
                   translate: cloneEl.getAttribute('translate') || cloneEl.getAttribute('name')
                 }
-                // switch (cloneEl.getAttribute('type').trim().toLowerCase()) {
                 switch (attribute.type) {
                   case 'array': {
                     attribute.data = scope.$parent[cloneEl.getAttribute('data')] || [];
@@ -144,8 +143,6 @@
 					scope.hqlOpts = GumgaSearchHelper.getTypeListOfHQLPossibilities(attribute.type);
 					scope.selectHQL = true;
 					scope.selectAttribute = false;
-          console.log(attribute);
-          console.log(scope.typeInput);
 				};
 
         scope.handleHqlOption = (hq) => {
@@ -156,10 +153,12 @@
 
         scope.addQuery = (query) => {
           if (!isValidQuery()) {
-            elm.classList.add('shake');
-            setTimeout(function () {
-              elm.classList.remove('shake');
-            }, 1000);
+            if (elm.classList) {
+              elm.classList.add('shake');
+              setTimeout(function () {
+                elm.classList.remove('shake');
+              }, 1000);
+            }
           } else {
             if(scope.queries.length === 0){
   						scope.queries.push(query);
