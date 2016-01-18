@@ -23,6 +23,7 @@ O componente gumgaList foi criado no intuito de substituir a gumgaTable. A parti
 - **`onSort`:** Atributo *opcional* que irá conter uma função que será executada toda vez que o usuário ordenar alguma coluna. O padrão de parâmetros é igual ao do atributo **`sort`**
 - **`onClick`:** Atributo *opcional* que irá conter uma função que será executada toda vez que o usuário clicar em uma linha da tabela. Para receber o valor da linha em que houve o click, adiciona o parâmetro $value na função, como por exemplo: on`-click="foo($value)"``
 - **`onDoubleClick`:** Atributo *opcional* que irá conter uma função que será executada toda vez que o usuário clicar duas vezes em uma linha da tabela. Para receber o valor da linha em que houve o double click, seguir o mesmo padrão de parâmetro igual ao do `onClick`.
+- **`selectedValues`:** Atributo *opcional* que irá conter um array que conterá os valores que foram selecionados. Este array pode ser manipulado de fora da tabela para alterar os valores que foram selecionados.
 
 ### Configuração da tabela
 
