@@ -5,7 +5,7 @@
 	function NormalSearch(){
 		var template =
 		'<div class="input-group">' +
-		'   <input type="text" class="form-control" ng-model="searchField" placeholder="{{\'searchbutton\' | gumgaTranslate:\'search\'}}"/>' +
+		'   <input type="text" class="form-control" ng-model="searchField" placeholder="{{\'searchbutton\' | gumgaTranslate:\'search\'}}" ng-keyup="doSearch(searchField, $event)"/>' +
 		'   <span class="input-group-btn">' +
 		'       <button class="my-button btn-default" ng-click="showLittlePanel = !showLittlePanel"><span class="glyphicon glyphicon-chevron-down"></span></button>' +
 		'       <button class="my-button btn-primary last" type="button" ng-click="doSearch(searchField)" ><span gumga-translate-tag="search.searchbutton"></span> <span class="glyphicon glyphicon-search"></span></button>' +
@@ -57,10 +57,10 @@
 					}
 				});
 
-				scope.doSearch = function(txt){
-					scope.$emit('normal',{field: scope.models.returnString(),param:txt || ''});
-					// scope.showLittlePanel = !scope.showLittlePanel;
-					scope.searchField = '';
+				scope.doSearch = function(txt, ev){
+					if(!ev) scope.$emit('normal',{field: scope.models.returnString(),param:txt || ''});
+					if(ev && ev.keyCode == 13) scope.$emit('normal',{field: scope.models.returnString(),param:txt || ''});
+
 				};
 
 			}

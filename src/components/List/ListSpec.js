@@ -13,10 +13,10 @@ describe('COMPONENTE: GumgaList', () => {
   simpleWithNoErrorAndDoubleClickEvent  = angular.element('<gumga-list data="arrayData" configuration="objectWithColumns" on-double-click="onDoubleClick($value)"></gumga-list>'),
   simpleWithNoErrorAndSortEvent         = angular.element('<gumga-list data="arrayData" configuration="objectWithColumns" on-sort="onSort(field, dir)"></gumga-list>'),
   simpleWithConfigThatHasCheckbox       = angular.element('<gumga-list data="arrayData" configuration="objectWithColumnsAndCheckbox"></gumga-list>'),
-  simpleWithConfigThatHasSelection      = angular.element('<gumga-list data="arrayData" configuration="objectWithColumnsAndSelection" selected-values="arr"></gumga-list>'),
+  simpleWithConfigThatHasSelection      = angular.element('<gumga-list data="arrayData" configuration="objectWithColumnsAndSelection" ></gumga-list>'),
   simpleWithConfigThatHasSortDefault    = angular.element('<gumga-list data="arrayData" configuration="objectWithColumnsAndSortDefault"></gumga-list>'),
   simpleWithConfigThatHasConditional    = angular.element('<gumga-list data="arrayData" configuration="objectWithColumnsAndConditional"></gumga-list>'),
-  simpleWithConfigThatHasColumnsConfig  = angular.element('<gumga-list data="arrayData" configuration="objectWithColumnsAndColumnsConfig"></gumga-list>')
+  simpleWithConfigThatHasColumnsConfig  = angular.element('<gumga-list data="arrayData" configuration="objectWithColumnsAndColumnsConfig" selected-values="arr"></gumga-list>')
 
   const errorMessages = {
     noData: 'O componente gumgaList necessita de um atributo data, que irá conter os dados que serão visualizados.',
@@ -40,7 +40,7 @@ describe('COMPONENTE: GumgaList', () => {
       scope.objectWithColumnsAndSelectionSingle = { columns: 'name, age', selection: 'single' },
       scope.objectWithColumnsAndSortDefault     = { columns: 'name, age', sortDefault: 'name' },
       scope.objectWithColumnsAndConditional     = { columns: 'name, age', conditional: angular.noop },
-      scope.objectWithColumnsAndColumnsConfig   = { columns: 'name, age', columnsConfig: columns }
+      scope.objectWithColumnsAndColumnsConfig   = { columns: 'name, age', columnsConfig: columns , selection: 'multi'}
       scope.sort          = angular.noop
       scope.onClick       = angular.noop
       scope.onDoubleClick = angular.noop
@@ -261,17 +261,14 @@ describe('COMPONENTE: GumgaList', () => {
       expect(controller.selectedMap['0']).toEqual({ checkbox: true, value: { name: 'Igor', age: 20} })
       expect(controller.selectedMap['1']).toEqual({ checkbox: false, value: { name: 'Juca', age: 122} })
       expect(controller.selectedValues).toEqual([{ name: 'Igor', age: 20}])
-      expect(scope.selectedValues).toEqual([{ name: 'Igor', age: 20}])
       controller.select(1, undefined)
       expect(controller.selectedMap['0']).toEqual({ checkbox: true, value: { name: 'Igor', age: 20} })
       expect(controller.selectedMap['1']).toEqual({ checkbox: true, value: { name: 'Juca', age: 122} })
       expect(controller.selectedValues).toEqual([{ name: 'Igor', age: 20}, { name: 'Juca', age: 122}])
-      expect(scope.selectedValues).toEqual([{ name: 'Igor', age: 20}, { name: 'Juca', age: 122}])
       controller.select(0, undefined)
       expect(controller.selectedMap['0']).toEqual({ checkbox: false, value: { name: 'Igor', age: 20} })
       expect(controller.selectedMap['1']).toEqual({ checkbox: true, value: { name: 'Juca', age: 122} })
       expect(controller.selectedValues).toEqual([{ name: 'Juca', age: 122}])
-      expect(scope.selectedValues).toEqual([{ name: 'Juca', age: 122}])
       controller.select(1, undefined)
       expect(controller.selectedMap['0']).toEqual({ checkbox: false, value: { name: 'Igor', age: 20} })
       expect(controller.selectedMap['1']).toEqual({ checkbox: false, value: { name: 'Juca', age: 122} })
@@ -313,8 +310,8 @@ describe('COMPONENTE: GumgaList', () => {
     })
 
     it('Should change the checkbox value from outside the list', () => {
-      expect(() => $compile(simpleWithConfigThatHasSelection)(scope)).not.toThrow()
-      let controller  = simpleWithConfigThatHasSelection.controller('gumgaList')
+      expect(() => $compile(simpleWithConfigThatHasColumnsConfig)(scope)).not.toThrow()
+      let controller  = simpleWithConfigThatHasColumnsConfig.controller('gumgaList')
       scope.$apply()
       expect(controller.selectedMap['0']).toEqual({ checkbox: false, value: { name: 'Igor', age: 20} })
       expect(controller.selectedMap['1']).toEqual({ checkbox: false, value: { name: 'Juca', age: 122} })

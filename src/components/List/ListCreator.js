@@ -59,7 +59,7 @@ function ListCreator(){
           </thead>
           <tbody>
           <tr ng-style="{ 'border-left': {{ ctrl.conditional($value) }} }" ng-dblclick="ctrl.doubleClick($value)" ng-class="ctrl.selectedMap[$index].checkbox ? 'active active-list' : ''"
-              ng-repeat="$value in ctrl.data track by $index" ng-click="ctrl.select($index,$event,'${config.selection}')">
+              ng-repeat="$value in ctrl.data track by $index" ng-click="ctrl.select($index,$event)">
               ${generateBody(config.columnsConfig)}
             </tr>
           </tbody>

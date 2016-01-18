@@ -17,7 +17,7 @@
 					</ul>
 				</span>
 			</span>
-				<input type="text" ng-model="searchInputText" class="form-control" ng-disabled="isPanelOpen" id="textMain"/>
+				<input type="text" ng-model="searchInputText" class="form-control" ng-disabled="isPanelOpen" id="textMain" ng-keyup="doSearch(searchInputText, $event)"/>
 				<span class="input-group-btn">
           <button class="my-button btn-default" type="button" ng-click="littlePanelAppears = !littlePanelAppears">
 						<span class="glyphicon glyphicon-chevron-down"></span>
@@ -79,7 +79,7 @@
 				<div class="panel-body">
 					<div class="row">
 						<div class="col-md-10">
-     					<gumga-advanced-label ng-repeat="query in queries" attr="{{query.attribute.name}}" translate="{{query.attribute.translate | gumgaTranslate:translate}}" hql="{{query.hql.label}}" value="query.value" index="$index" style="margin-right: 1%">
+     					<gumga-advanced-label ng-repeat="query in queries" attr="{{query.attribute.name}}" translate="{{translate}}" hql="{{query.hql.label}}" value="query.value" index="$index" style="margin-right: 1%">
      					</gumga-advanced-label>
 						</div>
 						<div class="col-md-2">
@@ -141,15 +141,15 @@
 
 			scope.normalFields = scope.$parent.normalFields.map(function(elm,$index){
 				let isAtributeSelected = false;
-				scope.attributes.forEach(function(field){
-					if(field.selected) isAtributeSelected = true;
-				});
-				if(!isAtributeSelected){
-						scope.models[elm] = false;
-						if($index == 0) scope.models[elm] = true;
-				}else{
-						scope.models[elm] = scope.attributes[$index].selected || false;
-				}
+	       scope.attributes.forEach(function(field){
+          if(field.selected) isAtributeSelected = true;
+	       });
+	       if(!isAtributeSelected){
+	         scope.models[elm] = false;
+	         if($index == 0) scope.models[elm] = true;
+	       }else{
+         	scope.models[elm] = scope.attributes[$index].selected || false;
+	       }
 				return {
 					name: elm.slice(0,1).toUpperCase() + elm.slice(1,elm.length).toLowerCase(),
 					value: elm
@@ -230,7 +230,7 @@
 				if(scope.queries.length === 0){
 					scope.queries.push(query);
 				} else if(scope.queries.length >= 1){
-					scope.queries.splice(scope.queries.length,1,{value: 'AND'},query);
+					scope.queries.splice(scope.queries.length,1,{value: 'E'},query);
 				}
 				scope.query = {};
 				scope.typeInput = 'text';
@@ -251,8 +251,9 @@
 				scope.$emit('advanced',{hql: GumgaSearchHelper.translateArrayToHQL(array),source: array});
 			};
 
-			scope.doSearch = function(txt){
-				scope.$emit('normal',{field: scope.models.returnString(),param:txt || ''});
+			scope.doSearch = function(txt, ev){
+				if(!ev) scope.$emit('normal',{field: scope.models.returnString(), param:txt || ''});
+				if(ev && ev.keyCode == 13) scope.$emit('normal',{field: scope.models.returnString(), param:txt || ''});
 			};
 
 			scope.attributes.forEach((value) => {
