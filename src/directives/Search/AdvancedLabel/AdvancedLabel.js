@@ -5,7 +5,7 @@
 	function AdvancedLabel(){
 		var template =
 		'<div class="btn-group">' +
-		'   <button class="btn btn-default btn-xs" ng-disabled="disabled" id="btn{{attr}}" ng-click="orOrAnd(value)"><strong>{{label}}</strong> {{hql}} <strong>{{value}}</strong></button>' +
+		'   <button class="btn btn-default btn-xs" ng-disabled="disabled" id="btn{{attr}}" ng-click="orOrAnd(value)"><strong gumga-translate-tag="{{label.concat(\'.\').concat(attr)}}"></strong> {{hql}} <strong>{{value}}</strong></button>' +
 		'   <button class="btn btn-default btn-xs" ng-disabled="disabled" ng-click="emitDelete()" ng-if="getVisibility(value)"><span aria-hidden="true">&times;</span></button>' +
 		'</div>';
 
@@ -23,6 +23,7 @@
 			link: function(scope,$elm,$attrs){
 				if(!$attrs.disabled) scope.disabled = false;
 				scope.bol = false;
+				
 
 				scope.orOrAnd = function(){
 					if(typeof scope.value === 'string' && scope.value.toUpperCase() === 'OR' && !scope.hql){

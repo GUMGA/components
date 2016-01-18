@@ -118,7 +118,9 @@
         let selected  = Object.keys(ctrl.selectedMap)
                           .filter(val => ctrl.selectedMap[val].checkbox)
                           .map(val => ctrl.selectedMap[val].value)
-        $scope.$parent.selectedValues = selected
+        if(!$attrs.selectedValues){
+          $scope.$parent.selectedValues = selected
+        }
         ctrl.selectedValues           = selected
       }
 
@@ -170,13 +172,13 @@
       }
 
       function select(index, event = { target: {} }){
-        ctrl.onClick({ $value: ctrl.selectedMap[index].value })
         if(event.target.name == '$checkbox' && ctrl.config.selection == 'single') uncheckSelectedMap()
         if(event.target.name == '$checkbox' && ctrl.config.selection == 'multi') ctrl.selectedMap[index].checkbox = !ctrl.selectedMap[index].checkbox
         if(ctrl.checkAll) ctrl.checkAll = false
         if(ctrl.config.selection == 'single' && !ctrl.selectedMap[index].checkbox) uncheckSelectedMap()
         ctrl.selectedMap[index].checkbox = !ctrl.selectedMap[index].checkbox
         updateSelectedValues()
+        ctrl.onClick({ $value : ctrl.selectedMap[index].value})
       }
 
       function selectAll(boolean){
