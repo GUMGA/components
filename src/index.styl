@@ -777,8 +777,6 @@ html,body
 .navbar-gumga .notification > ul
   overflow-y auto
   max-height 160px
-// .navbar-gumga .dropdown-menu li.read
-//   background-color #f9f9f9
 
 .navbar-gumga .notification li.read p
   font-size 0.8em
@@ -851,3 +849,28 @@ html,body
 .th-sort
   &:hover
     cursor pointer
+
+.table>tbody>tr.active.active-list>td
+  background-color #E0E0E0
+
+@media screen and (min-width: 767px) {
+  .table-responsive > .table > thead > tr > th,
+  .table-responsive > .table > tbody > tr > th,
+  .table-responsive > .table > tfoot > tr > th,
+  .table-responsive > .table > thead > tr > td,
+  .table-responsive > .table > tbody > tr > td,
+  .table-responsive > .table > tfoot > tr > td {
+      white-space: normal !important;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .table-responsive > .table > thead > tr > th,
+  .table-responsive > .table > tbody > tr > th,
+  .table-responsive > .table > tfoot > tr > th,
+  .table-responsive > .table > thead > tr > td,
+  .table-responsive > .table > tbody > tr > td,
+  .table-responsive > .table > tfoot > tr > td {
+      white-space: nowrap !important;
+  }
+}

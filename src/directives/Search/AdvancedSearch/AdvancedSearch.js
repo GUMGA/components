@@ -140,8 +140,16 @@
 
 
 			scope.normalFields = scope.$parent.normalFields.map(function(elm,$index){
-				scope.models[elm] = false;
-				$index == 0 && (scope.models[elm] = true);
+				let isAtributeSelected = false;
+				scope.attributes.forEach(function(field){
+					if(field.selected) isAtributeSelected = true;
+				});
+				if(!isAtributeSelected){
+						scope.models[elm] = false;
+						if($index == 0) scope.models[elm] = true;
+				}else{
+						scope.models[elm] = scope.attributes[$index].selected || false;
+				}
 				return {
 					name: elm.slice(0,1).toUpperCase() + elm.slice(1,elm.length).toLowerCase(),
 					value: elm

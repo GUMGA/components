@@ -18,7 +18,6 @@
 		'gumga.directives.upload',
 		'gumga.directives.form',
 		'gumga.directives.mask',
-		'gumga.directives.list',
 		'gumga.directives.translate',
 		'gumga.directives.customfields',
 		'gumga.directives.filter',
