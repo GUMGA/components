@@ -14,13 +14,14 @@
 						gumgaFormController	=	controllers[1],
 						error								=	'maxnumber',
 						name								=	attrs.name,
+						field      = attrs.field,
 						limitValue					= parseInt(attrs.gumgaMaxNumber);
 
 				function validateMaxNumber(inputValue) {
 					if(inputValue){
 						let isValid = parseInt(inputValue) <= limitValue;
 						ngModelController.$setValidity(error, isValid);
-						gumgaFormController.changeStateOfInput(name, error, isValid, limitValue);
+						gumgaFormController.changeStateOfInput(name, error, isValid, limitValue, field);
 					}
 					return inputValue;
 				}

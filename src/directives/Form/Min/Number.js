@@ -14,13 +14,14 @@
 						gumgaFormController	=	controllers[1],
 						error								=	'minnumber',
 						name								=	attrs.name,
+						field      					= attrs.field,
 						limitValue					= parseInt(attrs.gumgaMinNumber);
 
 				function validateMinNumber(inputValue) {
 					if(inputValue){
 						let isValid = parseInt(inputValue) >= limitValue;
 						ngModelController.$setValidity(error, isValid);
-						gumgaFormController.changeStateOfInput(name, error, isValid, limitValue);
+						gumgaFormController.changeStateOfInput(name, error, isValid, limitValue,field);
 					}
 					return inputValue;
 				}

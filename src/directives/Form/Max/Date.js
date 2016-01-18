@@ -16,6 +16,7 @@
 						error								=	'maxdate',
 						format							= 'yyyy-MM-dd',
 						name								=	attrs.name,
+						field      					= attrs.field,
 						limitValue					= attrs.gumgaMaxDate;
 
 				function validateMaxDate(inputValue) {
@@ -24,7 +25,7 @@
 						max 				= $filter('date')(limitValue, format),
 						isValid 		= input <= max;
 						ngModelController.$setValidity(error, isValid);
-						gumgaFormController.changeStateOfInput(name, error, isValid, limitValue);
+						gumgaFormController.changeStateOfInput(name, error, isValid, limitValue, field);
 					}
 					return inputValue;
 				};

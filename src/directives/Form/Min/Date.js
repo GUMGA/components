@@ -16,6 +16,7 @@
 						error								=	'mindate',
 						format							= 'yyyy-MM-dd',
 						name								=	attrs.name,
+						field      					= attrs.field,
 						limitValue					= attrs.gumgaMinDate;
 
 				function validateMinDate(inputValue) {
@@ -24,7 +25,7 @@
 						min 				= $filter('date')(limitValue, format),
 						isValid 		= (input >= min);
 						ngModelController.$setValidity(error, isValid);
-						gumgaFormController.changeStateOfInput(name, error, isValid, limitValue);
+						gumgaFormController.changeStateOfInput(name, error, isValid, limitValue,field);
 					}
 					return inputValue;
 				};
