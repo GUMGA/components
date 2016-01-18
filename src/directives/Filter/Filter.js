@@ -10,57 +10,74 @@
         <span class="caret"></span>
       </button>
       <div style="position: relative; width: auto;" ng-show="showFilter">
-        <div id="gumga-filter" class="panel panel-default" style="min-width: 500px; position: absolute; z-index: 1000">
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-md-3" style="padding-right: 0; width: auto;">
-                <div class="btn-group btn-block" dropdown is-open="attributes.isopen">
-                  <button type="button" class="btn btn-default" dropdown-toggle ng-disabled="hqlOpts.isopen">
-                    <span ng-show="query.attribute">
-                    {{query.attribute.translate | gumgaTranslate:entityToTranslate}}
+        <form class="form-inline">
+          <div id="gumga-filter" class="panel panel-default" style="min-width: 500px; position: absolute; z-index: 1000">
+            <div class="panel-body">
+              <div class="row">
+                <!--<div class="col-md-3" style="padding-right: 0; width: auto;">-->
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <div class="btn-group btn-block" dropdown is-open="attributes.isopen">
+                      <button type="button" class="btn btn-default" dropdown-toggle ng-disabled="hqlOpts.isopen">
+                        <span ng-show="query.attribute">
+                        {{query.attribute.translate | gumgaTranslate:entityToTranslate}}
+                        </span>
+                        <span ng-show="!query.attribute">
+                        Atributos
+                        </span>
+                        <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu" role="menu">
+                        <li ng-repeat="attr in attributes" ng-click="attributeHasChanged(attr)">
+                          <a gumga-translate-tag="{{entityToTranslate.concat('.').concat(attr.translate)}}"></a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <!--<div class="col-md-3" style="padding-left: 1%;width: auto;padding-right: 0.5%;">-->
+                  <div class="form-group">
+                    <div class="btn-group btn-block" dropdown is-open="hqlOpts.isopen">
+                      <button type="button" class="btn btn-block btn-default" dropdown-toggle style="width: auto;" ng-disabled="!query.attribute || attributes.isopen"></span> <span ng-bind="query.hql.label || 'Condição'"></span> <span class="caret"></span></button>
+                      <ul class="dropdown-menu" role="menu">
+                        <li ng-repeat="opt in hqlOpts" ng-click="handleHqlOption(opt)"><a ng-bind="opt.label"></a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <!--<div class="col-md-3" style="width: auto;padding-left: 0;padding-right: 0;">-->
+                  <div class="form-group">
+                    <div class="radio">
+                      <label ng-show="typeInput == 'boolean' && boolean.trueValue">
+                        <input type="radio" ng-model="query.value" ng-value="'true'" ng-show="boolean.trueValue"> {{boolean.trueValue}}
+                      </label>
+                      <label ng-show="typeInput == 'boolean' && boolean.falseValue">
+                        <input type="radio" ng-model="query.value" ng-value="'false'" ng-show="boolean.falseValue"> {{boolean.falseValue}}
+                      </label>
+                    </div>
+                    <span ng-show="typeInput == 'boolean' && !boolean.trueValue && !boolean.falseValue">
+                      <button ng-show="typeInput == 'boolean'" type="button" class="btn btn-block btn-default" ng-model="query.value" btn-checkbox btn-checkbox-true="'true'" btn-checkbox-false="'false'">
+                        <span ng-class="{'glyphicon glyphicon-ok': query.value == 'true', 'glyphicon glyphicon-remove': query.value == 'false'}"></span>
+                      </button>
                     </span>
-                    <span ng-show="!query.attribute">
-                    Atributos
-                    </span>
-                    <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu" role="menu">
-                    <li ng-repeat="attr in attributes" ng-click="attributeHasChanged(attr)">
-                      <a gumga-translate-tag="{{entityToTranslate.concat('.').concat(attr.translate)}}"></a>
-                    </li>
-                  </ul>
+                    <input ng-show="typeInput == 'string'" type="text" ng-model="query.value" class="form-control" ng-keyup="canISend($event)"/>
+                    <select ng-show="typeInput == 'array'"  class="form-control" ng-model="query.value" ng-options="item for item in query.attribute.data"></select>
+                  </div>
+                  <!--<div class="col-md-3" style="width: auto;">-->
+                  <div class="form-group">
+                    <button type="button" name="button" class="btn btn-block btn-default" ng-click="addQuery(query)" ng-disabled="!query.value || !query.hql || !query.attribute">
+                      <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                  </div>
                 </div>
               </div>
-              <div class="col-md-3" style="padding-left: 1%;width: auto;padding-right: 0.5%;">
-                <div class="btn-group btn-block" dropdown is-open="hqlOpts.isopen">
-                  <button type="button" class="btn btn-block btn-default" dropdown-toggle style="width: auto;" ng-disabled="!query.attribute || attributes.isopen"></span> <span ng-bind="query.hql.label || 'Condição'"></span> <span class="caret"></span></button>
-                  <ul class="dropdown-menu" role="menu">
-                    <li ng-repeat="opt in hqlOpts" ng-click="handleHqlOption(opt)"><a ng-bind="opt.label"></a></li>
-                  </ul>
+              <div class="row" ng-if="queries.length > 0">
+                <hr />
+                <div class="col-md-12">
+                  <gumga-advanced-label ng-repeat="query in queries" attr="{{query.attribute.name}}" translate="{{query.attribute.translate | gumgaTranslate:entityToTranslate}}" hql="{{query.hql.label}}" value="query.value" index="$index" style="margin-right: 1%;margin-top: 1%"></gumga-advanced-label>
                 </div>
-              </div>
-              <div class="col-md-3" style="width: auto;padding-left: 0;padding-right: 0;">
-                <button ng-show="typeInput == 'boolean'" type="button" class="btn btn-block btn-default" ng-model="query.value" btn-checkbox btn-checkbox-true="'true'" btn-checkbox-false="'false'">
-                  <span ng-class="{'glyphicon glyphicon-ok': query.value == 'true', 'glyphicon glyphicon-remove': query.value == 'false'}"></span>
-                </button>
-                <input ng-show="typeInput == 'string'" type="text" ng-model="query.value" class="form-control" ng-keyup="canISend($event)"/>
-                <select ng-show="typeInput == 'array'"  class="form-control" ng-model="query.value" ng-options="item for item in query.attribute.data">
-    						</select>
-              </div>
-              <div class="col-md-3" style="width: auto;">
-                <button type="button" name="button" class="btn btn-block btn-default" ng-click="addQuery(query)" ng-disabled="!query.value || !query.hql || !query.attribute">
-                  <span class="glyphicon glyphicon-plus"></span>
-                </button>
-              </div>
-            </div>
-            <div class="row" ng-if="queries.length > 0">
-              <hr />
-              <div class="col-md-12">
-                <gumga-advanced-label ng-repeat="query in queries" attr="{{query.attribute.name}}" translate="{{query.attribute.translate | gumgaTranslate:entityToTranslate}}" hql="{{query.hql.label}}" value="query.value" index="$index" style="margin-right: 1%;margin-top: 1%"></gumga-advanced-label>
               </div>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     <div>
     `;
@@ -92,10 +109,25 @@
                   type: cloneEl.getAttribute('type'),
                   translate: cloneEl.getAttribute('translate') || cloneEl.getAttribute('name')
                 }
-                if(cloneEl.getAttribute('type').trim().toLowerCase() == 'array'){
-                  attribute.data = scope.$parent[cloneEl.getAttribute('data')] || [];
-                  attribute.arrayItemContent	= cloneEl.getAttribute('array-item-content');
+                // switch (cloneEl.getAttribute('type').trim().toLowerCase()) {
+                switch (attribute.type) {
+                  case 'array': {
+                    attribute.data = scope.$parent[cloneEl.getAttribute('data')] || [];
+                    attribute.arrayItemContent = cloneEl.getAttribute('array-item-content');
+                    break;
+                  }
+                  case 'boolean': {
+                    attribute.boolean = {
+                      trueValue: cloneEl.getAttribute('true-value'),
+                      falseValue: cloneEl.getAttribute('false-value')
+                    };
+                    break;
+                  }
                 }
+                // if(cloneEl.getAttribute('type').trim().toLowerCase() == 'array'){
+                //   attribute.data = scope.$parent[cloneEl.getAttribute('data')] || [];
+                //   attribute.arrayItemContent	= cloneEl.getAttribute('array-item-content');
+                // }
                 scope.attributes.push(attribute);
 							}
 						});
@@ -106,11 +138,14 @@
         scope.attributeHasChanged = (attribute) => {
           scope.query.value = null;
 					scope.query.attribute = attribute;
+          scope.boolean = attribute.boolean;
           if (attribute.type == 'boolean') scope.query.value = 'false';
           scope.typeInput = attribute.type;
 					scope.hqlOpts = GumgaSearchHelper.getTypeListOfHQLPossibilities(attribute.type);
-					scope.selectHQL = true ;
+					scope.selectHQL = true;
 					scope.selectAttribute = false;
+          console.log(attribute);
+          console.log(scope.typeInput);
 				};
 
         scope.handleHqlOption = (hq) => {
