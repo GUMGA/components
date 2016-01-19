@@ -59,6 +59,7 @@
 									let attribute = {
 										name: cloneEl.getAttribute('name'),
 										type: cloneEl.getAttribute('type'),
+										selected: cloneEl.getAttribute('selected') == 'true' ? true : false,
 										translate: cloneEl.getAttribute('translate') || cloneEl.getAttribute('name')
 									}
 									if(cloneEl.getAttribute('type').trim().toLowerCase() == 'array'){

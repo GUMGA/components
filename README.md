@@ -36,7 +36,7 @@ A documentação dos componentes pode ser visualizada diretamente na pasta dos c
 - [Required](src/directives/Form/Required)
 - [Validate](src/directives/Form/Validate)
 - [FormButtons](src/directives/FormButtons)
-- [List](src/directives/List)
+- [List](src/components/List)
 - [Login](src/directives/Login)
 - [ManyToMany](src/directives/ManyToMany)
 - [ManyToOne](src/directives/ManyToOne)
