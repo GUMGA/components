@@ -23,7 +23,7 @@ describe('Gumga.core:directives:MaxDate', () => {
 		spyOn(controller,'changeStateOfInput');
 		scope.Teste.nascimento.$setViewValue('1980-10-09');
 		expect(filter('date')(scope.pessoa.nascimento, 'yyyy-MM-dd')).toEqual('1980-10-09');
-		expect(controller.changeStateOfInput).toHaveBeenCalledWith('nascimento', 'maxdate', true, '1980-10-10');
+		expect(controller.changeStateOfInput).toHaveBeenCalledWith('nascimento', 'maxdate', true, '1980-10-10', undefined);
 		expect(scope.Teste.nascimento.$valid).toBe(true);
 		expect(scope.Teste.nascimento.$invalid).toBe(false);
 	});
@@ -32,7 +32,7 @@ describe('Gumga.core:directives:MaxDate', () => {
 		spyOn(controller,'changeStateOfInput');
 		scope.Teste.nascimento.$setViewValue('1980-10-11');
 		expect(filter('date')(scope.pessoa.nascimento, 'yyyy-MM-dd')).toEqual('1980-10-11');
-		expect(controller.changeStateOfInput).toHaveBeenCalledWith('nascimento', 'maxdate', false, '1980-10-10');
+		expect(controller.changeStateOfInput).toHaveBeenCalledWith('nascimento', 'maxdate', false, '1980-10-10', undefined);
 		expect(scope.Teste.nascimento.$valid).toBe(false);
 		expect(scope.Teste.nascimento.$invalid).toBe(true);
 	});

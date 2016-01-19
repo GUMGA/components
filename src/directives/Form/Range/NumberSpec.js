@@ -22,7 +22,7 @@ describe('Gumga.core:directives:RangeNumber', function() {
     spyOn(controller,'changeStateOfInput');
 		scope.Teste.idade.$setViewValue(20);
 		expect(scope.pessoa.idade).toEqual(20);
-		expect(controller.changeStateOfInput).toHaveBeenCalledWith('idade', 'rangenumber', true, '{min: 18, max: 60}');
+		expect(controller.changeStateOfInput).toHaveBeenCalledWith('idade', 'rangenumber', true, '{min: 18, max: 60}', undefined);
 		expect(scope.Teste.idade.$valid).toBe(true);
 		expect(scope.Teste.idade.$invalid).toBe(false);
 	});
@@ -30,7 +30,7 @@ describe('Gumga.core:directives:RangeNumber', function() {
     spyOn(controller,'changeStateOfInput');
     scope.Teste.idade.$setViewValue(10);
     expect(scope.pessoa.idade).toEqual(10);
-    expect(controller.changeStateOfInput).toHaveBeenCalledWith('idade', 'rangenumber', false,  '{min: 18, max: 60}');
+    expect(controller.changeStateOfInput).toHaveBeenCalledWith('idade', 'rangenumber', false,  '{min: 18, max: 60}', undefined);
     expect(scope.Teste.idade.$valid).toBe(false);
     expect(scope.Teste.idade.$invalid).toBe(true);
 	});

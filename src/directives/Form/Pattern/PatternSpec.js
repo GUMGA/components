@@ -22,7 +22,7 @@ describe('Gumga.core:directives:Pattern', function() {
     spyOn(controller,'changeStateOfInput');
     scope.Teste.nascimento.$setViewValue('16/10/1986');
     expect(scope.pessoa.nascimento).toEqual('16/10/1986');
-    expect(controller.changeStateOfInput).toHaveBeenCalledWith('nascimento', 'pattern', true, '[0-9]{2}/[0-9]{2}/[0-9]{4}');
+    expect(controller.changeStateOfInput).toHaveBeenCalledWith('nascimento', 'pattern', true, '[0-9]{2}/[0-9]{2}/[0-9]{4}',undefined);
     expect(scope.Teste.nascimento.$valid).toBe(true);
     expect(scope.Teste.nascimento.$invalid).toBe(false);
 
@@ -31,7 +31,7 @@ describe('Gumga.core:directives:Pattern', function() {
     spyOn(controller,'changeStateOfInput');
     scope.Teste.nascimento.$setViewValue('1986-12-29');
     expect(scope.pessoa.nascimento).toEqual('1986-12-29');
-    expect(controller.changeStateOfInput).toHaveBeenCalledWith('nascimento', 'pattern', false, '[0-9]{2}/[0-9]{2}/[0-9]{4}');
+    expect(controller.changeStateOfInput).toHaveBeenCalledWith('nascimento', 'pattern', false, '[0-9]{2}/[0-9]{2}/[0-9]{4}',undefined);
     expect(scope.Teste.nascimento.$valid).toBe(false);
     expect(scope.Teste.nascimento.$invalid).toBe(true);
   });
