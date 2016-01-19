@@ -22,7 +22,7 @@ describe('Gumga.core:directives:RangeDate', function() {
     spyOn(controller,'changeStateOfInput');
 		scope.Teste.nascimento.$setViewValue('1980-10-09');
 		expect(filter('date')(scope.pessoa.nascimento, 'yyyy-MM-dd')).toEqual('1980-10-09');
-		expect(controller.changeStateOfInput).toHaveBeenCalledWith('nascimento', 'rangedate', false, '{min: \'1986-12-29\', max: \'2015-07-20\'}');
+		expect(controller.changeStateOfInput).toHaveBeenCalledWith('nascimento', 'rangedate', false, '{min: \'1986-12-29\', max: \'2015-07-20\'}', undefined);
 		expect(scope.Teste.nascimento.$valid).toBe(false);
 		expect(scope.Teste.nascimento.$invalid).toBe(true);
 	});
@@ -30,7 +30,7 @@ describe('Gumga.core:directives:RangeDate', function() {
     spyOn(controller,'changeStateOfInput');
     scope.Teste.nascimento.$setViewValue('1986-12-30');
     expect(filter('date')(scope.pessoa.nascimento, 'yyyy-MM-dd')).toEqual('1986-12-30');
-    expect(controller.changeStateOfInput).toHaveBeenCalledWith('nascimento', 'rangedate', true, '{min: \'1986-12-29\', max: \'2015-07-20\'}');
+    expect(controller.changeStateOfInput).toHaveBeenCalledWith('nascimento', 'rangedate', true, '{min: \'1986-12-29\', max: \'2015-07-20\'}', undefined);
     expect(scope.Teste.nascimento.$valid).toBe(true);
     expect(scope.Teste.nascimento.$invalid).toBe(false);
 	});

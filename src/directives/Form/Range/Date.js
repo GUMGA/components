@@ -11,6 +11,7 @@
 	 			if (!attrs.gumgaRangeDate) throw "O valor da diretiva gumga-range-date não foi informado.";
 
 				let error								= 'rangedate',
+						field      					= attrs.field,
 						name								= attrs.name,
 						format							= 'yyyy-MM-dd',
 						ngModelController		=	controllers[0],
@@ -24,7 +25,7 @@
 						let input 	= $filter('date')(inputValue, format),
 								isValid = input >= min && input <= max;
         		ngModelController.$setValidity(error, isValid);
-						gumgaFormController.changeStateOfInput(name, error, isValid, attrs.gumgaRangeDate);
+						gumgaFormController.changeStateOfInput(name, error, isValid, attrs.gumgaRangeDate,field);
 					}
 
         	return inputValue;

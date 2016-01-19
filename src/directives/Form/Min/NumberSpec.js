@@ -22,7 +22,7 @@ describe('Gumga.core:directives:MaxNumber', () => {
       spyOn(controller,'changeStateOfInput');
       scope.Teste.idade.$setViewValue('8');
       expect(scope.pessoa.idade).toEqual(8);
-      expect(controller.changeStateOfInput).toHaveBeenCalledWith('idade', 'minnumber', false, 10);
+      expect(controller.changeStateOfInput).toHaveBeenCalledWith('idade', 'minnumber', false, 10,undefined);
       expect(scope.Teste.idade.$valid).toBe(false);
       expect(scope.Teste.idade.$invalid).toBe(true);
     });
@@ -30,7 +30,7 @@ describe('Gumga.core:directives:MaxNumber', () => {
       spyOn(controller,'changeStateOfInput');
       scope.Teste.idade.$setViewValue('11');
       expect(scope.pessoa.idade).toEqual(11);
-      expect(controller.changeStateOfInput).toHaveBeenCalledWith('idade', 'minnumber', true, 10);
+      expect(controller.changeStateOfInput).toHaveBeenCalledWith('idade', 'minnumber', true, 10,undefined);
       expect(scope.Teste.idade.$valid).toBe(true);
       expect(scope.Teste.idade.$invalid).toBe(false);
     });
