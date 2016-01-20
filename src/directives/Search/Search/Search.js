@@ -52,6 +52,8 @@
 					scope.adv = true;
 				}
 
+
+
 				scope.getAttributes = function (){
 					transcludeFn(function(clone){
 						angular.forEach(clone,function(cloneEl){
