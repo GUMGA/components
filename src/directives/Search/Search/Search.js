@@ -66,7 +66,7 @@
 									}
 									if(cloneEl.getAttribute('type').trim().toLowerCase() == 'array'){
 										attribute.data = scope.$parent[cloneEl.getAttribute('data')] || [];
-										attribute.arrayItemContent	= clo  neEl.getAttribute('array-item-content');
+										attribute.arrayItemContent	= cloneEl.getAttribute('array-item-content');
 									}
 									scope.attributes.push(attribute);
 							}

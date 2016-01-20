@@ -1,6 +1,7 @@
 (function(){
 	'use strict';
 	FormButtons.$inject = ['$state','$stateParams','$uibModal'];
+
 	function FormButtons($state, $stateParams, $uibModal) {
 		const template = `
 			<div class="row">
@@ -10,10 +11,10 @@
 							<input type="checkbox" id="gumgakeep" name="gumgakeep" ng-model="vm.shouldContinue" ng-true-value="true" ng-false-value="false" />
 							{{::vm.keepInserting}}
 						</label>
-						<button type="button" ng-click="vm.returnClicked()" class="btn btn-default">
+						<button type="button" ng-click="vm.returnClicked()" class="btn btn-default form-buttons-margin" ng-class="vm.reverseOrder ? 'pull-right' : 'pull-left'">
 							{{::vm.returnText}}
 						</button>
-						<button type="button" ng-click="vm.submit()" ng-disabled="!vm.valid" class="btn btn-primary">
+						<button type="button" ng-click="vm.submit()" ng-disabled="!vm.valid" class="btn btn-primary form-buttons-margin" >
 							{{::vm.saveText}}
 							<i class="glyphicon glyphicon-floppy-disk"></i>
 						</button>
@@ -22,12 +23,11 @@
 			</div>
 		`
 
-
 		controller.$inject = ['$scope', '$element', '$attrs'];
 
 		function controller($scope, $element, $attrs) {
 			let vm = this;
-
+			console.log('oi');
 			if(!$attrs.submit) throw 'É necessário passar uma função para submissão de formulário <gumga-form-buttons submit="foo()"></gumga-form-buttons>'
 
 			const modalTemplate= `
@@ -101,7 +101,8 @@
 				submit: '&',
 				valid: '=',
 				continue: '@?',
-				confirmDirty: '@?'
+				confirmDirty: '@?',
+				reverseOrder: '=?'
 			},
 			controller,
 			bindToController: true,
