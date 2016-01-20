@@ -64,9 +64,7 @@
 					this.updateFormErrors(inputName, validationType, inputIsValid, message);
 
 					$scope.$broadcast('form-changed');
-
 					$scope.$broadcast(`${inputName}-${inputIsValid ? '' : 'in'}valid`, objectSentToGumgaError);
-					
 					return this;
 				}
 
