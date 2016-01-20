@@ -52,6 +52,8 @@
 					scope.adv = true;
 				}
 
+
+
 				scope.getAttributes = function (){
 					transcludeFn(function(clone){
 						angular.forEach(clone,function(cloneEl){
@@ -64,7 +66,7 @@
 									}
 									if(cloneEl.getAttribute('type').trim().toLowerCase() == 'array'){
 										attribute.data = scope.$parent[cloneEl.getAttribute('data')] || [];
-										attribute.arrayItemContent	= cloneEl.getAttribute('array-item-content');
+										attribute.arrayItemContent	= clo  neEl.getAttribute('array-item-content');
 									}
 									scope.attributes.push(attribute);
 							}
