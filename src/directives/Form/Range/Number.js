@@ -13,6 +13,7 @@
 						ngModel		=	controllers[0],
 						gumgaForm	=	controllers[1],
 						range 		= scope.$eval(attrs.gumgaRangeNumber),
+						field      					= attrs.field,
 						name			=	attrs.name;
 
 	 			function validateRangeNumber(inputValue) {
@@ -20,7 +21,7 @@
 						let input 	= parseInt(inputValue),
 								isValid = input >= range.min && input <= range.max;
 						ngModel.$setValidity(error, isValid);
-						gumgaForm.changeStateOfInput(name, error, isValid, attrs.gumgaRangeNumber);
+						gumgaForm.changeStateOfInput(name, error, isValid, attrs.gumgaRangeNumber,field);
 					}
 	 				return inputValue;
 	 			};

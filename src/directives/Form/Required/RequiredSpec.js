@@ -23,7 +23,7 @@ describe('Gumga.core:directives:Required', () => {
     spyOn(controller,'changeStateOfInput');
     scope.Teste.nome.$setViewValue('texto');
     expect(scope.pessoa.nome).toEqual('texto');
-    expect(controller.changeStateOfInput).toHaveBeenCalledWith('nome', 'required', true,null);
+    expect(controller.changeStateOfInput).toHaveBeenCalledWith('nome', 'required', true, null, undefined);
     expect(scope.Teste.nome.$valid).toBe(true);
     expect(scope.Teste.nome.$invalid).toBe(false);
 
@@ -32,7 +32,7 @@ describe('Gumga.core:directives:Required', () => {
     spyOn(controller,'changeStateOfInput');
     scope.Teste.nome.$setViewValue('');
     expect(scope.pessoa.nome).toEqual('');
-    expect(controller.changeStateOfInput).toHaveBeenCalledWith('nome', 'required', false,null);
+    expect(controller.changeStateOfInput).toHaveBeenCalledWith('nome', 'required', false, null, undefined);
     expect(scope.Teste.nome.$valid).toBe(false);
     expect(scope.Teste.nome.$invalid).toBe(true);
   });

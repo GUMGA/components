@@ -23,7 +23,7 @@ describe('Gumga.core:directives:MaxLength', () => {
       spyOn(controller,'changeStateOfInput');
       scope.Teste.nome.$setViewValue('Guilherme');
       expect(scope.pessoa.nome).toEqual('Guilherme');
-      expect(controller.changeStateOfInput).toHaveBeenCalledWith('nome', 'maxlength', true, 10);
+      expect(controller.changeStateOfInput).toHaveBeenCalledWith('nome', 'maxlength', true, 10, undefined);
       expect(scope.Teste.nome.$valid).toBe(true);
       expect(scope.Teste.nome.$invalid).toBe(false);
     });
@@ -32,7 +32,7 @@ describe('Gumga.core:directives:MaxLength', () => {
     	spyOn(controller,'changeStateOfInput');
       scope.Teste.nome.$setViewValue('Guilherme Siquinelli');
       expect(scope.pessoa.nome).toEqual('Guilherme Siquinelli');
-      expect(controller.changeStateOfInput).toHaveBeenCalledWith('nome', 'maxlength', false, 10);
+      expect(controller.changeStateOfInput).toHaveBeenCalledWith('nome', 'maxlength', false, 10, undefined);
       expect(scope.Teste.nome.$valid).toBe(false);
       expect(scope.Teste.nome.$invalid).toBe(true);
     });

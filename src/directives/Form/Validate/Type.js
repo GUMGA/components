@@ -12,6 +12,7 @@
 						error			=	'validatetype',
 						ngModel		=	controllers[0],
 						gumgaForm	=	controllers[1],
+            field               = attrs.field,
 						name			=	attrs.name;
 
 
@@ -32,7 +33,7 @@
 					if(inputValue){
 	        	let isValid = elm[0].validity.valid;
 	        	ngModel.$setValidity(error, isValid);
-						gumgaForm.changeStateOfInput(name, error, isValid, type);
+						gumgaForm.changeStateOfInput(name, error, isValid, type, field);
 					}
         	return inputValue;
         };

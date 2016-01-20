@@ -94,20 +94,20 @@ describe("DIRECTIVE: GumgaForm",function(){
           err2  = 'É necessário passar um valor válido como segundo parâmetro [changeStateOfInput(inputName, validationType, inputIsValid, value)]',
           err3  = 'É necessário passar um booleano como terceiro parâmetro [changeStateOfInput(inputName, validationType, inputIsValid, value)]';
 
-      expect(x => controller.changeStateOfInput(undefined,'maxdate',true, 10)).toThrow(err1);
-      expect(x => controller.changeStateOfInput('name',undefined,true, 10)).toThrow(err2);
-      expect(x => controller.changeStateOfInput('name','maxdate',undefined, 10)).toThrow(err3);
+      expect(x => controller.changeStateOfInput(undefined,'maxdate',true, 10, null)).toThrow(err1);
+      expect(x => controller.changeStateOfInput('name',undefined,true, 10, null)).toThrow(err2);
+      expect(x => controller.changeStateOfInput('name','maxdate',undefined, 10, null)).toThrow(err3);
 
     })
 
     it('Should emit the events right', () => {
       spyOn(scope, '$broadcast');
-      controller.changeStateOfInput('name','maxlength', false, 10);
+      controller.changeStateOfInput('name','maxlength', false, 10, null);
       expect(scope.$broadcast).toHaveBeenCalledWith('name-invalid', {
         validationType: 'maxlength',
         message: 'O texto especificado no campo name não deve ultrapassar o limite de: 10.'
       });
-      controller.changeStateOfInput('name1','required', false, 10);
+      controller.changeStateOfInput('name1','required', false, 10, null);
       expect(scope.$broadcast).toHaveBeenCalledWith('name1-invalid', {
         validationType: 'required',
         message: 'O campo name1 é obrigatório.'
@@ -117,16 +117,16 @@ describe("DIRECTIVE: GumgaForm",function(){
 
   describe('When i call getFormErrors', () => {
     it('Should return the actual errors', () => {
-      controller.changeStateOfInput('name','maxlength', false, 10);
+      controller.changeStateOfInput('name','maxlength', false, 10,null);
       expect(controller.getFormErrors()).toEqual({name: { maxlength: 'O texto especificado no campo name não deve ultrapassar o limite de: 10.' }});
-      controller.changeStateOfInput('name','required', false);
+      controller.changeStateOfInput('name','required', false,null, null);
       expect(controller.getFormErrors()).toEqual({
         name: {
           maxlength: 'O texto especificado no campo name não deve ultrapassar o limite de: 10.',
           required: 'O campo name é obrigatório.'
         }
       });
-      controller.changeStateOfInput('name','pattern', false, '/g/');
+      controller.changeStateOfInput('name','pattern', false, '/g/', null);
       expect(controller.getFormErrors()).toEqual({
         name: {
           maxlength: 'O texto especificado no campo name não deve ultrapassar o limite de: 10.',
@@ -134,14 +134,14 @@ describe("DIRECTIVE: GumgaForm",function(){
           pattern: 'O texto especificado no campo name deve estar dentro do padrão: /g/.'
         }
       });
-      controller.changeStateOfInput('name','maxlength', true, 10);
+      controller.changeStateOfInput('name','maxlength', true, 10, null);
       expect(controller.getFormErrors()).toEqual({
         name: {
           required: 'O campo name é obrigatório.',
           pattern: 'O texto especificado no campo name deve estar dentro do padrão: /g/.'
         }
       });
-      controller.changeStateOfInput('name','required', true);
+      controller.changeStateOfInput('name','required', true, null, null);
       expect(controller.getFormErrors()).toEqual({
         name: {
           pattern: 'O texto especificado no campo name deve estar dentro do padrão: /g/.'

@@ -9,17 +9,18 @@
       link: function (scope, elm, attrs, controllers) {
         let error     = 'required',
             name      = attrs.name,
+            field      = attrs.field,
             ngModel   = controllers[0],
             gumgaForm = controllers[1];
         (function() {
             let isValid = !!(ngModel.$viewValue && ngModel.$viewValue.length > 0);
-            gumgaForm.changeStateOfInput(name, error, isValid, null);
+            gumgaForm.changeStateOfInput(name, error, isValid, null, field);
             ngModel.$setValidity(error,isValid);
         }());
 
         function validateRequired(inputValue) {
           let isValid = !!(inputValue && inputValue.length > 0);
-          gumgaForm.changeStateOfInput(name, error, isValid, null);
+          gumgaForm.changeStateOfInput(name, error, isValid, null, field);
           ngModel.$setValidity(error,isValid);
           return inputValue;
         };

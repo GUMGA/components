@@ -2,5 +2,12 @@
   "pessoa": {
     "name": "Nome",
     "ativo": "Hadouken"
+  },
+  "changepasswordticket": {
+	"name" : "Nome do Cliente"
+  }
+  ,
+  "mudarKfdsés sadas das": {
+	"teste" : "Isso é um teste fdp"
   }
 }

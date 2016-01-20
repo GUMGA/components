@@ -11,13 +11,14 @@
 						gumgaFormController	=	controllers[1],
 						error								=	'pattern',
 						name								=	attrs.name,
+						field      					= attrs.field,
 						regex								= new RegExp(`^${attrs.gumgaPattern}$`);
 
 				function validatePattern (inputValue) {
 					if(inputValue) {
 						let isValid = regex.test(inputValue);
 						ngModelController.$setValidity(error, isValid);
-						gumgaFormController.changeStateOfInput(name, error, isValid, attrs.gumgaPattern);
+						gumgaFormController.changeStateOfInput(name, error, isValid, attrs.gumgaPattern, field);
 					}
 					return inputValue;
 				};
