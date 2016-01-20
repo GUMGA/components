@@ -177,6 +177,7 @@
 		};
 		methods.sort = function(Scope,Service,Id){
 			Scope[Id.toLowerCase()+'Sort'] = function(field,way){
+				Scope.page = 0;
 				Scope.$broadcast('beforeSort');
 				Service.sort(field,way)
 				.then(function(values){
@@ -244,8 +245,8 @@
 				return configs[name];
 			},
 			setMethod(name,config,fn){
-				if(!!helpers.isString(name)) throw 'O argumento do nome é inválido';
-				if(!!helpers.isString(config)) throw 'O argumento da configuração é inválido';
+				if(!helpers.isString(name)) throw 'O argumento do nome é inválido';
+				if(!helpers.isString(config)) throw 'O argumento da configuração é inválido';
 				configs[config][name] = true;
 				methods[name] = fn;
 			},
