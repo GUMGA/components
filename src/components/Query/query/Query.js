@@ -34,6 +34,8 @@
 
       if(!hasAttr('search')) console.error('É necessário passar uma função para o atributo "search". [search="foo(field, param)"]')
 
+
+
       $transclude((transcludeElement) => {
         [].slice.call(transcludeElement).forEach(value => {
           if(value.nodeName === 'SEARCH-FIELD'){
@@ -43,7 +45,6 @@
                 template  = element.html().trim().length === 0 ? '{{$value}}' : element.html()
 
             if(!field) console.error('É necessário um parâmetro field na tag search-field.[<search-field field="foo"></search-field>]')
-
             ctrl.mapFields[field] = { checkbox, template, field }
           }
 
