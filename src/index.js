@@ -5,5 +5,6 @@ angular.module('gumga.core', [
 	'gumga.tag',
 	'gumga.translate.filter.filter',
 	'gumga.formbuttons',
-	'gumga.list'
+	'gumga.list',
+	'gumga.query'
 ])
