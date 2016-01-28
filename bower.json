@@ -26,13 +26,13 @@
     "docs"
   ],
   "devDependencies": {
-    "angular-mocks": "~1.4.1",
+    "angular-mocks": "1.4.9",
     "bootstrap-stylus": "~4.0.5",
     "angular-animate": "~1.4.3"
   },
   "dependencies": {
     "angular-bootstrap": "~0.14.3",
-    "angular": "~1.4.1",
+    "angular": "1.4.9",
     "angular-ui-router": "~0.2.15",
     "jquery": "~2.1.4",
     "remarkable-bootstrap-notify": "~3.1.3",
