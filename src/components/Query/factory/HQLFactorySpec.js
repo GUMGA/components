@@ -8,7 +8,6 @@ describe('PROVIDER: GumgaAlert', function() {
   }))
 
   it('Should pimba', () => {
-    // console.log(Service);
   })
 
 });

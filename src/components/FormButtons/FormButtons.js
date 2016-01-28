@@ -27,7 +27,6 @@
 
 		function controller($scope, $element, $attrs) {
 			let vm = this;
-			console.log('oi');
 			if(!$attrs.submit) throw 'É necessário passar uma função para submissão de formulário <gumga-form-buttons submit="foo()"></gumga-form-buttons>'
 
 			const modalTemplate= `
