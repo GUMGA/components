@@ -4,7 +4,7 @@ controller.$inject = ['$scope', '$element', '$attrs', '$transclude', '$q', '$roo
 
 function controller($scope, $element, $attrs, $transclude, $q, $rootScope){
   const DATASELECTEDSEARCH_ERR  = 'É necessário o atributo ngModel para a directive gumgaTag',
-  DATAAVAILABLESEARCH_ERR = 'É necessário uma função no atributo dataSearch no seguinte formato: [data-search="foo($text)"]';
+        DATAAVAILABLESEARCH_ERR = 'É necessário uma função no atributo dataSearch no seguinte formato: [data-search="foo($text)"]';
 
   if(!$attrs.selectedSearch)  console.error(DATASELECTEDSEARCH_ERR);
   if(!$attrs.availableSearch) console.error(DATAAVAILABLESEARCH_ERR);
@@ -152,7 +152,7 @@ function gumgaTag(){
     scope: {
       selectedSearch: '&',
       availableSearch: '&',
-      selectedArray: '=ngModel'
+      selectedArray: '=?ngModel'
     },
     bindToController: true,
     transclude: true,
