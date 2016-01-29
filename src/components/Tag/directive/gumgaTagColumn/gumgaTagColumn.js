@@ -119,8 +119,8 @@ function gumgaTagColumn(){
     controllerAs: 'gumgaTagColumn',
     bindToController: true,
     scope: {
-      tags: '=array',
-      label: '@'
+      tags: '=?array',
+      label: '@?'
     }
   }
 }

@@ -6,13 +6,13 @@
             restrict: 'E',
             require: '^form',
             scope: {
-                value: '=',
-                containsNumbers: '=',
-                containsUppercase: '=',
-                containsSymbols: '=',
-                confirmation: '=',
-                valueMinLength: '=',
-                valueMaxLength: '='
+                value: '=?',
+                containsNumbers: '=?',
+                containsUppercase: '=?',
+                containsSymbols: '=?',
+                confirmation: '=?',
+                valueMinLength: '=?',
+                valueMaxLength: '=?'
             },
             template: '<div class="form-group has-{{status}} has-feedback">'
                     + ' <label>Password</label>'

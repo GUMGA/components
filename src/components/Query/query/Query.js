@@ -56,11 +56,11 @@
           let element   = angular.element(value),
               field     = element.attr('field'),
               checkbox  = !!$scope.$eval(element.attr('select')),
-              preLabel  = $scope.$parent.$eval(element.attr('label')) 
+              preLabel  = $scope.$parent.$eval(element.attr('label')), 
               label     = preLabel ? preLabel : element.attr('label')
 
-          if(!field)    console.error(FIELD_ERR)
-          if(checkbox)  alreadySelected = true
+          if(!field)      console.error(FIELD_ERR)
+          if(checkbox)    alreadySelected = true
 
           ctrl.mapFields[field] = { checkbox, label, field }
         })
@@ -87,7 +87,6 @@
         if(field.length === 0) return
         ctrl.search({ field, param })
       }
-
       
     }
 

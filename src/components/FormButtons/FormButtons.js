@@ -97,8 +97,8 @@
 		return {
 			restrict: 'E',
 			scope: {
-				submit: '&',
-				valid: '=',
+				submit: '&?',
+				valid: '=?',
 				continue: '@?',
 				confirmDirty: '@?',
 				reverseOrder: '=?'
