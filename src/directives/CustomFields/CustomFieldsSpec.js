@@ -128,11 +128,15 @@ describe('DIRECTIVE: GumgaCustomFields',function(){
     $compile(element)(scope);
     isolatedScope = element.isolateScope();
   }));
+
+
   it('Should check the type SELECTION', () => {
     expect(isolatedScope.ctrl.fields.gumgaCustomFields.opcoes.field.options.values.length).toEqual(2);
   });
+
   it('Should check the type NUMBER', () => {
   });
+  
   it('Should check the type DATE', () => {
   });
 })

@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('gumga.query', ['gumga.query.factory', 'gumga.query.directive']);
+angular.module('gumga.query', ['gumga.query.factory', 'gumga.query.directive','gumga.query.searchfield']);

@@ -30,7 +30,8 @@ module.exports = function(config){
 			'karma-chrome-launcher',
 			'karma-mocha-reporter',
 			'karma-babel-preprocessor',
-			'karma-coverage'
+			'karma-coverage',
+			'karma-phantomjs-launcher'
 		],
 		reporters: ['mocha', 'coverage'],
 		port: 3001,
@@ -44,7 +45,7 @@ module.exports = function(config){
 		}
 		,
 		autoWatch: true,
-		browsers: ['Chrome'],
+		browsers: ['PhantomJS'],
 		singleRun: false,
 		coverageReporter: {
       type : 'html',
