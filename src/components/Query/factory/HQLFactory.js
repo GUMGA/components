@@ -88,6 +88,10 @@ function HQLFactory(){
     validator: (ip) => (IP_REGEX.test(ip)),
     template: ` <input type="text" ng-model="$value" required class="form-control input-sm"/> `
   }
+  
+  function useType(type) {
+      return SUPPORTED_TYPES[type] || null;
+  }
 
   function hqlObjectCreator(hqls = [], hqlObjects = {}){
     hqlObjects['contains']      = { hql: ` contains `     , label:  ` contém `        , before: ` like '% `     , after:  ` %' ` }
@@ -103,7 +107,10 @@ function HQLFactory(){
     return hqls.map(value => hqlObjects[value])
   }
 
-  return { hqlObjectCreator };
+  return {
+      useType: useType,
+      hqlObjectCreator: hqlObjectCreator
+  };
 
 }
 
