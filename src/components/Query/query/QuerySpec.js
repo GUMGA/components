@@ -1,7 +1,7 @@
 describe('COMPONENT: GumgaQuery', function() {
   const template = string => angular.element(string)
 
-	let $compile                        = {},
+  let $compile                        = {},
       scope                           = {},
       gumgaQueryWithNothing           = template(`<gumga-query> </gumga-query>`),
       gumgaQueryWithSearch            = template(`<gumga-query search="foo(name, param)"> </gumga-query>`),
@@ -9,12 +9,12 @@ describe('COMPONENT: GumgaQuery', function() {
       gumgaQueryWithSavedFilters      = template(`<gumga-query search="foo(name, param)" saved-filters="fooFilters(page)"> </gumga-query>`),
       gumgaQueryWithAttribute         = template(`<gumga-query search="foo(name, param)"> <search-field field="name" select="false" label="Nome"> </search-field> </gumga-query>`),
       gumgaQueryWithAttributeNoLabel  = template(`<gumga-query search="foo(name, param)"> <search-field field="name" select="false"> </search-field> </gumga-query>`),
-      gumgaQueryWithAttributeNoField  = template(`<gumga-query search="foo(name, param)"> <search-field field="name" select="false"> </search-field> </gumga-query>`)
+      gumgaQueryWithAttributeNoField  = template(`<gumga-query search="foo(name, param)"> <search-field select="false"> </search-field> </gumga-query>`)
 
 
-	beforeEach(module('gumga.query'))
+  beforeEach(module('gumga.query'))
 
-	beforeEach(inject((_$compile_, $rootScope) => {
+  beforeEach(inject((_$compile_, $rootScope) => {
     $compile          = _$compile_
     scope             = $rootScope.$new()
     scope.foo         = (field, param) => true
@@ -61,40 +61,40 @@ describe('COMPONENT: GumgaQuery', function() {
   })
 
   describe('Getting the attributes', () => {
-    // it('Should get the "select", "field" and "label" for the search-field', () => {
-    //   $compile(gumgaQueryWithAttribute)(scope)
-    //   let controller = gumgaQueryWithAttribute.controller('gumgaQuery')
-    //   expect(controller.mapFields['name']).toEqual({
-    //     checkbox: true,
-    //     label: 'Nome',
-    //     field: 'name'
-    //   })
-    // })
+    it('Should get the "select", "field" and "label" for the search-field', () => {
+      $compile(gumgaQueryWithAttribute)(scope)
+      let controller = gumgaQueryWithAttribute.controller('gumgaQuery')
+      expect(controller.mapFields['name']).toEqual({
+        checkbox: true,
+        label: 'Nome',
+        field: 'name'
+      })
+    })
 
-    // it('Should create a label for the field', () => {
-    //   $compile(gumgaQueryWithAttributeNoLabel)(scope)
-    //   let controller = gumgaQueryWithAttributeNoLabel.controller('gumgaQuery')
-    //   expect(controller.mapFields['name']).toEqual({
-    //     checkbox: true,
-    //     label: 'Name',
-    //     field: 'name'
-    //   })
-    // })
+    it('Should create a label for the field', () => {
+      $compile(gumgaQueryWithAttributeNoLabel)(scope)
+      let controller = gumgaQueryWithAttributeNoLabel.controller('gumgaQuery')
+      expect(controller.mapFields['name']).toEqual({
+        checkbox: true,
+        label: 'Name',
+        field: 'name'
+      })
+    })
 
-    // it('Should log error if field is not found', () => {
-    //   spyOn(console,'error')
-    //   $compile(gumgaQueryWithAttributeNoField)(scope)
-    //   let controller = gumgaQueryWithAttributeNoField.controller('gumgaQuery')
-    //   expect(console.error).toHaveBeenCalledWith('É necessário um parâmetro field na tag search-field.[<search-field field="foo"></search-field>]')
-    // })
+    it('Should log error if field is not found', () => {
+      spyOn(console,'error')
+      $compile(gumgaQueryWithAttributeNoField)(scope)
+      let controller = gumgaQueryWithAttributeNoField.controller('gumgaQuery')
+      expect(console.error).toHaveBeenCalledWith('É necessário um parâmetro field na tag search-field.[<search-field field="foo"></search-field>]')
+    })
 
-    // it('Should not call scope.foo', () => {
-    //   spyOn(scope, 'foo')
-    //   $compile(gumgaQueryWithAttribute)(scope)
-    //   let controller = gumgaQueryWithAttribute.controller('gumgaQuery')
-    //   controller.doSearch('Jonathan da nova Geração')
-    //   expect(scope.foo).not.toHaveBeenCalled()
-    // })
+    it('Should not call scope.foo', () => {
+      spyOn(scope, 'foo')
+      $compile(gumgaQueryWithAttribute)(scope)
+      let controller = gumgaQueryWithAttribute.controller('gumgaQuery')
+      controller.doSearch('Jonathan da nova Geração')
+      expect(scope.foo).not.toHaveBeenCalled()
+    })
 
   
   })
