@@ -20,8 +20,8 @@
 		'gumga.directives.mask',
 		'gumga.directives.translate',
 		'gumga.directives.customfields',
-		'gumga.directives.filter',
-		'gumga.translate.filter'
+		// 'gumga.directives.filter',
+		'gumga.translate.filter',
 		]);
 
 })();
