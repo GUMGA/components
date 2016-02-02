@@ -110,7 +110,6 @@
                 <button id="single-button" type="button" class="btn btn-default" ng-click="addQuery()" ng-disabled="disabled">
                     <span class="glyphicon glyphicon-plus"></span>
                 </button>
-                
             </div>
         </div>
         `;
@@ -138,20 +137,22 @@
                 $scope.dropStatus = function() {
                     $scope.condition.show   = false;
                     $scope.condition.isopen = false;
-                    $scope.panel.show   = false;
-                    $scope.panel.isopen = false;
+                    $scope.panel.show       = false;
+                    $scope.panel.isopen     = false;
                 }
+                
                 $scope.dropStatus();
 
                 
                 $transclude((transcludeElement) => {
-                    console.log(transcludeElement);
-                    
                     [].slice.call(transcludeElement).forEach(value => {
+                      console.log(angular.element(value).contents());
+
                         if (value.nodeName === 'ADVANCED-SEARCH-FIELD') {
                             let attribute = {
                                 label: value.getAttribute('label'),
-                                type: value.getAttribute('type')
+                                type: value.getAttribute('type'),
+                                field: value.getAttribute('field')
                             }
                             $scope.attributes.push(attribute);
                         }

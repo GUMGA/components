@@ -1,8 +1,8 @@
 (function(){
   //Description
-  Search.$inject = ['$q','$timeout']
+  Search.$inject = ['$q','$timeout','$compile']
 
-  function Search($q, $timeout){
+  function Search($q, $timeout, $compile){
 
     let template = `
       <div class="input-group">
@@ -22,10 +22,7 @@
                </a>
             </li>
           </ul>
-          <button class="btn btn-default" type="button" ng-if="!!ctrl.advancedSearch">
-           <span class="glyphicon glyphicon-filter">
-           <span>
-          </button>
+          <div id="replaceFilter"></div>
            <button class="btn btn-primary" type="button" ng-click="ctrl.doSearch(ctrl.searchField)">
             <span> {{::ctrl.searchText}} </span>
             <span class="glyphicon glyphicon-search rotate-search-glyph"></span>
@@ -42,14 +39,16 @@
             FIELD_ERR           = 'É necessário um parâmetro field na tag search-field.[<search-field field="foo"></search-field>]',
             SEARCH_ERR          = 'É necessário passar uma função para o atributo "search". [search="foo(field, param)"]'
 
-      ctrl.mapFields      = {}
+      ctrl.mapFields              = {}
+      ctrl.possibleAdvancedFields = []
 
       if(!hasAttr('search')) console.error(SEARCH_ERR)
+
       $transclude((transcludeElement) => {
         let alreadySelected = false;
 
         [].slice.call(transcludeElement).forEach(value => {
-
+          if(value && value.nodeName === 'ADVANCED-SEARCH-FIELD') ctrl.possibleAdvancedFields.push(value.outerHTML)
           if(!value || value.nodeName !== 'SEARCH-FIELD') return
 
           let element   = angular.element(value),
@@ -60,7 +59,6 @@
 
           if(!field)      console.error(FIELD_ERR)
           if(checkbox)    alreadySelected = true
-
           ctrl.mapFields[field] = { checkbox, label, field }
         })
 
@@ -70,12 +68,24 @@
         }
        })
 
+      ctrl.compileFilter  = compileFilter
       ctrl.doSearch       = doSearch
       ctrl.proxyFn        = proxyFn
       ctrl.filterSelect   = filterSelect
       ctrl.advancedSearch = hasAttr('advancedSearch') ? ctrl.advancedSearch   : null
       ctrl.savedFilters   = hasAttr('savedFilters')   ? ctrl.savedFilters     : angular.noop
       ctrl.searchText     = hasAttr('searchText')     ? $attrs['searchText']  : ' '
+
+      if(ctrl.advancedSearch) ctrl.compileFilter()
+
+
+        function compileFilter(){
+          let template  = `<gumga-filter> ${ctrl.possibleAdvancedFields.reduce(((prev, next) => prev += next), '')}</gumga-filter>`,
+              element   = angular.element(document.getElementById('replaceFilter'))
+
+          element.replaceWith($compile(template)($scope))          
+        }
+
 
       function doSearch(param, event = { keyCode: 13 }){
         if(event.keyCode !== 13) return
@@ -95,10 +105,7 @@
       }
 
       function filterSelect($item, $model, $label, $event){
-        $timeout(() => {
-          ctrl.searchField=  ''
-          $scope.$broadcast('filter-items', $item)
-        })
+        $timeout(() => (ctrl.searchField=  '', $scope.$broadcast('filter-items', $item)))
       }
     }
 
