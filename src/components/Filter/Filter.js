@@ -41,9 +41,9 @@
                     <div class="input-group-btn">
 
                         <div class="btn-group" uib-dropdown >
-                            <button type="button" class="btn btn-default" uib-dropdown-toggle ng-click="disableButton">
+                            <button type="button" class="btn btn-default" uib-dropdown-toggle >
                                 <span id="_btn{{$key}}"> {{ $value.query.attribute.label || 'Atributo' }} </span>
-                                <span class="caret"></span>
+                                
                             </button>
                             <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
                                 <li role="menuitem" ng-repeat="attribute in attributes track by $index">
@@ -55,7 +55,7 @@
                         <div class="btn-group hidden" uib-dropdown  id="_btnCondition{{$key}}">
                             <button type="button" class="btn btn-default" uib-dropdown-toggle>
                                 <span id="_conditionLabel{{$key}}">{{ $value.query.condition.label || 'Condição' }}</span>
-                                <span class="caret"></span>
+                                
                             </button>
 
                             <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
@@ -65,10 +65,9 @@
                             </ul>
                         </div>
 
-                        <div class="btn-group" uib-dropdown ng-show="$value.query.attribute.field && $value.query.condition.hql">
+                        <div class="btn-group hidden" uib-dropdown id="_btnValue{{$key}}">
                             <button type="button" class="btn btn-default" uib-dropdown-toggle>
                                 <span> {{ $value.query.value || 'Valor' }} </span>
-                                <span class="caret"></span>
                             </button>
                             <div uib-dropdown-menu role="panel" class="panel panel-default" ng-click="$event.stopPropagation()" style="width: auto">
                                 <div class="panel-body" id="_panel">
@@ -138,42 +137,54 @@
                   defaultCondition  = angular.copy(HQLFactory.useType($scope.attributes[0].type).conditions)[0]
 
               $scope.controlMap['0'] = {
-              //   query: { attribute: defaultAttribute, condition: defaultCondition, value: ' '},
-              //   active: true
+                query: { attribute: defaultAttribute, condition: defaultCondition, value: '' },
+                active: true
               }
 
+              const getElm            = (key) => (angular.element(document.getElementById(key)));
 
-              function getElm(key){
-                return angular.element(document.getElementById(key))
-              }
-
+              const openCondition     = (index) => (getElm(`_btnCondition${index}`).addClass('open'));
+              const showCondition     = (index) => (getElm(`_btnCondition${index}`).removeClass('hidden'));
+              const hasClassCondition = (index) => (getElm(`_btnCondition${index}`).hasClass('hidden'));
+              const openValue         = (index) => (getElm(`_btnValue${index}`).addClass('open'));
+              const showValue         = (index) => (getElm(`_btnValue${index}`).removeClass('hidden'));               
+             
+              $timeout(() => {
+                showCondition(0);
+                showValue(0);
+                openValue(0);
+                $scope.conditions = HQLFactory.useType($scope.controlMap['0'].query.attribute.type).conditions
+              })
               
-
               function addAttribute(index, selectedAttribute){
-                if(!$scope.controlMap[index].attribute) $scope.controlMap[index].attribute = {}
+                if(!$scope.controlMap[index].attribute)
+                  $scope.controlMap[index].attribute = {}
+
                 $scope.controlMap[index].attribute = selectedAttribute;
 
-                // Troca o conteúdo da view para a nova Label
                 getElm(`_btn${index}`).html(selectedAttribute.label)
 
-                // Mostra o botão de condições
-                let condition = getElm(`_btnCondition${index}`)
-                if(condition.hasClass('hidden')) condition.removeClass('hidden')
-
+                if(hasClassCondition(index, 'hidden')){
+                  showCondition(0);
+                  openCondition(0);
+                } 
 
                 $scope.conditions = HQLFactory.useType(selectedAttribute.type).conditions
-
 
               }
 
               function addCondition(index, selectedCondition){
                 if(!$scope.controlMap[index].condition) $scope.controlMap[index].condition = {}
+
                 $scope.controlMap[index].condition = selectedCondition
 
                 getElm(`_conditionLabel${index}`).html(selectedCondition.label)
-
+                getElm(`_btnCondition${index}`).removeClass('open')
 
               }
+
+
+
             }
         }
     }
