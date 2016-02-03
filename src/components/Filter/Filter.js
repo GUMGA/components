@@ -1,8 +1,8 @@
 (function(){
     'use strict';
 
-    Filter.$inject = ['HQLFactory','$compile'];
-    function Filter(HQLFactory,$compile) {
+    Filter.$inject = ['HQLFactory','$compile','$timeout'];
+    function Filter(HQLFactory,$compile, $timeout) {
         let template = `
         <div>
             <button class="btn btn-default" ng-click="filterToggle()">
@@ -36,48 +36,60 @@
             </header>
             <div class="form-inline panel-body">
 
-                <div class="input-group" ng-repeat="query in queries">
+                <div class="input-group" ng-repeat="($key, $value) in controlMap">
+
                     <div class="input-group-btn">
-                        <div class="btn-group" uib-dropdown is-open="true" ng-show="true">
-                            <button id="single-button" type="button" class="btn btn-default" uib-dropdown-toggle ng-disabled="disabled">
-                                {{ query.attribute.label || 'Atributo' }} <span class="caret"></span>
+
+                        <div class="btn-group" uib-dropdown >
+                            <button type="button" class="btn btn-default" uib-dropdown-toggle>
+                                <span id="_btn{{$key}}"> {{ $value.query.attribute.label || 'Atributo' }} </span>
+                                <span class="caret"></span>
                             </button>
                             <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                                <li role="menuitem" ng-repeat="attribute in attributes">
-                                    <a href="#" ng-click="setAttribute(query, attribute)">{{attribute.label}}</a>
+                                <li role="menuitem" ng-repeat="attribute in attributes track by $index">
+                                    <a ng-click="addAttribute($key, attribute)">{{attribute.label}}</a>
                                 </li>
                             </ul>
                         </div>
-                        <div class="btn-group" uib-dropdown is-open="true" ng-show="query.attribute.type">
-                            <button id="single-button" type="button" class="btn btn-default" uib-dropdown-toggle ng-disabled="disabled">
-                                {{ query.condition.label || 'Condição' }} <span class="caret"></span>
+
+                        <div class="btn-group hidden" uib-dropdown  id="_btnCondition{{$key}}">
+                            <button type="button" class="btn btn-default" uib-dropdown-toggle>
+                                <span>{{ $value.query.condition.label || 'Condição' }}</span>
+                                <span class="caret"></span>
                             </button>
+
                             <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
                                 <li role="menuitem" ng-repeat="condition in conditions">
-                                    <a href="#" ng-click="setCondition(query, condition)">{{condition.label}}</a>
+                                    <a ng-click="setCondition(query, condition)">{{condition.label}}</a>
                                 </li>
                             </ul>
                         </div>
-                        <div class="btn-group" uib-dropdown ng-show="query.attribute.type && query.condition">
-                            <button id="single-button" type="button" class="btn btn-default" uib-dropdown-toggle ng-disabled="disabled">
-                                {{ query.value || 'Valor' }} <span class="caret"></span>
+
+                        <div class="btn-group" uib-dropdown ng-show="$value.query.attribute.field && $value.query.condition.hql">
+                            <button type="button" class="btn btn-default" uib-dropdown-toggle>
+                                <span> {{ $value.query.value || 'Valor' }} </span>
+                                <span class="caret"></span>
                             </button>
-                            <div uib-dropdown-menu role="panel" class="panel panel-default" ng-click="$event.stopPropagation()" style="width: auto" aria-labelledby="single-button">
-                                <div class="panel-body" id="_panel"></div>
+                            <div uib-dropdown-menu role="panel" class="panel panel-default" ng-click="$event.stopPropagation()" style="width: auto">
+                                <div class="panel-body" id="_panel">
+
+                                </div>
                             </div>
                         </div>
-                        <button id="single-button" type="button" class="btn btn-default" ng-click="clearQuery(query)" ng-disabled="disabled">
+
+                        <button type="button" class="btn btn-default" ng-click="clearQuery(query)">
                             <span class="glyphicon glyphicon-remove"></span>
                         </button>
+
                     </div>
+
                 </div>
 
                 <button id="single-button" type="button" class="btn btn-default" ng-click="addQuery()" ng-disabled="disabled">
                     <span class="glyphicon glyphicon-plus"></span>
                 </button>
             </div>
-        </div>
-        `;
+        </div>`;
 
         return {
             restrict: 'E',
@@ -87,63 +99,68 @@
                 isOpen: '@'
             },
             link: ($scope, $element, $attrs, $ctrl, $transclude) => {
-                
-                $scope.filterToggle      = () => $scope.isOpen = !$scope.isOpen
-                
-                $scope.attributes        = [];
-                $scope.condition         = {};
-                $scope.conditions        = [];
-                $scope.query             = {};
-                $scope.queries           = [{}];
-                $scope.hqlOptions        = [];
-                $scope.panel             = {};
-                $scope.selectHql         = false;
-                
-                $scope.dropStatus = function() {
-                    $scope.condition.show   = false;
-                    $scope.condition.isopen = false;
-                    $scope.panel.show       = false;
-                    $scope.panel.isopen     = false;
-                }
-                
-                $scope.dropStatus();
+              const FIELD_ERR = `É necessário atribuir um valor ao atributo FIELD da tag ADVANCED-SEARCH-FIELD.`,
+                    TYPE_ERR  = `O tipo "{1}" passado como parâmetro para o ADVANCED-SEARCH-FIELD não é suportado.`
 
-                
-                $transclude((transcludeElement) => {
-                    [].slice.call(transcludeElement).forEach(value => {
-                      console.log(angular.element(value).contents());
+              $scope.attributes   = []
+              $scope.conditions   = []
+              $scope.controlMap   = {}
+              $scope.addAttribute = addAttribute
 
-                        if (value.nodeName === 'ADVANCED-SEARCH-FIELD') {
-                            let attribute = {
-                                label: value.getAttribute('label'),
-                                type: value.getAttribute('type'),
-                                field: value.getAttribute('field')
-                            }
-                            $scope.attributes.push(attribute);
-                        }
-                    })
-                });
-                $scope.clearAttribute = function(query) {
-                    query.attribute = {};
-                }
-                $scope.setAttribute = function(query, attribute) {
-                    query.attribute = attribute;
-                    let hqlByType = HQLFactory.useType(attribute.type),
-                        template = document.querySelector('#_panel');
-                        
-                    $scope.conditions       = hqlByType.conditions;
-                    
-                    $compile(angular.element(template).html(hqlByType.template))($scope);
-                }
-                $scope.setCondition = function(query, condition) {
-                    query.condition = condition;
-                }
-                $scope.clearQuery = function(query) {
-                    query = {};
-                }
-                $scope.addQuery = function() {
-                    $scope.queries.push($scope.queries[$scope.queries.length]);
-                }
+              $transclude((transcludeElement) => {
+                  [].slice.call(transcludeElement).forEach((value, $index) => {
+                    if(value.nodeName !== 'ADVANCED-SEARCH-FIELD') return
+
+                    let field = value.getAttribute('field'),
+                        type  = value.getAttribute('type'),
+                        label = value.getAttribute('label')
+
+                    if(!field) {
+                      console.error(FIELD_ERR)
+                      return
+                    }
+
+                    type  = type.toLowerCase().trim() || ''
+                    label = label                     || field.charAt(0).toUpperCase() + field.slice(1) 
+
+                    if(!HQLFactory.useType(type)){
+                      console.error(TYPE_ERR.replace('{1}', type))
+                      return
+                    }
+
+                    $scope.attributes.push({ field, type, label })
+                  })
+              });
+
+              let defaultAttribute  = angular.copy($scope.attributes[0]),
+                  defaultCondition  = angular.copy(HQLFactory.useType($scope.attributes[0].type).conditions)[0]
+
+              $scope.controlMap['0'] = {
+              //   query: { attribute: defaultAttribute, condition: defaultCondition, value: ' '},
+              //   active: true
+              }
+
+
+              function getElm(key){
+                return angular.element(document.getElementById(key))
+              }
+
+              
+
+              function addAttribute(index, selectedAttribute){
+                if(!$scope.controlMap[index].attribute) $scope.controlMap[index].attribute = {}
+                $scope.controlMap[index].attribute = selectedAttribute;
+
+                // Troca o conteúdo da view para a nova Label
+                getElm(`_btn${index}`).html(selectedAttribute.label)
+
+                // Mostra o botão de condições
+                let condition = getElm(`_btnCondition${index}`)
+                if(condition.hasClass('hidden')) condition.removeClass('hidden')
+
+                $scope.conditions = HQLFactory.useType(selectedAttribute.type).conditions
+
+              }
             }
         }
     }
