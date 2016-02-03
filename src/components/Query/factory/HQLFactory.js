@@ -18,75 +18,75 @@ function HQLFactory(){
   SUPPORTED_TYPES['string'] = {
     validator: (string) => (typeof string === 'string' || string instanceof String),
     conditions: hqlObjectCreator(['eq', 'ne', 'ge', 'le', 'contains', 'not_contains', 'starts_with', 'ends_with']),
-    template: ` <input type="text" ng-model="$value" required class="form-control input-sm"/> `
+    template: ` <input type="text" ng-model="query.value" required class="form-control input-sm"/> `
   }
 
   SUPPORTED_TYPES['number'] = {
     validator: (number) => (isFinite(number) && number === +number),
     conditions: hqlObjectCreator(['eq', 'ne', 'gt', 'ge', 'lt', 'le']),
-    template: ` <input type="text" ng-model="$value" required class="form-control input-sm"/> `
+    template: ` <input type="number" ng-model="query.value" required class="form-control input-sm"/> `
   }
 
   SUPPORTED_TYPES['float'] = {
     validator: (number) => (number === +number && number !== (number|0)),
     conditions: hqlObjectCreator(['eq', 'ne', 'gt', 'ge', 'lt', 'le']),
-    template: ` <input type="text" ng-model="$value" required class="form-control input-sm"/> `
+    template: ` <input type="text" ng-model="query.value" required class="form-control input-sm"/> `
   }
 
   SUPPORTED_TYPES['money'] = {
     validator: (number) => (this['float'].validator(number)),
     conditions: hqlObjectCreator(['eq', 'ne', 'gt', 'ge', 'lt', 'le']),
-    template: ` <input type="text" ng-model="$value" required class="form-control input-sm"/> `
+    template: ` <input type="text" ng-model="query.value" required class="form-control input-sm"/> `
   }
 
   SUPPORTED_TYPES['cpf'] = {
     validator: (cpf) => (CPF_REGEX.test(cpf)),
     conditions: hqlObjectCreator(['eq', 'ne', 'ge', 'le', 'contains', 'not_contains', 'starts_with', 'ends_with']),
-    template: ` <input type="text" ng-model="$value" required class="form-control input-sm"/> `
+    template: ` <input type="text" ng-model="query.value" gumga-mask="999.999.999.99" required class="form-control input-sm"/> `
   }
 
   SUPPORTED_TYPES['cnpj'] = {
     validator: (cnpj) => (CNPJ_REGEX.test(cnpj)),
     conditions: hqlObjectCreator(['eq', 'ne', 'ge', 'le', 'contains', 'not_contains', 'starts_with', 'ends_with']),
-    template: ` <input type="text" ng-model="$value" required class="form-control input-sm"/> `
+    template: ` <input type="text" ng-model="query.value" gumga-mask="99.999.999/9999-99" required class="form-control input-sm"/> `
   }
 
   SUPPORTED_TYPES['boolean'] = {
     validator: (boolean) => (boolean === true || boolean === false),
     conditions: hqlObjectCreator(['eq']),
-    template: ` <input type="text" ng-model="$value" required class="form-control input-sm"/> `
+    template: ` <input type="text" ng-model="query.value" required class="form-control input-sm"/> `
   }
 
   SUPPORTED_TYPES['date'] = {
     validator: (date) => (DATE_REGEX.test(date)),
     conditions: hqlObjectCreator(['eq', 'ne', 'gt', 'ge', 'lt', 'le']),
-    template: ` <input type="text" ng-model="$value" required class="form-control input-sm"/> `
+    template: ` <input type="text" ng-model="query.value" required class="form-control input-sm"/> `
   }
 
   SUPPORTED_TYPES['select'] = {
     validator: (value) => (!!value),
     conditions: hqlObjectCreator(['eq', 'ne']),
-    template: ` <input type="text" ng-model="$value" required class="form-control input-sm"/> `
+    template: ` <input type="text" ng-model="query.value" required class="form-control input-sm"/> `
   }
 
   SUPPORTED_TYPES['enum'] = {
     validator: (enumList) => (Array.isArray(enumList)),
-    template: ` <input type="text" ng-model="$value" required class="form-control input-sm"/> `
+    template: ` <input type="text" ng-model="query.value" required class="form-control input-sm"/> `
   }
 
   SUPPORTED_TYPES['email'] = {
     validator: (emailAddress) => (this['String'].validator(emailAddress)),
-    template: ` <input type="text" ng-model="$value" required class="form-control input-sm"/> `
+    template: ` <input type="text" ng-model="query.value" required class="form-control input-sm"/> `
   }
 
   SUPPORTED_TYPES['url'] = {
     validator: (url) => (URL_REGEX.test(url)),
-    template: ` <input type="text" ng-model="$value" required class="form-control input-sm"/> `
+    template: ` <input type="text" ng-model="query.value" required class="form-control input-sm"/> `
   }
 
   SUPPORTED_TYPES['ip'] = {
     validator: (ip) => (IP_REGEX.test(ip)),
-    template: ` <input type="text" ng-model="$value" required class="form-control input-sm"/> `
+    template: ` <input type="text" ng-model="query.value" required class="form-control input-sm"/> `
   }
   
   function useType(type) {
