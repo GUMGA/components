@@ -63,15 +63,12 @@
                             </ul>
                         </div>
 
-                        <div class="btn-group hidden" uib-dropdown id="_btnValue{{$key}}" ng-show="!$value.label">
-                            <button type="button" class="btn btn-default" uib-dropdown-toggle>
-                                <span> {{ $value.query.value || 'Valor' }} </span>
+                        <div class="btn-group" id="_btnValue{{$key}}" ng-show="!$value.label">
+                            <button type="button" class="btn btn-default" ng-click="togglePanel($key)">
+                                <span id="_conditionLabel{{$key}}">{{ $value.query.condition.label || 'Condição' }}</span>
+                                
                             </button>
-                            <div uib-dropdown-menu role="panel" class="panel panel-default" ng-click="$event.stopPropagation()" style="width: auto">
-                                <div class="panel-body" id="_panel">
-
-                                </div>
-                            </div>
+                            <div class="gumga-filter-panel" id="_panelValue{{$key}}"></div>
                         </div>
 
                         <div class="btn-group" ng-show="$value.label">
@@ -115,6 +112,8 @@
               $scope.updateOperator         = updateOperator
               $scope.lastAddedQueryIndex    = Infinity
               $scope.removeQuery            = removeQuery
+              $scope.togglePanel            = togglePanel
+              $scope.closePanel             = closePanel
 
               $transclude((transcludeElement) => {
                   [].slice.call(transcludeElement).forEach((value, $index) => {
@@ -157,7 +156,7 @@
               const hasClassCondition = (index) => (getElm(`_btnCondition${index}`).hasClass('hidden'))
               const openValue         = (index) => (getElm(`_btnValue${index}`).addClass('open'))
               const showValue         = (index) => (getElm(`_btnValue${index}`).removeClass('hidden'))
-              const isEven            = (n) => (n % 2 == 0)            
+              const isEven            = (n) => (n % 2 == 0)
              
               $timeout(() => {
                 showCondition(0)
@@ -166,6 +165,14 @@
                 $scope.conditions = HQLFactory.useType($scope.controlMap['0'].query.attribute.type).conditions
                 $scope.lastAddedQueryIndex = 0
               })
+              
+              function togglePanel(index){
+                  getElm(`_panelValue${index}`).toggleClass('show')
+              }
+              
+              function closePanel(index){
+                  getElm(`_panelValue${index}`).removeClass('show')
+              }
               
               function addAttribute(index, selectedAttribute){
                 if(!$scope.controlMap[index].attribute)
@@ -180,7 +187,7 @@
                 } 
                 openCondition(index)
 
-                let hqlType = HQLFactory.useType(selectedAttribute.type);
+                let hqlType       = HQLFactory.useType(selectedAttribute.type);
                 $scope.conditions = hqlType.defaultCondition;
 
               }
