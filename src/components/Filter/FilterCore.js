@@ -179,7 +179,7 @@
                 openCondition(index)
 
                 let hqlType = HQLFactory.useType(selectedAttribute.type);
-                $scope.conditions = hqlType.defaultCondition;
+                $scope.conditions = hqlType.conditions;
 
                 replacePanelContent(index, hqlType.template)
               }
