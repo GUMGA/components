@@ -1,7 +1,7 @@
 (function(){
-    'use strict';
+    'use strict'
 
-    Filter.$inject = ['HQLFactory','$compile','$timeout'];
+    Filter.$inject = ['HQLFactory','$compile','$timeout']
     function Filter(HQLFactory,$compile, $timeout) {
         let template = `
         <div>
@@ -35,15 +35,13 @@
                 </div>
             </header>
             <div class="form-inline panel-body">
-
-                <div class="input-group" ng-repeat="($key, $value) in controlMap" style="margin-right: 1%">
+                
+                <div class="input-group" ng-repeat="($key, $value) in controlMap" style="margin-right: 1%" ng-show="$value.active">
 
                     <div class="input-group-btn">
-
-                        <div class="btn-group" uib-dropdown ng-show="!$value.label">
+                        <div class="btn-group" uib-dropdown ng-show="!$value.label" id="_btnAttribute{{$key}}">
                             <button type="button" class="btn btn-default" uib-dropdown-toggle >
                                 <span id="_btn{{$key}}"> {{ $value.query.attribute.label || 'Atributo' }} </span>
-                                
                             </button>
                             <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
                                 <li role="menuitem" ng-repeat="attribute in attributes track by $index">
@@ -77,12 +75,12 @@
                         </div>
 
                         <div class="btn-group" ng-show="$value.label">
-                          <button type="button" class="btn btn-default">
-                            <span> {{ $value.label}} </span>
+                          <button type="button" class="btn btn-default" ng-click="updateOperator($key)">
+                            <span id="__operator{{$key}}"> {{$value.label}} </span>
                           </button>
                         </div>
 
-                        <button type="button" class="btn btn-default" ng-click="clearQuery(query)" ng-show="!$value.label"> 
+                        <button type="button" class="btn btn-default" ng-click="removeQuery($index)" ng-show="!$value.label"> 
                             <span class="glyphicon glyphicon-remove"></span>
                         </button>
 
@@ -94,7 +92,7 @@
                     <span class="glyphicon glyphicon-plus"></span>
                 </button>
             </div>
-        </div>`;
+        </div>`
 
         return {
             restrict: 'E',
@@ -114,7 +112,9 @@
               $scope.addAttribute           = addAttribute
               $scope.addCondition           = addCondition
               $scope.addQuery               = addQuery
+              $scope.updateOperator         = updateOperator
               $scope.lastAddedQueryIndex    = Infinity
+              $scope.removeQuery            = removeQuery
 
               $transclude((transcludeElement) => {
                   [].slice.call(transcludeElement).forEach((value, $index) => {
@@ -139,7 +139,7 @@
 
                     $scope.attributes.push({ field, type, label })
                   })
-              });
+              })
 
               let defaultAttribute  = angular.copy($scope.attributes[0]),
                   defaultCondition  = angular.copy(HQLFactory.useType($scope.attributes[0].type).defaultCondition)[0]
@@ -149,36 +149,36 @@
                 active: true
               }
 
-              const getElm            = (key) => (angular.element(document.getElementById(key)));
-
-              const showCondition     = (index) => (getElm(`_btnCondition${index}`).removeClass('hidden'));
-              const openCondition     = (index) => (getElm(`_btnCondition${index}`).addClass('open'));
-              const hasClassCondition = (index) => (getElm(`_btnCondition${index}`).hasClass('hidden'));
-              const openValue         = (index) => (getElm(`_btnValue${index}`).addClass('open'));
-              const showValue         = (index) => (getElm(`_btnValue${index}`).removeClass('hidden'));   
+              const getElm            = (key) => (angular.element(document.getElementById(key)))
+              const openAttribute     = (index) => (getElm(`_btnAttribute${index}`)).addClass('open')
+              const removeAttribute   = (index) => (getElm(`_btnAttribute${index}`)).removeClass('open')
+              const showCondition     = (index) => (getElm(`_btnCondition${index}`).removeClass('hidden'))
+              const openCondition     = (index) => (getElm(`_btnCondition${index}`).addClass('open'))
+              const hasClassCondition = (index) => (getElm(`_btnCondition${index}`).hasClass('hidden'))
+              const openValue         = (index) => (getElm(`_btnValue${index}`).addClass('open'))
+              const showValue         = (index) => (getElm(`_btnValue${index}`).removeClass('hidden'))
               const isEven            = (n) => (n % 2 == 0)            
              
               $timeout(() => {
-                showCondition(0);
-                showValue(0);
-                openValue(0);
+                showCondition(0)
+                showValue(0)
+                openValue(0)
                 $scope.conditions = HQLFactory.useType($scope.controlMap['0'].query.attribute.type).conditions
-                $scope.lastAddedQueryIndex = 0;
+                $scope.lastAddedQueryIndex = 0
               })
               
               function addAttribute(index, selectedAttribute){
-                console.log(index, selectedAttribute)
                 if(!$scope.controlMap[index].attribute)
                   $scope.controlMap[index].attribute = {}
 
-                $scope.controlMap[index].attribute = selectedAttribute;
-
+                $scope.controlMap[index].attribute = selectedAttribute
+                removeAttribute(index)
                 getElm(`_btn${index}`).html(selectedAttribute.label)
 
                 if(hasClassCondition(index, 'hidden')){
-                  showCondition(index);
+                  showCondition(index)
                 } 
-                openCondition(index);
+                openCondition(index)
 
                 let hqlType = HQLFactory.useType(selectedAttribute.type);
                 $scope.conditions = hqlType.defaultCondition;
@@ -193,37 +193,49 @@
                 getElm(`_conditionLabel${index}`).html(selectedCondition.label)
                 getElm(`_btnCondition${index}`).removeClass('open')
 
-                showValue(index);
-                openValue(index);
+                showValue(index)
+                openValue(index)
 
               }
 
               function addQuery(){
                 if(isEven($scope.lastAddedQueryIndex)){
-                  $scope.lastAddedQueryIndex++;
-
-                  $scope.controlMap[$scope.lastAddedQueryIndex] = {
-                    query: {
-                      value: 'AND'
-                    },
-                    label: 'E'
-                  }
+                  $scope.lastAddedQueryIndex++
+                  $scope.controlMap[$scope.lastAddedQueryIndex] = { query: { value: 'AND' }, label: 'E', active: true }
                 }
 
-                $scope.lastAddedQueryIndex++;
-                $scope.controlMap[$scope.lastAddedQueryIndex] = {
-                  query: { attribute: {}, condition: {}, value: '' },
-                  active: true
-                }
-
-
-                console.log($scope.controlMap)
+                $scope.lastAddedQueryIndex++
+                $scope.controlMap[$scope.lastAddedQueryIndex] = { query: { attribute: {}, condition: {}, value: '' }, active: true }
               }
 
+              function removeQuery(key){
+                if(key == 0){
+                  $scope.controlMap['0'] = { query: { attribute: {}, condition: {}, value: '' }, active: true }
+                  getElm(`_btn0`).html('Atributo')
+                  getElm(`_conditionLabel0`).html('Condição')
+                  openAttribute(key)
+                  return;
+                }
+                if(isEven(key)) {
+                  $scope.controlMap[key].active = false
+                  $scope.controlMap[key-1].active = false
+                }
+              }
+
+              function updateOperator(key){
+                if($scope.controlMap[key].query.value === 'AND'){
+                  $scope.controlMap[key].query.value = 'OR'
+                  $scope.controlMap[key].label = 'OU'
+                } else {
+                  $scope.controlMap[key].query.value = 'AND'
+                  $scope.controlMap[key].label = 'E'
+                }
+                getElm(`__operator${key}`).html($scope.controlMap[key].label)
+              }
 
             }
         }
     }
     angular.module('gumga.filter.directive', ['gumga.query.factory'])
-    .directive('gumgaFilter', Filter);
-})();
+    .directive('gumgaFilter', Filter)
+})()
