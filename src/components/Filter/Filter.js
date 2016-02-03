@@ -144,10 +144,7 @@
               let defaultAttribute  = angular.copy($scope.attributes[0]),
                   defaultCondition  = angular.copy(HQLFactory.useType($scope.attributes[0].type).conditions)[0]
 
-              $scope.controlMap['0'] = {
-                query: { attribute: defaultAttribute, condition: defaultCondition, value: '' },
-                active: true
-              }
+              $scope.controlMap['0'] = { query: { attribute: defaultAttribute, condition: defaultCondition, value: '' }, active: true }
 
               const getElm            = (key) => (angular.element(document.getElementById(key)))
               const openAttribute     = (index) => (getElm(`_btnAttribute${index}`)).addClass('open')
@@ -209,12 +206,17 @@
               }
 
               function removeQuery(key){
-                if(key == 0){
-                  $scope.controlMap['0'] = { query: { attribute: {}, condition: {}, value: '' }, active: true }
-                  getElm(`_btn0`).html('Atributo')
-                  getElm(`_conditionLabel0`).html('Condição')
+                if(key == 0 && $scope.lastAddedQueryIndex === 0){
+                  $scope.controlMap[key] = { query: { attribute: {}, condition: {}, value: '' }, active: true }
+                  getElm(`_btn${key}`).html('Atributo')
+                  getElm(`_conditionLabel${key}`).html('Condição')
                   openAttribute(key)
                   return;
+                }
+                if(key == 0){
+                  $scope.controlMap[key].active = false
+                  $scope.controlMap[key +1].active = false
+                  return
                 }
                 if(isEven(key)) {
                   $scope.controlMap[key].active = false
