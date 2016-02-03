@@ -17,56 +17,56 @@ function HQLFactory(){
 
   SUPPORTED_TYPES['string'] = {
     validator: (string) => (typeof string === 'string' || string instanceof String),
-    defaultCondition: 'contains',
+    defaultCondition: hqlObjectCreator(['contains']),
     conditions: hqlObjectCreator(['eq', 'ne', 'ge', 'le', 'contains', 'not_contains', 'starts_with', 'ends_with']),
     template: ` <input type="text" ng-model="query.value" class="form-control" required /> `
   }
 
   SUPPORTED_TYPES['number'] = {
     validator: (number) => (isFinite(number) && number === +number),
-    defaultCondition: 'eq',
+    defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'gt', 'ge', 'lt', 'le']),
     template: ` <input type="number" ng-model="query.value" class="form-control" required /> `
   }
 
   SUPPORTED_TYPES['float'] = {
     validator: (number) => (number === +number && number !== (number|0)),
-    defaultCondition: 'eq',
+    defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'gt', 'ge', 'lt', 'le']),
     template: ` <input type="text" ng-model="query.value" class="form-control required "/> `
   }
 
   SUPPORTED_TYPES['money'] = {
     validator: (number) => (this['float'].validator(number)),
-    defaultCondition: 'eq',
+    defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'gt', 'ge', 'lt', 'le']),
     template: ` <input type="text" ng-model="query.value" class="form-control required "/> `
   }
 
   SUPPORTED_TYPES['cpf'] = {
     validator: (cpf) => (CPF_REGEX.test(cpf)),
-    defaultCondition: 'eq',
+    defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'contains', 'not_contains', 'starts_with', 'ends_with']),
     template: ` <input type="text" ng-model="query.value" gumga-mask="999.999.999.99" class="form-control" required /> `
   }
 
   SUPPORTED_TYPES['cnpj'] = {
     validator: (cnpj) => (CNPJ_REGEX.test(cnpj)),
-    defaultCondition: 'eq',
+    defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'contains', 'not_contains', 'starts_with', 'ends_with']),
     template: `<input type="text" ng-model="query.value" gumga-mask="99.999.999/9999-99" class="form-control" required />`
   }
   // atributo extra: true-label, false-label
   SUPPORTED_TYPES['boolean'] = {
     validator: (boolean) => (boolean === true || boolean === false),
-    defaultCondition: 'eq',
+    defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq']),
     template: `<div class="radio"><label><input type="radio" ng-model="query.value" value="true"> <span ng-bind="query.attribute.trueLabel"></span></label></div><div class="radio"><label><input type="radio" ng-model="query.value" value="false"> <span ng-bind="query.attribute.falseLabel"></span></label></div>`
   }
 
   SUPPORTED_TYPES['date'] = {
     validator: (date) => (DATE_REGEX.test(date)),
-    defaultCondition: 'eq',
+    defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'gt', 'ge', 'lt', 'le']),
     template: `<input type="text" ng-model="query.value" gumga-mask="99/99/9999" class="form-control" required />`
   }
@@ -74,35 +74,35 @@ function HQLFactory(){
   // atributo extra: query.attribute.value [{label:'', field:''}]
   SUPPORTED_TYPES['select'] = {
     validator: (value) => (!!value),
-    defaultCondition: 'eq',
+    defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne']),
     template: `<select ng-model="query.value" ng-options="attribute.label for attribute in query.attribute.value track by attribute.field" class="form-control" required /></select>`
   }
   // atributo extra: attribute.value [{label:'', field:''}]
   SUPPORTED_TYPES['enum'] = {
     validator: (enumList) => (Array.isArray(enumList)),
-    defaultCondition: 'in',
+    defaultCondition: hqlObjectCreator(['in']),
     conditions: ['in'],
     template: `<div class="checkbox" ng-init="query.value = []" ng-repeat="attribute in query.attribute.value"><label><input type="checkbox" ng-checked="query.value.indexOf(attribute.field) > -1" ng-click="toggleEnum(attribute.field)"><span ng-bind="attribute.label"></span></label></div>`
   }
 
   SUPPORTED_TYPES['email'] = {
     validator: (emailAddress) => (this['String'].validator(emailAddress)),
-    defaultCondition: 'eq',
+    defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'contains', 'not_contains', 'starts_with', 'ends_with']),
     template: ` <input type="email" ng-model="query.value" class="form-control" required /> `
   }
 
   SUPPORTED_TYPES['url'] = {
     validator: (url) => (URL_REGEX.test(url)),
-    defaultCondition: 'eq',
+    defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'contains', 'not_contains', 'starts_with', 'ends_with']),
     template: ` <input type="url" ng-model="query.value" class="form-control" required /> `
   }
 
   SUPPORTED_TYPES['ip'] = {
     validator: (ip) => (IP_REGEX.test(ip)),
-    defaultCondition: 'eq',
+    defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'contains', 'not_contains', 'starts_with', 'ends_with']),
     template: ` <input type="text" ng-model="query.value" class="form-control" required /> `
   }
