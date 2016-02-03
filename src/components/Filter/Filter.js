@@ -36,11 +36,11 @@
             </header>
             <div class="form-inline panel-body">
 
-                <div class="input-group" ng-repeat="($key, $value) in controlMap">
+                <div class="input-group" ng-repeat="($key, $value) in controlMap" style="margin-right: 1%">
 
                     <div class="input-group-btn">
 
-                        <div class="btn-group" uib-dropdown >
+                        <div class="btn-group" uib-dropdown ng-show="!$value.label">
                             <button type="button" class="btn btn-default" uib-dropdown-toggle >
                                 <span id="_btn{{$key}}"> {{ $value.query.attribute.label || 'Atributo' }} </span>
                                 
@@ -52,7 +52,7 @@
                             </ul>
                         </div>
 
-                        <div class="btn-group hidden" uib-dropdown  id="_btnCondition{{$key}}">
+                        <div class="btn-group hidden" uib-dropdown  id="_btnCondition{{$key}}" ng-show="!$value.label">
                             <button type="button" class="btn btn-default" uib-dropdown-toggle>
                                 <span id="_conditionLabel{{$key}}">{{ $value.query.condition.label || 'Condição' }}</span>
                                 
@@ -65,7 +65,7 @@
                             </ul>
                         </div>
 
-                        <div class="btn-group hidden" uib-dropdown id="_btnValue{{$key}}">
+                        <div class="btn-group hidden" uib-dropdown id="_btnValue{{$key}}" ng-show="!$value.label">
                             <button type="button" class="btn btn-default" uib-dropdown-toggle>
                                 <span> {{ $value.query.value || 'Valor' }} </span>
                             </button>
@@ -76,7 +76,13 @@
                             </div>
                         </div>
 
-                        <button type="button" class="btn btn-default" ng-click="clearQuery(query)">
+                        <div class="btn-group" ng-show="$value.label">
+                          <button type="button" class="btn btn-default">
+                            <span> {{ $value.label}} </span>
+                          </button>
+                        </div>
+
+                        <button type="button" class="btn btn-default" ng-click="clearQuery(query)" ng-show="!$value.label"> 
                             <span class="glyphicon glyphicon-remove"></span>
                         </button>
 
@@ -84,7 +90,7 @@
 
                 </div>
 
-                <button id="single-button" type="button" class="btn btn-default" ng-click="addQuery()" ng-disabled="disabled">
+                <button id="single-button" type="button" class="btn btn-default" ng-click="addQuery()">
                     <span class="glyphicon glyphicon-plus"></span>
                 </button>
             </div>
@@ -101,12 +107,14 @@
               const FIELD_ERR = `É necessário atribuir um valor ao atributo FIELD da tag ADVANCED-SEARCH-FIELD.`,
                     TYPE_ERR  = `O tipo "{1}" passado como parâmetro para o ADVANCED-SEARCH-FIELD não é suportado.`
 
-              $scope.attributes   = []
-              $scope.conditions   = []
-              $scope.controlMap   = {}
-              $scope.control      = {}
-              $scope.addAttribute = addAttribute
-              $scope.addCondition = addCondition
+              $scope.attributes             = []
+              $scope.conditions             = []
+              $scope.controlMap             = {}
+              $scope.control                = {}
+              $scope.addAttribute           = addAttribute
+              $scope.addCondition           = addCondition
+              $scope.addQuery               = addQuery
+              $scope.lastAddedQueryIndex    = Infinity
 
               $transclude((transcludeElement) => {
                   [].slice.call(transcludeElement).forEach((value, $index) => {
@@ -143,20 +151,23 @@
 
               const getElm            = (key) => (angular.element(document.getElementById(key)));
 
-              const openCondition     = (index) => (getElm(`_btnCondition${index}`).addClass('open'));
               const showCondition     = (index) => (getElm(`_btnCondition${index}`).removeClass('hidden'));
+              const openCondition     = (index) => (getElm(`_btnCondition${index}`).addClass('open'));
               const hasClassCondition = (index) => (getElm(`_btnCondition${index}`).hasClass('hidden'));
               const openValue         = (index) => (getElm(`_btnValue${index}`).addClass('open'));
-              const showValue         = (index) => (getElm(`_btnValue${index}`).removeClass('hidden'));               
+              const showValue         = (index) => (getElm(`_btnValue${index}`).removeClass('hidden'));   
+              const isEven            = (n) => (n % 2 == 0)            
              
               $timeout(() => {
                 showCondition(0);
                 showValue(0);
                 openValue(0);
                 $scope.conditions = HQLFactory.useType($scope.controlMap['0'].query.attribute.type).conditions
+                $scope.lastAddedQueryIndex = 0;
               })
               
               function addAttribute(index, selectedAttribute){
+                console.log(index, selectedAttribute)
                 if(!$scope.controlMap[index].attribute)
                   $scope.controlMap[index].attribute = {}
 
@@ -165,9 +176,9 @@
                 getElm(`_btn${index}`).html(selectedAttribute.label)
 
                 if(hasClassCondition(index, 'hidden')){
-                  showCondition(0);
-                  openCondition(0);
+                  showCondition(index);
                 } 
+                openCondition(index);
 
                 $scope.conditions = HQLFactory.useType(selectedAttribute.type).conditions
 
@@ -181,8 +192,32 @@
                 getElm(`_conditionLabel${index}`).html(selectedCondition.label)
                 getElm(`_btnCondition${index}`).removeClass('open')
 
+                showValue(index);
+                openValue(index);
+
               }
 
+              function addQuery(){
+                if(isEven($scope.lastAddedQueryIndex)){
+                  $scope.lastAddedQueryIndex++;
+
+                  $scope.controlMap[$scope.lastAddedQueryIndex] = {
+                    query: {
+                      value: 'AND'
+                    },
+                    label: 'E'
+                  }
+                }
+
+                $scope.lastAddedQueryIndex++;
+                $scope.controlMap[$scope.lastAddedQueryIndex] = {
+                  query: { attribute: {}, condition: {}, value: '' },
+                  active: true
+                }
+
+
+                console.log($scope.controlMap)
+              }
 
 
             }
