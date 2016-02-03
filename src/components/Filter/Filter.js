@@ -41,7 +41,7 @@
                     <div class="input-group-btn">
 
                         <div class="btn-group" uib-dropdown >
-                            <button type="button" class="btn btn-default" uib-dropdown-toggle>
+                            <button type="button" class="btn btn-default" uib-dropdown-toggle ng-click="disableButton">
                                 <span id="_btn{{$key}}"> {{ $value.query.attribute.label || 'Atributo' }} </span>
                                 <span class="caret"></span>
                             </button>
@@ -54,13 +54,13 @@
 
                         <div class="btn-group hidden" uib-dropdown  id="_btnCondition{{$key}}">
                             <button type="button" class="btn btn-default" uib-dropdown-toggle>
-                                <span>{{ $value.query.condition.label || 'Condição' }}</span>
+                                <span id="_conditionLabel{{$key}}">{{ $value.query.condition.label || 'Condição' }}</span>
                                 <span class="caret"></span>
                             </button>
 
                             <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
                                 <li role="menuitem" ng-repeat="condition in conditions">
-                                    <a ng-click="setCondition(query, condition)">{{condition.label}}</a>
+                                    <a ng-click="addCondition($key, condition)">{{condition.label}}</a>
                                 </li>
                             </ul>
                         </div>
@@ -105,7 +105,9 @@
               $scope.attributes   = []
               $scope.conditions   = []
               $scope.controlMap   = {}
+              $scope.control      = {}
               $scope.addAttribute = addAttribute
+              $scope.addCondition = addCondition
 
               $transclude((transcludeElement) => {
                   [].slice.call(transcludeElement).forEach((value, $index) => {
@@ -158,7 +160,18 @@
                 let condition = getElm(`_btnCondition${index}`)
                 if(condition.hasClass('hidden')) condition.removeClass('hidden')
 
+
                 $scope.conditions = HQLFactory.useType(selectedAttribute.type).conditions
+
+
+              }
+
+              function addCondition(index, selectedCondition){
+                if(!$scope.controlMap[index].condition) $scope.controlMap[index].condition = {}
+                $scope.controlMap[index].condition = selectedCondition
+
+                getElm(`_conditionLabel${index}`).html(selectedCondition.label)
+
 
               }
             }
