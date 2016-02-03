@@ -142,7 +142,7 @@
               });
 
               let defaultAttribute  = angular.copy($scope.attributes[0]),
-                  defaultCondition  = angular.copy(HQLFactory.useType($scope.attributes[0].type).conditions)[0]
+                  defaultCondition  = angular.copy(HQLFactory.useType($scope.attributes[0].type).defaultCondition)[0]
 
               $scope.controlMap['0'] = {
                 query: { attribute: defaultAttribute, condition: defaultCondition, value: '' },
@@ -181,7 +181,7 @@
                 openCondition(index);
 
                 let hqlType = HQLFactory.useType(selectedAttribute.type);
-                $scope.conditions = hqlType.conditions
+                $scope.conditions = hqlType.defaultCondition;
 
               }
 
