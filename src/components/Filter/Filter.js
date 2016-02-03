@@ -180,7 +180,8 @@
                 } 
                 openCondition(index);
 
-                $scope.conditions = HQLFactory.useType(selectedAttribute.type).conditions
+                let hqlType = HQLFactory.useType(selectedAttribute.type);
+                $scope.conditions = hqlType.conditions
 
               }
 
