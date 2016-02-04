@@ -32,7 +32,7 @@
             <div class="form-inline panel-body">
                 
                 <div class="input-group" ng-repeat="($key, $value) in controlMap" style="margin-right: 1%" ng-show="$value.active">
-
+                
                     <div class="input-group-btn">
                         <div class="btn-group" uib-dropdown ng-show="!$value.label" id="_btnAttribute{{$key}}">
                             <button type="button" class="btn btn-default" uib-dropdown-toggle >
@@ -48,19 +48,18 @@
                         <div class="btn-group hidden" uib-dropdown  id="_btnCondition{{$key}}" ng-show="!$value.label">
                             <button type="button" class="btn btn-default" uib-dropdown-toggle>
                                 <span id="_conditionLabel{{$key}}">{{ $value.query.condition.label || 'Condição' }}</span>
-                                
                             </button>
 
                             <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                                <li role="menuitem" ng-repeat="condition in conditions">
+                                <li role="menuitem" ng-repeat="condition in conditions track by $index">
                                     <a ng-click="addCondition($key, condition)">{{condition.label}}</a>
                                 </li>
                             </ul>
                         </div>
 
                         <div class="btn-group" id="_btnValue{{$key}}" ng-show="!$value.label">
-                            <button type="button" class="btn btn-default" ng-click="togglePanel($key)">
-                                <span id="_conditionLabel{{$key}}">{{ $value.query.condition.label || 'Condição' }}</span>
+                            <button type="button" class="btn btn-default" ng-click="togglePanelValue($key)">
+                                <span id="_conditionLabel{{$key}}">{{ $value.query.value || 'valor' }}</span>
                             </button>
                             <div class="gumga-filter-panel" id="_panelValue{{$key}}"></div>
                         </div>
@@ -106,6 +105,7 @@
               $scope.updateOperator         = updateOperator
               $scope.lastAddedQueryIndex    = Infinity
               $scope.removeQuery            = removeQuery
+              $scope.togglePanelValue       = togglePanelValue
 
               $transclude((transcludeElement) => {
                 [].slice.call(transcludeElement).forEach((value, $index) => {
@@ -127,7 +127,7 @@
                     console.error(TYPE_ERR.replace('{1}', type))
                     return
                   }
-
+                //   console.log(HQLFactory.useType(type));
                   $scope.attributes.push({ field, type, label })
                 })
               })
@@ -157,13 +157,26 @@
                 replacePanelContent(0, hqlType.template)
               })
               
-              function togglePanel(index){
+              function togglePanelValue(index){
                   getElm(`_panelValue${index}`).toggleClass('show')
               }
               
-              function closePanel(index){
+              function closePanelValue(index){
                   getElm(`_panelValue${index}`).removeClass('show')
               }
+              
+              document.addEventListener('click', (e) => {
+                let isElement = 0;
+                angular.forEach(e.path, (node) => {
+                    if (node.nodeName == 'GUMGA-FILTER-CORE') {
+                        console.log('ads')
+                    }
+                    // if (node.nodeName == id.toUpperCase()) isElement++
+                });
+                // if (!isElement) {
+                //     console.log('query');
+                // }
+              });
                             
               function addAttribute(index, selectedAttribute){
                 if(!$scope.controlMap[index].attribute)
@@ -194,7 +207,12 @@
 
                 showValue(index)
                 openValue(index)
+                togglePanelValue(index)
 
+              }
+              
+              function addValue(index, value){
+                  getElm(`_value${index}`).html(value);
               }
 
               function addQuery(){
@@ -238,7 +256,7 @@
               }
 
               function replacePanelContent(key, template){
-                getElm(`_panel${key}`).html(template)
+                getElm(`_panelValue${key}`).html(template)
               }
 
             }
