@@ -7,10 +7,10 @@
         <div class="gumga-filter panel panel-default" ng-show="isOpen">
             <header class="panel-heading" style="padding: 8px 15px">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <h4 style="margin: 8px 0">Busca avançada</h4>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
 
                         <div class="input-group" ng-init="saveFilterOpen = false">
                             <input type="text" class="form-control" aria-label="..." ng-show="saveFilterOpen">
@@ -58,15 +58,11 @@
                             </ul>
                         </div>
 
-                        <div class="btn-group hidden" uib-dropdown id="_btnValue{{$key}}" ng-show="!$value.label">
-                            <button type="button" class="btn btn-default" uib-dropdown-toggle>
-                                <span> {{ $value.query.value || 'Valor' }} </span>
+                        <div class="btn-group" id="_btnValue{{$key}}" ng-show="!$value.label">
+                            <button type="button" class="btn btn-default" ng-click="togglePanel($key)">
+                                <span id="_conditionLabel{{$key}}">{{ $value.query.condition.label || 'Condição' }}</span>
                             </button>
-                            <div uib-dropdown-menu role="panel" class="panel panel-default" style="width: auto" ng-click="$event.preventDefault()">
-                                <div class="panel-body" id="_panel{{$key}}">
-                                  
-                                </div>
-                            </div>
+                            <div class="gumga-filter-panel" id="_panelValue{{$key}}"></div>
                         </div>
 
                         <div class="btn-group" ng-show="$value.label">
@@ -74,7 +70,6 @@
                             <span id="__operator{{$key}}"> {{$value.label}} </span>
                           </button>
                         </div>
-
                         <button type="button" class="btn btn-default" ng-click="removeQuery($index)" ng-show="!$value.label"> 
                             <span class="glyphicon glyphicon-remove"></span>
                         </button>
@@ -161,11 +156,19 @@
                 replacePanelContent(0, hqlType.template)
               })
               
+              function togglePanel(index){
+                  getElm(`_panelValue${index}`).toggleClass('show')
+              }
+              
+              function closePanel(index){
+                  getElm(`_panelValue${index}`).removeClass('show')
+              }
+                            
               function addAttribute(index, selectedAttribute){
-                if(!$scope.controlMap[index].attribute)
-                  $scope.controlMap[index].attribute = {}
+                if(!$scope.controlMap[index].query.attribute)
+                  $scope.controlMap[index].query.attribute = {}
 
-                $scope.controlMap[index].attribute = selectedAttribute
+                $scope.controlMap[index].query.attribute = selectedAttribute
                 removeAttribute(index)
                 getElm(`_btn${index}`).html(selectedAttribute.label)
 
@@ -182,16 +185,15 @@
               }
 
               function addCondition(index, selectedCondition){
-                if(!$scope.controlMap[index].condition) $scope.controlMap[index].condition = {}
+                if(!$scope.controlMap[index].query.condition) $scope.controlMap[index].query.condition = {}
 
-                $scope.controlMap[index].condition = selectedCondition
+                $scope.controlMap[index].query.condition = selectedCondition
 
                 getElm(`_conditionLabel${index}`).html(selectedCondition.label)
                 getElm(`_btnCondition${index}`).removeClass('open')
 
                 showValue(index)
                 openValue(index)
-
               }
 
               function addQuery(){
@@ -203,6 +205,17 @@
                 $scope.lastAddedQueryIndex++
                 $scope.controlMap[$scope.lastAddedQueryIndex] = { query: { attribute: {}, condition: {}, value: '' }, active: true }
               }
+
+              function firstOfMap(){
+                let first;
+                Object.keys($scope.controlMap).forEach(value => {
+                  if(!first && $scope.controlMap[value].active){
+                    first = value
+                  }
+                })
+                return first
+              }
+
 
               function removeQuery(key){
                 if(key == 0 && $scope.lastAddedQueryIndex === 0){
@@ -221,6 +234,10 @@
                   $scope.controlMap[key].active = false
                   $scope.controlMap[key-1].active = false
                 }
+
+                if(!isEven(firstOfMap()))
+                  $scope.controlMap[firstOfMap()].active = false
+
               }
 
               function updateOperator(key){
@@ -237,6 +254,8 @@
               function replacePanelContent(key, template){
                 getElm(`_panel${key}`).html(template)
               }
+
+              $scope.$watch('controlMap', (newVal, oldVal) => console.log(HQLFactory.createHql(newVal)), true)
 
             }
         }
