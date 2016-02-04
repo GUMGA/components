@@ -4,24 +4,20 @@
     Filter.$inject = ['HQLFactory','$compile','$timeout']
     function Filter(HQLFactory,$compile, $timeout) {
         let template = `
-        <div class="gumga-filter panel panel-default" ng-show="isOpen">
-            <header class="panel-heading" style="padding: 8px 15px">
+        <div class="gumga-filter panel panel-default" >
+            <header class="panel-heading" style="padding: 5px 10px;">
                 <div class="row">
-                    <div class="col-md-8">
-                        <h4 style="margin: 8px 0">Busca avançada</h4>
+                    <div class="col-md-8 col-xs-7">
+                        <h5><strong>Busca avançada</strong></h5>
                     </div>
-                    <div class="col-md-4">
-
-                        <div class="input-group" ng-init="saveFilterOpen = false">
-                            <input type="text" class="form-control" aria-label="..." ng-show="saveFilterOpen">
+                    <div class="col-md-4 col-xs-5" ng-show="saveQuery">
+                        <div class="input-group" >
+                            <input type="text" ng-model="nameSearch" class="form-control" aria-label="..." id="_save" ng-show="saveFilterOpen" ng-keyup="saveSearch(nameSearch)" ng-blur="closeInput()">
                             <div class="input-group-btn">
-                                <button class="btn btn-default" ng-show="saveFilterOpen" ng-click="saveFilterOpen = !saveFilterOpen">
+                                <button class="btn btn-success" ng-show="saveFilterOpen" ng-click="saveSearch(nameSearch, $event)">
                                     <i class="glyphicon glyphicon-floppy-saved"></i>
                                 </button>
-                                <button class="btn btn-default" ng-show="saveFilterOpen" ng-click="saveFilterOpen = !saveFilterOpen">
-                                    <i class="glyphicon glyphicon-floppy-remove"></i>
-                                </button>
-                                <button class="btn btn-default pull-right" type="button" ng-show="!saveFilterOpen" ng-click="saveFilterOpen = !saveFilterOpen">
+                                <button class="btn btn-default pull-right" type="button" ng-hide="saveFilterOpen" ng-click="showInput()">
                                     <i class="glyphicon glyphicon-floppy-disk"></i>
                                 </button>
                             </div>
@@ -88,25 +84,35 @@
             template: template,
             transclude: true,
             scope : {
-                isOpen: '@'
+                search: '&',
+                saveQuery: '&'
             },
             link: ($scope, $element, $attrs, $ctrl, $transclude) => {
-              const FIELD_ERR = `É necessário atribuir um valor ao atributo FIELD da tag ADVANCED-SEARCH-FIELD.`,
-                    TYPE_ERR  = `O tipo "{1}" passado como parâmetro para o ADVANCED-SEARCH-FIELD não é suportado.`
+              const FIELD_ERR   = `É necessário atribuir um valor ao atributo FIELD da tag ADVANCED-SEARCH-FIELD.`,
+                    TYPE_ERR    = `O tipo "{1}" passado como parâmetro para o ADVANCED-SEARCH-FIELD não é suportado.`,
+                    SEARCH_ERR  = `É necessário atribuir uma função para o atributo SEARCH. [search="foo()"]`
 
               $scope.attributes             = []
               $scope.conditions             = []
               $scope.controlMap             = {}
               $scope.control                = {}
+              $scope.lastAddedQueryIndex    = Infinity
+              
               $scope.addAttribute           = addAttribute
               $scope.addCondition           = addCondition
               $scope.addQuery               = addQuery
-              $scope.updateOperator         = updateOperator
-              $scope.lastAddedQueryIndex    = Infinity
+              $scope.closeInput             = closeInput
               $scope.removeQuery            = removeQuery
               $scope.togglePanelValue       = togglePanelValue
               $scope.closePanelValue        = closePanelValue
               $scope.closePanels            = closePanels
+              $scope.showInput              = showInput 
+              $scope.saveSearch             = saveSearch
+              $scope.saveQuery              = $attrs.saveQuery  ?  $scope.saveQuery : null
+              $scope.search                 = $attrs.search     ?     $scope.search : null
+              $scope.updateOperator         = updateOperator
+
+              if(!$scope.search) console.error(SEARCH_ERR)
 
               $transclude((transcludeElement) => {
                 [].slice.call(transcludeElement).forEach((value, $index) => {
@@ -167,11 +173,10 @@
               }
               
               function closePanels() {
-                  let panels = document.querySelectorAll('.gumga-filter-panel');
+                  let panels = document.querySelectorAll('.gumga-filter-panel')
                   for (var i = 0; i < panels.length; i++) {
-                      let panel = angular.element(panels[i]);
-                      if (panel.hasClass('show')) panel.removeClass('show');
-                      
+                      let panel = angular.element(panels[i])
+                      if (panel.hasClass('show')) panel.removeClass('show')
                   }
               }
               
@@ -186,17 +191,6 @@
                     console.log($scope.$value.query)
                     $scope.closePanels()
                 }
-                
-                // angular.forEach(e.path, (node) => {
-                //     if (node.nodeName == 'GUMGA-FILTER-CORE') {
-                //         console.log('ads')
-                //         console.log($scope.$value)
-                //     }
-                //     // if (node.nodeName == id.toUpperCase()) isElement++
-                // });
-                // if (!isElement) {
-                //     console.log('query');
-                // }
               });
                             
               function addAttribute(index, selectedAttribute){
@@ -244,6 +238,23 @@
 
                 $scope.lastAddedQueryIndex++
                 $scope.controlMap[$scope.lastAddedQueryIndex] = { query: { attribute: {}, condition: {}, value: '' }, active: true }
+              }
+
+              function closeInput(){
+                $timeout(() => {
+                  $scope.saveFilterOpen = false
+                }, 200)
+              }
+
+              function showInput(){
+                $scope.saveFilterOpen = true
+                $timeout(() => document.getElementById('_save').focus())
+              }
+
+              function saveSearch(name, event){
+                let query = HQLFactory.createHql($scope.controlMap).aqo
+
+                $scope.saveQuery({ query, name })
               }
 
               function firstOfMap(){

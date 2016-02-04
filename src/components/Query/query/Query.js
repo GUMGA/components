@@ -35,8 +35,7 @@
         <div class="col-md-12">
           <div id="replaceFilter"></div>
         </div>
-      </div>
-       `
+      </div>`
 
     controller.$inject = ['$scope', '$element', '$attrs', '$transclude']
 

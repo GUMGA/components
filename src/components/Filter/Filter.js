@@ -16,9 +16,20 @@
       restrict: 'E',
       template: template,
       transclude: true,
-      scope: {},
+      scope: {
+        search: '&',
+        saveQuery: '&'
+      },
       link: ($scope, $element, $attrs, $ctrl, $transclude) => {
         $scope.possibleAdvancedFields = []
+
+        $scope.search       = $scope.search     || angular.noop
+        $scope.saveQuery    = $scope.saveQuery  || angular.noop
+        $scope.proxySave    = (query, name) => {
+          $scope.saveQuery({ query, name })
+        }
+        $scope.proxySearch  = (param)       => $scope.search({ param })
+
 
         $transclude((transcludeElement) => {
           [].slice.call(transcludeElement).forEach(value => {
@@ -26,9 +37,11 @@
               $scope.possibleAdvancedFields.push(value.outerHTML)
           })
 
-          let template  = `<gumga-filter-core ng-show="isOpen" is-open="true"> ${$scope.possibleAdvancedFields.reduce(((prev, next) => prev += next), '')}</gumga-filter-core>`,
+          let template  = `<gumga-filter-core ng-show="isOpen" ${$attrs.search ? 'search="proxySearch(param)"' : ' '} ${$attrs.saveQuery ? 'save-query="saveQuery(query, name)"' : ''}> 
+                            ${$scope.possibleAdvancedFields.reduce(((prev, next) => prev += next), '')}
+                          </gumga-filter-core>`,
               element   = angular.element(document.getElementById('replace'))
-          
+            
           element.replaceWith($compile(template)($scope))  
         })
       }
