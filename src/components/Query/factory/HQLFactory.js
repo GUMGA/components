@@ -19,7 +19,7 @@ function HQLFactory(){
     validator: (string) => (typeof string === 'string' || string instanceof String),
     defaultCondition: hqlObjectCreator(['contains']),
     conditions: hqlObjectCreator(['eq', 'ne', 'ge', 'le', 'contains', 'not_contains', 'starts_with', 'ends_with']),
-    template: ` <input type="text" ng-model="query.value" class="form-control" required /> `
+    template: ` <input type="text" ng-model="$value.query.value" class="form-control" required /> `
   }
 
   SUPPORTED_TYPES['number'] = {
@@ -126,10 +126,32 @@ function HQLFactory(){
     return hqls.map(value => hqlObjects[value])
   }
 
-  return {
-      useType: useType,
-      hqlObjectCreator: hqlObjectCreator
-  };
+
+  function createHql(mapObj = {}){
+    let aqo = []
+    let aq = 
+      Object
+        .keys(mapObj)
+        .filter(value => mapObj[value].active)
+        .map(val => {
+          let attribute = 'obj.'.concat(mapObj[val].query.attribute ? mapObj[val].query.attribute.field : '*'),
+              before    = mapObj[val].query.condition ? mapObj[val].query.condition.before : '*',
+              value     = mapObj[val].query.value,
+              after     = mapObj[val].query.condition ? mapObj[val].query.condition.after : '*';
+
+          aqo.push({
+            attribute:  mapObj[val].query.attribute,
+            condition:  mapObj[val].query.condition,
+            value:      mapObj[val].query.value
+          })
+
+        return (attribute.concat(before).concat(value).concat(after)).replace(/obj.\*/g,'').replace(/\*/g,'')
+      }).join(' ')
+
+    return { aq, aqo }
+  } 
+
+  return { useType , hqlObjectCreator, createHql };
 
 }
 
