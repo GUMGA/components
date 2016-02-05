@@ -19,14 +19,14 @@ function HQLFactory(){
     validator: (string) => (typeof string === 'string' || string instanceof String),
     defaultCondition: hqlObjectCreator(['contains']),
     conditions: hqlObjectCreator(['eq', 'ne', 'ge', 'le', 'contains', 'not_contains', 'starts_with', 'ends_with']),
-    template: ` <input type="text" ng-model="$value.query.value" class="form-control" required /> `
+    template: ` <input type="text" ng-model="$value.query.value" class="form-control" required autofocus /> `
   }
 
   SUPPORTED_TYPES['number'] = {
     validator: (number) => (isFinite(number) && number === +number),
     defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'gt', 'ge', 'lt', 'le']),
-    template: ` <input type="number" ng-model="query.value" class="form-control" required /> `
+    template: ` <input type="number" ng-model="$value.query.value" class="form-control" required /> `
   }
 
   SUPPORTED_TYPES['float'] = {
@@ -134,6 +134,7 @@ function HQLFactory(){
         .keys(mapObj)
         .filter(value => mapObj[value].active)
         .map(val => {
+          console.log(mapObj[val].query)
           let attribute = 'obj.'.concat(mapObj[val].query.attribute ? mapObj[val].query.attribute.field : '*'),
               before    = mapObj[val].query.condition ? mapObj[val].query.condition.before : '*',
               value     = mapObj[val].query.value,

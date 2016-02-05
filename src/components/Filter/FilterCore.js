@@ -85,7 +85,8 @@
             transclude: true,
             scope : {
                 search: '&',
-                saveQuery: '&'
+                saveQuery: '&',
+                queries: '=data'
             },
             link: ($scope, $element, $attrs, $ctrl, $transclude) => {
               const FIELD_ERR   = `É necessário atribuir um valor ao atributo FIELD da tag ADVANCED-SEARCH-FIELD.`,
@@ -162,37 +163,9 @@
                 $scope.conditions = hqlType.conditions
                 $scope.lastAddedQueryIndex = 0
                 replacePanelContent(0, hqlType.template)
+                $scope.togglePanelValue(0)
               })
               
-              function togglePanelValue(index){
-                  getElm(`_panelValue${index}`).toggleClass('show')
-              }
-              
-              function closePanelValue(index){
-                  getElm(`_panelValue${index}`).removeClass('show')
-              }
-              
-              function closePanels() {
-                  let panels = document.querySelectorAll('.gumga-filter-panel')
-                  for (var i = 0; i < panels.length; i++) {
-                      let panel = angular.element(panels[i])
-                      if (panel.hasClass('show')) panel.removeClass('show')
-                  }
-              }
-              
-              document.addEventListener('click', (e) => {
-                let outerClick    = true,
-                    distanceNodes = e.path.length
-                for (var i = 0; i < distanceNodes; i++) {
-                    if (e.path[i].nodeName == 'GUMGA-FILTER-CORE') outerClick = false;
-                }
-                
-                if (outerClick && $scope.$value) {
-                    console.log($scope.$value.query)
-                    $scope.closePanels()
-                }
-              });
-                            
               function addAttribute(index, selectedAttribute){
                 if(!$scope.controlMap[index].query.attribute)
                   $scope.controlMap[index].query.attribute = {}
@@ -238,6 +211,8 @@
 
                 $scope.lastAddedQueryIndex++
                 $scope.controlMap[$scope.lastAddedQueryIndex] = { query: { attribute: {}, condition: {}, value: '' }, active: true }
+                
+                $scope.closePanels();
               }
 
               function closeInput(){
@@ -307,7 +282,39 @@
               }
 
               $scope.$watch('controlMap', (newVal, oldVal) => console.log(HQLFactory.createHql(newVal)), true)
-
+              
+              function togglePanelValue(index){
+                getElm(`_panelValue${index}`).toggleClass('show')
+              }
+              
+              function closePanelValue(index){
+                getElm(`_panelValue${index}`).removeClass('show')
+              }
+              
+              function closePanels(){
+                let panels = document.querySelectorAll('.gumga-filter-panel')
+                for (var i = 0; i < panels.length; i++) {
+                  let panel = angular.element(panels[i])
+                  if (panel.hasClass('show')) panel.removeClass('show')
+                }
+              }
+              
+              document.addEventListener('click', (e) => {
+                let outerClick    = true,
+                    distanceNodes = e.path.length
+                for (var i = 0; i < distanceNodes; i++) {
+                  if (e.path[i].nodeName == 'GUMGA-FILTER-CORE') outerClick = false;
+                }
+                
+                if (outerClick && $scope.$value) {
+                  console.log($scope.$value)
+                  $scope.queries = HQLFactory.createHql($scope.controlMap)
+                  $scope.$apply()
+                  $scope.closePanels()
+                  $scope.search(HQLFactory.createHql($scope.controlMap));
+                }
+              });
+              
             }
         }
     }
