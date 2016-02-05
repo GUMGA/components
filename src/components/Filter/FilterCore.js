@@ -86,9 +86,11 @@
             scope : {
                 search: '&',
                 saveQuery: '&',
-                queries: '=data'
+                data: '='
             },
             link: ($scope, $element, $attrs, $ctrl, $transclude) => {
+                
+                console.log($scope.data);
               const FIELD_ERR   = `É necessário atribuir um valor ao atributo FIELD da tag ADVANCED-SEARCH-FIELD.`,
                     TYPE_ERR    = `O tipo "{1}" passado como parâmetro para o ADVANCED-SEARCH-FIELD não é suportado.`,
                     SEARCH_ERR  = `É necessário atribuir uma função para o atributo SEARCH. [search="foo()"]`
@@ -98,6 +100,7 @@
               $scope.controlMap             = {}
               $scope.control                = {}
               $scope.lastAddedQueryIndex    = Infinity
+              $scope.updatingHql            = Infinity
               
               $scope.addAttribute           = addAttribute
               $scope.addCondition           = addCondition
@@ -121,7 +124,8 @@
 
                   let field = value.getAttribute('field'),
                       type  = value.getAttribute('type'),
-                      label = value.getAttribute('label')
+                      label = value.getAttribute('label'),
+                      extraProperties = {}
 
                   if(!field) {
                     console.error(FIELD_ERR)
@@ -131,12 +135,13 @@
                   type  = type.toLowerCase().trim() || ''
                   label = label                     || field.charAt(0).toUpperCase() + field.slice(1) 
 
+                  extraProperties = getExtraProperties(value)
+                  
                   if(!HQLFactory.useType(type)){
                     console.error(TYPE_ERR.replace('{1}', type))
                     return
                   }
-                //   console.log(HQLFactory.useType(type));
-                  $scope.attributes.push({ field, type, label })
+                  $scope.attributes.push({ field, type, label, extraProperties })
                 })
               })
 
@@ -165,6 +170,33 @@
                 replacePanelContent(0, hqlType.template)
                 $scope.togglePanelValue(0)
               })
+              
+              function getExtraProperties(value) {
+                let properties;
+                switch (value.getAttribute('type')) {
+                  case 'boolean': {
+                    properties = {
+                      trueLabel: value.getAttribute('true-label'),
+                      falseLabel: value.getAttribute('false-label')
+                    }
+                    break;
+                  }
+                  case 'select': {
+                    properties = {
+                      selectLabel: value.getAttribute('select-label'),
+                      selectField: value.getAttribute('select-field')
+                    }
+                    break;
+                  }
+                  case 'enum' : {
+                    properties = {
+                      enumLabel: value.getAttribute('enum-label'),
+                      enumField: value.getAttribute('enum-field')
+                    }
+                  }
+                }
+                return properties;
+              }
               
               function addAttribute(index, selectedAttribute){
                 if(!$scope.controlMap[index].query.attribute)
@@ -244,7 +276,7 @@
 
 
               function removeQuery(key){
-                if(key == 0 && $scope.lastAddedQueryIndex === 0){
+                if(key == firstOfMap() && $scope.lastAddedQueryIndex === firstOfMap()){
                   $scope.controlMap[key] = { query: { attribute: {}, condition: {}, value: '' }, active: true }
                   getElm(`_btn${key}`).html('Atributo')
                   getElm(`_conditionLabel${key}`).html('Condição')
@@ -252,8 +284,9 @@
                   return;
                 }
                 if(key == 0){
-                  $scope.controlMap[key].active = false
-                  $scope.controlMap[key +1].active = false
+                  if($scope.controlMap[key +1]){
+                    $scope.controlMap[key +1].active = false  
+                  }
                   return
                 }
                 if(isEven(key)) {
@@ -278,12 +311,14 @@
               }
 
               function replacePanelContent(key, template){
-                $compile(getElm(`_panelValue${key}`).html(template).contents())($scope)
+                let elm = getElm(`_panelValue${key}`)
+                $compile(elm.html(template).contents())(elm.scope())
               }
 
-              $scope.$watch('controlMap', (newVal, oldVal) => console.log(HQLFactory.createHql(newVal)), true)
-              
               function togglePanelValue(index){
+                if($scope.updatingHql != index){
+                  $scope.updatingHql = index
+                }
                 getElm(`_panelValue${index}`).toggleClass('show')
               }
               
@@ -305,10 +340,8 @@
                 for (var i = 0; i < distanceNodes; i++) {
                   if (e.path[i].nodeName == 'GUMGA-FILTER-CORE') outerClick = false;
                 }
-                
-                if (outerClick && $scope.$value) {
-                  console.log($scope.$value)
-                  $scope.queries = HQLFactory.createHql($scope.controlMap)
+                //  ($scope.updatingHql)
+                if (outerClick ) {
                   $scope.$apply()
                   $scope.closePanels()
                   $scope.search(HQLFactory.createHql($scope.controlMap));
