@@ -114,6 +114,7 @@
               $scope.saveQuery              = $attrs.saveQuery  ?  $scope.saveQuery : null
               $scope.search                 = $attrs.search     ?     $scope.search : null
               $scope.updateOperator         = updateOperator
+              $scope.toggleEnum             = toggleEnum
 
               if(!$scope.search) console.error(SEARCH_ERR)
 
@@ -168,8 +169,22 @@
                 $scope.lastAddedQueryIndex = 0
                 replacePanelContent(0, hqlType.template)
                 $scope.updatingHql = 0;
+                $scope.togglePanelValue(0);
               })
               
+              function toggleEnum(event, key, field) {
+                event.stopPropagation()
+                  
+                let elm = getElm(`_panelValue${key}`).scope();
+                if (!Array.isArray(elm.$value.query.value)) elm.$value.query.value = [];
+                var index = elm.$value.query.value.indexOf(field)
+                if (index > -1) {
+                  elm.$value.query.value.splice(index, 1)
+                } else {
+                  elm.$value.query.value.push(field)
+                }
+              }
+
               function getExtraProperties(value) {
                 let properties;
                 switch (value.getAttribute('type')) {
@@ -178,7 +193,7 @@
                     break;
                   }
                   case 'select': {
-                    properties = {  data: outerScope[value.getAttribute('data')]  }                   
+                    properties = { data: outerScope[value.getAttribute('data')]  }                   
                     break;
                   }
                   case 'enum' : {
@@ -202,7 +217,7 @@
                 openCondition(index)
 
                 let hqlType = HQLFactory.useType(selectedAttribute.type);
-
+                
                 $scope.conditions = hqlType.conditions;
                 $scope.controlMap[index].query.value = undefined
                 $timeout(() => getElm(`_panelValue${index}`).removeClass('show'))
@@ -267,7 +282,7 @@
               }
 
               function removeQuery(key){
-                  console.log(key, firstOfMap(), $scope.lastAddedQueryIndex)
+                //   console.log(key, firstOfMap(), $scope.lastAddedQueryIndex)
 
 
                 // if(key == 0 && $scope.lastAddedQueryIndex === 0){
@@ -313,6 +328,7 @@
               }
 
               function togglePanelValue(index){
+                console.log("closePanel")
                 if($scope.updatingHql != index){
                   $scope.updatingHql = index
                 }

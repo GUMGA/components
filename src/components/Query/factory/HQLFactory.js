@@ -71,19 +71,18 @@ function HQLFactory(){
     template: `<input type="text" ng-model="$value.query.value" gumga-mask="99/99/9999" class="form-control" required />`
   }
 
-  // atributo extra: query.attribute.value [{label:'', field:''}]
   SUPPORTED_TYPES['select'] = {
     validator: (value) => (!!value),
     defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne']),
-    template: `<select ng-model="$value.query.value" ng-options="attribute.label for attribute in query.attribute.value track by attribute.field" class="form-control" required /></select>`
+    template: `<select ng-model="$value.query.value" ng-options="d.field as d.label for d in $value.query.attribute.extraProperties.data track by d.field" class="form-control" required /></select>`
   }
   // atributo extra: attribute.value [{label:'', field:''}]
   SUPPORTED_TYPES['enum'] = {
     validator: (enumList) => (Array.isArray(enumList)),
     defaultCondition: hqlObjectCreator(['in']),
-    conditions: ['in'],
-    template: `<div class="checkbox" ng-init="$value.query.value = []" ng-repeat="attribute in query.attribute.value"><label><input type="checkbox" ng-checked="$value.query.value.indexOf(attribute.field) > -1" ng-click="toggleEnum(attribute.field)"><span ng-bind="attribute.label"></span></label></div>`
+    conditions: hqlObjectCreator(['eq']),
+    template: `<div class="checkbox" ng-repeat="d in $value.query.attribute.extraProperties.data"><label><input type="checkbox" ng-checked="$value.query.value.indexOf(d.field) > -1" ng-click="toggleEnum($event, $key, d.field)"></label> {{d.label}}</div>`
   }
 
   SUPPORTED_TYPES['email'] = {
@@ -108,7 +107,7 @@ function HQLFactory(){
   }
   
   function useType(type) {
-      return SUPPORTED_TYPES[type] || null;
+    return SUPPORTED_TYPES[type] || null;
   }
 
   function hqlObjectCreator(hqls = [], hqlObjects = {}){
