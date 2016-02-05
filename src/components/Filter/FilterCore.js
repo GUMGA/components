@@ -31,7 +31,7 @@
                 
                     <div class="input-group-btn">
                         <div class="btn-group" uib-dropdown ng-show="!$value.label" id="_btnAttribute{{$key}}">
-                            <button type="button" class="btn btn-default" uib-dropdown-toggle >
+                            <button type="button" class="btn btn-default" uib-dropdown-toggle ng-click="closePanelValue($key)">
                                 <span id="_btn{{$key}}"> {{ $value.query.attribute.label || 'Atributo' }} </span>
                             </button>
                             <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
@@ -42,7 +42,7 @@
                         </div>
 
                         <div class="btn-group hidden" uib-dropdown  id="_btnCondition{{$key}}" ng-show="!$value.label">
-                            <button type="button" class="btn btn-default" uib-dropdown-toggle>
+                            <button type="button" class="btn btn-default" uib-dropdown-toggle ng-click="closePanelValue($key)">
                                 <span id="_conditionLabel{{$key}}">{{ $value.query.condition.label || 'Condição' }}</span>
                             </button>
 
@@ -168,7 +168,7 @@
                 $scope.conditions = hqlType.conditions
                 $scope.lastAddedQueryIndex = 0
                 replacePanelContent(0, hqlType.template)
-                $scope.togglePanelValue(0)
+                $scope.updatingHql = 0;
               })
               
               function getExtraProperties(value) {
@@ -204,8 +204,8 @@
 
                 $scope.controlMap[index].query.attribute = selectedAttribute
                 removeAttribute(index)
-                getElm(`_btn${index}`).html(selectedAttribute.label)
 
+                getElm(`_btn${index}`).html(selectedAttribute.label)
                 if(hasClassCondition(index, 'hidden')){
                   showCondition(index)
                 } 
@@ -214,8 +214,10 @@
                 let hqlType = HQLFactory.useType(selectedAttribute.type);
 
                 $scope.conditions = hqlType.conditions;
-
+                $scope.controlMap[index].query.value = undefined
+                $timeout(() => getElm(`_panelValue${index}`).removeClass('show'))
                 replacePanelContent(index, hqlType.template)
+
               }
 
               function addCondition(index, selectedCondition){
@@ -260,7 +262,6 @@
 
               function saveSearch(name, event){
                 let query = HQLFactory.createHql($scope.controlMap).aqo
-
                 $scope.saveQuery({ query, name })
               }
 
@@ -274,16 +275,16 @@
                 return first
               }
 
-
               function removeQuery(key){
-                if(key == firstOfMap() && $scope.lastAddedQueryIndex === firstOfMap()){
+                if(key == 0 && $scope.lastAddedQueryIndex === 0){
                   $scope.controlMap[key] = { query: { attribute: {}, condition: {}, value: '' }, active: true }
                   getElm(`_btn${key}`).html('Atributo')
-                  getElm(`_conditionLabel${key}`).html('Condição')
+                  getElm(`_conditionLabel${key}`).html('Condição') 
                   openAttribute(key)
                   return;
                 }
                 if(key == 0){
+                  $scope.controlMap[key].active = false
                   if($scope.controlMap[key +1]){
                     $scope.controlMap[key +1].active = false  
                   }
@@ -293,9 +294,8 @@
                   $scope.controlMap[key].active = false
                   $scope.controlMap[key-1].active = false
                 }
-
-                if(!isEven(firstOfMap()))
-                  $scope.controlMap[firstOfMap()].active = false
+                
+                if(!isEven(firstOfMap())) $scope.controlMap[firstOfMap()].active = false
 
               }
 
@@ -338,10 +338,11 @@
                 let outerClick    = true,
                     distanceNodes = e.path.length
                 for (var i = 0; i < distanceNodes; i++) {
-                  if (e.path[i].nodeName == 'GUMGA-FILTER-CORE') outerClick = false;
+                  if (e.path[i].nodeName == 'GUMGA-FILTER -CORE') outerClick = false;
                 }
-                //  ($scope.updatingHql)
-                if (outerClick ) {
+
+                let validator = HQLFactory.validator($scope.controlMap[$scope.updatingHql].query.attribute.type)
+                if (outerClick && validator &&  validator($scope.controlMap[$scope.updatingHql].query.value)) {
                   $scope.$apply()
                   $scope.closePanels()
                   $scope.search(HQLFactory.createHql($scope.controlMap));
