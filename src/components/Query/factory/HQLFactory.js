@@ -7,11 +7,11 @@ function HQLFactory(){
     Regex de URL foi retirada do código-fonte do AngularJS, utilizado por eles para validar input[type="url"].
     LINK: https://github.com/angular/angular.js/blob/master/src/ng/directive/input.js#L26
    */
-  const CPF_REGEX   = /[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}'/,
-        CNPJ_REGEX  = /[0-9]{2}\.[0-9]{3}\.[0-9]{3}\/[0-9]{4}\-[0-9]{2}'/,
-        DATE_REGEX  = /[0-9]{2}\/[0-9]{2}\/[0-9]{4}'/,
+  const CPF_REGEX   = /[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}/,
+        CNPJ_REGEX  = /[0-9]{2}\.?[0-9]{3}\.?[0-9]{3}\/?[0-9]{4}\-?[0-9]{2}/,
+        DATE_REGEX  = /[0-9]{2}\/[0-9]{2}\/[0-9]{4}/,
         URL_REGEX   = /^[a-z][a-z\d.+-]*:\/*(?:[^:@]+(?::[^@]+)?@)?(?:[^\s:/?#]+|\[[a-f\d:]+\])(?::\d+)?(?:\/[^?#]*)?(?:\?[^#]*)?(?:#.*)?$/i,
-        IP_REGEX    = /(?:[0-9]{1,3}\.){3}[0-9]{1,3}'/
+        IP_REGEX    = /(?:[0-9]{1,3}\.){3}[0-9]{1,3}/
 
   let SUPPORTED_TYPES = {}
 
@@ -23,10 +23,10 @@ function HQLFactory(){
   }
 
   SUPPORTED_TYPES['number'] = {
-    validator: (number) => (isFinite(number) && number === +number),
+    validator: (str) => (/[0-9]+/.test(str)),
     defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'gt', 'ge', 'lt', 'le']),
-    template: ` <input type="number" ng-model="$value.query.value" class="form-control" required /> `
+    template: ` <input type="text" ng-model="$value.query.value" class="form-control" required /> `
   }
 
   SUPPORTED_TYPES['float'] = {
@@ -44,7 +44,7 @@ function HQLFactory(){
   }
 
   SUPPORTED_TYPES['cpf'] = {
-    validator: (cpf) => (CPF_REGEX.test(cpf)),
+    validator: (cpf) => (CPF_REGEX.test(utils.toCpf(cpf))),
     defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'contains', 'not_contains', 'starts_with', 'ends_with']),
     template: ` <input type="text" ng-model="$value.query.value" gumga-mask="999.999.999.99" class="form-control" required /> `
@@ -56,7 +56,7 @@ function HQLFactory(){
     conditions: hqlObjectCreator(['eq', 'ne', 'contains', 'not_contains', 'starts_with', 'ends_with']),
     template: `<input type="text" ng-model="$value.query.value" gumga-mask="99.999.999/9999-99" class="form-control" required />`
   }
-  // atributo extra: true-label, false-label
+  
   SUPPORTED_TYPES['boolean'] = {
     validator: (boolean) => (boolean === true || boolean === false),
     defaultCondition: hqlObjectCreator(['eq']),
@@ -134,7 +134,6 @@ function HQLFactory(){
         .keys(mapObj)
         .filter(value => mapObj[value].active)
         .map(val => {
-          console.log(mapObj[val].query)
           let attribute = 'obj.'.concat(mapObj[val].query.attribute ? mapObj[val].query.attribute.field : '*'),
               before    = mapObj[val].query.condition ? mapObj[val].query.condition.before : '*',
               value     = mapObj[val].query.value,
@@ -152,7 +151,18 @@ function HQLFactory(){
     return { aq, aqo }
   } 
 
-  return { useType , hqlObjectCreator, createHql };
+  let utils = {}
+
+  utils.toCpf = (input) =>  {
+    let str = input+ '';
+    return str.replace(/\D/g,'').replace(/(\d{3})(\d)/,"$1.$2").replace(/(\d{3})(\d)/,"$1.$2").replace(/(\d{3})(\d{1,2})$/,"$1-$2");
+  };
+
+  function validator(type = ' '){
+    return SUPPORTED_TYPES[type] ? SUPPORTED_TYPES[type].validator : angular.noop
+  }
+
+  return { useType , hqlObjectCreator, createHql, validator };
 
 }
 
