@@ -57,12 +57,16 @@
                             <button type="button" class="btn btn-default" ng-click="togglePanelValue($key)">
                                 <span id="_conditionLabel{{$key}}">{{ $value.query.value || 'valor' }}</span>
                             </button>
-                            <div class="gumga-filter-panel" id="_panelValue{{$key}}"></div>
+                            <div class="gumga-filter-panel" id="_panelValue{{$key}}">
+                            </div>
+                            
                         </div>
 
                         <div class="btn-group" ng-show="$value.label">
                           <button type="button" class="btn btn-default" ng-click="updateOperator($key)">
                             <span id="__operator{{$key}}"> {{$value.label}} </span>
+
+
                           </button>
                         </div>
                         <button type="button" class="btn btn-default" ng-click="removeQuery($index)" ng-show="!$value.label"> 
@@ -73,7 +77,7 @@
 
                 </div>
 
-                <button id="single-button" type="button" class="btn btn-default" ng-click="addQuery()">
+                <button id="single-button" type="button" class="btn btn-default" ng-click="addQuery()" >
                     <span class="glyphicon glyphicon-plus"></span>
                 </button>
             </div>
@@ -111,9 +115,11 @@
               $scope.closePanels            = closePanels
               $scope.showInput              = showInput 
               $scope.saveSearch             = saveSearch
-              $scope.saveQuery              = $attrs.saveQuery  ?  $scope.saveQuery : null
-              $scope.search                 = $attrs.search     ?     $scope.search : null
+              $scope.saveQuery              = $attrs.saveQuery  ?     $scope.$parent.proxySave : null
+              $scope.search                 = $attrs.search     ?     $scope.$parent.proxySearch : null
               $scope.updateOperator         = updateOperator
+              
+
 
               if(!$scope.search) console.error(SEARCH_ERR)
 
@@ -157,6 +163,7 @@
               const hasClassCondition = (index) => (getElm(`_btnCondition${index}`).hasClass('hidden'))
               const openValue         = (index) => (getElm(`_btnValue${index}`).addClass('open'))
               const showValue         = (index) => (getElm(`_btnValue${index}`).removeClass('hidden'))
+              const hideValue         = (index) => (getElm(`_btnValue${index}`).addClass('hidden'))
               const isEven            = (n) => (n % 2 == 0)
 
               $timeout(() => {
@@ -205,7 +212,7 @@
 
                 $scope.conditions = hqlType.conditions;
                 $scope.controlMap[index].query.value = undefined
-                $timeout(() => getElm(`_panelValue${index}`).removeClass('show'))
+                getElm(`_panelValue${index}`).removeClass('show')
                 replacePanelContent(index, hqlType.template)
 
               }
@@ -236,6 +243,7 @@
                 $scope.lastAddedQueryIndex++
                 $scope.controlMap[$scope.lastAddedQueryIndex] = { query: { attribute: {}, condition: {}, value: '' }, active: true }
                 
+                $timeout(()=> hideValue($scope.lastAddedQueryIndex))
                 $scope.closePanels();
               }
 
@@ -258,8 +266,7 @@
               function firstOfMap(){
                 let first;
                 Object.keys($scope.controlMap).forEach((value, $index) => {
-                  console.log('')
-                  if(!first && $scope.controlMap[value].active){
+                  if($scope.controlMap[value].active === true && (first === undefined)){
                     first = $index
                   }
                 })
@@ -267,32 +274,21 @@
               }
 
               function removeQuery(key){
-                  console.log(key, firstOfMap(), $scope.lastAddedQueryIndex)
+                if(key == firstOfMap()){
+                  $scope.controlMap[key] = { query: { attribute: {}, condition: {}, value: '' }, active: true }
+                  getElm(`_btn${key}`).html('Atributo'), getElm(`_conditionLabel${key}`).html('Condição'), openAttribute(key)
+                  return;
+                }
+                if(key == 0){
+                  $scope.controlMap[key].active = false
+                  $scope.controlMap[key++].active = false
+                  return
+                }
 
-
-                // if(key == 0 && $scope.lastAddedQueryIndex === 0){
-                //   $scope.controlMap[key] = { query: { attribute: {}, condition: {}, value: '' }, active: true }
-                //   getElm(`_btn${key}`).html('Atributo')
-                //   getElm(`_conditionLabel${key}`).html('Condição') 
-                //   openAttribute(key)
-                //   return;
-                // }
-
-                // if(key == 0){
-                //   $scope.controlMap[key].active = false
-                //   if($scope.controlMap[key +1]){
-                //     $scope.controlMap[key +1].active = false  
-                //   }
-                //   return
-                // }
-                // if(isEven(key)) {
-                //   $scope.controlMap[key].active = false
-                //   $scope.controlMap[key-1].active = false
-                //   $scope.lastAddedQueryIndex++;
-                // }
-                // if(!isEven(firstOfMap()) && firstOfMap()){
-                //   $scope.controlMap[firstOfMap()].active = false
-                // } 
+                if(isEven(key) && key !=0){
+                  $scope.controlMap[key].active = false
+                  $scope.controlMap[key-1].active = false
+                }
 
               }
 
@@ -304,6 +300,7 @@
                   $scope.controlMap[key].query.value = 'AND'
                   $scope.controlMap[key].label = 'E'
                 }
+                $scope.search(HQLFactory.createHql($scope.controlMap));
                 getElm(`__operator${key}`).html($scope.controlMap[key].label)
               }
 
@@ -316,6 +313,7 @@
                 if($scope.updatingHql != index){
                   $scope.updatingHql = index
                 }
+                
                 getElm(`_panelValue${index}`).toggleClass('show')
               }
               
@@ -327,21 +325,37 @@
                 let panels = document.querySelectorAll('.gumga-filter-panel')
                 for (var i = 0; i < panels.length; i++) {
                   let panel = angular.element(panels[i])
-                  if (panel.hasClass('show')) panel.removeClass('show')
+                  if (panel.hasClass('show'))
+                    panel.removeClass('show')
                 }
+              }
+
+              function isAnyPanelOpen(){
+                let panels = document.querySelectorAll('.gumga-filter-panel'),
+                    result = false
+                for (var i = 0; i < panels.length; i++) {
+                  let panel = angular.element(panels[i])
+                  if (panel.hasClass('show'))
+                      result = true
+                }
+                
+                return result
               }
               
               document.addEventListener('click', (e) => {
                 let outerClick    = true,
                     distanceNodes = e.path.length
                 for (var i = 0; i < distanceNodes; i++) {
-                  if (e.path[i].nodeName == 'GUMGA-FILTER -CORE') outerClick = false;
+                  if (e.path[i].nodeName == 'GUMGA-FILTER-CORE')
+                    outerClick = false;
                 }
 
                 let validator = HQLFactory.validator($scope.controlMap[$scope.updatingHql].query.attribute.type)
-                if (outerClick && validator &&  validator($scope.controlMap[$scope.updatingHql].query.value)) {
+
+                if (outerClick && validator &&  validator($scope.controlMap[$scope.updatingHql].query.value) && isAnyPanelOpen()) {
                   $scope.$apply()
                   $scope.closePanels()
+                  
                   $scope.search(HQLFactory.createHql($scope.controlMap));
                 }
               });

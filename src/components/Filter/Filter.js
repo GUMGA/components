@@ -25,10 +25,12 @@
 
         $scope.search       = $scope.search     || angular.noop
         $scope.saveQuery    = $scope.saveQuery  || angular.noop
-        $scope.proxySave    = (query, name) => {
+        $scope.proxySave    = (query) => {
           $scope.saveQuery({ query, name })
         }
-        $scope.proxySearch  = (param)       => $scope.search({ param })
+        $scope.proxySearch  = (param)       =>{
+           $scope.search({ param })
+        }
 
 
         $transclude((transcludeElement) => {
