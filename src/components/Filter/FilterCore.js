@@ -35,7 +35,7 @@
                                 <span id="_btn{{$key}}"> {{ $value.query.attribute.label || 'Atributo' }} </span>
                             </button>
                             <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                                <li role="menuitem" ng-repeat="attribute in attributes track by $index">
+                                <li role="menuitem" ng-repeat="attribute in _attributes track by $index">
                                     <a ng-click="addAttribute($key, attribute)">{{attribute.label}}</a>
                                 </li>
                             </ul>
@@ -85,22 +85,21 @@
             transclude: true,
             scope : {
                 search: '&',
-                saveQuery: '&',
-                data: '='
+                saveQuery: '&'
             },
             link: ($scope, $element, $attrs, $ctrl, $transclude) => {
-                
-                console.log($scope.data);
+              const outerScope        = $scope.$parent.$parent
               const FIELD_ERR   = `É necessário atribuir um valor ao atributo FIELD da tag ADVANCED-SEARCH-FIELD.`,
                     TYPE_ERR    = `O tipo "{1}" passado como parâmetro para o ADVANCED-SEARCH-FIELD não é suportado.`,
                     SEARCH_ERR  = `É necessário atribuir uma função para o atributo SEARCH. [search="foo()"]`
 
-              $scope.attributes             = []
+              $scope._attributes             = []
               $scope.conditions             = []
               $scope.controlMap             = {}
               $scope.control                = {}
               $scope.lastAddedQueryIndex    = Infinity
               $scope.updatingHql            = Infinity
+              // TODO: Remover
               
               $scope.addAttribute           = addAttribute
               $scope.addCondition           = addCondition
@@ -122,9 +121,9 @@
                 [].slice.call(transcludeElement).forEach((value, $index) => {
                   if(value.nodeName !== 'ADVANCED-SEARCH-FIELD') return
 
-                  let field = value.getAttribute('field'),
-                      type  = value.getAttribute('type'),
-                      label = value.getAttribute('label'),
+                  let field           = value.getAttribute('field'),
+                      type            = value.getAttribute('type'),
+                      label           = value.getAttribute('label'),
                       extraProperties = {}
 
                   if(!field) {
@@ -141,12 +140,12 @@
                     console.error(TYPE_ERR.replace('{1}', type))
                     return
                   }
-                  $scope.attributes.push({ field, type, label, extraProperties })
+                  $scope._attributes.push({ field, type, label, extraProperties })
                 })
               })
 
-              let defaultAttribute  = angular.copy($scope.attributes[0]),
-                  defaultCondition  = angular.copy(HQLFactory.useType($scope.attributes[0].type).defaultCondition)[0]
+              let defaultAttribute  = angular.copy($scope._attributes[0]),
+                  defaultCondition  = angular.copy(HQLFactory.useType($scope._attributes[0].type).defaultCondition)[0]
 
               $scope.controlMap['0'] = { query: { attribute: defaultAttribute, condition: defaultCondition, value: '' }, active: true }
 
@@ -159,7 +158,7 @@
               const openValue         = (index) => (getElm(`_btnValue${index}`).addClass('open'))
               const showValue         = (index) => (getElm(`_btnValue${index}`).removeClass('hidden'))
               const isEven            = (n) => (n % 2 == 0)
-             
+
               $timeout(() => {
                 showCondition(0)
                 showValue(0)
@@ -175,24 +174,15 @@
                 let properties;
                 switch (value.getAttribute('type')) {
                   case 'boolean': {
-                    properties = {
-                      trueLabel: value.getAttribute('true-label'),
-                      falseLabel: value.getAttribute('false-label')
-                    }
+                    properties = { trueLabel: value.getAttribute('true-label'), falseLabel: value.getAttribute('false-label') }
                     break;
                   }
                   case 'select': {
-                    properties = {
-                      selectLabel: value.getAttribute('select-label'),
-                      selectField: value.getAttribute('select-field')
-                    }
+                    properties = {  data: outerScope[value.getAttribute('data')]  }                   
                     break;
                   }
                   case 'enum' : {
-                    properties = {
-                      enumLabel: value.getAttribute('enum-label'),
-                      enumField: value.getAttribute('enum-field')
-                    }
+                    properties = { data: outerScope[value.getAttribute('data')] }
                   }
                 }
                 return properties;
@@ -267,35 +257,42 @@
 
               function firstOfMap(){
                 let first;
-                Object.keys($scope.controlMap).forEach(value => {
+                Object.keys($scope.controlMap).forEach((value, $index) => {
+                  console.log('')
                   if(!first && $scope.controlMap[value].active){
-                    first = value
+                    first = $index
                   }
                 })
                 return first
               }
 
               function removeQuery(key){
-                if(key == 0 && $scope.lastAddedQueryIndex === 0){
-                  $scope.controlMap[key] = { query: { attribute: {}, condition: {}, value: '' }, active: true }
-                  getElm(`_btn${key}`).html('Atributo')
-                  getElm(`_conditionLabel${key}`).html('Condição') 
-                  openAttribute(key)
-                  return;
-                }
-                if(key == 0){
-                  $scope.controlMap[key].active = false
-                  if($scope.controlMap[key +1]){
-                    $scope.controlMap[key +1].active = false  
-                  }
-                  return
-                }
-                if(isEven(key)) {
-                  $scope.controlMap[key].active = false
-                  $scope.controlMap[key-1].active = false
-                }
-                
-                if(!isEven(firstOfMap())) $scope.controlMap[firstOfMap()].active = false
+                  console.log(key, firstOfMap(), $scope.lastAddedQueryIndex)
+
+
+                // if(key == 0 && $scope.lastAddedQueryIndex === 0){
+                //   $scope.controlMap[key] = { query: { attribute: {}, condition: {}, value: '' }, active: true }
+                //   getElm(`_btn${key}`).html('Atributo')
+                //   getElm(`_conditionLabel${key}`).html('Condição') 
+                //   openAttribute(key)
+                //   return;
+                // }
+
+                // if(key == 0){
+                //   $scope.controlMap[key].active = false
+                //   if($scope.controlMap[key +1]){
+                //     $scope.controlMap[key +1].active = false  
+                //   }
+                //   return
+                // }
+                // if(isEven(key)) {
+                //   $scope.controlMap[key].active = false
+                //   $scope.controlMap[key-1].active = false
+                //   $scope.lastAddedQueryIndex++;
+                // }
+                // if(!isEven(firstOfMap()) && firstOfMap()){
+                //   $scope.controlMap[firstOfMap()].active = false
+                // } 
 
               }
 
