@@ -28,7 +28,7 @@
             <div class="form-inline panel-body">
                 
                 <div class="input-group" ng-repeat="($key, $value) in controlMap" style="margin-right: 1%" ng-show="$value.active">
-
+                
                     <div class="input-group-btn">
                         <div class="btn-group" uib-dropdown ng-show="!$value.label" id="_btnAttribute{{$key}}">
                             <button type="button" class="btn btn-default" uib-dropdown-toggle >
@@ -44,19 +44,18 @@
                         <div class="btn-group hidden" uib-dropdown  id="_btnCondition{{$key}}" ng-show="!$value.label">
                             <button type="button" class="btn btn-default" uib-dropdown-toggle>
                                 <span id="_conditionLabel{{$key}}">{{ $value.query.condition.label || 'Condição' }}</span>
-                                
                             </button>
 
                             <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                                <li role="menuitem" ng-repeat="condition in conditions">
+                                <li role="menuitem" ng-repeat="condition in conditions track by $index">
                                     <a ng-click="addCondition($key, condition)">{{condition.label}}</a>
                                 </li>
                             </ul>
                         </div>
 
                         <div class="btn-group" id="_btnValue{{$key}}" ng-show="!$value.label">
-                            <button type="button" class="btn btn-default" ng-click="togglePanel($key)">
-                                <span id="_conditionLabel{{$key}}">{{ $value.query.condition.label || 'Condição' }}</span>
+                            <button type="button" class="btn btn-default" ng-click="togglePanelValue($key)">
+                                <span id="_conditionLabel{{$key}}">{{ $value.query.value || 'valor' }}</span>
                             </button>
                             <div class="gumga-filter-panel" id="_panelValue{{$key}}"></div>
                         </div>
@@ -98,12 +97,16 @@
               $scope.controlMap             = {}
               $scope.control                = {}
               $scope.lastAddedQueryIndex    = Infinity
+              $scope.updatingHql            = Infinity
               
               $scope.addAttribute           = addAttribute
               $scope.addCondition           = addCondition
               $scope.addQuery               = addQuery
               $scope.closeInput             = closeInput
               $scope.removeQuery            = removeQuery
+              $scope.togglePanelValue       = togglePanelValue
+              $scope.closePanelValue        = closePanelValue
+              $scope.closePanels            = closePanels
               $scope.showInput              = showInput 
               $scope.saveSearch             = saveSearch
               $scope.saveQuery              = $attrs.saveQuery  ?  $scope.saveQuery : null
@@ -132,7 +135,6 @@
                     console.error(TYPE_ERR.replace('{1}', type))
                     return
                   }
-
                   $scope.attributes.push({ field, type, label })
                 })
               })
@@ -150,7 +152,7 @@
               const hasClassCondition = (index) => (getElm(`_btnCondition${index}`).hasClass('hidden'))
               const openValue         = (index) => (getElm(`_btnValue${index}`).addClass('open'))
               const showValue         = (index) => (getElm(`_btnValue${index}`).removeClass('hidden'))
-              const isEven            = (n) => (n % 2 == 0)            
+              const isEven            = (n) => (n % 2 == 0)
              
               $timeout(() => {
                 showCondition(0)
@@ -160,16 +162,9 @@
                 $scope.conditions = hqlType.conditions
                 $scope.lastAddedQueryIndex = 0
                 replacePanelContent(0, hqlType.template)
+                $scope.togglePanelValue(0)
               })
               
-              function togglePanel(index){
-                  getElm(`_panelValue${index}`).toggleClass('show')
-              }
-              
-              function closePanel(index){
-                  getElm(`_panelValue${index}`).removeClass('show')
-              }
-                            
               function addAttribute(index, selectedAttribute){
                 if(!$scope.controlMap[index].query.attribute)
                   $scope.controlMap[index].query.attribute = {}
@@ -200,6 +195,11 @@
 
                 showValue(index)
                 openValue(index)
+                togglePanelValue(index)
+              }
+              
+              function addValue(index, value){
+                  getElm(`_value${index}`).html(value);
               }
 
               function addQuery(){
@@ -210,6 +210,8 @@
 
                 $scope.lastAddedQueryIndex++
                 $scope.controlMap[$scope.lastAddedQueryIndex] = { query: { attribute: {}, condition: {}, value: '' }, active: true }
+                
+                $scope.closePanels();
               }
 
               function closeInput(){
@@ -241,7 +243,7 @@
 
 
               function removeQuery(key){
-                if(key == 0 && $scope.lastAddedQueryIndex === 0){
+                if(key == firstOfMap() && $scope.lastAddedQueryIndex === firstOfMap()){
                   $scope.controlMap[key] = { query: { attribute: {}, condition: {}, value: '' }, active: true }
                   getElm(`_btn${key}`).html('Atributo')
                   getElm(`_conditionLabel${key}`).html('Condição')
@@ -249,8 +251,9 @@
                   return;
                 }
                 if(key == 0){
-                  $scope.controlMap[key].active = false
-                  $scope.controlMap[key +1].active = false
+                  if($scope.controlMap[key +1]){
+                    $scope.controlMap[key +1].active = false  
+                  }
                   return
                 }
                 if(isEven(key)) {
@@ -275,11 +278,43 @@
               }
 
               function replacePanelContent(key, template){
-                getElm(`_panel${key}`).html(template)
+                let elm = getElm(`_panelValue${key}`)
+                $compile(elm.html(template).contents())(elm.scope())
               }
 
-              $scope.$watch('controlMap', (newVal, oldVal) => console.log(HQLFactory.createHql(newVal)), true)
-
+              function togglePanelValue(index){
+                if($scope.updatingHql != index){
+                  $scope.updatingHql = index
+                }
+                getElm(`_panelValue${index}`).toggleClass('show')
+              }
+              
+              function closePanelValue(index){
+                getElm(`_panelValue${index}`).removeClass('show')
+              }
+              
+              function closePanels(){
+                let panels = document.querySelectorAll('.gumga-filter-panel')
+                for (var i = 0; i < panels.length; i++) {
+                  let panel = angular.element(panels[i])
+                  if (panel.hasClass('show')) panel.removeClass('show')
+                }
+              }
+              
+              document.addEventListener('click', (e) => {
+                let outerClick    = true,
+                    distanceNodes = e.path.length
+                for (var i = 0; i < distanceNodes; i++) {
+                  if (e.path[i].nodeName == 'GUMGA-FILTER-CORE') outerClick = false;
+                }
+                 ($scope.updatingHql)
+                if (outerClick ) {
+                  $scope.$apply()
+                  $scope.closePanels()
+                  $scope.search(HQLFactory.createHql($scope.controlMap));
+                }
+              });
+              
             }
         }
     }
