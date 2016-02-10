@@ -1,34 +1,37 @@
 (function (){
 
-  Select.$inject = ['$compile']
+  Select.$inject = ['$compile', '$q']
 
-  function Select($compile){
-
-    const restrict          = 'E',
-          bindToController  = true,
-          controllerAs      = 'ctrl',
-          scope             = { addItem: '&?', get: '&?' }
-
-
+  function Select($compile, $q){
 
     controller.$inject = ['$scope', '$element', '$attrs']
 
     function controller($scope, $element, $attrs){
-      const hasAttr       = (str) => !!$attrs[str],
-            supportedTags = ['addItem', 'get', 'modalAttributes','modalTemplateUrl']
+      const GET_ERROR = `É necessário passar uma função no parâmetro get. <gumga-select get="foo()"></gumga-select>`,
+            NGMODEL_ERROR = `É necessário passar uma variável para o parâmetro ngModel. <gumga-select ng-model="person"></gumga-select>`
 
-      let ctrl = this
-
-
-
-
-
+      let ctrl                = this,
+          supportedAttributes = ['addItem', 'get', 'modalAttributes','modalTemplateUrl', 'ngModel'],
+          currentAttributes   = {},
+          asyncGet            = (value) => $q.when(ctrl.get(value))
 
 
+      supportedAttributes.forEach(attr => currentAttributes[attr] = !!$attrs[attr])
+
+      if(!currentAttributes.get)     console.error(GET_ERROR)
+      if(!currentAttributes.ngModel) console.error(NGMODEL_ERROR)
 
     }
 
-    return { restrict, bindToController, controllerAs, scope, controller }
+    let scope = { addItem: '&?', get: '&?', ngModel: '=?' }
+
+    return {
+      restrict: 'E',
+      bindToController: true,
+      controllerAs: 'ctrl',
+      scope,
+      controller
+    }
   }
 
   angular
