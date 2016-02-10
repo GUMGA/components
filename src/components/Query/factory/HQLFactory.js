@@ -131,22 +131,27 @@ function HQLFactory(){
     let aq = 
       Object
         .keys(mapObj)
-        .filter(value => mapObj[value].active)
+        .filter(value => mapObj[value].active && mapObj[value].query.value)
         .map(val => {
           let attribute = 'obj.'.concat(mapObj[val].query.attribute ? mapObj[val].query.attribute.field : '*'),
               before    = mapObj[val].query.condition ? mapObj[val].query.condition.before : '*',
               value     = mapObj[val].query.value,
               after     = mapObj[val].query.condition ? mapObj[val].query.condition.after : '*';
-
-          aqo.push({
+          
+            aqo.push({
             attribute:  mapObj[val].query.attribute,
             condition:  mapObj[val].query.condition,
             value:      mapObj[val].query.value
-          })
+          })  
+        
 
         return (attribute.concat(before).concat(value).concat(after)).replace(/obj.\*/g,'').replace(/\*/g,'')
       }).join(' ')
 
+    if(aq.slice(-2) === 'ND' || aq.slice(-2) === 'OR'){
+      aqo.pop()
+      return { aq: aq.slice(0, -3), aqo: aqo  }
+    }
     return { aq, aqo }
   } 
 

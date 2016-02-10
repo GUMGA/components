@@ -82,14 +82,14 @@
       ctrl.advancedSearch = hasAttr('advancedSearch') ? ctrl.advancedSearch   : null
       ctrl.savedFilters   = hasAttr('savedFilters')   ? ctrl.savedFilters     : angular.noop
       ctrl.searchText     = hasAttr('searchText')     ? $attrs['searchText']  : ' '
-
+      
       if(ctrl.advancedSearch) ctrl.compileFilter()
 
         function compileFilter(){
-          let template  = `<gumga-filter-core ng-show="isOpen" is-open="true">${ctrl.possibleAdvancedFields.reduce(((prev, next) => prev += next), '')}</gumga-filter-core>`,
+          let template  = `<gumga-filter-core ng-show="isOpen" is-open="true" search="ctrl.advancedSearch()">${ctrl.possibleAdvancedFields.reduce(((prev, next) => prev += next), '')}</gumga-filter-core>`,
               element   = angular.element(document.getElementById('replaceFilter'))
 
-          element.replaceWith($compile(template)($scope))          
+          element.replaceWith($compile(template)($scope))
         }
 
 
