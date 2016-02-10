@@ -1,8 +1,8 @@
 (function(){
     'use strict'
 
-    Filter.$inject = ['HQLFactory','$compile','$timeout']
-    function Filter(HQLFactory,$compile, $timeout) {
+    Filter.$inject = ['HQLFactory','$compile','$timeout', '$interpolate']
+    function Filter(HQLFactory,$compile, $timeout, $interpolate) {
         let template = `
         <div class="gumga-filter panel panel-default" >
             <header class="panel-heading" style="padding: 5px 10px;">
@@ -26,9 +26,9 @@
                 </div>
             </header>
             <div class="form-inline panel-body">
-                
+
                 <div class="input-group" ng-repeat="($key, $value) in controlMap" style="margin-right: 1%" ng-show="$value.active">
-                
+
                     <div class="input-group-btn">
                         <div class="btn-group" uib-dropdown ng-show="!$value.label" id="_btnAttribute{{$key}}">
                             <button type="button" class="btn btn-default" uib-dropdown-toggle ng-click="closePanelValue($key)">
@@ -59,7 +59,7 @@
                             </button>
                             <div class="gumga-filter-panel" id="_panelValue{{$key}}">
                             </div>
-                            
+
                         </div>
 
                         <div class="btn-group" ng-show="$value.label">
@@ -69,7 +69,7 @@
 
                           </button>
                         </div>
-                        <button type="button" class="btn btn-default" ng-click="removeQuery($index)" ng-show="!$value.label"> 
+                        <button type="button" class="btn btn-default" ng-click="removeQuery($index)" ng-show="!$value.label">
                             <span class="glyphicon glyphicon-remove"></span>
                         </button>
 
@@ -92,7 +92,7 @@
                 saveQuery: '&'
             },
             link: ($scope, $element, $attrs, $ctrl, $transclude) => {
-              
+
               /**
                * @TODO
                * DONE   Condições anteriores modificadas conforme ativa alterada
@@ -101,8 +101,8 @@
                *        Problema para tradução com gumgaTranslate
                *        Atributo search requerido mesmo quando colocado
                *        Valor respeitando tipagem de dados (Desabilitar botão enquanto value estiver inválido)
-               */  
-              
+               */
+
               const outerScope        = $scope.$parent.$parent
               const FIELD_ERR   = `É necessário atribuir um valor ao atributo FIELD da tag ADVANCED-SEARCH-FIELD.`,
                     TYPE_ERR    = `O tipo "{1}" passado como parâmetro para o ADVANCED-SEARCH-FIELD não é suportado.`,
@@ -115,7 +115,7 @@
               $scope.lastAddedQueryIndex    = Infinity
               $scope.updatingHql            = Infinity
               // TODO: Remover
-              
+
               $scope.addAttribute           = addAttribute
               $scope.addCondition           = addCondition
               $scope.addQuery               = addQuery
@@ -124,25 +124,24 @@
               $scope.togglePanelValue       = togglePanelValue
               $scope.closePanelValue        = closePanelValue
               $scope.closePanels            = closePanels
-              $scope.showInput              = showInput 
+              $scope.showInput              = showInput
               $scope.saveSearch             = saveSearch
               $scope.saveQuery              = $attrs.saveQuery  ?     $scope.$parent.proxySave : null
-            //   $scope.search                 = $attrs.search     ?     $scope.$parent.search : null
-              $scope.search                 = $attrs.search     ?     $attrs.search : null
               $scope.updateOperator         = updateOperator
               $scope.toggleEnum             = toggleEnum
-              
-              console.log($scope.search);
 
-              if(!$scope.search) console.error(SEARCH_ERR)
+
+              if(!$attrs.search) console.error(SEARCH_ERR)
 
               $transclude((transcludeElement) => {
+                let parentContext = $scope.$parent.$parent;
+
                 [].slice.call(transcludeElement).forEach((value, $index) => {
                   if(value.nodeName !== 'ADVANCED-SEARCH-FIELD') return
 
                   let field           = value.getAttribute('field'),
                       type            = value.getAttribute('type'),
-                      label           = value.getAttribute('label'),
+                      label           = value.getAttribute('label') ?  $interpolate(value.getAttribute('label'))(parentContext) : field.charAt(0).toUpperCase().concat(field.slice(1)),
                       extraProperties = {}
 
                   if(!field) {
@@ -151,10 +150,10 @@
                   }
 
                   type  = type.toLowerCase().trim() || ''
-                  label = label                     || field.charAt(0).toUpperCase() + field.slice(1) 
+                  label = label                     || field.charAt(0).toUpperCase() + field.slice(1)
 
                   extraProperties = getExtraProperties(value)
-                  
+
                   if(!HQLFactory.useType(type)){
                     console.error(TYPE_ERR.replace('{1}', type))
                     return
@@ -185,16 +184,14 @@
                 openValue(0)
                 let hqlType = HQLFactory.useType($scope.controlMap['0'].query.attribute.type);
                 $scope.controlMap['0'].query.conditions = hqlType.conditions;
-                // $scope.conditions = hqlType.conditions
                 $scope.lastAddedQueryIndex = 0
                 replacePanelContent(0, hqlType.template)
                 $scope.updatingHql = 0;
-                $scope.togglePanelValue(0);
               })
-              
+
               function toggleEnum(event, key, field) {
                 event.stopPropagation()
-                  
+
                 let elm = getElm(`_panelValue${key}`).scope();
                 if (!Array.isArray(elm.$value.query.value)) elm.$value.query.value = [];
                 var index = elm.$value.query.value.indexOf(field)
@@ -213,7 +210,7 @@
                     break;
                   }
                   case 'select': {
-                    properties = { data: outerScope[value.getAttribute('data')]  }                   
+                    properties = { data: outerScope[value.getAttribute('data')]  }
                     break;
                   }
                   case 'enum' : {
@@ -222,7 +219,7 @@
                 }
                 return properties;
               }
-              
+
               function addAttribute(index, selectedAttribute){
                 if(!$scope.controlMap[index].query.attribute)
                   $scope.controlMap[index].query.attribute = {}
@@ -233,12 +230,12 @@
                 getElm(`_btn${index}`).html(selectedAttribute.label)
                 if(hasClassCondition(index, 'hidden')){
                   showCondition(index)
-                } 
+                }
                 openCondition(index)
 
                 let hqlType = HQLFactory.useType(selectedAttribute.type);
-                
-                $scope.controlMap[index].query.conditions = hqlType.conditions;                
+
+                $scope.controlMap[index].query.conditions = hqlType.conditions;
                 // $scope.conditions = hqlType.conditions;
                 $scope.controlMap[index].query.value = undefined
                 getElm(`_panelValue${index}`).removeClass('show')
@@ -258,7 +255,7 @@
                 openValue(index)
                 togglePanelValue(index)
               }
-              
+
               function addValue(index, value){
                   getElm(`_value${index}`).html(value);
               }
@@ -271,7 +268,7 @@
 
                 $scope.lastAddedQueryIndex++
                 $scope.controlMap[$scope.lastAddedQueryIndex] = { query: { attribute: {}, condition: {}, value: '' }, active: true }
-                
+
                 $timeout(()=> hideValue($scope.lastAddedQueryIndex))
                 $scope.closePanels();
               }
@@ -314,12 +311,10 @@
                   $scope.controlMap[key++].active = false
                   return
                 }
-
                 if(isEven(key) && key !=0){
                   $scope.controlMap[key].active = false
                   $scope.controlMap[key-1].active = false
                 }
-
               }
 
               function updateOperator(key){
@@ -330,7 +325,7 @@
                   $scope.controlMap[key].query.value = 'AND'
                   $scope.controlMap[key].label = 'E'
                 }
-                $scope.search(HQLFactory.createHql($scope.controlMap));
+                $scope.search({ param: HQLFactory.createHql($scope.controlMap) });
                 getElm(`__operator${key}`).html($scope.controlMap[key].label)
               }
 
@@ -343,14 +338,14 @@
                 if($scope.updatingHql != index){
                   $scope.updatingHql = index
                 }
-                
+
                 getElm(`_panelValue${index}`).toggleClass('show')
               }
-              
+
               function closePanelValue(index){
                 getElm(`_panelValue${index}`).removeClass('show')
               }
-              
+
               function closePanels(){
                 let panels = document.querySelectorAll('.gumga-filter-panel')
                 for (var i = 0; i < panels.length; i++) {
@@ -368,10 +363,10 @@
                   if (panel.hasClass('show'))
                       result = true
                 }
-                
+
                 return result
               }
-              
+
               document.addEventListener('click', (e) => {
                 let outerClick    = true,
                     distanceNodes = e.path.length
@@ -381,15 +376,14 @@
                 }
 
                 let validator = HQLFactory.validator($scope.controlMap[$scope.updatingHql].query.attribute.type)
-
-                if (outerClick && validator &&  validator($scope.controlMap[$scope.updatingHql].query.value) && isAnyPanelOpen()) {
+                if (outerClick && validator &&  validator($scope.controlMap[$scope.updatingHql].query.value) && isAnyPanelOpen())  {
                   $scope.$apply()
                   $scope.closePanels()
-                  
-                  $scope.search(HQLFactory.createHql($scope.controlMap));
+
+                  $scope.search({ param: HQLFactory.createHql($scope.controlMap)});
                 }
               });
-              
+
             }
         }
     }

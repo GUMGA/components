@@ -7,7 +7,8 @@ describe('Componente: GumgaSelect', () => {
   const noParamsElement     = angular.element(`<gumga-select></gumga-select>`),
         onlyGetElement      = angular.element(`<gumga-select get="foo()"></gumga-select>`),
         onlyNgModelElement  = angular.element(`<gumga-select ng-model="person"> </gumga-select>`),
-        noErrorsElement     = angular.element(`<gumga-select ng-model="person" get="foo()"></gumga-select>`)
+        noErrorsElement     = angular.element(`<gumga-select ng-model="person" get="foo()"></gumga-select>`),
+        addItemElement      = angular.element(`<gumga-select ng-model="person" get="foo()" add-item="add($value)"></gumga-select>`)
 
 
   beforeEach(module('gumga.select'))
@@ -19,6 +20,7 @@ describe('Componente: GumgaSelect', () => {
 
       $scope.foo    = angular.noop
       $scope.person = {}
+      $scope.add    = angular.noop
     })
   )
 
@@ -64,6 +66,21 @@ describe('Componente: GumgaSelect', () => {
       expect($scope.foo).toHaveBeenCalled()
     })
 
-  })
+    it('Should call $scope.foo when i call ctrl.asyncGet', () => {
+      spyOn($scope, 'foo')
+      $compile(noErrorsElement)($scope)
+      let controller = noErrorsElement.controller('gumgaSelect')
+      controller.asyncGet()
+      expect($scope.foo).toHaveBeenCalled()
+    })
 
+    it('Should call $scope.foo when i call ctrl.addItem', () => {
+      spyOn($scope, 'add')
+      $compile(addItemElement)($scope)
+      let controller = addItemElement.controller('gumgaSelect')
+      controller.addItem({  $value: { name: 'Igor'}})
+      expect($scope.add).toHaveBeenCalledWith({name: 'Igor'})
+    })
+
+  })
 })
