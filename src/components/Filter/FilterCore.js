@@ -101,7 +101,7 @@
                * DONE   Atributo search requerido mesmo quando colocado
                * DONE(number e float com ng-pattern) Valor respeitando tipagem de dados (Desabilitar botão enquanto value estiver inválido)
                */
-              const outerScope        = $scope.$parent.$parent
+              const outerScope  = $scope.$parent.$parent
               const FIELD_ERR   = `É necessário atribuir um valor ao atributo FIELD da tag ADVANCED-SEARCH-FIELD.`,
                     TYPE_ERR    = `O tipo "{1}" passado como parâmetro para o ADVANCED-SEARCH-FIELD não é suportado.`,
                     NOTYPE_ERR  = `É necessário atribuir um valor ao atributo TYPE da tag ADVANCED-SEARCH-FIELD.`,
@@ -113,8 +113,6 @@
               $scope.control                = {}
               $scope.lastAddedQueryIndex    = Infinity
               $scope.updatingHql            = Infinity
-              // TODO: Remover
-
               $scope.addAttribute           = addAttribute
               $scope.addCondition           = addCondition
               $scope.addQuery               = addQuery
@@ -137,37 +135,29 @@
 
                 [].slice.call(transcludeElement).forEach((value, $index) => {
                   if(value.nodeName !== 'ADVANCED-SEARCH-FIELD') return
-
-                  if(!value.getAttribute('field')) {
-                    console.error(FIELD_ERR)
-                    return
-                  }
+                  if(!value.getAttribute('field')) return console.error(FIELD_ERR)
 
                   let field           = value.getAttribute('field'),
                       type            = value.getAttribute('type'),
                       label           = value.getAttribute('label') ?  $interpolate(value.getAttribute('label'))(parentContext) : field.charAt(0).toUpperCase().concat(field.slice(1)),
                       extraProperties = {}
-                
-                  if(!type){
-                    console.error(NOTYPE_ERR)
-                    return
-                  }
 
-                  type  = type.toLowerCase().trim() || ''
-                  label = label                     || field.charAt(0).toUpperCase() + field.slice(1)
+                  if(!type) return console.error(NOTYPE_ERR)
+
+                  type            = type.toLowerCase().trim() || ''
+                  label           = label                     || field.charAt(0).toUpperCase() + field.slice(1)
                   extraProperties = getExtraProperties(value)
 
-                  if(!HQLFactory.useType(type)){
-                    console.error(TYPE_ERR.replace('{1}', type))
-                    return
-                  }
+                  if(!HQLFactory.useType(type)) return console.error(TYPE_ERR.replace('{1}', type))
+
                   $scope._attributes.push({ field, type, label, extraProperties })
                 })
               })
 
               if($scope._attributes[0]){
+
                 let defaultAttribute  = angular.copy($scope._attributes[0]),
-                    defaultCondition  = angular.copy(HQLFactory.useType($scope._attributes[0].type).defaultCondition)[0]
+                    defaultCondition  = angular.copy(HQLFactory.useType(defaultAttribute.type).defaultCondition)[0]
 
                 $scope.controlMap['0'] = { query: { attribute: defaultAttribute, condition: defaultCondition, value: '' }, active: true }
 
@@ -244,7 +234,6 @@
                 let hqlType = HQLFactory.useType(selectedAttribute.type);
 
                 $scope.controlMap[index].query.conditions = hqlType.conditions;
-                // $scope.conditions = hqlType.conditions;
                 $scope.controlMap[index].query.value = undefined
                 getElm(`_panelValue${index}`).removeClass('show')
                 replacePanelContent(index, hqlType.template)
