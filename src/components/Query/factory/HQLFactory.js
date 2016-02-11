@@ -11,7 +11,8 @@ function HQLFactory(){
         CNPJ_REGEX  = /[0-9]{2}\.?[0-9]{3}\.?[0-9]{3}\/?[0-9]{4}\-?[0-9]{2}/,
         DATE_REGEX  = /[0-9]{2}\/[0-9]{2}\/[0-9]{4}/,
         URL_REGEX   = /^[a-z][a-z\d.+-]*:\/*(?:[^:@]+(?::[^@]+)?@)?(?:[^\s:/?#]+|\[[a-f\d:]+\])(?::\d+)?(?:\/[^?#]*)?(?:\?[^#]*)?(?:#.*)?$/i,
-        IP_REGEX    = /(?:[0-9]{1,3}\.){3}[0-9]{1,3}/
+        IP_REGEX    = /(?:[0-9]{1,3}\.){3}[0-9]{1,3}/,
+        FLOAT_REGEX = /^[0-9]+(\.[0-9]{1,2})?$/
 
   let SUPPORTED_TYPES = {}
 
@@ -26,21 +27,21 @@ function HQLFactory(){
     validator: (str) => (/[0-9]+/.test(str)),
     defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'gt', 'ge', 'lt', 'le']),
-    template: ` <input type="text" ng-model="$value.query.value" class="form-control" required /> `
+    template: ` <input type="text" ng-model="$value.query.value" ng-pattern="/[0-9]+/" class="form-control" required /> `
   }
 
   SUPPORTED_TYPES['float'] = {
-    validator: (number) => (number === +number && number !== (number|0)),
+    validator: (number) => (FLOAT_REGEX.test(number)),
     defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'gt', 'ge', 'lt', 'le']),
-    template: ` <input type="text" ng-model="query.value" class="form-control required "/> `
+    template: ` <input type="text" ng-model="$value.query.value" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" class="form-control required "/> `
   }
 
   SUPPORTED_TYPES['money'] = {
-    validator: (number) => (this['float'].validator(number)),
+    validator: (number) => (FLOAT_REGEX.test(number)),
     defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'gt', 'ge', 'lt', 'le']),
-    template: ` <input type="text" ng-model="$value.query.value" class="form-control required "/> `
+    template: ` <input type="text" ng-model="$value.query.value" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" class="form-control required "/> `
   }
 
   SUPPORTED_TYPES['cpf'] = {
@@ -58,7 +59,7 @@ function HQLFactory(){
   }
   
   SUPPORTED_TYPES['boolean'] = {
-    validator: (boolean) => (boolean === true || boolean === false),
+    validator: (boolean) => (boolean == 'true' || boolean == 'false'),
     defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq']),
     template: ` <div class="radio"><label><input type="radio" ng-model="$value.query.value" value="true"> {{$value.query.attribute.extraProperties.trueLabel}}</label></div><div class="radio"><label><input type="radio" ng-model="$value.query.value" value="false"> {{$value.query.attribute.extraProperties.falseLabel}} </label></div>`
