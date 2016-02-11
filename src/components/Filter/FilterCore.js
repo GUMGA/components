@@ -31,11 +31,11 @@
 
                     <div class="input-group-btn">
                         <div class="btn-group" uib-dropdown ng-show="!$value.label" id="_btnAttribute{{$key}}">
-                            <button type="button" class="btn btn-default" uib-dropdown-toggle ng-click="closePanelValue($key)">
+                            <button type="button" style="z-index: 0" class="btn btn-default" uib-dropdown-toggle ng-click="closePanelValue($key)">
                                 <span id="_btn{{$key}}"> {{ $value.query.attribute.label || 'Atributo' }} </span>
                             </button>
-                            <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                                <li role="menuitem" ng-repeat="attribute in _attributes track by $index">
+                            <ul uib-dropdown-menu style="z-index: 3000" role="menu" aria-labelledby="single-button">
+                                <li style="z-index: 3000" role="menuitem" ng-repeat="attribute in _attributes track by $index">
                                     <a ng-click="addAttribute($key, attribute)">{{attribute.label}}</a>
                                 </li>
                             </ul>
@@ -69,7 +69,7 @@
 
                           </button>
                         </div>
-                        <button type="button" class="btn btn-default" ng-click="removeQuery($index)" ng-show="!$value.label">
+                        <button type="button" style="z-index: 0" class="btn btn-default" ng-click="removeQuery($index)" ng-show="!$value.label">
                             <span class="glyphicon glyphicon-remove"></span>
                         </button>
 
@@ -101,7 +101,6 @@
                * DONE   Atributo search requerido mesmo quando colocado
                * DONE(number e float com ng-pattern) Valor respeitando tipagem de dados (Desabilitar botão enquanto value estiver inválido)
                */
-
               const outerScope        = $scope.$parent.$parent
               const FIELD_ERR   = `É necessário atribuir um valor ao atributo FIELD da tag ADVANCED-SEARCH-FIELD.`,
                     TYPE_ERR    = `O tipo "{1}" passado como parâmetro para o ADVANCED-SEARCH-FIELD não é suportado.`,
