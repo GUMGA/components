@@ -92,17 +92,16 @@
                 saveQuery: '&'
             },
             link: ($scope, $element, $attrs, $ctrl, $transclude) => {
-
               /**
                * @TODO
                * DONE   Condições anteriores modificadas conforme ativa alterada
                * DONE   Valores do boolean apagados ao clicar no X de limpar
                *        Z index do dropdown em telas pequenas
-               *        Problema para tradução com gumgaTranslate
-               *        Atributo search requerido mesmo quando colocado
-               *        Valor respeitando tipagem de dados (Desabilitar botão enquanto value estiver inválido)
-               */
-
+               * DONE   Problema para tradução com gumgaTranslate
+               * DONE   Atributo search requerido mesmo quando colocado
+               * DONE(number e float com ng-pattern) Valor respeitando tipagem de dados (Desabilitar botão enquanto value estiver inválido)
+               */  
+              
               const outerScope        = $scope.$parent.$parent
               const FIELD_ERR   = `É necessário atribuir um valor ao atributo FIELD da tag ADVANCED-SEARCH-FIELD.`,
                     TYPE_ERR    = `O tipo "{1}" passado como parâmetro para o ADVANCED-SEARCH-FIELD não é suportado.`,
