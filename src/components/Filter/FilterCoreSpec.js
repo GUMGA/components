@@ -1,6 +1,7 @@
 describe('COMPONENTE: FilterCore', () => {
   let scope,
       $compile,
+      HQLFactory,
       noAttributesElement                 = angular.element(`<gumga-filter-core> </gumga-filter-core>`),
       searchAttributeElement              = angular.element(`<gumga-filter-core search="foo(param)"> </gumga-filter-core>`),
       searchFieldWithNoAttributeElement   = angular.element(`<gumga-filter-core search="foo(param)"> <advanced-search-field></advanced-search-field> </gumga-filter-core>`),
@@ -19,9 +20,10 @@ describe('COMPONENTE: FilterCore', () => {
   beforeEach(module('gumga.filter'))
 
   beforeEach(
-    inject(($rootScope, _$compile_) => {
+    inject(($rootScope, _$compile_, _HQLFactory_) => {
       scope = $rootScope.$new()
       $compile = _$compile_
+      HQLFactory = _HQLFactory_
       scope.foo = angular.noop
       /*
         Como o filterCore é utilizado dentro do $scope de um componente hospedeiro (query ou filter),
@@ -76,6 +78,7 @@ describe('COMPONENTE: FilterCore', () => {
   })
 
   describe('Testing if the attributes taken are okay', () => {
+
     it(`Should get the attributes right if there's no error`, () => {
       $compile(searchFieldWithValidTypeElement)(scope)
       let isolated = searchFieldWithValidTypeElement.isolateScope()
@@ -103,6 +106,28 @@ describe('COMPONENTE: FilterCore', () => {
       isolated.$apply()
       expect(isolated._attributes[0]).toEqual({ field: 'age', type: 'number', label: 'Idade', extraProperties: undefined})
       expect(isolated._attributes[1]).toEqual({ field: 'name', type: 'string', label: 'nome', extraProperties: undefined})
+    })
+  })
+
+  describe('Testing if controlMap is acting right', () => {
+
+    it('Should add to controlMap the first registry', () => {
+      let isolated = searchFieldWithOrder.isolateScope()
+      isolated.$apply()
+      expect(isolated._attributes[0]).toEqual({ field: 'age', type: 'number', label: 'Idade', extraProperties: undefined})
+      expect(isolated.controlMap['0']).toEqual({
+        query: { attribute: isolated._attributes[0], condition: HQLFactory.useType(isolated._attributes[0].type).defaultCondition[0], value: '' },
+        active: true
+      })
+    })
+
+    it('Should add two values in controlMap', () => {
+      let isolated = searchFieldWithOrder.isolateScope()
+      isolated.$apply()
+      expect(isolated.controlMap['0']).toEqual({
+        query: { attribute: isolated._attributes[0], condition: HQLFactory.useType(isolated._attributes[0].type).defaultCondition[0], value: '' },
+        active: true
+      })
     })
   })
 })
