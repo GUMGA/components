@@ -7,12 +7,13 @@ function HQLFactory(){
     Regex de URL foi retirada do código-fonte do AngularJS, utilizado por eles para validar input[type="url"].
     LINK: https://github.com/angular/angular.js/blob/master/src/ng/directive/input.js#L26
    */
-  const CPF_REGEX   = /[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}/,
-        CNPJ_REGEX  = /[0-9]{2}\.?[0-9]{3}\.?[0-9]{3}\/?[0-9]{4}\-?[0-9]{2}/,
-        DATE_REGEX  = /[0-9]{2}\/[0-9]{2}\/[0-9]{4}/,
-        URL_REGEX   = /^[a-z][a-z\d.+-]*:\/*(?:[^:@]+(?::[^@]+)?@)?(?:[^\s:/?#]+|\[[a-f\d:]+\])(?::\d+)?(?:\/[^?#]*)?(?:\?[^#]*)?(?:#.*)?$/i,
-        IP_REGEX    = /(?:[0-9]{1,3}\.){3}[0-9]{1,3}/,
-        FLOAT_REGEX = /^[0-9]+(\.[0-9]{1,2})?$/
+  const CPF_REGEX       = /[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}/,
+        CNPJ_REGEX      = /[0-9]{2}\.?[0-9]{3}\.?[0-9]{3}\/?[0-9]{4}\-?[0-9]{2}/,
+        DATE_REGEX      = /[0-9]{2}\/[0-9]{2}\/[0-9]{4}/,
+        URL_REGEX       = /^[a-z][a-z\d.+-]*:\/*(?:[^:@]+(?::[^@]+)?@)?(?:[^\s:/?#]+|\[[a-f\d:]+\])(?::\d+)?(?:\/[^?#]*)?(?:\?[^#]*)?(?:#.*)?$/i,
+        IP_REGEX        = /(?:[0-9]{1,3}\.){3}[0-9]{1,3}/,
+        NUMBER_REGEX    = /^[0-9]+$/,
+        FLOAT_REGEX     = /^[0-9]+(\.[0-9]{1,2})?$/
 
   let SUPPORTED_TYPES = {}
 
@@ -24,24 +25,24 @@ function HQLFactory(){
   }
 
   SUPPORTED_TYPES['number'] = {
-    validator: (str) => (/[0-9]+/.test(str)),
+    validator: (str) => (NUMBER_REGEX.test(str)),
     defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'gt', 'ge', 'lt', 'le']),
-    template: ` <input type="text" ng-model="$value.query.value" ng-pattern="/[0-9]+/" class="form-control" required /> `
+    template: ` <input type="text" ng-model="$value.query.value" ng-pattern="${NUMBER_REGEX}" class="form-control" required /> `
   }
 
   SUPPORTED_TYPES['float'] = {
     validator: (number) => (FLOAT_REGEX.test(number)),
     defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'gt', 'ge', 'lt', 'le']),
-    template: ` <input type="text" ng-model="$value.query.value" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" class="form-control required "/> `
+    template: ` <input type="text" ng-model="$value.query.value" ng-pattern="${FLOAT_REGEX}" class="form-control required "/> `
   }
 
   SUPPORTED_TYPES['money'] = {
     validator: (number) => (FLOAT_REGEX.test(number)),
     defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'gt', 'ge', 'lt', 'le']),
-    template: ` <input type="text" ng-model="$value.query.value" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" class="form-control required "/> `
+    template: ` <input type="text" ng-model="$value.query.value" ng-pattern="${FLOAT_REGEX}" class="form-control required "/> `
   }
 
   SUPPORTED_TYPES['cpf'] = {
