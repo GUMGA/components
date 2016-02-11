@@ -330,6 +330,13 @@ full-width-without-padding-small
   width 100%
   z-index 999
 
+.hover:hover
+  background-color #ddd
+  cursor pointer
+
+.hover-icon-blue:hover
+  color #3782c4
+  cursor pointer
 
 .list-group-item-mto
   @extend .list-group-item
@@ -828,6 +835,12 @@ html,body
 	perspective: 1000px;
 }
 
+.line-break
+  margin-top 10px
+
+.heading-sm
+  height 30px
+  padding 7px 15px
 
 @keyframes shake {
 	10%, 90% {
@@ -890,11 +903,11 @@ html,body
 .dropdown-menu-search
   width auto!important
 
-gumga-query 
+gumga-query
   > .input-group
     > .dropdown-menu
       width auto!important
-      
+
 .gumga-filter .panel-body .input-group-btn
   border: 1px solid #ccc
   border-left-width: 2px
