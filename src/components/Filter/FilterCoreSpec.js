@@ -8,7 +8,8 @@ describe('COMPONENTE: FilterCore', () => {
       searchFieldWithInvalidTypeElement   = angular.element(`<gumga-filter-core search="foo(param)"> <advanced-search-field field="name" type="xablau"></advanced-search-field> </gumga-filter-core>`),
       searchFieldWithValidTypeElement     = angular.element(`<gumga-filter-core search="foo(param)"> <advanced-search-field field="name" type="string"></advanced-search-field> </gumga-filter-core>`),
       searchFieldWithStaticLabelElement   = angular.element(`<gumga-filter-core search="foo(param)"> <advanced-search-field field="name" type="string" label="Nome"></advanced-search-field> </gumga-filter-core>`),
-      searchFieldWithDynamicLabelElement  = angular.element(`<gumga-filter-core search="foo(param)"> <advanced-search-field field="name" type="string" label="{{ name | uppercase}}"></advanced-search-field> </gumga-filter-core>`)
+      searchFieldWithDynamicLabelElement  = angular.element(`<gumga-filter-core search="foo(param)"> <advanced-search-field field="name" type="string" label="{{ name | lowercase}}"></advanced-search-field> </gumga-filter-core>`),
+      searchFieldWithOrder                = angular.element(`<gumga-filter-core search="foo(param)"> <advanced-search-field field="age" type="number" label="Idade"></advanced-search-field><advanced-search-field field="name" type="string" label="{{ name | lowercase}}"></advanced-search-field> </gumga-filter-core>`)
 
       const FIELD_ERR   = `É necessário atribuir um valor ao atributo FIELD da tag ADVANCED-SEARCH-FIELD.`,
             TYPE_ERR    = `O tipo "{1}" passado como parâmetro para o ADVANCED-SEARCH-FIELD não é suportado.`,
@@ -93,7 +94,15 @@ describe('COMPONENTE: FilterCore', () => {
       $compile(searchFieldWithDynamicLabelElement)(scope)
       let isolated = searchFieldWithDynamicLabelElement.isolateScope()
       isolated.$apply()
-      expect(isolated._attributes[0]).toEqual({ field: 'name', type: 'string', label: 'NOME', extraProperties: undefined})
+      expect(isolated._attributes[0]).toEqual({ field: 'name', type: 'string', label: 'nome', extraProperties: undefined})
+    })
+
+    it('Should get both attributes in the right order', () => {
+      $compile(searchFieldWithOrder)(scope)
+      let isolated = searchFieldWithOrder.isolateScope()
+      isolated.$apply()
+      expect(isolated._attributes[0]).toEqual({ field: 'age', type: 'number', label: 'Idade', extraProperties: undefined})
+      expect(isolated._attributes[1]).toEqual({ field: 'name', type: 'string', label: 'nome', extraProperties: undefined})
     })
   })
 })
