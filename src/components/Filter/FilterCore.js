@@ -100,11 +100,12 @@
                * DONE   Problema para tradução com gumgaTranslate
                * DONE   Atributo search requerido mesmo quando colocado
                * DONE(number e float com ng-pattern) Valor respeitando tipagem de dados (Desabilitar botão enquanto value estiver inválido)
-               */  
-              
+               */
+
               const outerScope        = $scope.$parent.$parent
               const FIELD_ERR   = `É necessário atribuir um valor ao atributo FIELD da tag ADVANCED-SEARCH-FIELD.`,
                     TYPE_ERR    = `O tipo "{1}" passado como parâmetro para o ADVANCED-SEARCH-FIELD não é suportado.`,
+                    NOTYPE_ERR  = `É necessário atribuir um valor ao atributo TYPE da tag ADVANCED-SEARCH-FIELD.`,
                     SEARCH_ERR  = `É necessário atribuir uma função para o atributo SEARCH. [search="foo()"]`
 
               $scope._attributes             = []
@@ -138,19 +139,23 @@
                 [].slice.call(transcludeElement).forEach((value, $index) => {
                   if(value.nodeName !== 'ADVANCED-SEARCH-FIELD') return
 
+                  if(!value.getAttribute('field')) {
+                    console.error(FIELD_ERR)
+                    return
+                  }
+
                   let field           = value.getAttribute('field'),
                       type            = value.getAttribute('type'),
                       label           = value.getAttribute('label') ?  $interpolate(value.getAttribute('label'))(parentContext) : field.charAt(0).toUpperCase().concat(field.slice(1)),
                       extraProperties = {}
-
-                  if(!field) {
-                    console.error(FIELD_ERR)
+                
+                  if(!type){
+                    console.error(NOTYPE_ERR)
                     return
                   }
 
                   type  = type.toLowerCase().trim() || ''
                   label = label                     || field.charAt(0).toUpperCase() + field.slice(1)
-
                   extraProperties = getExtraProperties(value)
 
                   if(!HQLFactory.useType(type)){
@@ -161,10 +166,24 @@
                 })
               })
 
-              let defaultAttribute  = angular.copy($scope._attributes[0]),
-                  defaultCondition  = angular.copy(HQLFactory.useType($scope._attributes[0].type).defaultCondition)[0]
+              if($scope._attributes[0]){
+                let defaultAttribute  = angular.copy($scope._attributes[0]),
+                    defaultCondition  = angular.copy(HQLFactory.useType($scope._attributes[0].type).defaultCondition)[0]
 
-              $scope.controlMap['0'] = { query: { attribute: defaultAttribute, condition: defaultCondition, value: '' }, active: true }
+                $scope.controlMap['0'] = { query: { attribute: defaultAttribute, condition: defaultCondition, value: '' }, active: true }
+
+                $timeout(() => {
+                  showCondition(0)
+                  showValue(0)
+                  openValue(0)
+                  let hqlType = HQLFactory.useType($scope.controlMap['0'].query.attribute.type);
+                  $scope.controlMap['0'].query.conditions = hqlType.conditions;
+                  $scope.lastAddedQueryIndex = 0
+                  replacePanelContent(0, hqlType.template)
+                  $scope.updatingHql = 0;
+                })
+              }
+
 
               const getElm            = (key) => (angular.element(document.getElementById(key)))
               const openAttribute     = (index) => (getElm(`_btnAttribute${index}`)).addClass('open')
@@ -177,16 +196,7 @@
               const hideValue         = (index) => (getElm(`_btnValue${index}`).addClass('hidden'))
               const isEven            = (n) => (n % 2 == 0)
 
-              $timeout(() => {
-                showCondition(0)
-                showValue(0)
-                openValue(0)
-                let hqlType = HQLFactory.useType($scope.controlMap['0'].query.attribute.type);
-                $scope.controlMap['0'].query.conditions = hqlType.conditions;
-                $scope.lastAddedQueryIndex = 0
-                replacePanelContent(0, hqlType.template)
-                $scope.updatingHql = 0;
-              })
+
 
               function toggleEnum(event, key, field) {
                 event.stopPropagation()
