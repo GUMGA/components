@@ -1,8 +1,8 @@
 (function(){
   //Description
-  Search.$inject = ['$q','$timeout','$compile']
+  Search.$inject = ['$q','$timeout','$compile','$interpolate' ]
 
-  function Search($q, $timeout, $compile){
+  function Search($q, $timeout, $compile, $interpolate){
 
     let template = `
       <div class="input-group">
@@ -52,17 +52,18 @@
       if(!hasAttr('search')) console.error(SEARCH_ERR)
 
       $transclude((transcludeElement) => {
-        let alreadySelected = false;
+        let alreadySelected = false,
+            parentContext   = $scope.$parent;
 
         [].slice.call(transcludeElement).forEach(value => {
+
           if(value && value.nodeName === 'ADVANCED-SEARCH-FIELD') ctrl.possibleAdvancedFields.push(value.outerHTML)
           if(!value || value.nodeName !== 'SEARCH-FIELD') return
 
           let element   = angular.element(value),
               field     = element.attr('field') ? element.attr('field') : '',
               checkbox  = !!$scope.$eval(element.attr('select')),
-              preLabel  = $scope.$parent.$eval(element.attr('label')),
-              label     = preLabel ? preLabel : (element.attr('label') ? element.attr('label') : field.charAt(0).toUpperCase().concat(field.slice(1)))
+              label     = element.attr('label') ? $interpolate(element.attr('label'))(parentContext) : field.charAt(0).toUpperCase().concat(field.slice(1));
 
           if(!field)      console.error(FIELD_ERR)
           if(checkbox)    alreadySelected = true
@@ -82,11 +83,14 @@
       ctrl.advancedSearch = hasAttr('advancedSearch') ? ctrl.advancedSearch   : null
       ctrl.savedFilters   = hasAttr('savedFilters')   ? ctrl.savedFilters     : angular.noop
       ctrl.searchText     = hasAttr('searchText')     ? $attrs['searchText']  : ' '
-      
+      ctrl.proxySearch    = (param) => {
+        ctrl.advancedSearch({ param })
+      }
+
       if(ctrl.advancedSearch) ctrl.compileFilter()
 
         function compileFilter(){
-          let template  = `<gumga-filter-core ng-show="isOpen" is-open="true" search="ctrl.advancedSearch()">${ctrl.possibleAdvancedFields.reduce(((prev, next) => prev += next), '')}</gumga-filter-core>`,
+          let template  = `<gumga-filter-core ng-show="isOpen" is-open="true" search="ctrl.proxySearch(param)">${ctrl.possibleAdvancedFields.reduce(((prev, next) => prev += next), '')}</gumga-filter-core>`,
               element   = angular.element(document.getElementById('replaceFilter'))
 
           element.replaceWith($compile(template)($scope))
@@ -105,7 +109,7 @@
         ctrl.search({ field, param })
       }
 
-      
+
       function proxyFn($value){
         return $q.when(ctrl.savedFilters({ $value }))
       }
