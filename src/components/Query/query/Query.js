@@ -22,7 +22,7 @@
                </a>
             </li>
           </ul>
-            <button class="btn btn-default" ng-click="isOpen = !isOpen">
+            <button class="btn btn-default" ng-click="openFilter = !openFilter">
               <span class="glyphicon glyphicon-filter"></span>
             </button>
            <button class="btn btn-primary" type="button" ng-click="ctrl.doSearch(ctrl.searchField)">
@@ -31,7 +31,7 @@
            </button>
          </span>
        </div>
-      <div class="row>
+      <div class="row" style="margin-top: .5%">
         <div class="col-md-12">
           <div id="replaceFilter"></div>
         </div>
@@ -88,12 +88,10 @@
       }
 
       if(ctrl.advancedSearch) ctrl.compileFilter()
-
         function compileFilter(){
-          let template  = `<gumga-filter-core ng-show="isOpen" is-open="true" search="ctrl.proxySearch(param)">${ctrl.possibleAdvancedFields.reduce(((prev, next) => prev += next), '')}</gumga-filter-core>`,
-              element   = angular.element(document.getElementById('replaceFilter'))
+          let template  = `<gumga-filter-core ng-show="openFilter" is-open="true" search="ctrl.proxySearch(param)" is-query="true">${ctrl.possibleAdvancedFields.reduce(((prev, next) => prev += next), '')}</gumga-filter-core>`
 
-          element.replaceWith($compile(template)($scope))
+          $element.after($compile(template)($scope))
         }
 
 
