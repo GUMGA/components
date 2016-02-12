@@ -92,15 +92,6 @@
                 saveQuery: '&'
             },
             link: ($scope, $element, $attrs, $ctrl, $transclude) => {
-              /**
-               * @TODO
-               * DONE   Condições anteriores modificadas conforme ativa alterada
-               * DONE   Valores do boolean apagados ao clicar no X de limpar
-               *        Z index do dropdown em telas pequenas
-               * DONE   Problema para tradução com gumgaTranslate
-               * DONE   Atributo search requerido mesmo quando colocado
-               * DONE(number e float com ng-pattern) Valor respeitando tipagem de dados (Desabilitar botão enquanto value estiver inválido)
-               */
               const outerScope  = $scope.$parent.$parent
               const FIELD_ERR   = `É necessário atribuir um valor ao atributo FIELD da tag ADVANCED-SEARCH-FIELD.`,
                     TYPE_ERR    = `O tipo "{1}" passado como parâmetro para o ADVANCED-SEARCH-FIELD não é suportado.`,
@@ -296,21 +287,27 @@
                 return first
               }
 
+              function isThereAnyMoreThanFirstOfMap(){
+                return Object.keys($scope.controlMap).filter($value => (parseInt($value) > firstOfMap())).length > 0;
+              }
+
               function removeQuery(key){
                 let extraProperties = $scope.controlMap[key].query.attribute.extraProperties;
-                if(key == firstOfMap()){
+                isThereAnyMoreThanFirstOfMap()
+
+                if(key == firstOfMap() && !isThereAnyMoreThanFirstOfMap()){
                   $scope.controlMap[key] = { query: { attribute: { extraProperties: extraProperties }, condition: {}, value: '' }, active: true }
                   getElm(`_btn${key}`).html('Atributo'), getElm(`_conditionLabel${key}`).html('Condição'), openAttribute(key)
                   return;
                 }
-                if(key == 0){
+                if(parseInt(key) == firstOfMap()){
                   $scope.controlMap[key].active = false
-                  $scope.controlMap[key++].active = false
+                  $scope.controlMap[parseInt(key) + 1].active = false
                   return
                 }
-                if(isEven(key) && key !=0){
+                if(isEven(key)){
                   $scope.controlMap[key].active = false
-                  $scope.controlMap[key-1].active = false
+                  $scope.controlMap[parseInt(key) - 1].active = false
                 }
               }
 
@@ -371,8 +368,10 @@
                   if (e.path[i].nodeName == 'GUMGA-FILTER-CORE')
                     outerClick = false;
                 }
-
-                let validator = HQLFactory.validator($scope.controlMap[$scope.updatingHql].query.attribute.type)
+                let validator
+                if($scope.controlMap[$scope.updatingHql]) {
+                  validator = HQLFactory.validator($scope.controlMap[$scope.updatingHql].query.attribute.type)
+                }
                 if (outerClick && validator &&  validator($scope.controlMap[$scope.updatingHql].query.value) && isAnyPanelOpen())  {
                   $scope.$apply()
                   $scope.closePanels()

@@ -7,7 +7,6 @@ describe('PROVIDER: GumgaAlert', function() {
     Service = HQLFactory;
   }))
 
-  it('Should pimba', () => {
-  })
+
 
 });

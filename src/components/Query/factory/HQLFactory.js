@@ -58,7 +58,7 @@ function HQLFactory(){
     conditions: hqlObjectCreator(['eq', 'ne', 'contains', 'not_contains', 'starts_with', 'ends_with']),
     template: `<input type="text" ng-model="$value.query.value" gumga-mask="99.999.999/9999-99" class="form-control" required />`
   }
-  
+
   SUPPORTED_TYPES['boolean'] = {
     validator: (boolean) => (boolean == 'true' || boolean == 'false'),
     defaultCondition: hqlObjectCreator(['eq']),
@@ -107,30 +107,30 @@ function HQLFactory(){
     conditions: hqlObjectCreator(['eq', 'ne', 'contains', 'not_contains', 'starts_with', 'ends_with']),
     template: ` <input type="text" ng-model="$value.query.value" class="form-control" required /> `
   }
-  
+
   function useType(type) {
     return SUPPORTED_TYPES[type] || null;
   }
 
   function hqlObjectCreator(hqls = [], hqlObjects = {}){
-    hqlObjects['contains']      = { hql: ` contains `     , label:  ` contém `        , before: ` like '% `     , after:  ` %' ` }
-    hqlObjects['not_contains']  = { hql: ` not_contains ` , label:  ` não contém `    , before: ` not like '% ` , after:  ` %' ` }
-    hqlObjects['starts_with']   = { hql: ` starts_with `  , label:  ` começa com `    , before: ` like ' `      , after:  `%'` }
+    hqlObjects['contains']      = { hql: ` contains `     , label:  ` contém `        , before: ` like '%`     , after:  `%' ` }
+    hqlObjects['not_contains']  = { hql: ` not_contains ` , label:  ` não contém `    , before: ` not like '%` , after:  `%' ` }
+    hqlObjects['starts_with']   = { hql: ` starts_with `  , label:  ` começa com `    , before: ` like '`      , after:  `%'` }
     hqlObjects['ends_with']     = { hql: ` ends_with `    , label:  ` termina com `   , before: ` like '%`      , after:  `'` }
-    hqlObjects['eq']            = { hql: ` eq `           , label:  ` igual `         , before: ` =' `          , after:  `'` }
-    hqlObjects['ne']            = { hql: ` ne `           , label:  ` diferente de `  , before: ` !=' `         , after:  `'` }
-    hqlObjects['ge']            = { hql: ` ge `           , label:  ` maior igual `   , before: ` >=' `         , after:  `'` }
+    hqlObjects['eq']            = { hql: ` eq `           , label:  ` igual `         , before: ` ='`          , after:  `'` }
+    hqlObjects['ne']            = { hql: ` ne `           , label:  ` diferente de `  , before: ` !='`         , after:  `'` }
+    hqlObjects['ge']            = { hql: ` ge `           , label:  ` maior igual `   , before: ` >='`         , after:  `'` }
     hqlObjects['gt']            = { hql: ` gt `           , label:  ` maior que `     , before: ` > '`          , after:  `'` }
-    hqlObjects['le']            = { hql: ` le `           , label:  ` menor igual `   , before: ` <=' `         , after:  ` ' ` }
-    hqlObjects['lt']            = { hql: ` lt `           , label:  ` menor que `     , before: ` < '`          , after:  ` ' ` }
-    hqlObjects['in']            = { hql: ` in `           , label:  ` em`             , before: ` ( `           , after:  ` ) ` }
+    hqlObjects['le']            = { hql: ` le `           , label:  ` menor igual `   , before: ` <='`         , after:  `' ` }
+    hqlObjects['lt']            = { hql: ` lt `           , label:  ` menor que `     , before: ` < '`          , after:  `' ` }
+    hqlObjects['in']            = { hql: ` in `           , label:  ` em`             , before: ` (`           , after:  `) ` }
     return hqls.map(value => hqlObjects[value])
   }
 
 
   function createHql(mapObj = {}){
     let aqo = []
-    let aq = 
+    let aq =
       Object
         .keys(mapObj)
         .filter(value => mapObj[value].active && mapObj[value].query.value)
@@ -139,23 +139,23 @@ function HQLFactory(){
               before    = mapObj[val].query.condition ? mapObj[val].query.condition.before : '*',
               value     = mapObj[val].query.value,
               after     = mapObj[val].query.condition ? mapObj[val].query.condition.after : '*';
-          
+
             aqo.push({
             attribute:  mapObj[val].query.attribute,
             condition:  mapObj[val].query.condition,
             value:      mapObj[val].query.value
-          })  
-        
+          })
+
 
         return (attribute.concat(before).concat(value).concat(after)).replace(/obj.\*/g,'').replace(/\*/g,'')
       }).join(' ')
 
     if(aq.slice(-2) === 'ND' || aq.slice(-2) === 'OR'){
       aqo.pop()
-      return { aq: aq.slice(0, -3), aqo: aqo  }
+      return { hql: aq.slice(0, -3), source: aqo  }
     }
-    return { aq, aqo }
-  } 
+    return { hql: aq, source: aqo }
+  }
 
   let utils = {}
 
