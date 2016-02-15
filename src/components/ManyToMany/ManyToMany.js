@@ -30,14 +30,14 @@
                            </div>
                            <div class="col-md-6 col-xs-6">
 													 	 <label ng-hide="ctrl.rightList.length > 0">Lista vazia</label>
-														 <label ng-if="ctrl.rightList.length > 0">Selecionado {{ctrl.rightList.length}} {{ctrl.rightList.length == 1 ? 'item' : 'itens'}}</label>
-                          	 <input class="form-control input-sm" placeholder="Filtrar campos"/>
+														 <label ng-if="ctrl.rightList.length > 0">Mostrando {{ctrl.rightList.length}} {{ctrl.rightList.length == 1 ? 'item' : 'itens'}}</label>
+                          	 <input class="form-control input-sm" ng-disabled="!ctrl.rightSearchField" placeholder="Filtrar campos" ng-change="ctrl.filterRight(rightsearch)" ng-model="rightsearch"/>
                              <div class="line-break"></div>
                              <div class="panel panel-default">
                                <div class="panel-heading heading-sm">{{ctrl.textHeadingRight}}</div>
 															 <ul class="list-group" style="height: 293px;overflow: auto;">
-																 <li class="list-group-item heading-sm hover" ng-repeat="$value in ctrl.rightList track by $index" ng-click="ctrl.removeOrAdd(ctrl.rightList, ctrl.leftList, $value)">
-																		 <span name="fieldrigth"></span>
+																 <li class="list-group-item heading-sm hover" ng-repeat="$value in ctrl.rightAux track by $index" ng-click="ctrl.removeOrAdd(ctrl.rightList, ctrl.leftList, $value)">
+																		 <span name="fieldrigth">{{$value}}</span>
 																 </li>
 															 </ul>
 															 <div class="panel-footer hover" style="text-align: center;" ng-click="ctrl.moveAllItems(ctrl.rightList, ctrl.leftList, 'left')"><span class="glyphicon glyphicon-arrow-left"></span> {{ctrl.textMoveallRight}}</div>
@@ -56,7 +56,9 @@
 				ctrl.textMoveallLeft = $attrs.textMoveallLeft || 'Move all items';
 				ctrl.textMoveallRight = $attrs.textMoveallRight || 'Move all items';
 				ctrl.rightList = ctrl.rightList || [];
+				ctrl.rightAux = angular.copy(ctrl.rightList);
 				ctrl.leftList = ctrl.leftList || [];
+				ctrl.rightSearchField = $attrs.rigthSearchField || null;
 				let eventHandler = {
 					listChange: ($attrs.onListChange? ctrl.onListChange : angular.noop),
 					newValueAdded: ($attrs.onNewValueAdded ? ctrl.onNewValueAdded : angular.noop),
@@ -74,17 +76,20 @@
         }
 
 				ctrl.filterRight = function(param){
-					// ctrl.rightAux = ctrl.rightList.filter(function(obj){
-					// 	return ctrl.fields.right
-					// })
+					if(ctrl.rightSearchField) ctrl.rightAux = ctrl.rightList.filter(obj => obj[ctrl.rightSearchField].toLowerCase().indexOf(param.toLowerCase()) > -1);
+					ctrl.removeDuplicates();
+					replaceLabels();
 				}
 
 				ctrl.moveAllItems = function(fromList, toList, position){
 					if(position == "left") ctrl.leftList = toList.concat(fromList);
 					if(position == "right") ctrl.rightList = toList.concat(fromList);
 					fromList.splice(0, fromList.length);
+					ctrl.rightAux = angular.copy(ctrl.rightList);
 					ctrl.removeDuplicates();
 					replaceLabels();
+					$scope.rightsearch = '';
+					$scope.leftsearch = '';
 				}
 
         function replaceLabels(){
@@ -99,8 +104,6 @@
 						});
 					})
         }
-
-        ctrl.filterLeft('');
 
         ctrl.openModal = function(event, obj){
 						event.stopImmediatePropagation();
@@ -142,6 +145,8 @@
 					removeFrom.splice(removeFrom.indexOf(value),1);
 					addTo.push(value);
 					replaceLabels();
+					ctrl.rightAux = angular.copy(ctrl.rightList);
+					$scope.rightsearch = '';
 					eventHandler.listChange({value:value});
 				}
 
@@ -170,6 +175,9 @@
 						}
 					});
         })
+
+				replaceLabels();
+				ctrl.filterLeft('');
 
     }
 
