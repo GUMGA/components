@@ -18,7 +18,7 @@
                     					<div class="panel panel-default">
                     						<div class="panel-heading heading-sm">{{ctrl.textHeadingLeft}}</div>
                                 <ul class="list-group" style="height: 293px;overflow: auto;">
-                                  <li class="list-group-item heading-sm hover" ng-repeat="$value in ctrl.leftList track by $index" ng-click="ctrl.removeOrAdd(ctrl.leftList, ctrl.rightList, $value)">
+                                  <li class="list-group-item heading-sm hover" ng-repeat="$value in ctrl.leftList track by $index" ng-click="ctrl.removeOrAdd(ctrl.leftList, ctrl.rightList, $value, $index)">
                                       <span name="fieldleft"></span>
                                   </li>
                                 </ul>
@@ -36,7 +36,7 @@
                              <div class="panel panel-default">
                                <div class="panel-heading heading-sm">{{ctrl.textHeadingRight}}</div>
 															 <ul class="list-group" style="height: 293px;overflow: auto;">
-																 <li class="list-group-item heading-sm hover" ng-repeat="$value in ctrl.rightAux track by $index" ng-click="ctrl.removeOrAdd(ctrl.rightList, ctrl.leftList, $value)">
+																 <li class="list-group-item heading-sm hover" ng-repeat="$value in ctrl.rightAux track by $index" ng-click="ctrl.removeOrAdd(ctrl.rightList, ctrl.leftList, $value, $index)">
 																		 <span name="fieldrigth">{{$value}}</span>
 																 </li>
 															 </ul>
@@ -141,9 +141,10 @@
 							eventHandler.valueVisualizationClosed();
 						})
 				}
-				ctrl.removeOrAdd = function(removeFrom, addTo, value){
-					removeFrom.splice(removeFrom.indexOf(value),1);
+				ctrl.removeOrAdd = function(removeFrom, addTo, value, index){
+					removeFrom.splice(index,1);
 					addTo.push(value);
+					ctrl.removeDuplicates();
 					replaceLabels();
 					ctrl.rightAux = angular.copy(ctrl.rightList);
 					$scope.rightsearch = '';
@@ -155,6 +156,19 @@
 					ctrl.postMethod({value: value});
 					ctrl.filterLeft('');
 					eventHandler.newValueAdded();
+				}
+
+				function checkErrors(){
+					let errorTexts = [];
+					console.log(ctrl.fields)
+					if(!ctrl.fields.left || !ctrl.fields.right){
+						errorTexts.push('You have\'nt provided the content to GumgaManyToMany directive.');
+					}
+					if(!$attrs.leftSearch) errorTexts.push('You need to enter the parameter left-search.');
+					if(!$attrs.rightList) errorTexts.push('You need to enter the parameter right-list.');
+					errorTexts.forEach(function(txt){
+						console.error(txt);
+					});
 				}
 
 				const hasObjectInRight = obj => (ctrl.rightList.filter(rightObject => angular.equals(rightObject, obj)).length > 0);
@@ -176,6 +190,7 @@
 					});
         })
 
+				checkErrors();
 				replaceLabels();
 				ctrl.filterLeft('');
 
@@ -203,6 +218,6 @@
   }
 
 
-  angular.module('gumga.manytomany',[])
+  angular.module('gumga.manytomany',['ui.bootstrap'])
   .directive('gumgaManyToMany',ManyToMany)
 })();
