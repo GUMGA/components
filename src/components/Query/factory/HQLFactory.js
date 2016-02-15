@@ -84,7 +84,7 @@ function HQLFactory(){
     validator: (enumList) => (Array.isArray(enumList)),
     defaultCondition: hqlObjectCreator(['in']),
     conditions: hqlObjectCreator(['eq']),
-    template: `<div class="checkbox" ng-repeat="d in $value.query.attribute.extraProperties.data"><label><input type="checkbox" ng-checked="$value.query.value.indexOf(d.field) > -1" ng-click="toggleEnum($event, $key, d.field)"></label> {{d.label}}</div>`
+    template: `<div class="col-md-4" ng-class="{'row': $index % 3 == 0}" ng-repeat="d in $value.query.attribute.extraProperties.data"><label><input type="checkbox" ng-checked="$value.query.value.indexOf(d.field) > -1" ng-click="toggleEnum($event, $key, d.field)"></label> {{d.label}}</div>`
   }
 
   SUPPORTED_TYPES['email'] = {
