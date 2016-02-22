@@ -6,8 +6,8 @@
 
     let template = `
       <div class="input-group">
-       <input type="text" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event)" uib-typeahead="item.description for item in ctrl.proxyFn($viewValue)"
-       typeahead-focus-first="false" typeahead-on-select="ctrl.filterSelect($item, $model, $label, $event)"/>
+       <input type="text" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event)" uib-typeahead="item.description for item in ctrl.proxyFn($viewValue)"typeahead-on-select="ctrl.filterSelect($item, $model, $label, $event)" ng-show="ctrl.hasQuerySaved"/>
+       <input type="text" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event)" ng-show="!ctrl.hasQuerySaved"/>
        <span class="input-group-btn" uib-dropdown uib-keyboard-nav auto-close="outsideClick">
          <button class="btn btn-default" type="button" uib-dropdown-toggle>
           <span class="glyphicon glyphicon-chevron-down"><span>
@@ -83,17 +83,21 @@
       ctrl.advancedSearch = hasAttr('advancedSearch') ? ctrl.advancedSearch   : null
       ctrl.savedFilters   = hasAttr('savedFilters')   ? ctrl.savedFilters     : angular.noop
       ctrl.searchText     = hasAttr('searchText')     ? $attrs['searchText']  : ' '
-      ctrl.proxySearch    = (param) => {
-        ctrl.advancedSearch({ param })
+      ctrl.proxySearch    = (param) => ctrl.advancedSearch({ param })
+      ctrl.hasQuerySaved  = !!$attrs.savedFilters
+      $scope.proxySave    = (query, name) => {
+        ctrl.saveQuery({ query, name })
       }
 
       if(ctrl.advancedSearch) ctrl.compileFilter()
-        function compileFilter(){
-          let template  = `<gumga-filter-core ng-show="openFilter" is-open="true" search="ctrl.proxySearch(param)" is-query="true">${ctrl.possibleAdvancedFields.reduce(((prev, next) => prev += next), '')}</gumga-filter-core>`
 
-          $element.after($compile(template)($scope))
-        }
+      function compileFilter(){
+        let template  = `<gumga-filter-core ng-show="openFilter" is-open="true" search="ctrl.proxySearch(param)" ${$attrs.saveQuery ? 'save-query="saveQuery(query, name)"' : ''}is-query="true">${ctrl.possibleAdvancedFields.reduce(((prev, next) => prev += next), '')}</gumga-filter-core>`
 
+        for(var roWElement = $element; !roWElement.hasClass('row'); roWElement = roWElement.parent());
+
+        roWElement.after($compile(template)($scope))
+      }
 
       function doSearch(param, event = { keyCode: 13 }){
         if(event.keyCode !== 13) return
@@ -109,7 +113,7 @@
 
 
       function proxyFn($value){
-        return $q.when(ctrl.savedFilters({ $value }))
+        return $q.when(ctrl.savedFilters({ $value })).then((data) => data.data.values)
       }
 
       function filterSelect($item, $model, $label, $event){
@@ -122,7 +126,8 @@
       scope: {
         search: '&',
         advancedSearch: '&?',
-        savedFilters: '&?'
+        savedFilters: '&?',
+        saveQuery:'&?'
       },
       bindToController: true,
       transclude: true,

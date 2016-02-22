@@ -33,7 +33,7 @@ function QueryModelFactory(){
   // Checking Functions
 
   QueryModel.prototype.isNOTHING  =function(){
-     return (this.activeStates & this.STATES['HAS_NOTHING']) != 0
+     return (this.activeStates & this.STATES['NOTHING']) != 0
    }
   QueryModel.prototype.isONLY_ATTRIBUTE = function(){
      return (this.activeStates & this.STATES['ONLY_ATTRIBUTE']) != 0
