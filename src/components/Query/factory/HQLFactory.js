@@ -84,7 +84,7 @@ function HQLFactory($filter){
     validator: (enumList) => (Array.isArray(enumList)),
     defaultCondition: hqlObjectCreator(['in']),
     conditions: hqlObjectCreator(['eq']),
-    template: `<div class="col-md-4" ng-class="{row: $index % 3 == 0}" ng-repeat="d in $value.query.attribute.extraProperties.data"><label><input type="checkbox" ng-checked="$value.query.value.indexOf(d.field) > -1" ng-click="toggleEnum($event, $key, d.field)"></label> {{d.label}}</div>`
+    template: `<div class="col-md-4" ng-class="{'row': $index % 3 == 0}" ng-repeat="d in $value.query.attribute.extraProperties.data"><label><input type="checkbox" ng-checked="$value.query.value.indexOf(d.field) > -1" ng-click="toggleEnum($event, $key, d.field)"></label> {{d.label}}</div>`
   }
 
   SUPPORTED_TYPES['email'] = {
@@ -137,13 +137,13 @@ function HQLFactory($filter){
         .map(val => {
           let attribute = 'obj.'.concat(mapObj[val].query.attribute ? mapObj[val].query.attribute.field : '*'),
               before    = mapObj[val].query.condition ? mapObj[val].query.condition.before : '*',
-              value     = mapObj[val].query.value,
+              value     = mapObj[val].query.value.replace(/'/g,"''"),
               after     = mapObj[val].query.condition ? mapObj[val].query.condition.after : '*';
 
             aqo.push({
             attribute:  mapObj[val].query.attribute,
             condition:  mapObj[val].query.condition,
-            value:      mapObj[val].query.value
+            value:      mapObj[val].query.value.replace(/'/g,"''")
           })
 
 
