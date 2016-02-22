@@ -3,7 +3,7 @@
 	OneToMany.$inject = ['$modal','$populate'];
 	function OneToMany($modal,$populate){
 		var template = [
-		'<div class="col-md-12" style="padding-left: 0;padding-right: 0">',
+		'<div class="col-md-12">',
 		'   <button type="button" class="btn btn-default" ng-click="newModal()">New</button>',
 		'   <ul class="list-group">',
 		'       <li ng-repeat="child in children" class="list-group-item">',
