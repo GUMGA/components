@@ -21,7 +21,7 @@
      * @param {String} field Parâmetro obrigatório que irá conter o atributo do registro que está sendo procurado e o que estará na lista.
      * @param {Boolean} authorize-add Parâmetro não obrigatório que irá conter uma variável que possuirá um booleano que irá fazer o controle para mostrar o botão de adicionar um registro caso a busca não
      * tenha retornado nenhum registro
-     * @param {Btava veoolean} async Parâmetro não obrigatório que irá dizer caso componente fará um post chamando a função passada ou um push na lista. Por default, o valor é
+     * @param {Boolean} async Parâmetro não obrigatório que irá dizer caso componente fará um post chamando a função passada ou um push na lista. Por default, o valor é
      * @param {Function} on-new-value-added Parâmetro não obrigatório que irá conter uma variável que possuirá uma função que irá ser executada quando o usuário adicionar um novo valor.
      * @param {Function} on-value-visualization-opened Parâmetro não obrigatório que irá conter uma variável que possuirá uma função que irá ser executada quando o usuário tiver aberto o modal
      * para visualização de dados
@@ -38,11 +38,11 @@
         template += '   <div class="form-group">';
         template += '       <div ng-class="showFullView() || authorizeAdd ? \'input-group\' : \'\'">';
         template += '           <input class="form-control"  ng-model="model" type="text" typeahead="$value as $value[field] for $value in proxySearchMethod()">';
-        template += '           <span class="input-group-addon" style="background-color: transparent; padding: 3px 12px;border-left:0" ng-show="showFullView()"> ';
-        template += '               <button class="text-primary" style="background-color: transparent;border: 0" ng-click="halp(model)" ><i class="glyphicon glyphicon-new-window"></i></button>';
+        template += '           <span class="input-group-addon full-view" ng-show="showFullView()"> ';
+        template += '               <button class="text-primary" ng-click="halp(model)" ><i class="glyphicon glyphicon-new-window"></i></button>';
         template += '           </span>';
-        template += '           <span class="input-group-addon" style="padding: 0 0.25%" ng-show="authorizeAdd"> ';
-        template += '               <button type="button" style="border: 0;background-color: transparent" ng-click="addNew(model)" ><i class="glyphicon glyphicon-plus"></i></button>';
+        template += '           <span class="input-group-addon authorize-add" ng-show="authorizeAdd"> ';
+        template += '               <button type="button" ng-click="addNew(model)" ><i class="glyphicon glyphicon-plus"></i></button>';
         template += '           </span>';
         template += '       </div>';
         template += '   </div>';
