@@ -14,7 +14,7 @@
                         <div class="input-group" >
                             <input type="text" ng-model="nameSearch" class="form-control" id="_save" ng-show="saveFilterOpen" ng-keyup="saveSearch(nameSearch, $event)" ng-blur="closeInput()">
                             <div class="input-group-btn">
-                                <button class="btn btn-success" ng-show="saveFilterOpen" ng-click="saveSearch(nameSearcht)">
+                                <button class="btn btn-success" ng-show="saveFilterOpen" ng-click="saveSearch(nameSearcht)" ng-disabled="nameSearch.length == 0">
                                     <i class="glyphicon glyphicon-floppy-saved"></i>
                                 </button>
                                 <button class="btn btn-default pull-right" type="button" ng-hide="saveFilterOpen" ng-click="showInput()" ng-disabled="!isAnyQueryNotOk()">
@@ -26,6 +26,13 @@
                 </div>
             </header>
             <div class="form-inline panel-body">
+            <div class="row">
+              <div class="col-md-12">
+                <button type="button" class="btn btn-link btn-xs pull-right" style="margin-top: -10px;" ng-show="isAnyQueryNotOk()" ng-click="cleanMap()">
+                  Limpar busca
+                </button>
+              </div>
+            </div>
               <div class="input-group" ng-repeat="($key, $value) in controlMap" style="margin-right: 1%;margin-top: 7.5px;" ng-show="$value.active" id="first" >
                   <div class="input-group-btn">
                     <div class="btn-group" uib-dropdown ng-show="!$value.query.label" is-open="$value.isUPDATING_ATTRIBUTE()" auto-close="disabled">
@@ -99,7 +106,18 @@
 
               if(!$attrs.search) console.error(SEARCH_ERR)
 
-              $scope.$on('filter-items', (err, data) => JSON.parse(data.value).forEach((val, index) => $scope.controlMap[index] = QueryModelFactory.create(val, true, 'EVERYTHING_NEEDED')))
+              $scope.$on('filter-items', (err, data) => {
+                let value = JSON.parse(data.value)
+                $scope.controlMap = {}
+                JSON.parse(value.source).forEach((val, index) => {
+                  if(index % 2 == 0){
+                    $scope.controlMap[index] = QueryModelFactory.create(val, true, 'EVERYTHING_NEEDED')
+                  } else {
+                    $scope.controlMap[index] = QueryModelFactory.create({ value: val.value, label: val.value === 'AND' ? 'E' : 'OU' }, undefined, 'EVERYTHING_NEEDED')
+                  }
+                })
+                $timeout(() => $scope.search({ param: HQLFactory.createHql($scope.controlMap)}));
+              })
 
               $transclude((transcludeElement) => {
                 let parentContext = $scope.$parent.$parent;
@@ -149,6 +167,12 @@
               $scope.getIndexScope            = getIndexScope
 
               $scope.validatonValue           = validatonValue
+
+              $scope.cleanMap                 = cleanMap
+
+              function cleanMap(){
+                $scope.controlMap = {}
+              }
 
             function addAttribute(selectedAttribute, scope, key){
               scope.$value.query.attribute = selectedAttribute

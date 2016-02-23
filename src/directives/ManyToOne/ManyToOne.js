@@ -2,51 +2,37 @@
     'use strict';
 
     ManyToOne.$inject = ['$templateCache','GumgaKeyboard','$modal'];
-    /**
-     * @ngdoc directive
-     * @name gumga.core:gumgaManyToOne
-     * @restrict E
-     * @description
-     *  A directive gumgaManyToOne pode ser usada para quando o programador precise de um select que filtre uma lista assíncronamente.
-     *  Ela também permite adicionar um registro caso a busca retorne uma lista vazia e permite também visualizar os atributos do registro selecionado.
-     *  ---
-     *  #Exemplo básico de utilização do GumgaManyToOne
-     *  O exemplo desse componente pode ser encontrado [aqui](http://embed.plnkr.co/NYL3gItVsWLFcGxt5itz/).
-     *
-     * @param {Object} value Parâmetro obrigatório que irá conter uma variável que será o registro escolhido na lista.
-     * @param {Array} list Parâmetro obrigatório que irá conter uma lista dos registros que foram buscados.
-     * @param {Function} search-method Parâmetro obrigatório que irá conter uma função que fará a busca na lista assíncronamente. `search-method="getSearch(param)"`
-     * @param {Function} post-method Parâmetro obrigatório que irá conter uma função que dependendo do parâmetro `async`, chamará a função async com o parâmetro
-     * `post-method="post(value)"` e caso o parâmetro async não esteja presente ou seja falso, fará um push na lista.
-     * @param {String} field Parâmetro obrigatório que irá conter o atributo do registro que está sendo procurado e o que estará na lista.
-     * @param {Boolean} authorize-add Parâmetro não obrigatório que irá conter uma variável que possuirá um booleano que irá fazer o controle para mostrar o botão de adicionar um registro caso a busca não
-     * tenha retornado nenhum registro
-     * @param {Btava veoolean} async Parâmetro não obrigatório que irá dizer caso componente fará um post chamando a função passada ou um push na lista. Por default, o valor é
-     * @param {Function} on-new-value-added Parâmetro não obrigatório que irá conter uma variável que possuirá uma função que irá ser executada quando o usuário adicionar um novo valor.
-     * @param {Function} on-value-visualization-opened Parâmetro não obrigatório que irá conter uma variável que possuirá uma função que irá ser executada quando o usuário tiver aberto o modal
-     * para visualização de dados
-     * @param {Function} on-value-visualization-closed Parâmetro não obrigatório que irá conter uma variável que possuirá uma função que irá ser executada quando o usuário tiver fechado o modal
-     * para visualização de dados
-     */
 
-
+    let baseTemplate = `
+    <div class="full-width-without-padding">
+      <div class="input-group">
+        <input type="text" class="form-control" ng-model="valueFromTypeahead" uib-typeahead="$value as $value[field] for $value in proxySearchMethod()"/>
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-default">
+            <span class="glyphicon glyphicon-plus"></span>
+          </button>
+        </div>
+      </div>
+    </div>`
 
     function ManyToOne($templateCache,GumgaKeyboard,$modal){
-        $templateCache.put('mtoItem.html',
-            '<span bind-html-unsafe="match.label | typeaheadHighlight:query" style="cursor: pointer;"></span>');
-        var template ='<div class="full-width-without-padding">';
-        template += '   <div class="form-group">';
-        template += '       <div ng-class="showFullView() || authorizeAdd ? \'input-group\' : \'\'">';
-        template += '           <input class="form-control"  ng-model="model" type="text" typeahead="$value as $value[field] for $value in proxySearchMethod()">';
-        template += '           <span class="input-group-addon" style="background-color: transparent; padding: 3px 12px;border-left:0" ng-show="showFullView()"> ';
-        template += '               <button class="text-primary" style="background-color: transparent;border: 0" ng-click="halp(model)" ><i class="glyphicon glyphicon-new-window"></i></button>';
-        template += '           </span>';
-        template += '           <span class="input-group-addon" style="padding: 0 0.25%" ng-show="authorizeAdd"> ';
-        template += '               <button type="button" style="border: 0;background-color: transparent" ng-click="addNew(model)" ><i class="glyphicon glyphicon-plus"></i></button>';
-        template += '           </span>';
-        template += '       </div>';
-        template += '   </div>';
-        template += '</div>';
+        $templateCache.put('mtoItem.html', '<span bind-html-unsafe="match.label | typeaheadHighlight:query" style="cursor: pointer;"></span>');
+
+        let template = `
+        <div class="full-width-without-padding">
+          <div class="form-group">
+            <div ng-class="showFullView() || authorizeAdd ? 'input-group' : ''">
+
+              <span class="input-group-addon" style="background-color: transparent; padding: 3px 12px;border-left:0" ng-show="showFullView()">
+                 <button class="text-primary" style="background-color: transparent;border: 0" ng-click="halp(model)" ><i class="glyphicon glyphicon-new-window"></i></button>
+              </span>
+              <span class="input-group-addon" style="padding: 0 0.25%" ng-show="authorizeAdd">
+                <button type="button" style="border: 0;background-color: transparent" ng-click="addNew(model)" ><i class="glyphicon glyphicon-plus"></i></button>
+              </span>
+            </div>
+          </div>
+        </div>`
+
         return {
             restrict : 'E',
             template: template,
@@ -62,7 +48,6 @@
                 onValueVisualizationClosed: '&?'
             },
             link: function(scope, elm, attrs,ctrl){
-                scope.formCtrl = ctrl;
                 var ngModelCtrl = elm.find('input').controller('ngModel'),
                 eventHandler = {
                     newValueAdded: (attrs.onNewValueAdded ? scope.onNewValueAdded : angular.noop),
