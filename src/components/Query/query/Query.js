@@ -31,7 +31,7 @@
            </button>
          </span>
        </div>
-      <div class="row" style="margin-top: .5%">
+      <div class="row replace-filter">
         <div class="col-md-12">
           <div id="replaceFilter"></div>
         </div>

@@ -713,9 +713,6 @@ html,body
     padding-bottom 0px
 
 
-.gumga-filter .dropdown-menu > li > a
-  cursor: pointer
-
 .navbar-gumga
   background-color gumgaColorPrimary
   margin-bottom 5px
@@ -895,40 +892,6 @@ gumga-query
     > .dropdown-menu
       width auto!important
       
-.gumga-filter .panel-body .input-group-btn
-  border 1px solid #ccc
-  border-left-width 2px
-  border-right-width 2px
-  border-radius 4px
-
-.gumga-filter .panel-body .input-group-btn .btn
-  border-color: transparent
-  border-radius: 4px
-  border: 1px
-
-.gumga-filter .panel-body .btn,
-.gumga-filter .panel-body .input-group-btn .btn
-  padding: 3px 6px
-
-.gumga-filter-panel
-  position absolute
-  top 100%
-  left 0
-  z-index 1000
-  display none
-  float left
-  min-width 160px
-  padding 12px
-  margin 2px 0 0
-  font-size 14px
-  text-align left
-  background-color #fff
-  border 1px solid #ccc
-  border 1px solid rgba(0,0,0,.15)
-  border-radius 4px
-  box-shadow 0 6px 12px rgba(0,0,0,.175)
-  background-clip padding-box
-
 gumga-many-to-many .col-md-6:first-child
   padding-left 0px
 
@@ -1023,3 +986,76 @@ gumga-nav .btn-link
 gumga-one-to-many .col-md-12
   padding-left 0
   padding-right 0
+  
+gumga-upload img,
+gumga-upload svg
+  object-fit: cover
+  
+gumga-table .table-btn
+  margin-bottom 5px
+
+gumga-table .table-btn button
+  margin-right 5px
+  
+gumga-search .little-panel label
+  display block
+  
+gumga-search gumga-advanced-label
+  margin-right 5px
+  
+gumga-search .menu-save-query
+  width auto
+
+.gumga-filter .dropdown-menu > li > a
+  cursor: pointer
+
+.gumga-filter .panel-body .input-group-btn
+  border 1px solid #ccc
+  border-left-width 2px
+  border-right-width 2px
+  border-radius 4px
+
+.gumga-filter .panel-body .input-group-btn .btn
+  border-color: transparent
+  border-radius: 4px
+  border: 1px
+
+.gumga-filter .panel-body .btn,
+.gumga-filter .panel-body .input-group-btn .btn
+  padding: 3px 6px
+
+.gumga-filter-panel
+  position absolute
+  top 100%
+  left 0
+  z-index 1000
+  display none
+  float left
+  min-width 160px
+  padding 12px
+  margin 2px 0 0
+  font-size 14px
+  text-align left
+  background-color #fff
+  border 1px solid #ccc
+  border 1px solid rgba(0,0,0,.15)
+  border-radius 4px
+  box-shadow 0 6px 12px rgba(0,0,0,.175)
+  background-clip padding-box
+
+gumga-filter .panel.heading
+  padding 5px 10px
+  
+gumga-filter .form-inline.panel-body .input-group
+   margin-right: 5px
+   
+gumga-filter .form-inline.panel-body .input-group-btn > button,
+gumga-filter .form-inline.panel-body .input-group-btn > btn-group > button[uib-dropdown-toggle]
+  z-index: 0
+  
+gumga-filter .form-inline.panel-body .input-group-btn > btn-group > ul[uib-dropdown-menu],
+gumga-filter .form-inline.panel-body .input-group-btn > btn-group > ul[uib-dropdown-menu] > li
+  z-index: 3000
+  
+gumga-query .row.replace-filter
+  margin-top .5%
