@@ -2,6 +2,10 @@
     'use strict';
     Upload.$inject = ['$http', '$parse', '$timeout', '$compile'];
     function Upload($http, $parse, $timeout, $compile) {
+        let templateBebin = `
+        <div class="full-width-without-padding">
+            <div ng-click="fireClick()" ng-show="flag" class="col-md-1" tooltip="{{::tooltipText}}" tooltip-placement="right">`
+
         let defaultAvatar = `
         <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="128px" height="128px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
             <path id="avatar" fill="#cccccc" d="M490.579,383.029c-14.152-22.086-61.763-35.824-108.835-55.453c-47.103-19.633-58.268-26.439-58.268-26.439
@@ -16,15 +20,11 @@
         let avatar = `
         <img id="avatar" ng-src="{{avatar}}" width="128px" height="128px">`
 
-        let templateBebin = `
-        <div class="full-width-without-padding">
-            <div ng-click="fireClick()" ng-show="flag" class="col-md-1" tooltip="{{::tooltipText}}" tooltip-placement="right">`
-
         let templateEnd = `
             </div>
-            <img src="#" alt="Uploaded Image" ng-show="!flag" class="img-rounded" style="object-fit: cover"/>
+            <img src="#" alt="Uploaded Image" ng-show="!flag" class="img-rounded" />
             <input type="file" name="upload" id="upload" ng-hide="true"/>
-            <div class="col-md-12" style="padding-left: 0">
+            <div class="col-md-12">
                 <button type="button" class="btn btn-link" ng-hide="flag" ng-click="deleteImage()"> Delete Image <span class="glyphicon glyphicon-trash"></span></button>
             </div>
         </div>`

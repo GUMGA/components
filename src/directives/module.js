@@ -4,7 +4,7 @@
 	angular.module('gumga.directives',
 		[
 		'gumga.directives.address',
-		'gumga.directives.queries',
+		// 'gumga.directives.queries',
 		'gumga.directives.alert',
 		'gumga.directives.breadcrumb',
 		'gumga.directives.counter',

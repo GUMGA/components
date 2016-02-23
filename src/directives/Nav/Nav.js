@@ -4,32 +4,32 @@
   function Nav($state, GumgaWebStorage, $modal, $rootScope, $timeout) {
     var template = [
       '<nav id="navbar">',
-      ' <a href="#" class="navbar-logo" style=" float: left;">{{title | uppercase}}</a>',
-      ' <span style="color: white; font-size: 1.4em;margin-left: 2%; float: left;"><small>{{info.organization}}</small></span>',
+      ' <a href="#" class="navbar-logo">{{title | uppercase}}</a>',
+      ' <span class="organization"><small>{{info.organization}}</small></span>',
       ' <div class="navbar-form navbar-left" ng-transclude></div>',
       ' <b class="pull-right">',
-      '   <img ng-show="info.picture" class="img-circle" style="width: 40px; height: 40px; margin-right:10px;" src="{{info.picture}}" />',
+      '   <img ng-show="info.picture" class="avatar img-circle" src="{{info.picture}}" />',
       '   <a href ng-blur="hidePanel()" class="status-navbar" ng-click="showPanelNavBar()">',
-      '     <small  style="font-size: 85%;">{{info.name}} &nbsp;&nbsp; <i class="glyphicon glyphicon-triangle-bottom" style="margin-left: 1px"></i> </small>',
+      '     <small>{{info.name}} &nbsp;&nbsp; <i class="glyphicon glyphicon-triangle-bottom"></i> </small>',
       '   </a>',
       ' </b>',
-      ' <span ng-if="multientity" ng-click="treatUrl()" class="glyphicon glyphicon-search btn pull-right" style="color:#fff; padding-top: 1%; margin-right: 5%; height: 100%;"></span>',
-      ' <input ng-if="multientity" type="text" id="inputSearch" ng-keyup="submitSearch($event)" style="background: none repeat scroll 0 0 rgba(244, 214, 214, 0.15); border: double; font-size: 14px; outline: 0; color: #fff; height: 100%; margin: 0; border-color: rgba(0, 0, 0, 0); z-index: 2000;" ng-model="search" ng-show="inputVisible" class="navbar-input flip-right" placeholder="Search">',
+      ' <span ng-if="multientity" ng-click="treatUrl()" class="glyphicon glyphicon-search btn pull-right"></span>',
+      ' <input ng-if="multientity" type="text" id="inputSearch" ng-keyup="submitSearch($event)" ng-model="search" ng-show="inputVisible" class="navbar-input flip-right" placeholder="Search">',
       '</nav>',
       '<div class="nav-panel" ng-show="showPanelNav">',
       ' <div class="panel-body" id="navPanelBody">',
-      '   <button ng-repeat="link in navlinks" ng-click="handle(link)" class="btn btn-link" style="display:block;width: 100%;color: black; font-size: 0.9em;"><i class="{{link.glyphicon}}"> </i>{{link.text}} </button>',
+      '   <button ng-repeat="link in navlinks" ng-click="handle(link)" class="btn btn-link"><i class="{{link.glyphicon}}"> </i>{{link.text}} </button>',
       ' </div>',
       '</div>'
     ];
 
     var modalTemplate = [
       '<div class="modal-header">Change Password</div>',
-      '<div class="modal-body">' +
+      '<div class="modal-body change-password">' +
       '   <form name="ModalForm" novalidate>' +
       '   <label> <small>Old Password</small></label>' +
       '   <input type="password" ng-keyup="validPassword(user.newpass, user.oldpass)" ng-focus="oldPasswordInvalid=false" class="form-control" ng-model="user.oldpass" required/>' +
-      '   <label class="text-danger" style="width: 100%;"  ng-show="oldPasswordInvalid">Esta não é sua senha antiga</label>' +
+      '   <label class="text-danger" ng-show="oldPasswordInvalid">Esta não é sua senha antiga</label>' +
       '   <label><small> New Password</small></label>' +
       '   <input type="password" class="form-control" ng-keyup="validPassword(user.newpass, user.oldpass)" ng-model="user.newpass" required/>' +
       '   <label class="text-danger" style="width: 100%;"  ng-show="newPasswordInvalid">Por favor insira uma senha diferente da antiga.</label>' +

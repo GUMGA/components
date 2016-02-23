@@ -5,7 +5,7 @@
     function Filter(HQLFactory,$compile, $timeout, $interpolate) {
         let template = `
         <div class="gumga-filter panel panel-default" >
-            <header class="panel-heading" style="padding: 5px 10px;">
+            <header class="panel-heading">
                 <div class="row">
                     <div class="col-md-8 col-xs-7">
                         <h5><strong>Busca avançada</strong></h5>
@@ -27,15 +27,15 @@
             </header>
             <div class="form-inline panel-body">
 
-                <div class="input-group" ng-repeat="($key, $value) in controlMap" style="margin-right: 1%" ng-show="$value.active">
+                <div class="input-group" ng-repeat="($key, $value) in controlMap" ng-show="$value.active">
 
                     <div class="input-group-btn">
                         <div class="btn-group" uib-dropdown ng-show="!$value.label" id="_btnAttribute{{$key}}">
-                            <button type="button" style="z-index: 0" class="btn btn-default" uib-dropdown-toggle ng-click="closePanelValue($key)">
+                            <button type="button" class="btn btn-default" uib-dropdown-toggle ng-click="closePanelValue($key)">
                                 <span id="_btn{{$key}}"> {{ $value.query.attribute.label || 'Atributo' }} </span>
                             </button>
-                            <ul uib-dropdown-menu style="z-index: 3000" role="menu" aria-labelledby="single-button">
-                                <li style="z-index: 3000" role="menuitem" ng-repeat="attribute in _attributes track by $index">
+                            <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                <li role="menuitem" ng-repeat="attribute in _attributes track by $index">
                                     <a ng-click="addAttribute($key, attribute)">{{attribute.label}}</a>
                                 </li>
                             </ul>
@@ -69,7 +69,7 @@
 
                           </button>
                         </div>
-                        <button type="button" style="z-index: 0" class="btn btn-default" ng-click="removeQuery($index)" ng-show="!$value.label">
+                        <button type="button" class="btn btn-default" ng-click="removeQuery($index)" ng-show="!$value.label">
                             <span class="glyphicon glyphicon-remove"></span>
                         </button>
 
