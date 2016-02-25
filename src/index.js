@@ -2,6 +2,7 @@
 angular.module('gumga.core', [
 	'gumga.services',
 	'gumga.directives',
+	'gumga.manytomany',
 	'gumga.tag',
 	'gumga.translate.filter.filter',
 	'gumga.formbuttons',
