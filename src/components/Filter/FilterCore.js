@@ -5,7 +5,7 @@
     function Filter(HQLFactory,$compile, $timeout, $interpolate, QueryModelFactory) {
         let template = `
         <div class="gumga-filter panel panel-default" >
-            <header class="panel-heading" style="padding: 5px 10px;">
+            <header class="panel-heading">
                 <div class="row">
                     <div class="col-md-8 col-xs-7">
                         <h5><strong>Busca avançada</strong></h5>
@@ -26,17 +26,53 @@
                 </div>
             </header>
             <div class="form-inline panel-body">
-              <div class="input-group" ng-repeat="($key, $value) in controlMap" style="margin-right: 1%;margin-top: 7.5px;" ng-show="$value.active" id="first" >
-                  <div class="input-group-btn">
-                    <div class="btn-group" uib-dropdown ng-show="!$value.query.label" is-open="$value.isUPDATING_ATTRIBUTE()" auto-close="disabled">
-                      <button type="button" style="z-index: 0" class="btn btn-default" uib-dropdown-toggle ng-click="toggleUpdatingAttribute(this)" ng-disabled="$value.isUPDATING_VALUE() || $value.isUPDATING_CONDITION() || (!isAnyQueryNotOk() && $value.isEVERYTHING_NEEDED()) ">
-                          <span> {{ $value.query.attribute.label || 'Atributo' }} </span>
-                      </button>
-                      <ul uib-dropdown-menu style="z-index: 3000" role="menu">
-                        <li style="z-index: 3000;" role="menuitem" ng-repeat="attribute in _attributes track by $index">
-                          <a ng-click="addAttribute(attribute, this.$parent, $key)">{{attribute.label}}</a>
-                        </li>
-                      </ul>
+
+                <div class="input-group" ng-repeat="($key, $value) in controlMap" ng-show="$value.active">
+
+                    <div class="input-group-btn">
+                        <div class="btn-group" uib-dropdown ng-show="!$value.label" id="_btnAttribute{{$key}}">
+                            <button type="button" class="btn btn-default" uib-dropdown-toggle ng-click="closePanelValue($key)">
+                                <span id="_btn{{$key}}"> {{ $value.query.attribute.label || 'Atributo' }} </span>
+                            </button>
+                            <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                <li role="menuitem" ng-repeat="attribute in _attributes track by $index">
+                                    <a ng-click="addAttribute($key, attribute)">{{attribute.label}}</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="btn-group hidden" uib-dropdown  id="_btnCondition{{$key}}" ng-show="!$value.label">
+                            <button type="button" class="btn btn-default" uib-dropdown-toggle ng-click="closePanelValue($key)">
+                                <span id="_conditionLabel{{$key}}">{{ $value.query.condition.label || 'Condição' }}</span>
+                            </button>
+
+                            <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                <li role="menuitem" ng-repeat="condition in $value.query.conditions track by $index">
+                                    <a ng-click="addCondition($key, condition)">{{condition.label}}</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="btn-group" id="_btnValue{{$key}}" ng-show="!$value.label">
+                            <button type="button" class="btn btn-default" ng-click="togglePanelValue($key)">
+                                <span id="_conditionLabel{{$key}}">{{ $value.query.value ? $value.query.value.push ?  $value.query.value.join(', ') : $value.query.value : 'valor' }} </span>
+                            </button>
+                            <div class="gumga-filter-panel" id="_panelValue{{$key}}">
+                            </div>
+
+                        </div>
+
+                        <div class="btn-group" ng-show="$value.label">
+                          <button type="button" class="btn btn-default" ng-click="updateOperator($key)">
+                            <span id="__operator{{$key}}"> {{$value.label}} </span>
+
+
+                          </button>
+                        </div>
+                        <button type="button" class="btn btn-default" ng-click="removeQuery($index)" ng-show="!$value.label">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+
                     </div>
                     <div class="btn-group" uib-dropdown is-open="$value.isUPDATING_CONDITION()" ng-show="!$value.query.label" auto-close="disabled">
                       <button type="button" class="btn btn-default" uib-dropdown-toggle ng-click="toggleUpdatingCondition(this)" ng-disabled="$value.isUPDATING_VALUE() || $value.isUPDATING_ATTRIBUTE() || (!isAnyQueryNotOk() && $value.isEVERYTHING_NEEDED()) || $value.isNOTHING()">

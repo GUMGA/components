@@ -87,7 +87,6 @@
               <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
               <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
             </div>`
-
             $uibModal.open({ controller, template })
           }
 
