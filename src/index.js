@@ -7,6 +7,7 @@ angular.module('gumga.core', [
 	'gumga.formbuttons',
 	'gumga.list',
 	'gumga.query',
-    'gumga.filter'
+    'gumga.filter',
+    'gumga.genericfilter'
     // 'gumga.components.filter'
 ])
