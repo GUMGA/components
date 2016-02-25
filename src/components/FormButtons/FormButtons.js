@@ -1,22 +1,21 @@
 (function(){
 	'use strict';
-	FormButtons.$inject = ['$state','$stateParams','$uibModal'];
+	FormButtons.$inject = ['$state','$stateParams','$uibModal','$interpolate'];
 
-	function FormButtons($state, $stateParams, $uibModal) {
+	function FormButtons($state, $stateParams, $uibModal, $interpolate) {
 		const template = `
 			<div class="row">
 				<div class="col-md-12">
 					<div ng-class="vm.getPosition()">
 						<label for="gumgakeep" ng-if="vm.continue">
 							<input type="checkbox" id="gumgakeep" name="gumgakeep" ng-model="vm.shouldContinue" ng-true-value="true" ng-false-value="false" />
-							{{::vm.keepInserting}}
+							{{::vm.keepInsertingText}}
 						</label>
-						<button type="button" ng-click="vm.returnClicked()" class="btn btn-default form-buttons-margin" ng-class="vm.reverseOrder ? 'pull-right' : 'pull-left'">
-							{{::vm.returnText}}
-						</button>
 						<button type="button" ng-click="vm.submit()" ng-disabled="!vm.valid" class="btn btn-primary form-buttons-margin" >
 							{{::vm.saveText}}
-							<i class="glyphicon glyphicon-floppy-disk"></i>
+						</button>
+						<button type="button" ng-click="vm.returnClicked()" class="btn btn-default form-buttons-margin" ng-class="vm.reverseOrder ? 'pull-left' : 'pull-right'">
+							{{::vm.returnText}}
 						</button>
 					</div>
 				</div>
@@ -39,16 +38,16 @@
 				</div>
 			`;
 
-			vm.continue 			= $scope.$eval(vm.continue);
-			vm.confirmDirty		= $scope.$eval(vm.confirmDirty);
-			vm.valid					=	$attrs.valid ? vm.valid : true;
-			vm.returnText			=	$attrs.returnText 				|| 'Retornar';
-			vm.saveText				=	$attrs.saveText						|| 'Salvar';
-			vm.keepInserting	=	$attrs.keepInsertingText	|| 'Continuar Inserindo';
-			vm.stateToReturn	=	$attrs.back 							|| 	($state.current !== '' ? $state.current.name.split('.')[0].concat('.list') : null);
+			vm.continue 		 = $scope.$eval(vm.continue);
+			vm.confirmDirty		 = $scope.$eval(vm.confirmDirty);
+			vm.valid			 = $attrs.valid ? vm.valid : true;
+            vm.saveText          = ($attrs.saveText)      ? $interpolate($attrs.saveText)($scope)      : 'Salvar';
+            vm.returnText        = ($attrs.returnText)    ? $interpolate($attrs.returnText)($scope)    : 'Cancelar';
+            vm.keepInsertingText = ($attrs.keepInsertingText) ? $interpolate($attrs.keepInsertingText)($scope) : 'Continuar Inserindo';
+			vm.stateToReturn	 = $attrs.back || ($state.current !== '' ? $state.current.name.split('.')[0].concat('.list') : null);
 
-			vm.getPosition		= getPosition;
-			vm.returnClicked	=	returnClicked;
+			vm.getPosition		 = getPosition;
+			vm.returnClicked	 =	returnClicked;
 
 			function getPosition() {
 				return ($attrs.position == 'left') ? 'pull-left' : 'pull-right';
@@ -70,7 +69,7 @@
 						}
 
 						function dismiss(){
-								$uibModalInstance.close(false);
+							$uibModalInstance.close(false);
 						}
 					}
 

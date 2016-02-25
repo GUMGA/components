@@ -119,26 +119,26 @@
 				function mountRenderedContent(){
 					var text =
 					'<div class="full-width-without-padding">\n'+
-					'   <div class="col-md-6" style="padding-left: 0">\n'+
+					'   <div class="col-md-6">\n'+
 					'       <strong><small>{{::labels.left}}</small></strong>\n' +
 					'       <div class="{{showClass()}}">'+
 					'           <input type="text" name="manymanyleft" ng-model="leftFilter" novalidate class="form-control"' + doesItHaveFunction('left',0) + ' ng-change="leftFn({param: leftFilter})" ng-model-options="{ updateOn: \'default blur\', debounce: {\'default\': 300, \'blur\': 0} }"/>\n' +
 					'           <span class="input-group-addon" ng-show="showPlus(leftFilter)"> ' +
-					'               <button type="button" style="border: 0;background-color: #EEE" ng-click="addNew(leftFilter)"><i class="glyphicon glyphicon-plus"></i></button>' +
+					'               <button type="button" ng-click="addNew(leftFilter)"><i class="glyphicon glyphicon-plus"></i></button>' +
 					'           </span>' +
 					'       </div>' +
-					'       <ul class="list-group" style="max-height: 200px;overflow: auto;">\n' +
-					'           <li class="list-group-item" style="display:flex;padding: 7px 15px;" ng-repeat="$value in leftAux ' + doesItHaveFunction('left',1) + '">' +
+					'       <ul class="list-group">\n' +
+					'           <li class="list-group-item" ng-repeat="$value in leftAux ' + doesItHaveFunction('left',1) + '">' +
 					'               <a class="inside-list-anchor" ng-click="removeFromAndAddTo(leftAux,right,$value)">' + scope.texts.left + '</a>' +
-					'              <button class="badge" style="background-color: #81AEDA;cursor: pointer;border: 0" ng-click="halp($value)"><i class="glyphicon glyphicon-resize-full"></i></button>' +
+					'              <button class="badge" ng-click="halp($value)"><i class="glyphicon glyphicon-resize-full"></i></button>' +
 					'           </li>\n'+
 					'       </ul>'+
 					'   </div>\n'+
-					'   <div class="col-md-6" style="padding-right: 0">\n'+
+					'   <div class="col-md-6">\n'+
 					'       <strong><small>{{::labels.right}}</small></strong>\n'+
 					'       <input type="text" name="manymanyleft" ng-model="rightFilter" novalidate class="form-control"' + doesItHaveFunction('right',0) + '/>\n'+
-					'       <ul class="list-group" style="max-height: 200px;overflow: auto;">\n' +
-					'           <li class="list-group-item" style="display:flex;padding: 7px 15px;" ng-repeat="$value in right ' + doesItHaveFunction('right',1) + '">' +
+					'       <ul class="list-group">\n' +
+					'           <li class="list-group-item" ng-repeat="$value in right ' + doesItHaveFunction('right',1) + '">' +
 					'               <a class="inside-list-anchor" ng-click="removeFromAndAddTo(right,leftAux,$value)">' + scope.texts.right + '</a>' +
 					'              <button class="badge badge-helper" ng-click="halp($value)"><i class="glyphicon glyphicon-resize-full"></i></button>' +
 					'           </li>\n'+

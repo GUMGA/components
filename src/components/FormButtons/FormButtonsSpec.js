@@ -39,6 +39,6 @@ describe('COMPONENTE: FormButtons', () => {
 	it('Should get all texts passed to directive', () => {
 		expect(controller.returnText).toEqual('Listagem');
 		expect(controller.saveText).toEqual('Salvar e voltar');
-		expect(controller.keepInserting).toEqual('Continuar inserindo registros');
+		expect(controller.keepInsertingText).toEqual('Continuar inserindo registros');
 	})
 })

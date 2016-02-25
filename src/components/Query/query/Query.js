@@ -6,8 +6,8 @@
 
     let template = `
       <div class="input-group">
-       <input type="text" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event)" uib-typeahead="item.description for item in ctrl.proxyFn($viewValue)"
-       typeahead-focus-first="false" typeahead-on-select="ctrl.filterSelect($item, $model, $label, $event)"/>
+       <input type="text" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event)" uib-typeahead="item.description for item in ctrl.proxyFn($viewValue)"typeahead-on-select="ctrl.filterSelect($item, $model, $label, $event)" ng-show="ctrl.hasQuerySaved && openFilter"/>
+       <input type="text" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event)" ng-show="!ctrl.hasQuerySaved || !openFilter"/>
        <span class="input-group-btn" uib-dropdown uib-keyboard-nav auto-close="outsideClick">
          <button class="btn btn-default" type="button" uib-dropdown-toggle>
           <span class="glyphicon glyphicon-chevron-down"><span>
@@ -22,7 +22,7 @@
                </a>
             </li>
           </ul>
-            <button class="btn btn-default" ng-click="isOpen = !isOpen">
+            <button class="btn btn-default" ng-click="openFilter = !openFilter">
               <span class="glyphicon glyphicon-filter"></span>
             </button>
            <button class="btn btn-primary" type="button" ng-click="ctrl.doSearch(ctrl.searchField)">
@@ -31,7 +31,7 @@
            </button>
          </span>
        </div>
-      <div class="row>
+      <div class="row replace-filter">
         <div class="col-md-12">
           <div id="replaceFilter"></div>
         </div>
@@ -83,19 +83,21 @@
       ctrl.advancedSearch = hasAttr('advancedSearch') ? ctrl.advancedSearch   : null
       ctrl.savedFilters   = hasAttr('savedFilters')   ? ctrl.savedFilters     : angular.noop
       ctrl.searchText     = hasAttr('searchText')     ? $attrs['searchText']  : ' '
-      ctrl.proxySearch    = (param) => {
-        ctrl.advancedSearch({ param })
+      ctrl.proxySearch    = (param) => ctrl.advancedSearch({ param })
+      ctrl.hasQuerySaved  = !!$attrs.savedFilters
+      $scope.proxySave    = (query, name) => {
+        ctrl.saveQuery({ query, name })
       }
 
       if(ctrl.advancedSearch) ctrl.compileFilter()
 
-        function compileFilter(){
-          let template  = `<gumga-filter-core ng-show="isOpen" is-open="true" search="ctrl.proxySearch(param)">${ctrl.possibleAdvancedFields.reduce(((prev, next) => prev += next), '')}</gumga-filter-core>`,
-              element   = angular.element(document.getElementById('replaceFilter'))
+      function compileFilter(){
+        let template  = `<gumga-filter-core ng-show="openFilter" is-open="true" search="ctrl.proxySearch(param)" ${$attrs.saveQuery ? 'save-query="saveQuery(query, name)"' : ''}is-query="true">${ctrl.possibleAdvancedFields.reduce(((prev, next) => prev += next), '')}</gumga-filter-core>`
 
-          element.replaceWith($compile(template)($scope))
-        }
+        for(var roWElement = $element; !roWElement.hasClass('row'); roWElement = roWElement.parent());
 
+        roWElement.after($compile(template)($scope))
+      }
 
       function doSearch(param, event = { keyCode: 13 }){
         if(event.keyCode !== 13) return
@@ -111,7 +113,7 @@
 
 
       function proxyFn($value){
-        return $q.when(ctrl.savedFilters({ $value }))
+        return $q.when(ctrl.savedFilters({ page: location.hash }))
       }
 
       function filterSelect($item, $model, $label, $event){
@@ -124,7 +126,8 @@
       scope: {
         search: '&',
         advancedSearch: '&?',
-        savedFilters: '&?'
+        savedFilters: '&?',
+        saveQuery:'&?'
       },
       bindToController: true,
       transclude: true,

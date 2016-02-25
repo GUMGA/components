@@ -7,10 +7,10 @@
 			<div class="input-group">
 			<span class="input-group-btn" dropdown is-open="status.isopen" ng-show="$parent.saveQuery">
 				<span dropdown on-toggle="toggled(open)">
-					<a href id="simple-dropdown" class="btn btn-default" style="margin-right:-3px;" dropdown-toggle>
+					<a href id="simple-dropdown" class="btn btn-default" dropdown-toggle>
 						<i class="glyphicon glyphicon-hourglass"></i>
 					</a>
-					<ul class="dropdown-menu" aria-labelledby="simple-dropdown" style="width: auto;">
+					<ul class="dropdown-menu menu-save-query" aria-labelledby="simple-dropdown">
 						<li ng-repeat="choice in $parent.availableQueries">
 							<a href ng-click="doQuery(choice)">{{choice.description}}</a>
 						</li>
@@ -79,7 +79,7 @@
 				<div class="panel-body">
 					<div class="row">
 						<div class="col-md-10">
-     					<gumga-advanced-label ng-repeat="query in queries" attr="{{query.attribute.name}}" translate="{{translate}}" hql="{{query.hql.label}}" value="query.value" index="$index" style="margin-right: 1%">
+     					<gumga-advanced-label ng-repeat="query in queries" attr="{{query.attribute.name}}" translate="{{translate}}" hql="{{query.hql.label}}" value="query.value" index="$index">
      					</gumga-advanced-label>
 						</div>
 						<div class="col-md-2">
@@ -89,13 +89,13 @@
 	       		</div>
 					</div>
 				</div>
-				<div class="clearfix" style="margin-bottom: 2%"></div>
+				<div class="clearfix"></div>
 			</div>
 			</div>
 			<div class="little-panel" ng-show="littlePanelAppears ">
 				<div class="panel-body">
-					<label ng-repeat="field in normalFields" style="display: block" for="{{'gumga_normalFields'.concat(field.value)}}">
-						<input type="checkbox" id="{{'gumga_normalFields'.concat(field.value)}}" ng-model="models[field.value]" style="margin-right: 1%" >
+					<label ng-repeat="field in normalFields" for="{{'gumga_normalFields'.concat(field.value)}}">
+						<input type="checkbox" id="{{'gumga_normalFields'.concat(field.value)}}" ng-model="models[field.value]" >
 						<span gumga-translate-tag="{{translate.concat(\'.\').concat(field.value)}}">{{field.value | gumgaTranslate:translate}}</span>
 					</label>
 				</div>
