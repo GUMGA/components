@@ -26,13 +26,6 @@
                 </div>
             </header>
             <div class="form-inline panel-body">
-            <div class="row">
-              <div class="col-md-12">
-                <button type="button" class="btn btn-link btn-xs pull-right" style="margin-top: -10px;" ng-show="isAnyQueryNotOk()" ng-click="cleanMap()">
-                  Limpar busca
-                </button>
-              </div>
-            </div>
               <div class="input-group" ng-repeat="($key, $value) in controlMap" style="margin-right: 1%;margin-top: 7.5px;" ng-show="$value.active" id="first" >
                   <div class="input-group-btn">
                     <div class="btn-group" uib-dropdown ng-show="!$value.query.label" is-open="$value.isUPDATING_ATTRIBUTE()" auto-close="disabled">
@@ -168,11 +161,6 @@
 
               $scope.validatonValue           = validatonValue
 
-              $scope.cleanMap                 = cleanMap
-
-              function cleanMap(){
-                $scope.controlMap = {}
-              }
 
             function addAttribute(selectedAttribute, scope, key){
               scope.$value.query.attribute = selectedAttribute
@@ -326,18 +314,21 @@
                   scope.$value.query =  { attribute: {}, condition: {}, value: '' }
                   scope.$value.activeStates = 0;
                   $timeout(() => scope.$value.addState('UPDATING_ATTRIBUTE'))
+                  $scope.search({ param: HQLFactory.createHql($scope.controlMap)});
                   return
                 }
                 if(!scope.$$prevSibling.$key && scope.$$nextSibling){
                   scope.$value.active = false
                   scope.$$nextSibling.$value.active = false
                   $timeout(()=> (scope.$$nextSibling.$destroy(), scope.$destroy()))
+                  $scope.search({ param: HQLFactory.createHql($scope.controlMap)});
                   return
                 }
                 if(scope.$$prevSibling.$key) {
                   scope.$value.active = false
                   scope.$$prevSibling.$value.active = false
                   $timeout(()=> (scope.$$prevSibling.$destroy(), scope.$destroy()))
+                  $scope.search({ param: HQLFactory.createHql($scope.controlMap)});
                 }
               }
 

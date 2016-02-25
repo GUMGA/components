@@ -113,7 +113,7 @@
 
 
       function proxyFn($value){
-        return $q.when(ctrl.savedFilters({ $value })).then((data) => data.data.values)
+        return $q.when(ctrl.savedFilters({ page: location.hash }))
       }
 
       function filterSelect($item, $model, $label, $event){
