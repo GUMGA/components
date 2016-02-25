@@ -4,7 +4,7 @@ ListCreator.$inject = [];
 //TODO: Otimizar estas funções de criação de HTML.
 function ListCreator(){
   const itemsPerPage = `
-    <div style="width: 4%">
+    <div class="items-per-page">
       <select class="form-control input-sm" ng-options="item for item in ctrl.config.itemsPerPage" ng-model="ctrl.selectedItemPerPage">
       </select>
     </div>`;
@@ -34,7 +34,7 @@ function ListCreator(){
   function generateBody(columnsArray){
     return columnsArray.reduce((prev, next) => {
       return prev +=`
-        <td ${next.name !== '$checkbox' ? 'style="white-space: pre-wrap; "' : ' ' } ng-style="{'border-left': {{ ctrl.conditionalTableCell($value,'${next.name}') }} }"> ${next.content}</td>`;
+        <td ng-style="{'border-left': {{ ctrl.conditionalTableCell($value,'${next.name}') }} }"> ${next.content}</td>`;
     }, ' ')
   }
 
