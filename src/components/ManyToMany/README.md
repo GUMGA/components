@@ -41,6 +41,10 @@ Para que o programador possa escolher como os valores serão demonstrados, foram
 - **`on-value-visualization-closed`:** Atributo *opcional* que irá conter uma variável que possuirá uma função que irá ser executada quando o usuário tiver fechado o modal.
 - **`authorize-add`:** Atributo *opcional* que irá conter uma um booleano que irá fazer o controle para mostrar o botão de adicionar um registro.
 
+- **`text-left-empty`:** Atributo *opcional* que irá conter uma String que irá aparecer quando a lista da esquerda for vazia.
+- **`text-right-empty`:** Atributo *opcional* que irá conter uma String que irá aparecer quando a lista da direita for vazia.
+- **`text-left-placeholder`:** Atributo *opcional* que irá conter uma String que irá aparecer na input da direita.
+- **`text-right-placeholder`:** Atributo *opcional* que irá conter uma String que irá aparecer na input da direita.
 - **`text-heading-left`:** Atributo *opcional* que irá conter uma String que irá aparecer como titulo da lista da esquerda.
 - **`text-heading-right`:** Atributo *opcional* que irá conter uma String que irá aparecer como titulo da lista da direita.
 - **`text-moveall-left`:** Atributo *opcional* que irá conter uma String que será aparecer no botão de mover todos os itens da esquerda.
