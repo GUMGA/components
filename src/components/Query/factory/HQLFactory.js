@@ -1,8 +1,8 @@
 'use strict';
 
-HQLFactory.$inject = [];
+HQLFactory.$inject = ['$filter'];
 
-function HQLFactory(){
+function HQLFactory($filter){
   /*
     Regex de URL foi retirada do código-fonte do AngularJS, utilizado por eles para validar input[type="url"].
     LINK: https://github.com/angular/angular.js/blob/master/src/ng/directive/input.js#L26
@@ -20,7 +20,7 @@ function HQLFactory(){
   SUPPORTED_TYPES['string'] = {
     validator: (string) => (typeof string === 'string' || string instanceof String),
     defaultCondition: hqlObjectCreator(['contains']),
-    conditions: hqlObjectCreator(['eq', 'ne', 'ge', 'le', 'contains', 'not_contains', 'starts_with', 'ends_with']),
+    conditions: hqlObjectCreator(['eq', 'ne', 'contains', 'not_contains', 'starts_with', 'ends_with']),
     template: ` <input type="text" ng-model="$value.query.value" class="form-control" required autofocus /> `
   }
 
@@ -67,7 +67,7 @@ function HQLFactory(){
   }
 
   SUPPORTED_TYPES['date'] = {
-    validator: (date) => (DATE_REGEX.test(date)),
+    validator: (date) => (DATE_REGEX.test($filter('date')(date, 'dd/MM/yyyy'))),
     defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'gt', 'ge', 'lt', 'le']),
     template: `<input type="text" ng-model="$value.query.value" gumga-mask="99/99/9999" class="form-control" required />`
@@ -79,7 +79,7 @@ function HQLFactory(){
     conditions: hqlObjectCreator(['eq', 'ne']),
     template: `<select ng-model="$value.query.value" ng-options="d.field as d.label for d in $value.query.attribute.extraProperties.data track by d.field" class="form-control" required /></select>`
   }
-  // atributo extra: attribute.value [{label:'', field:''}]
+
   SUPPORTED_TYPES['enum'] = {
     validator: (enumList) => (Array.isArray(enumList)),
     defaultCondition: hqlObjectCreator(['in']),
@@ -88,7 +88,7 @@ function HQLFactory(){
   }
 
   SUPPORTED_TYPES['email'] = {
-    validator: (emailAddress) => (this['String'].validator(emailAddress)),
+    validator: (emailAddress) => (typeof emailAddress === 'string' || emailAddress instanceof String),
     defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'contains', 'not_contains', 'starts_with', 'ends_with']),
     template: ` <input type="email" ng-model="$value.query.value" class="form-control" required /> `
@@ -152,10 +152,9 @@ function HQLFactory(){
 
     if(aq.slice(-2) === 'ND' || aq.slice(-2) === 'OR'){
       aqo.pop()
-      return { hql: aq.slice(0, -3), source: aqo  }
+      return { hql: aq.slice(0, -3), source: JSON.stringify(aqo)  }
     }
-    // console.log(aqo)
-    return { hql: aq, source: aqo }
+    return { hql: aq, source: JSON.stringify(aqo) }
   }
 
   let utils = {}
