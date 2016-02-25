@@ -7,7 +7,8 @@
         controller.$inject = ['$scope', '$element', '$attrs'];
 
         function controller($scope, $element, $attrs){
-          let manyToOneCtrl = this
+          let manyToOneCtrl = this,
+              ngModelCtrl;
 
           const ERR_MSGS = {
             noValue: 'É necessário um atributo value no componente gumgaManyToOne',
@@ -18,24 +19,31 @@
           const possibleAttributes  = ['value', 'list', 'searchMethod', 'field', 'onNewValueAdded', 'onValueVisualizationOpened', 'onValueVisualizationClosed']
 
           const getFunctionName = string => string.split('').slice(0, string.indexOf('(')).join('')
+          const getFirstParameter = string => {
+            let onlyParams = string.split('').slice(string.indexOf('('), string.length).join('')
+            return onlyParams.split('').slice(1, onlyParams.indexOf(',')).join('')
+          }
 
-          if(!$attrs.value) console.error(ERR_MSGS.noValue)
-          if(!$attrs.field) console.error(ERR_MSGS.noField)
+          const getSecondParameter = string => {
+            let onlyParams = string.split('').slice(string.indexOf('('), string.length).join('')
+            return onlyParams.split('').slice(onlyParams.indexOf(',') +1, onlyParams.length -1).join('')
+          }
+
+          if(!$attrs.value)        console.error(ERR_MSGS.noValue)
+          if(!$attrs.field)        console.error(ERR_MSGS.noField)
           if(!$attrs.searchMethod) console.error(ERR_MSGS.noSearch)
-
           try {
-            manyToOneCtrl.valueFromTypeahead            = $scope[$attrs.value]                                       || ''
-            manyToOneCtrl.list                          = $scope[$attrs.list]                                        || []
-            manyToOneCtrl.searchMethod                  = $scope[getFunctionName($attrs.searchMethod)]               || angular.noop
-            manyToOneCtrl.postMethod                    = $scope[getFunctionName($attrs.postMethod)]                 || undefined
+            manyToOneCtrl.valueFromTypeahead            = $scope.$eval($attrs.value)                                 || ''
+            manyToOneCtrl.list                          = $scope.$eval($attrs.list)                                  || []
+            manyToOneCtrl.searchMethod                  = $scope.$eval(getFunctionName($attrs.searchMethod))         || angular.noop
+            manyToOneCtrl.postMethod                    = $scope.$eval(getFunctionName($attrs.postMethod))           || undefined
             manyToOneCtrl.field                         = $attrs.field                                               || ''
             manyToOneCtrl.modalTitle                    = $attrs.modalTitle                                          || 'Visualizador de Registro'
             manyToOneCtrl.modalFields                   = $attrs.modalFields ? $attrs.modalFields.splice(',')        :  undefined
-            manyToOneCtrl.modalButtonLabel              = $attrs.modalButtonLabel                                    || 'Retornar'
             manyToOneCtrl.ev                            = {}
-            manyToOneCtrl.ev.onNewValueAdded            = $scope[getFunctionName($attrs.onNewValueAdded)]            || angular.noop
-            manyToOneCtrl.ev.onValueVisualizationOpened = $scope[getFunctionName($attrs.onValueVisualizationOpened)] || angular.noop
-            manyToOneCtrl.ev.onValueVisualizationClosed = $scope[getFunctionName($attrs.onValueVisualizationClosed)] || angular.noop
+            manyToOneCtrl.ev.onNewValueAdded            = $scope.$eval(getFunctionName($attrs.onNewValueAdded))      || angular.noop
+            manyToOneCtrl.ev.onValueVisualizationOpened = $scope.$eval(getFunctionName($attrs.onValueVisualizationOpened)) || angular.noop
+            manyToOneCtrl.ev.onValueVisualizationClosed = $scope.$eval(getFunctionName($attrs.onValueVisualizationClosed)) || angular.noop
           } catch(e){}
 
           function mirrorAttributes(){
@@ -43,25 +51,36 @@
             return Object.keys($attrs.$attr).filter((value) => !isOneOfPossibles(value)).reduce((prev, next) => prev += `${next}="${$attrs[next]}"`, '')
           }
 
+          const attributeValue = (value, manyToOneModel) => {
+            let ngModelValue = value.split('.').slice(0, value.split('.').length -1).reduce((prev, next) => prev[next], $scope)
+            ngModelValue[value.split('.').slice(-1)] = manyToOneModel
+          }
+
           manyToOneCtrl.displayInfoButton = displayInfoButton
           manyToOneCtrl.displayPlusButton = displayPlusButton
           manyToOneCtrl.openInfo          = openInfo
+          manyToOneCtrl.valueToAdd        = ''
+          manyToOneCtrl.proxySearch       = (value) => manyToOneCtrl.searchMethod($scope.$eval(getFirstParameter($attrs.searchMethod)), value)
+          manyToOneCtrl.proxySave         = (value) => {
+             manyToOneCtrl.postMethod(value, $scope.$eval(getSecondParameter($attrs.postMethod)))
+             .then((data) => manyToOneCtrl.valueFromTypeahead = data)
+          }
 
           function displayInfoButton(){
-            return !(typeof manyToOneCtrl.valueFromTypeahead === 'string' || manyToOneCtrl.valueFromTypeahead instanceof String)
+            return !(typeof ngModelCtrl.$$rawModelValue === 'string' || ngModelCtrl.$$rawModelValue instanceof String)
           }
 
           function displayPlusButton(){
             return manyToOneCtrl.postMethod
-                && (typeof manyToOneCtrl.valueFromTypeahead === 'string' || manyToOneCtrl.valueFromTypeahead instanceof String)
-                && manyToOneCtrl.valueFromTypeahead.length > 0
+                && (typeof ngModelCtrl.$$rawModelValue === 'string' || ngModelCtrl.$$rawModelValue instanceof String)
+                && ngModelCtrl.$$rawModelValue.length > 0
           }
 
           function openInfo(object = {}) {
-            controller.$inject = ['$uibModalInstance']
+            controller.$inject = ['$scope','$uibModalInstance']
 
-            function controller($uibModalInstance){
-
+            function controller($scope, $uibModalInstance){
+              $scope.close = () => $uibModalInstance.close()
             }
 
             function mountModalBody(){
@@ -69,37 +88,35 @@
               return fields.reduce((prev, next) => {
                 return prev += `
                 <div class="form-group">
-                  <label for="exampleInputEmail1">${next}</label>
-                  <input type="text" class="form-control" value="${object[next]}" disabled />
+                  ${ (typeof object[next] === 'string' || object[next] instanceof String) ? `<label>${next}</label>` : ' '}
+                  ${ (typeof object[next] === 'string' || object[next] instanceof String) ? `<input type="text" class="form-control" value="${object[next]}" disabled />` : ' '}
                 </div>`
-              })
+              }, ' ')
             }
-
             let template = `
             <div class="modal-header">
               <h3 class="modal-title">${manyToOneCtrl.modalTitle}</h3>
             </div>
             <div class="modal-body">
               ${mountModalBody()}
-              Selected: <b>{{ selected.item }}</b>
             </div>
             <div class="modal-footer">
-              <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
-              <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+              <button class="btn btn-primary" type="button" ng-click="close()">Retornar</button>
             </div>`
-            $uibModal.open({ controller, template })
-          }
 
+            $uibModal.open({ controller, template })
+
+          }
 
           let baseTemplate = `
           <div class="full-width-without-padding">
             <div  ng-class="manyToOneCtrl.displayInfoButton() || manyToOneCtrl.displayPlusButton() ? 'input-group' : 'form-group'">
-              <input type="text" class="form-control" name="ManyToOne_{{Math.floor(Math.random() * 1000)}}" ng-model="manyToOneCtrl.valueFromTypeahead" uib-typeahead="$value as $value.description for $value in manyToOneCtrl.searchMethod($viewValue)" ${mirrorAttributes()}   />
+              <input type="text" class="form-control" name="ManyToOne_{{Math.floor(Math.random() * 1000)}}" ng-model="manyToOneCtrl.valueFromTypeahead" uib-typeahead="$value as $value[manyToOneCtrl.field] for $value in manyToOneCtrl.proxySearch($viewValue)" ${mirrorAttributes()}   />
               <div class="input-group-btn">
                 <button type="button" class="btn btn-default" ng-show="manyToOneCtrl.displayInfoButton()" ng-click="manyToOneCtrl.openInfo(manyToOneCtrl.valueFromTypeahead)">
                   <span class="glyphicon glyphicon-info-sign"></span>
                 </button>
-                <button type="button" class="btn btn-default" ng-show="manyToOneCtrl.displayPlusButton()" ng-click="manyToOneCtrl.postMethod(manyToOneCtrl.valueFromTypeahead)">
+                <button type="button" class="btn btn-default" ng-show="manyToOneCtrl.displayPlusButton()" ng-click="manyToOneCtrl.proxySave(manyToOneCtrl.valueToAdd)">
                   <span class="glyphicon glyphicon-plus"></span>
                 </button>
               </div>
@@ -109,107 +126,28 @@
           let element = angular.element(baseTemplate),
               input   = element.find('input'),
               form    = $element.parent()
+
           while(form[0].nodeName != 'FORM') form = form.parent();
 
           let formController = $scope[form[0].name]
           $element.replaceWith($compile(element)($scope))
+          ngModelCtrl = input.controller('ngModel')
 
-          formController.$addControl(input.controller('ngModel'))
+          formController.$addControl(ngModelCtrl)
+
+          ngModelCtrl.$validators['manyToOne'] = (modelValue, viewValue) => !(typeof modelValue === 'string' || modelValue instanceof String)
+          $scope.$watch('manyToOneCtrl.valueFromTypeahead', () => attributeValue($attrs.value, manyToOneCtrl.valueFromTypeahead))
+          $scope.$watch(() => ngModelCtrl.$$rawModelValue, () => (manyToOneCtrl.valueToAdd = ngModelCtrl.$$rawModelValue))
         }
 
         return {
             restrict : 'E',
-            require: '^form',
             scope : false,
             controllerAs: 'manyToOneCtrl',
             bindToController: true,
             controller
-
         }
     }
         angular.module('gumga.directives.manytoone',['ui.bootstrap','gumga.services.keyboard'])
         .directive('gumgaManyToOne',ManyToOne);
     })();
-    // link: function(scope, elm, attrs, ctrl){
-
-        // var ngModelCtrl = elm.find('input').controller('ngModel'),
-        // eventHandler = {
-        //     newValueAdded: (attrs.onNewValueAdded ? scope.onNewValueAdded : angular.noop),
-        //     valueVisualizationOpened: (attrs.onValueVisualizationOpened ? scope.onValueVisualizationOpened :angular.noop),
-        //     valueVisualizationClosed: (attrs.onValueVisualizationClosed ? scope.onValueVisualizationClosed :angular.noop)
-        // },
-        // async;
-        // !attrs.authorizeAdd ? scope.authorizeAdd = true : scope.authorizeAdd = JSON.parse(attrs.authorizeAdd);
-        // !attrs.async ? async = true : async = JSON.parse(attrs.async);
-        // scope.list = scope.list || [];
-        // function checkIfItIsString(string){
-        //     return ((typeof string).toUpperCase().trim()) === 'string'.toUpperCase().trim() && string.length > 1;
-        // }
-        // scope.$watch('model',function(){
-        //     checkIfItIsString(scope.model) ?
-        //     ctrl.$setValidity('GumgaManyToOne',false) : ctrl.$setValidity('GumgaManyToOne',true);
-        // });
-        // try {
-        //     GumgaKeyboard.bindToElement(elm.find('input')[0],'down',function(){ngModelCtrl.$setViewValue(' ')});
-        // } catch(e){
-        //
-        // }
-        //
-        // scope.showFullView = function(){
-        //     return ((typeof scope.model).toUpperCase().trim()) === 'object'.toUpperCase().trim() && scope.model != undefined;
-        // };
-        //
-        // scope.showPlus = function(){
-        //     return (((typeof scope.model).toUpperCase().trim()) === 'string'.toUpperCase().trim() && scope.authorizeAdd === true) ;
-        // };
-        //
-        // scope.proxySearchMethod = function(){
-        //   return scope.searchMethod({param: ngModelCtrl.$viewValue});
-        // };
-        // scope.addNew = function(text){
-        //     if(async) {
-        //         scope.postMethod({value: text})
-        //         .then(function(values){
-        //           scope.model = values;
-        //         })
-        //     } else {
-        //         scope.list.push(text);
-        //     }
-        // };
-        // scope.halp = function(obj){
-        //     var template = '';
-        //     template =
-        //     '<div class="modal-body">\n';
-        //     for (var key in obj) if (obj.hasOwnProperty(key) && key != '$$hashKey' && key != 'oi' && key != 'version' && key != 'password' && typeof obj[key] != 'object') {
-        //         template += '   <div class="form-group">\n';
-        //         template += '       <label><small>'+ key +'</small></label>\n';
-        //         template += '       <input type="text" ng-model="$value.' + key +'" disabled class="form-control"/>\n';
-        //         template += '   </div>\n';
-        //     }
-        //     template += '   <div class="modal-footer">\n';
-        //     template += '       <button type="button" class="btn btn-warning" ng-click="back()">Back</button>\n';
-        //     template += '   </div>\n';
-        //     template += '</div>\n';
-        //     eventHandler.valueVisualizationOpened();
-        //     var ManyToOneModalController = function($scope,$value,$modalInstance){
-        //         $scope.$value = $value;
-        //         $scope.back = function(){
-        //             $modalInstance.dismiss();
-        //         }
-        //     }
-        //     ManyToOneModalController.$inject = ['$scope','$value','$modalInstance'];
-        //     var mi = $modal.open({
-        //         template: template,
-        //         size: 'sm',
-        //         controller: ManyToOneModalController,
-        //         resolve: {
-        //             $value: function(){
-        //                 return obj;
-        //             }
-        //         }
-        //     });
-        //     mi.result.then(function(){
-        //         eventHandler.valueVisualizationClosed();
-        //     })
-        // };
-    // }
