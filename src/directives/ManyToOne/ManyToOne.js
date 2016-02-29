@@ -37,7 +37,6 @@
             manyToOneCtrl.list                          = $scope.$eval($attrs.list)                                  || []
             manyToOneCtrl.searchMethod                  = $scope.$eval(getFunctionName($attrs.searchMethod))         || angular.noop
             manyToOneCtrl.postMethod                    = $scope.$eval(getFunctionName($attrs.postMethod))           || undefined
-            manyToOneCtrl.field                         = $attrs.field                                               || ''
             manyToOneCtrl.modalTitle                    = $attrs.modalTitle                                          || 'Visualizador de Registro'
             manyToOneCtrl.modalFields                   = $attrs.modalFields ? $attrs.modalFields.splice(',')        :  undefined
             manyToOneCtrl.ev                            = {}
@@ -45,6 +44,8 @@
             manyToOneCtrl.ev.onValueVisualizationOpened = $scope.$eval(getFunctionName($attrs.onValueVisualizationOpened)) || angular.noop
             manyToOneCtrl.ev.onValueVisualizationClosed = $scope.$eval(getFunctionName($attrs.onValueVisualizationClosed)) || angular.noop
           } catch(e){}
+
+          manyToOneCtrl.field = $attrs.field || ''
 
           function mirrorAttributes(){
             const isOneOfPossibles = attribute => possibleAttributes.filter(value => attribute == value).length > 0
@@ -60,10 +61,11 @@
           manyToOneCtrl.displayPlusButton = displayPlusButton
           manyToOneCtrl.openInfo          = openInfo
           manyToOneCtrl.valueToAdd        = ''
-          manyToOneCtrl.proxySearch       = (value) => manyToOneCtrl.searchMethod($scope.$eval(getFirstParameter($attrs.searchMethod)), value)
+          manyToOneCtrl.proxySearch       = (value) => manyToOneCtrl.searchMethod($scope.$eval(getFirstParameter($attrs.searchMethod)), value).then((data) => data)
+
           manyToOneCtrl.proxySave         = (value) => {
              manyToOneCtrl.postMethod(value, $scope.$eval(getSecondParameter($attrs.postMethod)))
-             .then((data) => manyToOneCtrl.valueFromTypeahead = data)
+             .then((data) => manyToOneCtrl.valueFromTypeahead = data.data)
           }
 
           function displayInfoButton(){
@@ -111,7 +113,7 @@
           let baseTemplate = `
           <div class="full-width-without-padding">
             <div  ng-class="manyToOneCtrl.displayInfoButton() || manyToOneCtrl.displayPlusButton() ? 'input-group' : 'form-group'">
-              <input type="text" class="form-control" name="ManyToOne_{{Math.floor(Math.random() * 1000)}}" ng-model="manyToOneCtrl.valueFromTypeahead" uib-typeahead="$value as $value[manyToOneCtrl.field] for $value in manyToOneCtrl.proxySearch($viewValue)" ${mirrorAttributes()}   />
+              <input type="text" class="form-control" ng-model="manyToOneCtrl.valueFromTypeahead" uib-typeahead="$value as $value[manyToOneCtrl.field] for $value in manyToOneCtrl.proxySearch($viewValue)" ${mirrorAttributes()}   />
               <div class="input-group-btn">
                 <button type="button" class="btn btn-default" ng-show="manyToOneCtrl.displayInfoButton()" ng-click="manyToOneCtrl.openInfo(manyToOneCtrl.valueFromTypeahead)">
                   <span class="glyphicon glyphicon-info-sign"></span>
@@ -130,7 +132,7 @@
           while(form[0].nodeName != 'FORM') form = form.parent();
 
           let formController = $scope[form[0].name]
-          $element.replaceWith($compile(element)($scope))
+          $element.append($compile(element)($scope))
           ngModelCtrl = input.controller('ngModel')
 
           formController.$addControl(ngModelCtrl)
