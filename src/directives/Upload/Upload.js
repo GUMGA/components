@@ -41,7 +41,6 @@
                     image = $element.find('img')[0];
                     
                 element.bind('change', function () {
-                    console.log(element[0].files[0]);
                     $scope.$apply(function () {
                         let x;
                         modelSetter($scope, element[0].files[0]);
@@ -63,9 +62,7 @@
 
 
             $scope.fireClick = function () {
-                $timeout(() => {
-                    document.getElementById('upload').click();
-                });
+                $element.find('input')[0].click();
             }
 
             $scope.$watch('model', () => {
