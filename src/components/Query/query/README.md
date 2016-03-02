@@ -6,8 +6,11 @@
 <gumga-query search="foo(field, param)" advanced-search="foo(param)" search-text="Pesquisar">
   <search-field field="name" label="Nome" select="true" ></search-field>
   <search-field field="age"  label="Idade"></search-field>
+  <advanced-search-field type="string"  label="Nome"    field="nome"></advanced-search-field>
+  <advanced-search-field type="number"  label="Idade"   field="idade"></advanced-search-field>
+  <advanced-search-field type="float"   label="Peso"    field="peso"></advanced-search-field>
+  <advanced-search-field type="money"   label="Preço"   field="preco"></advanced-search-field>
 </gumga-query>
-
 ```
 
 ### Descrição

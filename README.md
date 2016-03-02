@@ -26,6 +26,7 @@ A documentação dos componentes pode ser visualizada diretamente na pasta dos c
 - [Counter](src/directives/Counter)
 - [CustomFields](src/directives/CustomFields)
 - [Form](src/directives/Form)
+- [Filter](src/directives/Filter)
 - [Error](src/directives/Form/Error)
 - [Errors](src/directives/Form/Errors)
 - [Form](src/directives/Form/Form)
