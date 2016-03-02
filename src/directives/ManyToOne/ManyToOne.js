@@ -37,15 +37,15 @@
             manyToOneCtrl.list                          = $scope.$eval($attrs.list)                                  || []
             manyToOneCtrl.searchMethod                  = $scope.$eval(getFunctionName($attrs.searchMethod))         || angular.noop
             manyToOneCtrl.postMethod                    = $scope.$eval(getFunctionName($attrs.postMethod))           || undefined
-            manyToOneCtrl.modalTitle                    = $attrs.modalTitle                                          || 'Visualizador de Registro'
-            manyToOneCtrl.modalFields                   = $attrs.modalFields ? $attrs.modalFields.splice(',')        :  undefined
             manyToOneCtrl.ev                            = {}
             manyToOneCtrl.ev.onNewValueAdded            = $scope.$eval(getFunctionName($attrs.onNewValueAdded))      || angular.noop
             manyToOneCtrl.ev.onValueVisualizationOpened = $scope.$eval(getFunctionName($attrs.onValueVisualizationOpened)) || angular.noop
             manyToOneCtrl.ev.onValueVisualizationClosed = $scope.$eval(getFunctionName($attrs.onValueVisualizationClosed)) || angular.noop
           } catch(e){}
 
-          manyToOneCtrl.field = $attrs.field || ''
+          manyToOneCtrl.field                         = $attrs.field                                               || ''
+          manyToOneCtrl.modalTitle                    = $attrs.modalTitle                                          || 'Visualizador de Registro'
+          manyToOneCtrl.modalFields                   = $attrs.modalFields ? $attrs.modalFields.splice(',')        :  undefined
 
           function mirrorAttributes(){
             const isOneOfPossibles = attribute => possibleAttributes.filter(value => attribute == value).length > 0
