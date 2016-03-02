@@ -22,7 +22,7 @@
                                       <span name="fieldleft"></span>
                                   </li>
                                 </ul>
-																<div class="panel-footer hover" style="text-align: center;" ng-click="ctrl.moveAllItems(ctrl.leftListAux, ctrl.rightList, 'right')">
+																<div class="panel-footer hover" style="text-align: center;" ng-click="ctrl.moveAllItems(ctrl.leftListAux, ctrl.rightList, 'right')" ng-disabled="ctrl.leftListAux.length == 0">
 																		{{ctrl.textMoveallLeft}}
 																		<span class="glyphicon glyphicon-arrow-right"></span>
 															  </div>
@@ -40,7 +40,9 @@
 																		 <span name="fieldright">{{$value}}</span>
 																 </li>
 															 </ul>
-															 <div class="panel-footer hover" style="text-align: center;" ng-click="ctrl.moveAllItems(ctrl.rightList, ctrl.leftListAux, 'left')"><span class="glyphicon glyphicon-arrow-left"></span> {{ctrl.textMoveallRight}}</div>
+															 <div class="panel-footer hover" style="text-align: center;" ng-click="ctrl.moveAllItems(ctrl.rightList, ctrl.leftListAux, 'left')" ng-disabled="ctrl.rightAux.length == 0">
+															 	<span class="glyphicon glyphicon-arrow-left"></span> {{ctrl.textMoveallRight}}
+															</div>
                              </div>
 													 </div>
 											 </div>
@@ -75,7 +77,7 @@
 				};
 
         ctrl.filterLeft = function(q){
-          ctrl.leftSearch({value:q});
+          ctrl.leftSearch({ param : q });
         }
 
 				$scope.$watch('ctrl.leftList', function(data){
