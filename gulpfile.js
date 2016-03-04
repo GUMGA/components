@@ -96,7 +96,7 @@ gulp.task('tdd',function(){
   gulp.watch('./src/**/*.js', runSequence('minify-js','tests'));
 });
 
-gulp.task('js-watch', ()=> {
+gulp.task('js-watch', function(){
   gulp.watch(['./src/**/*.js','./index.html'], ['minify-js'])
 })
 

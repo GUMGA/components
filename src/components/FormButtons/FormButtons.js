@@ -1,32 +1,35 @@
 (function(){
 	'use strict';
-	FormButtons.$inject = ['$state','$stateParams','$uibModal','$interpolate'];
+	FormButtons.$inject = ['$state','$stateParams','$uibModal','$interpolate','$compile'];
 
-	function FormButtons($state, $stateParams, $uibModal, $interpolate) {
-		const template = `
-			<div class="row">
-				<div class="col-md-12">
-					<div ng-class="vm.getPosition()">
-						<label for="gumgakeep" ng-if="vm.continue">
-							<input type="checkbox" id="gumgakeep" name="gumgakeep" ng-model="vm.shouldContinue" ng-true-value="true" ng-false-value="false" />
-							{{::vm.keepInsertingText}}
-						</label>
-						<button type="button" ng-click="vm.submit()" ng-disabled="!vm.valid" class="btn btn-primary form-buttons-margin" >
-							{{::vm.saveText}}
-						</button>
-						<button type="button" ng-click="vm.returnClicked()" class="btn btn-default form-buttons-margin" ng-class="vm.reverseOrder ? 'pull-left' : 'pull-right'">
-							{{::vm.returnText}}
-						</button>
-					</div>
-				</div>
-			</div>
-		`
+	function FormButtons($state, $stateParams, $uibModal, $interpolate,$compile) {
 
 		controller.$inject = ['$scope', '$element', '$attrs'];
 
 		function controller($scope, $element, $attrs) {
 			let vm = this;
 			if(!$attrs.submit) throw 'É necessário passar uma função para submissão de formulário <gumga-form-buttons submit="foo()"></gumga-form-buttons>'
+
+            const templateBlockBegin = `
+                <div class="row">
+                    <div class="col-md-12">`
+            const templateInline = `
+                        <div ng-class="vm.getPosition()">
+                            <label for="gumgakeep" ng-if="vm.continue">
+                                <input type="checkbox" id="gumgakeep" name="gumgakeep" ng-model="vm.shouldContinue" ng-true-value="true" ng-false-value="false" />
+                                {{::vm.keepInsertingText}}
+                            </label>
+                            <button type="button" ng-click="vm.submit()" ng-disabled="!vm.valid" class="btn btn-primary form-buttons-margin" >
+                                {{::vm.saveText}}
+                            </button>
+                            <button type="button" ng-click="vm.returnClicked()" class="btn btn-default form-buttons-margin" ng-class="vm.reverseOrder ? 'pull-left' : 'pull-right'">
+                                {{::vm.returnText}}
+                            </button>
+                        </div>`
+            const templateBlockEnd = `
+                    </div>
+                </div>
+            `
 
 			const modalTemplate= `
 				<div class="modal-body">
@@ -91,6 +94,14 @@
 			$scope.$on('data-sent', value => {
 				if(!vm.shouldContinue) $state.go(vm.stateToReturn);
 			});
+            
+            let template = ``;
+            if($attrs.hasOwnProperty('inline')) {
+                template = templateInline;  
+            } else {
+                template = templateBlockBegin + templateInline + templateBlockEnd;  
+            }
+            $element.append($compile(template)($scope));
 		}
 
 		return {
@@ -105,7 +116,7 @@
 			controller,
 			bindToController: true,
 			controllerAs: 'vm',
-			template,
+			// template,
 			require: 'form'
 
 

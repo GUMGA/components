@@ -41,6 +41,9 @@
 					if(attrs.noErrorIcon && !attrs.icon) return `ng-class="hasError ? 'glyphicon glyphicon-info-sign' : '${attrs.noErrorIcon}' "`;
 					return `ng-class="hasError ? 'glyphicon glyphicon-info-sign' : 'glyphicon glyphicon-ok' "`;
 				}
+                
+                console.log(attrs.hasOwnProperty('labelEmpty'));
+                
 
 				let template = `
 				<script type="text/ng-template" id="templatePopover.html">
@@ -49,7 +52,16 @@
 						</ol>
 				</script>
 				<button popover-placement="${placement}" uib-popover-template="'templatePopover.html'" popover-title="${title}" type="button" ng-class="hasError ? 'btn btn-sm btn-danger' : 'btn btn-sm btn-success'">
-					<i ${hasIcon()}></i> {{ hasError ? '${ attrs.label ? attrs.label : 'Lista de erros'}' : 'Formulário sem erros' }}
+                `
+                if (attrs.hasOwnProperty('labelHidden')) {
+                    template += `
+                        <i ${hasIcon()}></i>`
+                } else {
+                    template += `
+                        <i ${hasIcon()}></i> {{ hasError ? '${ attrs.label ? attrs.label : 'Lista de erros'}' : 'Formulário sem erros' }}`
+                }
+
+                template += `
 				</button>`
 				elm.append($compile(template)(scope));
 

@@ -27,4 +27,5 @@ O componente gumgaErrors serve para mostrar todas mensagens de validações do f
  - **`placement`:** Onde irá aparecer, o padrão é top, mas também aceita right, bottom e left.
  - **`icon`:** Ícone do botão, por padrão é glyphicon glyphicon-info-sign
  - **`label`:** Texto do botão
+ - **`label-hidden`:** Esconde o texto do botão
  - **`title`:** Título do popover de erros
