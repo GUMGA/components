@@ -4,11 +4,10 @@
 	angular.module('gumga.directives',
 		[
 		'gumga.directives.address',
-		'gumga.directives.queries',
+		// 'gumga.directives.queries',
 		'gumga.directives.alert',
 		'gumga.directives.breadcrumb',
-		'gumga.directives.counter',
-		'gumga.directives.manytomany',
+		'gumga.directives.counter',		
 		'gumga.directives.manytoone',
 		'gumga.directives.menu',
 		'gumga.directives.nav',

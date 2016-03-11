@@ -66,7 +66,7 @@
 					}
 
 					if (urlSelected==url) {
-							var template = ['<li class="' + type + '-option" style="background: #4ca089" >'];
+							var template = ['<li class="' + type + '-option active" >'];
 					} else {
 							var template = ['<li class="' + type + '-option">'];
 					}
@@ -78,7 +78,7 @@
 							if (param.icon_color) {
 								template.push('<i  class=" ' + param.icon + ' " style="color: ' + param.icon_color + '" ng-click="resetarMenu(' + count + ')"></i>');
 							} else {
-								template.push('<i  class=" ' + param.icon + ' " style="color: #fff" ng-click="resetarMenu(' + count + ')"></i>');
+								template.push('<i  class=" ' + param.icon + ' " style="icon white" ng-click="resetarMenu(' + count + ')"></i>');
 							}
 						}
 					}
@@ -99,7 +99,7 @@
 						if(param.imageWidth && param.imageHeight){
 							template.push('<a ui-sref="' + param.URL + '"><img  src="' + param.imageUrl + '" style="width: '+param.imageWidth+'; height: '+param.imageHeight+';" ng-click="resetarMenu(' + count + ')"></i></a>');
 						}else
-						template.push('<a ui-sref="' + param.URL + '"><img  src="' + param.imageUrl + '" style="width: 20px; height: 20px;" ng-click="resetarMenu(' + count + ')"></i></a>');
+						template.push('<a ui-sref="' + param.URL + '"><img class="image-size-default" src="' + param.imageUrl + '" ng-click="resetarMenu(' + count + ')"></i></a>');
 					}
 
 

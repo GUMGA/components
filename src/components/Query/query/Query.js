@@ -1,18 +1,18 @@
 (function(){
   //Description
-  Search.$inject = ['$q','$timeout']
+  Search.$inject = ['$q','$timeout','$compile','$interpolate' ]
 
-  function Search($q, $timeout){
+  function Search($q, $timeout, $compile, $interpolate){
 
     let template = `
       <div class="input-group">
-       <input type="text" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event)" uib-typeahead="item.description for item in ctrl.proxyFn($viewValue)"
-       typeahead-focus-first="false" typeahead-on-select="ctrl.filterSelect($item, $model, $label, $event)"/>
-       <span class="input-group-btn" uib-dropdown uib-keyboard-nav auto-close="outsideClick">
-         <button class="btn btn-default" type="button" uib-dropdown-toggle>
+       <input type="text" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event)" typeahead="item.description for item in ctrl.proxyFn($viewValue)"typeahead-on-select="ctrl.filterSelect($item, $model, $label, $event)" ng-show="ctrl.hasQuerySaved && openFilter"/>
+       <input type="text" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event)" ng-show="!ctrl.hasQuerySaved || !openFilter"/>
+       <span class="input-group-btn" dropdown keyboard-nav auto-close="outsideClick">
+         <button class="btn btn-default" type="button" dropdown-toggle>
           <span class="glyphicon glyphicon-chevron-down"><span>
          </button>
-         <ul uib-dropdown-menu role="menu" aria-labelledby="single-button" class="dropdown-menu-search">
+         <ul dropdown-menu role="menu" aria-labelledby="single-button" class="dropdown-menu-search">
             <li role="menuitem" ng-repeat="(key, $value) in ctrl.mapFields">
                <a class="no-padding-search-fields">
                  <label ng-click="$event.stopPropagation()">
@@ -22,16 +22,20 @@
                </a>
             </li>
           </ul>
-          <button class="btn btn-default" type="button" ng-if="!!ctrl.advancedSearch">
-           <span class="glyphicon glyphicon-filter">
-           <span>
-          </button>
+            <button class="btn btn-default" ng-click="openFilter = !openFilter">
+              <span class="glyphicon glyphicon-filter"></span>
+            </button>
            <button class="btn btn-primary" type="button" ng-click="ctrl.doSearch(ctrl.searchField)">
             <span> {{::ctrl.searchText}} </span>
             <span class="glyphicon glyphicon-search rotate-search-glyph"></span>
            </button>
          </span>
-       </div>`
+       </div>
+      <div class="row replace-filter">
+        <div class="col-md-12">
+          <div id="replaceFilter"></div>
+        </div>
+      </div>`
 
     controller.$inject = ['$scope', '$element', '$attrs', '$transclude']
 
@@ -42,25 +46,27 @@
             FIELD_ERR           = 'É necessário um parâmetro field na tag search-field.[<search-field field="foo"></search-field>]',
             SEARCH_ERR          = 'É necessário passar uma função para o atributo "search". [search="foo(field, param)"]'
 
-      ctrl.mapFields      = {}
+      ctrl.mapFields              = {}
+      ctrl.possibleAdvancedFields = []
 
       if(!hasAttr('search')) console.error(SEARCH_ERR)
+
       $transclude((transcludeElement) => {
-        let alreadySelected = false;
+        let alreadySelected = false,
+            parentContext   = $scope.$parent;
 
         [].slice.call(transcludeElement).forEach(value => {
 
+          if(value && value.nodeName === 'ADVANCED-SEARCH-FIELD') ctrl.possibleAdvancedFields.push(value.outerHTML)
           if(!value || value.nodeName !== 'SEARCH-FIELD') return
 
           let element   = angular.element(value),
               field     = element.attr('field') ? element.attr('field') : '',
               checkbox  = !!$scope.$eval(element.attr('select')),
-              preLabel  = $scope.$parent.$eval(element.attr('label')),
-              label     = preLabel ? preLabel : (element.attr('label') ? element.attr('label') : field.charAt(0).toUpperCase().concat(field.slice(1)))
+              label     = element.attr('label') ? $interpolate(element.attr('label'))(parentContext) : field.charAt(0).toUpperCase().concat(field.slice(1));
 
           if(!field)      console.error(FIELD_ERR)
           if(checkbox)    alreadySelected = true
-
           ctrl.mapFields[field] = { checkbox, label, field }
         })
 
@@ -70,12 +76,26 @@
         }
        })
 
+      ctrl.compileFilter  = compileFilter
       ctrl.doSearch       = doSearch
       ctrl.proxyFn        = proxyFn
       ctrl.filterSelect   = filterSelect
       ctrl.advancedSearch = hasAttr('advancedSearch') ? ctrl.advancedSearch   : null
       ctrl.savedFilters   = hasAttr('savedFilters')   ? ctrl.savedFilters     : angular.noop
       ctrl.searchText     = hasAttr('searchText')     ? $attrs['searchText']  : ' '
+      ctrl.proxySearch    = (param) => ctrl.advancedSearch({ param })
+      ctrl.hasQuerySaved  = !!$attrs.savedFilters
+      $scope.proxySave    = (query, name) => ctrl.saveQuery({ query, name })
+
+      if(ctrl.advancedSearch) ctrl.compileFilter()
+
+      function compileFilter(){
+        let template  = `<gumga-filter-core ng-show="openFilter" is-open="true" search="ctrl.proxySearch(param)" ${$attrs.saveQuery ? 'save-query="saveQuery(query, name)"' : ''}is-query="true">${ctrl.possibleAdvancedFields.reduce(((prev, next) => prev += next), '')}</gumga-filter-core>`
+
+        for(var roWElement = $element; !roWElement.hasClass('row'); roWElement = roWElement.parent());
+
+        roWElement.after($compile(template)($scope))
+      }
 
       function doSearch(param, event = { keyCode: 13 }){
         if(event.keyCode !== 13) return
@@ -89,16 +109,13 @@
         ctrl.search({ field, param })
       }
 
-      
+
       function proxyFn($value){
-        return $q.when(ctrl.savedFilters({ $value }))
+        return $q.when(ctrl.savedFilters({ page: location.hash }))
       }
 
       function filterSelect($item, $model, $label, $event){
-        $timeout(() => {
-          ctrl.searchField=  ''
-          $scope.$broadcast('filter-items', $item)
-        })
+        $timeout(() => (ctrl.searchField=  '', $scope.$broadcast('filter-items', $item)))
       }
     }
 
@@ -107,7 +124,8 @@
       scope: {
         search: '&',
         advancedSearch: '&?',
-        savedFilters: '&?'
+        savedFilters: '&?',
+        saveQuery:'&?'
       },
       bindToController: true,
       transclude: true,

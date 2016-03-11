@@ -122,19 +122,21 @@ function generateTable(config) {
   switch (config.size) {
     case 'large':
     template.push(
-      '<div class="full-width-without-padding" style="margin-top: 1%">' +
-      '<button class="btn btn-default btn-xs" style="margin-bottom: 0.25%" ng-click="selectAll()">Selecionar todos</button>' +
-      '<button class="btn btn-default btn-xs" style="margin-bottom: 0.25%;margin-left:0.25%" ng-click="cleanSearch()"> Limpar pesquisa</button>' +
+      '<div class="full-width-without-padding">' +
+      '<div class="table-btn">' +
+      '<button class="btn btn-default btn-xs" ng-click="selectAll()">Selecionar todos</button>' +
+      '<button class="btn btn-default btn-xs" ng-click="cleanSearch()"> Limpar pesquisa</button>' +
+      '</div>' +
       '<table class="table table-' + config.class + ' ">');
     break;
     case 'medium':
     template.push(
-      '<div class="col-md-8" style="padding-left:0;padding-right: 0;">' +
+      '<div class="col-md-8"' +
       '<table class="table table-' + config.class + '">');
     break;
     case 'small':
     template.push(
-      '<div class="col-md-4" style="padding-left:0;padding-right: 0;">' +
+      '<div class="col-md-4">' +
       '<table class="table table-' + config.class + '">');
     break;
   }
