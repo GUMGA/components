@@ -79,10 +79,62 @@ describe('COMPONENTE: FilterCore', () => {
 
   describe('Testing if the attributes taken are okay', () => {
 
+<<<<<<< HEAD
+=======
+    it(`Should get the attributes right if there's no error`, () => {
+      $compile(searchFieldWithValidTypeElement)(scope)
+      let isolated = searchFieldWithValidTypeElement.isolateScope()
+      isolated.$apply()
+      expect(isolated._attributes[0]).toEqual({ field: 'name', type: 'string', label: 'Name', extraProperties: undefined})
+    })
+
+    it(`Should get the attributes right if there's a static label passed`, () => {
+      $compile(searchFieldWithStaticLabelElement)(scope)
+      let isolated = searchFieldWithStaticLabelElement.isolateScope()
+      isolated.$apply()
+      expect(isolated._attributes[0]).toEqual({ field: 'name', type: 'string', label: 'Nome', extraProperties: undefined})
+    })
+
+    it(`Should get the attributes right if there's a dynamic label passed`, () => {
+      $compile(searchFieldWithDynamicLabelElement)(scope)
+      let isolated = searchFieldWithDynamicLabelElement.isolateScope()
+      isolated.$apply()
+      expect(isolated._attributes[0]).toEqual({ field: 'name', type: 'string', label: 'nome', extraProperties: undefined})
+    })
+
+    it('Should get both attributes in the right order', () => {
+      $compile(searchFieldWithOrder)(scope)
+      let isolated = searchFieldWithOrder.isolateScope()
+      isolated.$apply()
+      expect(isolated._attributes[0]).toEqual({ field: 'age', type: 'number', label: 'Idade', extraProperties: undefined})
+      expect(isolated._attributes[1]).toEqual({ field: 'name', type: 'string', label: 'nome', extraProperties: undefined})
+    })
+>>>>>>> 2306335bc1754c2b04c495b828f8d49c0886cbc2
   })
 
   describe('Testing if controlMap is acting right', () => {
 
+<<<<<<< HEAD
   
+=======
+    it('Should add to controlMap the first registry', () => {
+      let isolated = searchFieldWithOrder.isolateScope()
+      isolated.$apply()
+      expect(isolated._attributes[0]).toEqual({ field: 'age', type: 'number', label: 'Idade', extraProperties: undefined})
+      expect(isolated.controlMap['0']).toEqual({
+        query: { attribute: isolated._attributes[0], condition: HQLFactory.useType(isolated._attributes[0].type).defaultCondition[0], value: '' },
+        active: true
+      })
+    })
+
+    it('Should add two values in controlMap', () => {
+      let isolated = searchFieldWithOrder.isolateScope()
+      isolated.$apply()
+      expect(isolated.controlMap['0']).toEqual({
+        query: { attribute: isolated._attributes[0], condition: HQLFactory.useType(isolated._attributes[0].type).defaultCondition[0], value: '' },
+        active: true
+      })
+    })
+>>>>>>> 2306335bc1754c2b04c495b828f8d49c0886cbc2
   })
 })

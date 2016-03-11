@@ -28,7 +28,11 @@
       function mountTemplate(){
         return `
         <div class="input-group">
+<<<<<<< HEAD
         <input type="text" ng-model="$value" typeahead="address for address in getLocation($viewValue)" class="form-control">
+=======
+        <input type="text" ng-model="$value" uib-typeahead="address for address in getLocation($viewValue)" class="form-control">
+>>>>>>> 2306335bc1754c2b04c495b828f8d49c0886cbc2
           <div class="input-group-btn">
 
           </div>

@@ -8,8 +8,13 @@
       <div class="input-group">
        <input type="text" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event)" typeahead="item.description for item in ctrl.proxyFn($viewValue)"typeahead-on-select="ctrl.filterSelect($item, $model, $label, $event)" ng-show="ctrl.hasQuerySaved && openFilter"/>
        <input type="text" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event)" ng-show="!ctrl.hasQuerySaved || !openFilter"/>
+<<<<<<< HEAD
        <span class="input-group-btn" dropdown keyboard-nav auto-close="outsideClick">
          <button class="btn btn-default" type="button" dropdown-toggle>
+=======
+       <span class="input-group-btn" uib-dropdown uib-keyboard-nav auto-close="outsideClick">
+         <button class="btn btn-default" type="button" uib-dropdown-toggle>
+>>>>>>> 2306335bc1754c2b04c495b828f8d49c0886cbc2
           <span class="glyphicon glyphicon-chevron-down"><span>
          </button>
          <ul dropdown-menu role="menu" aria-labelledby="single-button" class="dropdown-menu-search">

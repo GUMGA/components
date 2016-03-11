@@ -28,21 +28,37 @@
             <div class="form-inline panel-body">
               <div class="input-group" ng-repeat="($key, $value) in controlMap" style="margin-right: 1%;margin-top: 7.5px;" ng-show="$value.active" id="first" >
                   <div class="input-group-btn">
+<<<<<<< HEAD
                     <div class="btn-group" dropdown ng-show="!$value.query.label" is-open="$value.isUPDATING_ATTRIBUTE()" auto-close="disabled">
                       <button type="button" style="z-index: 0" class="btn btn-default" dropdown-toggle ng-click="toggleUpdatingAttribute(this)" ng-disabled="$value.isUPDATING_VALUE() || $value.isUPDATING_CONDITION() || (!isAnyQueryNotOk() && $value.isEVERYTHING_NEEDED()) ">
                           <span> {{ $value.query.attribute.label || 'Atributo' }} </span>
                       </button>
                       <ul dropdown-menu style="z-index: 3000" role="menu">
+=======
+                    <div class="btn-group" uib-dropdown ng-show="!$value.query.label" is-open="$value.isUPDATING_ATTRIBUTE()" auto-close="disabled">
+                      <button type="button" style="z-index: 0" class="btn btn-default" uib-dropdown-toggle ng-click="toggleUpdatingAttribute(this)" ng-disabled="$value.isUPDATING_VALUE() || $value.isUPDATING_CONDITION() || (!isAnyQueryNotOk() && $value.isEVERYTHING_NEEDED()) ">
+                          <span> {{ $value.query.attribute.label || 'Atributo' }} </span>
+                      </button>
+                      <ul uib-dropdown-menu style="z-index: 3000" role="menu">
+>>>>>>> 2306335bc1754c2b04c495b828f8d49c0886cbc2
                         <li style="z-index: 3000;" role="menuitem" ng-repeat="attribute in _attributes track by $index">
                           <a ng-click="addAttribute(attribute, this.$parent, $key)">{{attribute.label}}</a>
                         </li>
                       </ul>
                     </div>
+<<<<<<< HEAD
                     <div class="btn-group" dropdown is-open="$value.isUPDATING_CONDITION()" ng-show="!$value.query.label" auto-close="disabled">
                       <button type="button" class="btn btn-default" dropdown-toggle ng-click="toggleUpdatingCondition(this)" ng-disabled="$value.isUPDATING_VALUE() || $value.isUPDATING_ATTRIBUTE() || (!isAnyQueryNotOk() && $value.isEVERYTHING_NEEDED()) || $value.isNOTHING()">
                           <span>{{ $value.query.condition.label || 'Condição' }}</span>
                       </button>
                       <ul dropdown-menu role="menu" >
+=======
+                    <div class="btn-group" uib-dropdown is-open="$value.isUPDATING_CONDITION()" ng-show="!$value.query.label" auto-close="disabled">
+                      <button type="button" class="btn btn-default" uib-dropdown-toggle ng-click="toggleUpdatingCondition(this)" ng-disabled="$value.isUPDATING_VALUE() || $value.isUPDATING_ATTRIBUTE() || (!isAnyQueryNotOk() && $value.isEVERYTHING_NEEDED()) || $value.isNOTHING()">
+                          <span>{{ $value.query.condition.label || 'Condição' }}</span>
+                      </button>
+                      <ul uib-dropdown-menu role="menu" >
+>>>>>>> 2306335bc1754c2b04c495b828f8d49c0886cbc2
                         <li role="menuitem" ng-repeat="condition in conditions track by $index">
                           <a ng-click="addCondition(condition, this.$parent, $key)">{{condition.label}}</a>
                         </li>
