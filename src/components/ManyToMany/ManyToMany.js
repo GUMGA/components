@@ -1,15 +1,10 @@
 (function(){
 	'use strict';
 
-<<<<<<< HEAD
+
   ManyToMany.$inject = ['$q','$compile','$timeout','$uibModal']
 
   function ManyToMany($q, $compile, $timeout, $uibModal){
-=======
-  ManyToMany.$inject = ['$q','$compile','$timeout','$modal']
-
-  function ManyToMany($q, $compile, $timeout, $modal){
->>>>>>> 2306335bc1754c2b04c495b828f8d49c0886cbc2
 
     let template =  `<div class="row">
 													<div class="col-md-12">
@@ -151,15 +146,6 @@
 						ctrl.template += '</div>\n';
 
 						eventHandler.valueVisualizationOpened();
-<<<<<<< HEAD
-						var mi = $uibModal.open({
-							template: ctrl.template,
-							size: 'sm',
-							controller: ['$scope', '$value', '$uibModalInstance', function($scope,$value,$uibModalInstance){
-								$scope.$value = $value;
-								$scope.back = function(){
-									$uibModalInstance.close();
-=======
 						var mi = $modal.open({
 							template: ctrl.template,
 							size: 'sm',
@@ -167,7 +153,6 @@
 								$scope.$value = $value;
 								$scope.back = function(){
 									$modalInstance.close();
->>>>>>> 2306335bc1754c2b04c495b828f8d49c0886cbc2
 								}
 							}],
 							resolve: {
