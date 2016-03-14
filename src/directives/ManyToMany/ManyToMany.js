@@ -1,7 +1,7 @@
 (function(){
 	'use strict';
 
-	ManyMany.$inject = ['$modal','$compile','$timeout'];
+	ManyMany.$inject = ['$uibModal','$compile','$timeout'];
 	/**
 	 * @ngdoc directive
 	 * @name gumga.core:gumgaManyToMany
@@ -39,7 +39,7 @@
 	 *
 
 	 */
-	function ManyMany($modal,$compile,$timeout){
+	function ManyMany($uibModal,$compile,$timeout){
 
 		return {
 			restrict: 'E',
@@ -177,13 +177,13 @@
 					scope.template += '   </div>\n';
 					scope.template += '</div>\n';
 					eventHandler.valueVisualizationOpened();
-					var mi = $modal.open({
+					var mi = $uibModal.open({
 						template: scope.template,
 						size: 'sm',
-						controller: function($scope,$value,$modalInstance){
+						controller: function($scope,$value,$uibModalInstance){
 							$scope.$value = $value;
 							$scope.back = function(){
-								$modalInstance.dismiss();
+								$uibModalInstance.dismiss();
 							}
 						},
 						resolve: {

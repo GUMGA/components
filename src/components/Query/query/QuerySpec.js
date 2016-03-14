@@ -34,7 +34,7 @@ describe('COMPONENT: GumgaQuery', function() {
       $compile(gumgaQueryWithSearch)(scope)
       expect(console.error).not.toHaveBeenCalledWith('É necessário passar uma função para o atributo "search". [search="foo(field, param)"]')
     })
-
+    //
     it('Should call the scope.foo when i call controller.search', () => {
       spyOn(scope, 'foo')
       $compile(gumgaQueryWithSearch)(scope)
@@ -42,15 +42,8 @@ describe('COMPONENT: GumgaQuery', function() {
       controller.search()
       expect(scope.foo).toHaveBeenCalled()
     })
-
-    it('Should call the scope.fooAdv when i call controller.advancedSearch', () => {
-      spyOn(scope, 'fooAdv')
-      $compile(gumgaQueryWithAdvanced)(scope)
-      let controller = gumgaQueryWithAdvanced.controller('gumgaQuery')
-      controller.advancedSearch()
-      expect(scope.fooAdv).toHaveBeenCalled()
-    })
-
+    //
+    //
     it('Should call the scope.fooFilters when i call controller.savedFilters', () => {
       spyOn(scope, 'fooFilters')
       $compile(gumgaQueryWithSavedFilters)(scope)
@@ -59,7 +52,7 @@ describe('COMPONENT: GumgaQuery', function() {
       expect(scope.fooFilters).toHaveBeenCalled()
     })
   })
-
+//
   describe('Getting the attributes', () => {
     it('Should get the "select", "field" and "label" for the search-field', () => {
       $compile(gumgaQueryWithAttribute)(scope)
@@ -96,7 +89,7 @@ describe('COMPONENT: GumgaQuery', function() {
       expect(scope.foo).not.toHaveBeenCalled()
     })
 
-  
-  })
 
+  })
+//
 })

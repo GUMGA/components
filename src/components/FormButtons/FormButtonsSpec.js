@@ -4,7 +4,7 @@ describe('COMPONENTE: FormButtons', () => {
 
 	beforeEach(module('gumga.formbuttons'));
 
-	beforeEach(inject(($compile, $rootScope, $timeout, $modal)=> {
+	beforeEach(inject(($compile, $rootScope, $timeout, $uibModal)=> {
 		scope	=	$rootScope.$new();
 		scope.age = 10;
 		scope.foo = function(){};

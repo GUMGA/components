@@ -1,9 +1,10 @@
 (function(){
 	'use strict';
 
-  ManyToMany.$inject = ['$q','$compile','$timeout','$modal']
 
-  function ManyToMany($q, $compile, $timeout, $modal){
+  ManyToMany.$inject = ['$q','$compile','$timeout','$uibModal']
+
+  function ManyToMany($q, $compile, $timeout, $uibModal){
 
     let template =  `<div class="row">
 													<div class="col-md-12">

@@ -79,6 +79,8 @@ describe('COMPONENTE: FilterCore', () => {
 
   describe('Testing if the attributes taken are okay', () => {
 
+<<<<<<< HEAD
+=======
     it(`Should get the attributes right if there's no error`, () => {
       $compile(searchFieldWithValidTypeElement)(scope)
       let isolated = searchFieldWithValidTypeElement.isolateScope()
@@ -107,10 +109,14 @@ describe('COMPONENTE: FilterCore', () => {
       expect(isolated._attributes[0]).toEqual({ field: 'age', type: 'number', label: 'Idade', extraProperties: undefined})
       expect(isolated._attributes[1]).toEqual({ field: 'name', type: 'string', label: 'nome', extraProperties: undefined})
     })
+>>>>>>> 2306335bc1754c2b04c495b828f8d49c0886cbc2
   })
 
   describe('Testing if controlMap is acting right', () => {
 
+<<<<<<< HEAD
+  
+=======
     it('Should add to controlMap the first registry', () => {
       let isolated = searchFieldWithOrder.isolateScope()
       isolated.$apply()
@@ -129,5 +135,6 @@ describe('COMPONENTE: FilterCore', () => {
         active: true
       })
     })
+>>>>>>> 2306335bc1754c2b04c495b828f8d49c0886cbc2
   })
 })

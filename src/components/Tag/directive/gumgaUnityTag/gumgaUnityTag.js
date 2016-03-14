@@ -109,8 +109,8 @@ function gumgaUnityTag($templateCache, $compile, $rootScope, $timeout){
     }
     </style>
     <span class="label label-primary unity-tag" style="margin-top: 2%;margin-bottom: 2%;display: inline-block;"
-    uib-tooltip="{{tooltip}}" ng-mousedown="tooltipRemove(this)" ng-mouseup="setActive(name,'click')" tooltip-placement="bottom"
-    uib-popover-template="templateUrl" popover-placement="bottom" popover-trigger="click"
+    tooltip="{{tooltip}}" ng-mousedown="tooltipRemove(this)" ng-mouseup="setActive(name,'click')" tooltip-placement="bottom"
+    popover-template="templateUrl" popover-placement="bottom" popover-trigger="click"
     popover-enable="parentColumn === 'right'" popover-is-open="getActive()">
     {{name}} <strong>({{attributes.length}})</strong>
     </span>`

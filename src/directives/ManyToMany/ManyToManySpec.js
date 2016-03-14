@@ -2,7 +2,7 @@ describe('DIRECTIVE: ManyToMany',function(){
 	var scope;
 	var isolated;
 	var html;
-	var $modal;
+	var $uibModal;
 	beforeEach(module('gumga.directives.manytomany'));
 
 	var modalInstance = {
@@ -20,9 +20,9 @@ describe('DIRECTIVE: ManyToMany',function(){
 		}
 	};
 
-	beforeEach(inject(function ($rootScope, $compile,_$modal_,$controller) {
+	beforeEach(inject(function ($rootScope, $compile,_$uibModal_,$controller) {
 		scope = $rootScope.$new();
-		$modal = _$modal_;
+		$uibModal = _$uibModal_;
 		scope.characters = [
 		{name: 'Luke', surname: 'Skywalker', age: 20},
 		{name: 'Anakin', surname: 'Skywalker', age: 50},
@@ -54,7 +54,7 @@ describe('DIRECTIVE: ManyToMany',function(){
 		$compile(element)(scope);
 		html = element.html();
 		isolated = element.isolateScope();
-		spyOn($modal, 'open').and.returnValue(modalInstance);
+		spyOn($uibModal, 'open').and.returnValue(modalInstance);
 	}));
 
 	it('Should initialize all needed variables',function(){
@@ -109,7 +109,7 @@ describe('DIRECTIVE: ManyToMany',function(){
 	describe('When i call halp',function(){
 		it('Should launch a modal',function(){
 			isolated.halp({name: 'Luke', surname: 'Skywalker', age: 20});
-			expect($modal.open).toHaveBeenCalled();
+			expect($uibModal.open).toHaveBeenCalled();
 		})
 
 	})

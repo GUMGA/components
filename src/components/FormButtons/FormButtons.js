@@ -56,7 +56,7 @@
 			function returnClicked(){
 				if(vm.confirmDirty){
 
-					ModalController.$inject = ['$uibModalInstance'];
+					ModalController.$inject = ['$modalInstance'];
 
 					function ModalController($uibModalInstance){
 						let ctrl = this;
@@ -75,6 +75,7 @@
 
 					$uibModal.open({
 						template: modalTemplate,
+						animate: false,
 						controller: ModalController,
 						controllerAs: 'ctrl'
 					})

@@ -1,7 +1,7 @@
 (function(){
 	'use strict';
-	OneToMany.$inject = ['$modal','$populate'];
-	function OneToMany($modal,$populate){
+	OneToMany.$inject = ['$uibModal','$populate'];
+	function OneToMany($uibModal,$populate){
 		var template = [
 		'<div class="col-md-12">',
 		'   <button type="button" class="btn btn-default" ng-click="newModal()">New</button>',
@@ -62,7 +62,7 @@
 						scope.etty= obj;
 					}
 					eventHandler.valueVisualizationOpened();
-					var modalInstance = $modal.open({
+					var modalInstance = $uibModal.open({
 						templateUrl: scope.templateUrl,
 						controller: scope.controller,
 						resolve: {
