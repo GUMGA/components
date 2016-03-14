@@ -20,6 +20,22 @@
 		'gumga.directives.customfields',
 		// 'gumga.directives.filter',
 		'gumga.translate.filter',
-		]);
+		])
+		.config(['$provide', function ($provide) {
 
+		  $provide.decorator('uibDatepickerPopupDirective', ['$delegate', function ($delegate) {
+		    var directive = $delegate[0];
+		    var link = directive.link;
+
+		    directive.compile = function () {
+		      return function (scope, element, attrs) {
+		        link.apply(this, arguments);
+						let pattern = attrs.uibDatepickerPopup.length == 0 ? '9999-99-99' : attrs.uibDatepickerPopup.replace(/d|D|m|M|y|Y/g, '9')
+						VMasker(element[0]).maskPattern(pattern)
+		      };
+		    };
+
+		    return $delegate;
+		  }]);
+		}]);
 })();
