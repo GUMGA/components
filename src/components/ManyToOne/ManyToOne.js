@@ -1,9 +1,9 @@
 (function(){
     'use strict';
 
-    ManyToOne.$inject = ['$templateCache','GumgaKeyboard','$uibModal', '$compile'];
+    ManyToOne.$inject = ['$templateCache','$uibModal', '$compile'];
 
-    function ManyToOne($templateCache, GumgaKeyboard, $uibModal, $compile){
+    function ManyToOne($templateCache, $uibModal, $compile){
         controller.$inject = ['$scope', '$element', '$attrs'];
 
         function controller($scope, $element, $attrs){
@@ -209,6 +209,6 @@
             controller
         }
     }
-        angular.module('gumga.directives.manytoone',['ui.bootstrap','gumga.services.keyboard'])
+        angular.module('gumga.manytoone',['ui.bootstrap'])
         .directive('gumgaManyToOne',ManyToOne);
     })();
