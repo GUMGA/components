@@ -10,5 +10,6 @@ angular.module('gumga.core', [
 	'gumga.query',
   'gumga.filter',
 	'gumga.confirm',
-	'gumga.manytoone'
+	'gumga.manytoone',
+	'gumga.documentation'
 ])

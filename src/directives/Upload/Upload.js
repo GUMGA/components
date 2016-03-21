@@ -16,7 +16,7 @@
                 c-47.104,19.629-94.683,33.367-108.851,55.453c-12.7,19.777-8.882,114.875-8.882,114.875h470.946
                 C499.462,497.904,503.281,402.806,490.579,383.029z"/>
         </svg>`
-        
+
         let avatar = `
         <img id="avatar" ng-src="{{avatar}}" width="128px" height="128px">`
 
@@ -30,18 +30,17 @@
         </div>`
 
         link.$inject = ['$scope','$element','$attrs']
-        
+
         function link($scope, $element, $attrs) {
             let model = $parse($attrs.attribute),
                 modelSetter = model.assign,
                 reader = new FileReader();
-                
+
             $timeout(function(){
                 let element = $element.find('input'),
                     image = $element.find('img')[0];
-                    
+
                 element.bind('change', function () {
-                    console.log(element[0].files[0]);
                     $scope.$apply(function () {
                         let x;
                         modelSetter($scope, element[0].files[0]);
@@ -104,7 +103,7 @@
                 $scope.deleteMethod();
             };
 
-            
+
             let template = ``;
             template = template.concat(templateBebin);
             if ($scope.avatar) {
@@ -124,7 +123,7 @@
                 tooltipText: '@',
                 avatar: '@'
             },
-            link: link 
+            link: link
         };
     }
 
