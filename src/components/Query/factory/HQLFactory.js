@@ -142,8 +142,7 @@ function HQLFactory($filter){
 
 
             if(mapObj[val].query.attribute && mapObj[val].query.attribute.type === 'date'){
-              value = (new Date($filter('gumgaGeneric')(value, 'date'))).toISOString()
-
+              value = $filter('date')($filter('gumgaGeneric')(value, 'date'),'yyyy-MM-dd')
             }
 
             aqo.push({

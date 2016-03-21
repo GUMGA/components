@@ -182,8 +182,8 @@
               input   = element.find('input'),
               form    = $element.parent()
           while(form[0].nodeName != 'FORM') form = form.parent();
+          let formController = $scope.$parent[form.attr('name')]
 
-          let formController = $scope.$parent[form[0].name]
           $element.append($compile(element)($scope))
 
           ngModelCtrl = input.controller('ngModel')
