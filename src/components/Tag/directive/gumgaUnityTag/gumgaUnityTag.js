@@ -14,7 +14,7 @@ function gumgaUnityTag($templateCache, $compile, $rootScope, $timeout){
     <div class="row">
     <div class="col-md-12">
     <button class="btn btn-primary btn-sm pull-right" type="button" ng-disabled="Popover.$invalid" ng-click="updateTag(data)"><i class="glyphicon glyphicon-ok"></i></button>
-    <button class="btn btn-default btn-sm pull-right" type="button" ng-click="closePopover()" style="margin-right: 5%;"><i class="glyphicon glyphicon-remove"></i></button>
+    <button class="btn btn-default btn-sm pull-right close-popover" type="button" ng-click="closePopover()"><i class="glyphicon glyphicon-remove"></i></button>
     </div>
     </div>
     </form>
@@ -103,6 +103,11 @@ function gumgaUnityTag($templateCache, $compile, $rootScope, $timeout){
     },
     require: '^gumgaTagColumn',
     template:`
+<<<<<<< HEAD
+    <span class="label label-primary unity-tag"
+    uib-tooltip="{{tooltip}}" ng-mousedown="tooltipRemove(this)" ng-mouseup="setActive(name,'click')" tooltip-placement="bottom"
+    uib-popover-template="templateUrl" popover-placement="bottom" popover-trigger="click"
+=======
     <style>
     div.bottom.fade.popover.in {
       min-width: 150%;
@@ -111,6 +116,7 @@ function gumgaUnityTag($templateCache, $compile, $rootScope, $timeout){
     <span class="label label-primary unity-tag" style="margin-top: 2%;margin-bottom: 2%;display: inline-block;"
     tooltip="{{tooltip}}" ng-mousedown="tooltipRemove(this)" ng-mouseup="setActive(name,'click')" tooltip-placement="bottom"
     popover-template="templateUrl" popover-placement="bottom" popover-trigger="click"
+>>>>>>> 990eaf912ae70487dfc415a8e7ab27c6f421e167
     popover-enable="parentColumn === 'right'" popover-is-open="getActive()">
     {{name}} <strong>({{attributes.length}})</strong>
     </span>`

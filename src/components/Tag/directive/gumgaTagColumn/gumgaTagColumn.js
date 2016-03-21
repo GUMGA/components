@@ -28,7 +28,7 @@ function gumgaTagColumn(){
         <label class="control-label">{{gumgaTagColumn.label}}</label>
         <div class="panel panel-default panel-from-tag-column">
           ${(!!$attrs.hasSearch) ? searchString : ' '}
-          <div class="panel-body body-column" style="display: inline-block;">
+          <div class="panel-body body-column">
             <div class='col-md-12'>
               <span ng-repeat="tag in gumgaTagColumn.tags">
                 <gumga-unity-tag  name="{{::tag.definition.name}}" attributes="tag.definition.attributes" >
