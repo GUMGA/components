@@ -17,6 +17,7 @@ O componente GumgaFormButtons é utilizado para que o desenvolvedor não precise
 | **returnText**          | `String `   | Atributo que será utilizado para trocar o texto que aparece no botão de retorno |
 | **saveText**            | `String `   | Atributo que será utilizado para trocar o texto que aparece no botão de salvar  |
 | **reverse-order**       | `Boolean `  | Atributo que será utilizado para alterar a orderm dos botões que aparecem na tela |
+| **inline**              | ``          | Atributo sem valor, remove o elemento pai com a classe .row.col-md-12 
 
 ### Uso:
 ```html

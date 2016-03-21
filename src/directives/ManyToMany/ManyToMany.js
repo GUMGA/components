@@ -128,7 +128,7 @@
 					'           </span>' +
 					'       </div>' +
 					'       <ul class="list-group">\n' +
-					'           <li class="list-group-item" ng-repeat="$value in leftAux ' + doesItHaveFunction('left',1) + '">' +
+					'           <li class="list-group-item" ng-repeat="$value in leftAux ' + doesItHaveFunction('left',1) + '" ng-cloak>' +
 					'               <a class="inside-list-anchor" ng-click="removeFromAndAddTo(leftAux,right,$value)">' + scope.texts.left + '</a>' +
 					'              <button class="badge" ng-click="halp($value)"><i class="glyphicon glyphicon-resize-full"></i></button>' +
 					'           </li>\n'+
@@ -138,7 +138,7 @@
 					'       <strong><small>{{::labels.right}}</small></strong>\n'+
 					'       <input type="text" name="manymanyleft" ng-model="rightFilter" novalidate class="form-control"' + doesItHaveFunction('right',0) + '/>\n'+
 					'       <ul class="list-group">\n' +
-					'           <li class="list-group-item" ng-repeat="$value in right ' + doesItHaveFunction('right',1) + '">' +
+					'           <li class="list-group-item" ng-repeat="$value in right ' + doesItHaveFunction('right',1) + '" ng-cloak>' +
 					'               <a class="inside-list-anchor" ng-click="removeFromAndAddTo(right,leftAux,$value)">' + scope.texts.right + '</a>' +
 					'              <button class="badge badge-helper" ng-click="halp($value)"><i class="glyphicon glyphicon-resize-full"></i></button>' +
 					'           </li>\n'+

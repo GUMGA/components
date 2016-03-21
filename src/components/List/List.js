@@ -47,12 +47,14 @@
       ctrl.onSort         = hasAttr('onSort')         ? ctrl.onSort                                 : angular.noop
 
       // Garantindo que existam todas as configurações necessárias no objeto.
-      ctrl.config.checkbox      = !!ctrl.config.checkbox
-      ctrl.config.selection     = hasConfig('selection')      ? ctrl.config.selection         : defaultSelection
-      ctrl.config.itemsPerPage  = hasConfig('itemsPerPage')   ? ctrl.config.itemsPerPage      : defaultItemsPerPage
-      ctrl.config.sortDefault   = hasConfig('sortDefault')    ? ctrl.config.sortDefault       : defaultSortedColumn
-      ctrl.config.conditional   = hasConfig('conditional')    ? ctrl.config.conditional       : angular.noop
-      ctrl.config.columnsConfig = guaranteeColumns(ctrl.config.columns, ctrl.config.columnsConfig)
+      function guaranteeConfig() {
+        ctrl.config.checkbox      = !!ctrl.config.checkbox
+        ctrl.config.selection     = hasConfig('selection')      ? ctrl.config.selection         : defaultSelection
+        ctrl.config.itemsPerPage  = hasConfig('itemsPerPage')   ? ctrl.config.itemsPerPage      : defaultItemsPerPage
+        ctrl.config.sortDefault   = hasConfig('sortDefault')    ? ctrl.config.sortDefault       : defaultSortedColumn
+        ctrl.config.conditional   = hasConfig('conditional')    ? ctrl.config.conditional       : angular.noop
+        ctrl.config.columnsConfig = guaranteeColumns(ctrl.config.columns, ctrl.config.columnsConfig)
+      }
 
       // Tratamento de erros do componente.
       if(!hasAttr('data'))           console.error(errorMessages.noData)
@@ -74,7 +76,12 @@
       if(ctrl.config.sortDefault != null) ctrl.doSort(ctrl.config.sortDefault)
 
       $scope.$parent.selectedValues = ctrl.selectedValues
-
+      
+      $scope.$watch('ctrl.config', () => {
+        guaranteeConfig()
+        compileElement()
+      })
+      
       $scope.$watch('ctrl.data', () => updateMap(ctrl.data), true)
 
       $scope.$watch('ctrl.selectedValues', (newVal = [], oldVal = []) => updateSelected(newVal, newVal.length - oldVal.length >= 0, oldVal), true)
@@ -187,9 +194,13 @@
       }
 
       // Compilação do componente na tela.
-      try {
+      function compileElement() {
+        $element.html('')
         const element = angular.element(listCreator.mountTable(ctrl.config, ctrl.class))
         $element.append($compile(element)($scope))
+      }
+      try {
+        compileElement()
       } catch(err){}
 
     }

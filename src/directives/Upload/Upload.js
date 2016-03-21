@@ -62,9 +62,7 @@
 
 
             $scope.fireClick = function () {
-                $timeout(() => {
-                    document.getElementById('upload').click();
-                });
+                $element.find('input')[0].click();
             }
 
             $scope.$watch('model', () => {

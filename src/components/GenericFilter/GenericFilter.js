@@ -31,5 +31,5 @@ function GenericFilter($filter){
   }
 }
 
-angular.module('gumga.generic', [])
-  .filter('gumgaGeneric', GenericFilter);
+angular.module('gumga.genericfilter', [])
+  .filter('gumgaGenericFilter', GenericFilter);
