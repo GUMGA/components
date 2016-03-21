@@ -24,8 +24,10 @@ A documentação dos componentes pode ser visualizada diretamente na pasta dos c
 - [Alert](src/directives/Alert)
 - [Breadcrumb](src/directives/Breadcrumb)
 - [Counter](src/directives/Counter)
+- [Confirm](src/components/Confirm)
 - [CustomFields](src/directives/CustomFields)
 - [Form](src/directives/Form)
+- [Filter](src/directives/Filter)
 - [Error](src/directives/Form/Error)
 - [Errors](src/directives/Form/Errors)
 - [Form](src/directives/Form/Form)
@@ -67,3 +69,30 @@ A documentação dos componentes pode ser visualizada diretamente na pasta dos c
 - [Rest](src/services/Rest)
 - [Translate](src/services/Translate)
 - [WebStorage](src/services/WebStorage)
+
+
+
+
+#### Observação quanto ao uibDatepickerPopup
+
+
+Para utilizar uma máscara junto ao uibDatepickerPopup, utilizamos a lib [vanilla-masker](https://github.com/BankFacil/vanilla-masker) para fazer a máscara e adicionamos um $delegate para alterar o componente, visto que ele é um componente externo a gumga.
+
+```html
+  <p class="input-group">
+    <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="date" is-open="isDatePickerOpen"/>
+    <span class="input-group-btn">
+      <button type="button" class="btn btn-default" ng-click="open()">
+        <i class="glyphicon glyphicon-calendar"></i>
+      </button>
+    </span>
+  </p>
+```
+
+```js
+$scope.open = function() {
+  $scope.isDatePickerOpen = !$scope.isDatePickerOpen;
+};
+```
+
+Ao passar qual o valor requerido da máscara para o uib-datepicker-popup, ele irá adicionar a máscara a medida que o usuário digita o valor.

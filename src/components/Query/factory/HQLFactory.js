@@ -140,11 +140,16 @@ function HQLFactory($filter){
               value     = mapObj[val].query.value.replace(/'/g,"''"),
               after     = mapObj[val].query.condition ? mapObj[val].query.condition.after : '*';
 
+
+            if(mapObj[val].query.attribute && mapObj[val].query.attribute.type === 'date'){
+              value = $filter('date')($filter('gumgaGeneric')(value, 'date'),'yyyy-MM-dd')
+            }
+
             aqo.push({
-            attribute:  mapObj[val].query.attribute,
-            condition:  mapObj[val].query.condition,
-            value:      mapObj[val].query.value.replace(/'/g,"''")
-          })
+              attribute:  mapObj[val].query.attribute,
+              condition:  mapObj[val].query.condition,
+              value:      mapObj[val].query.value.replace(/'/g,"''")
+            })
 
 
         return (attribute.concat(before).concat(value).concat(after)).replace(/obj.\*/g,'').replace(/\*/g,'')
@@ -157,12 +162,13 @@ function HQLFactory($filter){
     return { hql: aq, source: JSON.stringify(aqo) }
   }
 
-  let utils = {}
 
-  utils.toCpf = (input) =>  {
-    let str = input+ '';
-    return str.replace(/\D/g,'').replace(/(\d{3})(\d)/,"$1.$2").replace(/(\d{3})(\d)/,"$1.$2").replace(/(\d{3})(\d{1,2})$/,"$1-$2");
-  };
+  let utils = {
+    toCpf(input){
+      let str = input+ '';
+      return str.replace(/\D/g,'').replace(/(\d{3})(\d)/,"$1.$2").replace(/(\d{3})(\d)/,"$1.$2").replace(/(\d{3})(\d{1,2})$/,"$1-$2");
+    }
+  }
 
   function validator(type = ' '){
     return SUPPORTED_TYPES[type] ? SUPPORTED_TYPES[type].validator : angular.noop
@@ -172,5 +178,5 @@ function HQLFactory($filter){
 
 }
 
-angular.module('gumga.query.factory', [])
+angular.module('gumga.query.factory', ['gumga.generic'])
   .factory('HQLFactory', HQLFactory);

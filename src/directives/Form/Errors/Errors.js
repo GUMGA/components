@@ -51,6 +51,7 @@
 						<li ng-repeat="(key, value) in errors">{{ value }}</li>
 						</ol>
 				</script>
+<<<<<<< HEAD
 				<button popover-placement="${placement}" uib-popover-template="'templatePopover.html'" popover-title="${title}" type="button" ng-class="hasError ? 'btn btn-sm btn-danger' : 'btn btn-sm btn-success'">
                 `
                 if (attrs.hasOwnProperty('labelHidden')) {
@@ -62,6 +63,10 @@
                 }
 
                 template += `
+=======
+				<button popover-placement="${placement}" popover-template="'templatePopover.html'" popover-title="${title}" type="button" ng-class="hasError ? 'btn btn-sm btn-danger' : 'btn btn-sm btn-success'">
+					<i ${hasIcon()}></i> {{ hasError ? '${ attrs.label ? attrs.label : 'Lista de erros'}' : 'Formulário sem erros' }}
+>>>>>>> 990eaf912ae70487dfc415a8e7ab27c6f421e167
 				</button>`
 				elm.append($compile(template)(scope));
 

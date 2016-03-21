@@ -107,27 +107,8 @@ describe('COMPONENTE: FilterCore', () => {
       expect(isolated._attributes[0]).toEqual({ field: 'age', type: 'number', label: 'Idade', extraProperties: undefined})
       expect(isolated._attributes[1]).toEqual({ field: 'name', type: 'string', label: 'nome', extraProperties: undefined})
     })
+
   })
 
-  describe('Testing if controlMap is acting right', () => {
 
-    it('Should add to controlMap the first registry', () => {
-      let isolated = searchFieldWithOrder.isolateScope()
-      isolated.$apply()
-      expect(isolated._attributes[0]).toEqual({ field: 'age', type: 'number', label: 'Idade', extraProperties: undefined})
-      expect(isolated.controlMap['0']).toEqual({
-        query: { attribute: isolated._attributes[0], condition: HQLFactory.useType(isolated._attributes[0].type).defaultCondition[0], value: '' },
-        active: true
-      })
-    })
-
-    it('Should add two values in controlMap', () => {
-      let isolated = searchFieldWithOrder.isolateScope()
-      isolated.$apply()
-      expect(isolated.controlMap['0']).toEqual({
-        query: { attribute: isolated._attributes[0], condition: HQLFactory.useType(isolated._attributes[0].type).defaultCondition[0], value: '' },
-        active: true
-      })
-    })
-  })
 })
