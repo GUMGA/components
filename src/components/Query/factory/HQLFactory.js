@@ -178,5 +178,5 @@ function HQLFactory($filter){
 
 }
 
-angular.module('gumga.query.factory', ['gumga.generic'])
+angular.module('gumga.query.factory', ['gumga.genericfilter'])
   .factory('HQLFactory', HQLFactory);
