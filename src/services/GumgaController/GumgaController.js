@@ -7,19 +7,17 @@
     this.pageSize = 10;
     this.count = 0;
     this.methods = {
-      asyncSearch(field, value){
-        self.emit('asyncSearchStart');
+      asyncSearch(field, param){
+        console.log(field, param);
         return Service
-          .getSearch(field, value)
+          .getSearch(field, param)
           .then(function (data) {
   					return data.data.values;
   				});
       },
       asyncPost(value, param){
         self.emit('asyncPostStart');
-        let obj = {};
-				obj[param] = value;
-				return Service.save(obj);
+				return Service.save(value);
       },
       get(page = 1){
         self.emit('getStart');
