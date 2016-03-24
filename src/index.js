@@ -8,8 +8,9 @@ angular.module('gumga.core', [
 	'gumga.formbuttons',
 	'gumga.list',
 	'gumga.query',
-  'gumga.filter',
+    'gumga.filter',
 	'gumga.confirm',
-	'gumga.manytoone'
+	'gumga.manytoone',
+    'gumga.number'
 	// 'gumga.documentation'
 ])
