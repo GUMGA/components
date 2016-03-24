@@ -8,7 +8,6 @@
     this.count = 0;
     this.methods = {
       asyncSearch(field, param){
-        console.log(field, param);
         return Service
           .getSearch(field, param)
           .then(function (data) {
