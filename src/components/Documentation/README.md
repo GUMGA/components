@@ -13,9 +13,9 @@ direto no componente.
 
 ### Atributos
 
-- **`key`:** Atributo **obrigatório**  que deve ser uma string que irá conter a chave que a documentação terá. Esta chave é a identificação da documentação no segurança.ele
-- **`can-edit`:** Atributo **opcional** que deve ser uma string que irá conter o texto que irá no botão de cancelar.
-- **`api-url`:** Atributo **opcional** que deve ser uma string que irá conter o texto que irá no botão de confirmar.
-- **`modal-title`:** Atributo **opcional** que deve ser uma string que irá conter qual classe o botão de cancelar assumirá.
+- **`key`:** Atributo **obrigatório**  que deve ser uma string que irá conter a chave que a documentação terá. Esta chave é a identificação da documentação no segurança.
+- **`can-edit`:** Atributo **obrigatório** que deve ser um booleano que irá dizer se o usuário pode editar ou não o texto.
+- **`api-url`:** Atributo **obrigatório** que deve ser uma string que irá conter a url da api que ele irá buscar os dados. Caso esteja usando o gumgaRest/gumgaController, existe um método `getDocumentationURL` para isto.
+- **`modal-title`:** Atributo **opcional** que deve ser uma string que irá conter o título do modal.
 - **`confirm-button`:** Atributo **opcional** que deve ser uma string que irá conter o texto que irá no botão de confirmar.
 - **`confirm-button-class`:** Atributo **opcional** que deve ser uma string que irá conter qual classe o botão de confirmar assumirá.
