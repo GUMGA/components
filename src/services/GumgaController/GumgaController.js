@@ -175,6 +175,10 @@
         }, err => {
           self.emit('postTagError', values);
         })
+      },
+      getDocumentationURL(){
+        self.emit('getDocumentationURLStart')
+        return Service.getDocumentationURL()
       }
     };
   }
