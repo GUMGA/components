@@ -41,9 +41,9 @@
           manyToOneCtrl.openInfo          = openInfo
           manyToOneCtrl.valueToAdd        = ''
           manyToOneCtrl.afterSelect       = afterSelect
-          manyToOneCtrl.proxySearch       = (value) =>{
-            return  manyToOneCtrl.searchMethod({ value }).then(data => {
-              if(data.filter(dataItem => dataItem[manyToOneCtrl.field] == value).length > 0 || !manyToOneCtrl.authorizeAdd){
+          manyToOneCtrl.proxySearch       = (param) =>{
+            return  manyToOneCtrl.searchMethod({ param }).then(data => {
+              if(data.filter(dataItem => dataItem[manyToOneCtrl.field] == param).length > 0 || !manyToOneCtrl.authorizeAdd){
                 return data
               }
               let objToAppend = {}
@@ -92,7 +92,9 @@
               .open({ controller, template, controllerAs, resolve })
               .result
               .then(
-                    value => manyToOneCtrl.postMethod({ value }).then(dataFromPostMethod => manyToOneCtrl.value =  dataFromPostMethod.data.data),
+                    value => {
+                      manyToOneCtrl.postMethod({ value }).then(dataFromPostMethod => manyToOneCtrl.value =  dataFromPostMethod.data.data)
+                    },
                     reject => manyToOneCtrl.value = ''
                   )
           }
