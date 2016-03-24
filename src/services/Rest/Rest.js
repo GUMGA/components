@@ -27,6 +27,7 @@
 		RestPrototype.prototype.getAvailableTags	=	_getAvailableTags;
 		RestPrototype.prototype.getSelectedTags		=	_getSelectedTags;
 		RestPrototype.prototype.extend						=	_extend;
+		RestPrototype.prototype.getDocumentationURL 						= getDocumentationURL
 
 		function _get(page){
 			if (page) {
@@ -150,6 +151,18 @@
 		function _extend(method = 'GET', urlExtended= ' ', params){
 			if(!$http[method.toLowerCase().trim()]) throw 'O método passado como primeiro parâmetro deve ser um método HTTP válido: GET, HEAD, POST, PUT, DELETE, JSONP, PATCH';
 			return $http[method.toLowerCase().trim()](`${this._url}${urlExtended}`, params)
+		}
+
+		function getDocumentationURL(){
+			let arrayUrl =	this._url.split('')
+
+			if(arrayUrl[arrayUrl.length -1] == '/'){
+				arrayUrl.pop()
+			}
+
+			const indexOfLastSlash = arrayUrl.join('').lastIndexOf('/')
+			const urlWithoutSlash = arrayUrl.join('').slice(0,indexOfLastSlash)
+			return urlWithoutSlash.concat('/proxy/softwarevalues')
 		}
 
 		return RestPrototype;

@@ -39,7 +39,6 @@
             ctrl.confirmButton      = confirmBtn
             ctrl.dismissButtonClass = dismissClass
             ctrl.confirmButtonClass = confirmClass
-
             ctrl.close          = boolean => boolean ? $uibModalInstance.close() : $uibModalInstance.dismiss()
           }
 
