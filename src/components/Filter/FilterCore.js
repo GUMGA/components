@@ -8,17 +8,20 @@
             <header class="panel-heading" style="padding: 5px 10px;">
                 <div class="row">
                     <div class="col-md-8 col-xs-7">
-                        <h5><strong>Busca avançada</strong></h5>
+                        <h5><strong>Busca avançada</strong> <strong ng-if="filterSelectItem"> - {{filterSelectItem.description}}</strong></h5>
                     </div>
                     <div class="col-md-4 col-xs-5" ng-show="saveQuery">
                         <div class="input-group" >
                             <input type="text" ng-model="nameSearch" class="form-control" id="_save" ng-show="saveFilterOpen" ng-keyup="saveSearch(nameSearch, $event)" ng-blur="closeInput()">
                             <div class="input-group-btn">
-                                <button class="btn btn-success" ng-show="saveFilterOpen" ng-click="saveSearch(nameSearcht)">
+                                <button class="btn btn-success" ng-show="saveFilterOpen" ng-click="saveSearch(nameSearcht)" ng-disabled="!nameSearch">
                                     <i class="glyphicon glyphicon-floppy-saved"></i>
                                 </button>
                                 <button class="btn btn-default pull-right" type="button" ng-hide="saveFilterOpen" ng-click="showInput()" ng-disabled="!isAnyQueryNotOk()">
                                     <i class="glyphicon glyphicon-floppy-disk"></i>
+                                </button>
+                                <button class="btn btn-default"  ng-click="deleteFilter(filterSelectItem.id)" ng-if="filterSelectItem" style="float: right;margin-right: 15px;">
+                                    <i class="glyphicon glyphicon-floppy-remove"></i>
                                 </button>
                             </div>
                         </div>
@@ -30,7 +33,7 @@
                   <div class="input-group-btn">
                     <div class="btn-group" uib-dropdown ng-show="!$value.query.label" is-open="$value.isUPDATING_ATTRIBUTE()" auto-close="disabled">
                       <button type="button" style="z-index: 0" class="btn btn-default" uib-dropdown-toggle ng-click="toggleUpdatingAttribute(this)" ng-disabled="$value.isUPDATING_VALUE() || $value.isUPDATING_CONDITION() || (!isAnyQueryNotOk() && $value.isEVERYTHING_NEEDED()) ">
-                          <span> {{ $value.query.attribute.label || 'Atributo' }} </span>
+                          <span> {{ $value.query.attribute.label || 'Atributo' }}  <i class="glyphicon glyphicon-chevron-down"></i></span>
                       </button>
                       <ul uib-dropdown-menu style="z-index: 3000" role="menu">
                         <li style="z-index: 3000;" role="menuitem" ng-repeat="attribute in _attributes track by $index">
@@ -40,7 +43,7 @@
                     </div>
                     <div class="btn-group" uib-dropdown is-open="$value.isUPDATING_CONDITION()" ng-show="!$value.query.label" auto-close="disabled">
                       <button type="button" class="btn btn-default" uib-dropdown-toggle ng-click="toggleUpdatingCondition(this)" ng-disabled="$value.isUPDATING_VALUE() || $value.isUPDATING_ATTRIBUTE() || (!isAnyQueryNotOk() && $value.isEVERYTHING_NEEDED()) || $value.isNOTHING()">
-                          <span>{{ $value.query.condition.label || 'Condição' }}</span>
+                          <span>{{ $value.query.condition.label || 'Condição' }} <i class="glyphicon glyphicon-chevron-down"></i></span>
                       </button>
                       <ul uib-dropdown-menu role="menu" >
                         <li role="menuitem" ng-repeat="condition in conditions track by $index">
@@ -59,7 +62,7 @@
                         <span> {{$value.query.label}} </span>
                       </button>
                     </div>
-                    <button type="button" style="z-index: 0" class="btn btn-default" ng-click="removeQuery(this)" ng-show="!$value.query.label" ng-disabled="!$value.isEVERYTHING_NEEDED() || $value.isUPDATING_VALUE() ||(!isAnyQueryNotOk() && $value.isEVERYTHING_NEEDED()) ">
+                    <button type="button" style="z-index: 0;border-left: 1px solid #ccc; " class="btn btn-default" ng-click="removeQuery(this, $event, $index)" ng-show="!$value.query.label" ng-disabled="!$value.isEVERYTHING_NEEDED() || $value.isUPDATING_VALUE() ||(!isAnyQueryNotOk() && $value.isEVERYTHING_NEEDED()) ">
                       <span class="glyphicon glyphicon-remove"></span>
                     </button>
                   </div>
@@ -109,7 +112,27 @@
                     $scope.controlMap[index] = QueryModelFactory.create({ value: val.value, label: val.value === 'AND' ? 'E' : 'OU' }, undefined, 'EVERYTHING_NEEDED')
                   }
                 })
+                $scope.filterSelectItem = data;
                 $timeout(() => $scope.search({ param: HQLFactory.createHql($scope.controlMap)}));
+              })
+
+              $scope.$on('openOrCloseFilter', (event, openOrClose) => {
+                if(!openOrClose){
+                  delete $scope.filterSelectItem;
+                  Object.keys($scope.controlMap)
+                    .forEach(key => {
+                      const scope = getIndexScope(key)
+                      scope.$value.active = false
+                      delete $scope.controlMap[key]
+                      $timeout(_=>scope.$destroy())
+                    })
+
+                  $scope.search({ param: {}});
+                  return
+                }
+
+                if(!$scope.controlMap['0']) initialize()
+
               })
 
               $transclude((transcludeElement) => {
@@ -139,11 +162,20 @@
               if(!$scope._attributes[0]) return;
 
               const getElm = string => angular.element(document.getElementById(string))
+              const initialize = _ => {
+                $scope.controlMap['0'] = QueryModelFactory.create({ attribute: {}, condition: { }, value: '' }, true, 'NOTHING')
+
+                $timeout(_ =>{
+                  var indexScope = getIndexScope();
+                  indexScope.$value.removeState('NOTHING').addState('UPDATING_ATTRIBUTE');
+                })
+              }
+
+              initialize()
 
               let defaultAttribute  = angular.copy($scope._attributes[0]),
                   defaultCondition  = angular.copy(HQLFactory.useType(defaultAttribute.type).defaultCondition)[0]
 
-              $scope.controlMap['0'] = QueryModelFactory.create({ attribute: {}, condition: { }, value: '' }, true, 'NOTHING')
 
               $scope.addAttribute             = addAttribute
               $scope.toggleUpdatingAttribute  = toggleUpdatingAttribute
@@ -152,6 +184,12 @@
               $scope.toggleUpdatingCondition  = toggleUpdatingCondition
 
               $scope.toggleUpdatingValue      = toggleUpdatingValue
+
+              $scope.goSearch                 = goSearch
+
+              $scope.callSearch               = callSearch
+
+              $scope.deleteFilter             = deleteFilter
 
               $scope.isAnyQueryNotOk          = isAnyQueryNotOk
 
@@ -164,6 +202,7 @@
             function addAttribute(selectedAttribute, scope, key){
               scope.$value.query.attribute = selectedAttribute
               scope.conditions =  HQLFactory.useType(selectedAttribute.type).conditions
+              scope.validator = HQLFactory.useType(selectedAttribute.type).validator
 
               scope.$value.removeState('UPDATING_ATTRIBUTE').removeState('NOTHING').addState('ONLY_ATTRIBUTE')
 
@@ -174,6 +213,17 @@
                   scope.$value.query.value = ''
                 }
               })
+            }
+
+            function goSearch(event){
+              if(event.keyCode == 13){
+                callSearch(event);
+              }
+            }
+
+            function deleteFilter(filterId){
+              console.log(filterId);
+                //TODO fazer o deletar filtro
             }
 
             function toggleUpdatingAttribute(scope){
@@ -284,6 +334,7 @@
               }
 
               function addQuery(){
+                  delete $scope.filterSelectItem;
                   $scope.controlMap[parseInt(lastOfControlMap()) + 1 ] = QueryModelFactory.create({ value: 'AND', label: 'E' }, undefined, 'EVERYTHING_NEEDED')
                   $scope.controlMap[parseInt(lastOfControlMap()) + 1 ] = QueryModelFactory.create({ attribute: {}, condition:{ }, value: ''}, undefined, 'NOTHING')
                   $timeout(() => getIndexScope(parseInt(lastOfControlMap())).$value.addState('UPDATING_ATTRIBUTE'));
@@ -308,23 +359,27 @@
                 }
               }
 
-              function removeQuery(scope){
+              function removeQuery(scope, e, index){
+                delete $scope.filterSelectItem;
                 if(!scope.$$prevSibling.$key && !scope.$$nextSibling){
                   scope.$value.query =  { attribute: {}, condition: {}, value: '' }
                   scope.$value.activeStates = 0;
                   $timeout(() => scope.$value.addState('UPDATING_ATTRIBUTE'))
+                  callSearch(e, 'remove', index);
                   return
                 }
                 if(!scope.$$prevSibling.$key && scope.$$nextSibling){
                   scope.$value.active = false
                   scope.$$nextSibling.$value.active = false
                   $timeout(()=> (scope.$$nextSibling.$destroy(), scope.$destroy()))
+                  callSearch(e, 'remove', index);
                   return
                 }
                 if(scope.$$prevSibling.$key) {
                   scope.$value.active = false
                   scope.$$prevSibling.$value.active = false
                   $timeout(()=> (scope.$$prevSibling.$destroy(), scope.$destroy()))
+                  callSearch(e, 'remove', index);
                 }
               }
 
@@ -342,7 +397,10 @@
               }
 
               document.addEventListener('click', (e) => {
+                callSearch(e);
+              });
 
+              function callSearch(e, typeSearch, positionCondition = -1){
                 let outerClick    = true
                 let updatingValue = Object.keys($scope.controlMap).filter((intern) => $scope.controlMap[intern].isUPDATING_VALUE())[0],
                     validator;
@@ -366,14 +424,17 @@
                 if($scope.controlMap[updatingValue]){
                   validator = HQLFactory.validator($scope.controlMap[updatingValue].query.attribute.type)
                 }
-                if (outerClick && validator && validator($scope.controlMap[updatingValue].query.value))  {
-                  $scope.$apply()
+                if (outerClick && validator && validator($scope.controlMap[updatingValue].query.value) || e.type == 'keyup' || typeSearch == "btn")  {
                   let scopeBeingUpdated = getElm(`_panelValue${updatingValue}`).scope()
                   $timeout(() => scopeBeingUpdated.$value.removeState('UPDATING_VALUE').removeState('ATTRIBUTE_AND_CONDITION').addState('EVERYTHING_NEEDED'))
                   getElm(`_panelValue${updatingValue}`).removeClass('show')
                   $scope.search({ param: HQLFactory.createHql($scope.controlMap)});
                 }
-              });
+                if(typeSearch == "remove"){
+                  let param = positionCondition == 0 ? {} : HQLFactory.createHql($scope.controlMap);
+                  $scope.search({ param: param});
+                }
+              }
 
             }
         }

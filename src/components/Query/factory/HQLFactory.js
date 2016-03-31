@@ -21,56 +21,119 @@ function HQLFactory($filter){
     validator: (string) => (typeof string === 'string' || string instanceof String),
     defaultCondition: hqlObjectCreator(['contains']),
     conditions: hqlObjectCreator(['eq', 'ne', 'contains', 'not_contains', 'starts_with', 'ends_with']),
-    template: ` <input type="text" ng-model="$value.query.value" class="form-control" required autofocus /> `
+    template: `<div class="input-group">
+                  <input type="text" ng-keyup="goSearch($event)" ng-model="$value.query.value" class="form-control" required autofocus style=" width: 150px;height: 40px;" />
+                  <div class="input-group-addon">
+                      <i ng-show="validator($value.query.value) && $value.query.value.length > 0" class="glyphicon glyphicon-ok" style="color:green"></i></span>
+                      <i ng-show="!validator($value.query.value) || !$value.query.value" class="glyphicon glyphicon-remove" style="color:red"></i>
+                  </div>
+                  <div class="input-group-addon">
+                      <button ng-click="callSearch($event, 'btn')" class="btn btn-default">buscar</button>
+                  </div>
+              </div>`
   }
 
   SUPPORTED_TYPES['number'] = {
     validator: (str) => (NUMBER_REGEX.test(str)),
     defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'gt', 'ge', 'lt', 'le']),
-    template: ` <input type="text" ng-model="$value.query.value" ng-pattern="${NUMBER_REGEX}" class="form-control" required /> `
+    template: `<div class="input-group">
+                    <input type="text" ng-keyup="goSearch($event)" ng-model="$value.query.value" ng-pattern="${NUMBER_REGEX}" class="form-control" required style=" width: 150px;height: 40px;" />
+                    <div class="input-group-addon">
+                        <i ng-show="validator($value.query.value) && $value.query.value.length > 0" class="glyphicon glyphicon-ok" style="color:green"></i></span>
+                        <i ng-show="!validator($value.query.value) || !$value.query.value" class="glyphicon glyphicon-remove" style="color:red"></i>
+                    </div>
+                    <div class="input-group-addon">
+                        <button ng-click="callSearch($event, 'btn')"  class="btn btn-default">buscar</button>
+                    </div>
+              </div>`
   }
 
   SUPPORTED_TYPES['float'] = {
     validator: (number) => (FLOAT_REGEX.test(number)),
     defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'gt', 'ge', 'lt', 'le']),
-    template: ` <input type="text" ng-model="$value.query.value" ng-pattern="${FLOAT_REGEX}" class="form-control required "/> `
+    template: `<div class="input-group">
+                    <input type="text" ng-keyup="goSearch($event)" ng-model="$value.query.value" ng-pattern="${FLOAT_REGEX}" class="form-control" required style=" width: 150px;height: 40px;"/>
+                    <div class="input-group-addon">
+                        <i ng-show="validator($value.query.value) && $value.query.value.length > 0" class="glyphicon glyphicon-ok" style="color:green"></i></span>
+                        <i ng-show="!validator($value.query.value) || !$value.query.value" class="glyphicon glyphicon-remove" style="color:red"></i>
+                    </div>
+                    <div class="input-group-addon">
+                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">buscar</button>
+                    </div>
+              </div>`
   }
 
   SUPPORTED_TYPES['money'] = {
     validator: (number) => (FLOAT_REGEX.test(number)),
     defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'gt', 'ge', 'lt', 'le']),
-    template: ` <input type="text" ng-model="$value.query.value" ng-pattern="${FLOAT_REGEX}" class="form-control required "/> `
+    template: `<div class="input-group">
+                    <input ng-keyup="goSearch($event)" type="text" ng-model="$value.query.value" gumga-mask="R$ " ng-pattern="${FLOAT_REGEX}" class="form-control" required style=" width: 150px;height: 40px;" />
+                    <div class="input-group-addon">
+                        <i ng-show="validator($value.query.value) && $value.query.value.length > 0" class="glyphicon glyphicon-ok" style="color:green"></i></span>
+                        <i ng-show="!validator($value.query.value) || !$value.query.value" class="glyphicon glyphicon-remove" style="color:red"></i>
+                    </div>
+                    <div class="input-group-addon">
+                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">buscar</button>
+                    </div>
+              </div>`
   }
 
   SUPPORTED_TYPES['cpf'] = {
     validator: (cpf) => (CPF_REGEX.test(utils.toCpf(cpf))),
     defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'contains', 'not_contains', 'starts_with', 'ends_with']),
-    template: ` <input type="text" ng-model="$value.query.value" gumga-mask="999.999.999.99" class="form-control" required /> `
+    template: `<div class="input-group">
+                    <input type="text" ng-keyup="goSearch($event)" ng-model="$value.query.value" gumga-mask="999.999.999.99" class="form-control" required style=" width: 150px;height: 40px;" />
+                    <div class="input-group-addon">
+                        <i ng-show="validator($value.query.value) && $value.query.value.length > 0" class="glyphicon glyphicon-ok" style="color:green"></i></span>
+                        <i ng-show="!validator($value.query.value) || !$value.query.value" class="glyphicon glyphicon-remove" style="color:red"></i>
+                    </div>
+                    <div class="input-group-addon">
+                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">buscar</button>
+                    </div>
+              </div>`
   }
 
   SUPPORTED_TYPES['cnpj'] = {
     validator: (cnpj) => (CNPJ_REGEX.test(cnpj)),
     defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'contains', 'not_contains', 'starts_with', 'ends_with']),
-    template: `<input type="text" ng-model="$value.query.value" gumga-mask="99.999.999/9999-99" class="form-control" required />`
+    template: `<div class="input-group">
+                    <input type="text" ng-keyup="goSearch($event)" ng-model="$value.query.value" gumga-mask="99.999.999/9999-99" class="form-control" required style=" width: 150px;height: 40px;" />
+                    <div class="input-group-addon">
+                        <i ng-show="validator($value.query.value) && $value.query.value.length > 0" class="glyphicon glyphicon-ok" style="color:green"></i></span>
+                        <i ng-show="!validator($value.query.value) || !$value.query.value" class="glyphicon glyphicon-remove" style="color:red"></i>
+                    </div>
+                    <div class="input-group-addon">
+                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">buscar</button>
+                    </div>
+              </div>`
   }
 
   SUPPORTED_TYPES['boolean'] = {
     validator: (boolean) => (boolean == 'true' || boolean == 'false'),
     defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq']),
-    template: ` <div class="radio"><label><input type="radio" ng-model="$value.query.value" value="true"> {{$value.query.attribute.extraProperties.trueLabel}}</label></div><div class="radio"><label><input type="radio" ng-model="$value.query.value" value="false"> {{$value.query.attribute.extraProperties.falseLabel}} </label></div>`
+    template: ` <div class="radio"><label><input  type="radio" ng-model="$value.query.value" value="true"> {{$value.query.attribute.extraProperties.trueLabel}}</label></div><div class="radio"><label><input type="radio" ng-model="$value.query.value" value="false"> {{$value.query.attribute.extraProperties.falseLabel}} </label></div>`
   }
 
   SUPPORTED_TYPES['date'] = {
     validator: (date) => (DATE_REGEX.test($filter('date')(date, 'dd/MM/yyyy'))),
     defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'gt', 'ge', 'lt', 'le']),
-    template: `<input type="text" ng-model="$value.query.value" gumga-mask="99/99/9999" class="form-control" required />`
+    template: `<div class="input-group">
+                    <input type="text" ng-keyup="goSearch($event)" ng-model="$value.query.value" gumga-mask="99/99/9999" class="form-control" required  style=" width: 150px;height: 40px;"/>
+                    <div class="input-group-addon">
+                        <i ng-show="validator($value.query.value) && $value.query.value.length > 0" class="glyphicon glyphicon-ok" style="color:green"></i></span>
+                        <i ng-show="!validator($value.query.value) || !$value.query.value" class="glyphicon glyphicon-remove" style="color:red"></i>
+                    </div>
+                    <div class="input-group-addon">
+                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">buscar</button>
+                    </div>
+              </div>`
   }
 
   SUPPORTED_TYPES['select'] = {
@@ -91,21 +154,48 @@ function HQLFactory($filter){
     validator: (emailAddress) => (typeof emailAddress === 'string' || emailAddress instanceof String),
     defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'contains', 'not_contains', 'starts_with', 'ends_with']),
-    template: ` <input type="email" ng-model="$value.query.value" class="form-control" required /> `
+    template: `<div class="input-group">
+                    <input type="text" ng-keyup="goSearch($event)" ng-model="$value.query.value" class="form-control" required  style=" width: 150px;height: 40px;" />
+                    <div class="input-group-addon">
+                        <i ng-show="validator($value.query.value) && $value.query.value.length > 0" class="glyphicon glyphicon-ok" style="color:green"></i></span>
+                        <i ng-show="!validator($value.query.value) || !$value.query.value" class="glyphicon glyphicon-remove" style="color:red"></i>
+                    </div>
+                    <div class="input-group-addon">
+                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">buscar</button>
+                    </div>
+              </div>`
   }
 
   SUPPORTED_TYPES['url'] = {
     validator: (url) => (URL_REGEX.test(url)),
     defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'contains', 'not_contains', 'starts_with', 'ends_with']),
-    template: ` <input type="url" ng-model="$value.query.value" class="form-control" required /> `
+    template: `<div class="input-group">
+                    <input type="url" ng-keyup="goSearch($event)" ng-model="$value.query.value" class="form-control" required  style=" width: 150px;height: 40px;" />
+                    <div class="input-group-addon">
+                        <i ng-show="validator($value.query.value) && $value.query.value.length > 0" class="glyphicon glyphicon-ok" style="color:green"></i></span>
+                        <i ng-show="!validator($value.query.value) || !$value.query.value" class="glyphicon glyphicon-remove" style="color:red"></i>
+                    </div>
+                    <div class="input-group-addon">
+                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">buscar</button>
+                    </div>
+              </div>`
   }
 
   SUPPORTED_TYPES['ip'] = {
     validator: (ip) => (IP_REGEX.test(ip)),
     defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'contains', 'not_contains', 'starts_with', 'ends_with']),
-    template: ` <input type="text" ng-model="$value.query.value" class="form-control" required /> `
+    template: `<div class="input-group">
+                    <input type="text" ng-keyup="goSearch($event)" ng-model="$value.query.value" class="form-control" required style=" width: 150px;height: 40px;" />
+                    <div class="input-group-addon">
+                        <i ng-show="validator($value.query.value) && $value.query.value.length > 0" class="glyphicon glyphicon-ok" style="color:green"></i></span>
+                        <i ng-show="!validator($value.query.value) || !$value.query.value" class="glyphicon glyphicon-remove" style="color:red"></i>
+                    </div>
+                    <div class="input-group-addon">
+                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">buscar</button>
+                    </div>
+              </div>`
   }
 
   function useType(type) {
