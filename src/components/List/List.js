@@ -15,7 +15,6 @@
         noColumns:  'O componente gumgaList necessita que, no objeto de configuração, exista um atributo columns.'
       }
 
-      // Funções utilitárias e configurações default.
       const hasAttr             = string  => !!$attrs[string],
             hasConfig           = string  => !!(ctrl.config && ctrl.config[string]),
             defaultCssClass     = 'table ',
@@ -76,12 +75,12 @@
       if(ctrl.config.sortDefault != null) ctrl.doSort(ctrl.config.sortDefault)
 
       $scope.$parent.selectedValues = ctrl.selectedValues
-      
+
       $scope.$watch('ctrl.config', () => {
         guaranteeConfig()
         compileElement()
       })
-      
+
       $scope.$watch('ctrl.data', () => updateMap(ctrl.data), true)
 
       $scope.$watch('ctrl.selectedValues', (newVal = [], oldVal = []) => updateSelected(newVal, newVal.length - oldVal.length >= 0, oldVal), true)

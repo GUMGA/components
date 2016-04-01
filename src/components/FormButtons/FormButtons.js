@@ -59,7 +59,7 @@
 			function returnClicked(){
 				if(vm.confirmDirty){
 
-					ModalController.$inject = ['$modalInstance'];
+					ModalController.$inject = ['$uibModalInstance'];
 
 					function ModalController($uibModalInstance){
 						let ctrl = this;
@@ -95,12 +95,12 @@
 			$scope.$on('data-sent', value => {
 				if(!vm.shouldContinue) $state.go(vm.stateToReturn);
 			});
-            
+
             let template = ``;
             if($attrs.hasOwnProperty('inline')) {
-                template = templateInline;  
+                template = templateInline;
             } else {
-                template = templateBlockBegin + templateInline + templateBlockEnd;  
+                template = templateBlockBegin + templateInline + templateBlockEnd;
             }
             $element.append($compile(template)($scope));
 		}
