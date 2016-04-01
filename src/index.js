@@ -11,6 +11,7 @@ angular.module('gumga.core', [
     'gumga.filter',
 	'gumga.confirm',
 	'gumga.manytoone',
-    'gumga.number'
+    'gumga.number',
+    'gumga.fileupload'
 	// 'gumga.documentation'
 ])

@@ -237,16 +237,6 @@
     return {
       restrict: 'E',
       scope: {
-        rightList: '=rightList',
-				leftList: '=leftList',
-        leftSearch: '&leftSearch',
-				rightSearch: '&rightSearch',
-				postMethod: '&',
-				onListChange: '&?',
-				onNewValueAdded: '&?',
-				onValueVisualizationOpened: '&?',
-				onValueVisualizationClosed: '&?',
-				authorizeAdd: '=?'
       },
       bindToController: true,
       transclude: true,
