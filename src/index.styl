@@ -1120,8 +1120,28 @@ gumga-unity-tag .label.unity-tag
   display inline-block
 
 gumga-file-upload
+  position relative
   display table
   width 100%
-  z-index 99999999
+
+.drag
+  display none
+  padding 25px
+  position absolute
+  top 0
+  right 0
+  bottom 0
+  left 0
+  z-index -40
+  text-align center
+  border 6px dashed #eaeaea
+
+.drag .glyphicon
+  color #19a14d
+  font-size 36px
+
 .dragHover
+  display block
   background #f5f5f5
+  z-index 40000
+  opacity 0.7

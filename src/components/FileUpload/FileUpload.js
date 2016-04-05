@@ -7,6 +7,10 @@
     function FileUpload($parse,GumgaMimeTypeService) {
     
         let template = `
+        <div>
+        <section class="drag">
+            <span  class="glyphicon glyphicon-download-alt"></span>
+        </section>
         <div style="margin-bottom: 10px">
             <!--<input type="file" id="input" ng-model="file" multiple>-->
             <input type="file" id="input" ng-hide="true" ng-model="file">
@@ -21,7 +25,7 @@
             </button>
         </div>
         <p class="alert alert-info" ng-show="queue.length == 0 && !alert">
-            <span class="glyphicon glyphicon-info-sign"></span> Selecione um arquivo
+            <span class="glyphicon glyphicon-info-sign"></span> Selecione um arquivo ou arraste e solte aqui
         </p>
         <p class="alert alert-danger" ng-show="queue.length == 0 && alert">
             <span class="glyphicon glyphicon-alert"></span> {{alert}}
@@ -39,6 +43,7 @@
                 </div>
             </li>
         </ul>
+        </div>
         `
         
         link.$inject = ['$scope','$element','$attrs']
@@ -66,22 +71,20 @@
             
             $element.on('dragenter', (event) => {
                 stopEvent(event)
-                console.log('enter')
-                $element[0].classList.add('dragHover')
+                $element.find('section')[0].classList.add('dragHover')
             })
             $element.on('dragleave', (event) => {
                 stopEvent(event)
-                console.log('leave')
-                $element[0].classList.remove('dragHover')
+                // $element.find('section')[0].classList.remove('dragHover')
             })
             $element.on('dragover', (event) => {
                 stopEvent(event)
-                console.log('over')
-                $element[0].classList.add('dragHover')
+                $element.find('section')[0].classList.add('dragHover')
             })
             $element.on('drop', (event) => {
                 stopEvent(event)
                 $scope.$apply(() => addFileToQueue(event.dataTransfer.files[0]))
+                $element.find('section')[0].classList.remove('dragHover')
             })
             
             element.bind('change', () => {
