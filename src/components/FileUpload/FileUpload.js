@@ -73,10 +73,10 @@
                 stopEvent(event)
                 $element.find('section')[0].classList.add('dragHover')
             })
-            $element.on('dragleave', (event) => {
-                stopEvent(event)
-                // $element.find('section')[0].classList.remove('dragHover')
-            })
+            // $element.on('dragleave', (event) => {
+            //     stopEvent(event)
+            //     $element.find('section')[0].classList.remove('dragHover')
+            // })
             $element.on('dragover', (event) => {
                 stopEvent(event)
                 $element.find('section')[0].classList.add('dragHover')
