@@ -11,6 +11,7 @@
 		'gumga.services.translate',
 		'gumga.services.webstorage',
 		'gumga.services.populate',
-		'gumga.services.rest'
+		'gumga.services.rest',
+        'gumga.services.mimetype'
 		]);
 })();

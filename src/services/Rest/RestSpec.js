@@ -194,6 +194,11 @@ describe('SERVICE: GumgaRest',function(){
 		expect(aux.$$state.value.data).toEqual(httpResponse);
 	})
 
+	it('Should return the actual url passed', function() {
+
+		expect(Service.getUrl()).toEqual(Service._url)
+	})
+
 	it('Should extend the get function with params',function(){
 		var aux = Service.extend('get', '/teste', {
 			params: {
@@ -205,5 +210,6 @@ describe('SERVICE: GumgaRest',function(){
 		expect(aux.$$state.value.data).toEqual(httpResponse);
 		expect(aux.$$state.value.config.params.foo).toEqual('bar');
 	})
+
 
 });

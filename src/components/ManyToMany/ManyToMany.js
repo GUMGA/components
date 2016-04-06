@@ -1,9 +1,10 @@
 (function(){
 	'use strict';
 
-  ManyToMany.$inject = ['$q','$compile','$timeout','$modal']
 
-  function ManyToMany($q, $compile, $timeout, $modal){
+  ManyToMany.$inject = ['$q','$compile','$timeout','$uibModal']
+
+  function ManyToMany($q, $compile, $timeout, $uibModal){
 
     let template =  `<div class="row">
 													<div class="col-md-12">
@@ -236,16 +237,6 @@
     return {
       restrict: 'E',
       scope: {
-        rightList: '=rightList',
-				leftList: '=leftList',
-        leftSearch: '&leftSearch',
-				rightSearch: '&rightSearch',
-				postMethod: '&',
-				onListChange: '&?',
-				onNewValueAdded: '&?',
-				onValueVisualizationOpened: '&?',
-				onValueVisualizationClosed: '&?',
-				authorizeAdd: '=?'
       },
       bindToController: true,
       transclude: true,

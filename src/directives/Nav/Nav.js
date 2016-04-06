@@ -1,7 +1,7 @@
 (function(){
   'use strict';
-  Nav.$inject = ['$state','GumgaWebStorage','$modal','$rootScope'];
-  function Nav($state, GumgaWebStorage, $modal, $rootScope, $timeout) {
+  Nav.$inject = ['$state','GumgaWebStorage','$uibModal','$rootScope'];
+  function Nav($state, GumgaWebStorage, $uibModal, $rootScope, $timeout) {
     var template = [
       '<nav id="navbar">',
       ' <a href="#" class="navbar-logo">{{title | uppercase}}</a>',
@@ -86,10 +86,10 @@
             scope.showPanelNav = !scope.showPanelNav;
             switch (link.value) {
               case 'pass':
-              var modalInstance = $modal.open({
+              var modalInstance = $uibModal.open({
                 template: modalTemplate.join('\n'),
                 size: 'sm',
-                controller: ['$scope', '$modalInstance', '$http', 'GumgaWebStorage',function ($scope, $modalInstance, $http, GumgaWebStorage) {
+                controller: ['$scope', '$uibModalInstance', '$http', 'GumgaWebStorage',function ($scope, $uibModalInstance, $http, GumgaWebStorage) {
                   var userSession = GumgaWebStorage.getSessionStorageItem('user');
                   $scope.btnEnabled = false;
                   $scope.oldPasswordInvalid = false;
@@ -136,14 +136,14 @@
                             title: 'Senha alterada',
                             message: 'Sua senha foi alterada com sucesso.'
                           })
-                          $modalInstance.close();
+                          $uibModalInstance.close();
                         } else {
-                          $modalInstance.close();
+                          $uibModalInstance.close();
                         }
                       });
                     };
                     $scope.cancel = function () {
-                      $modalInstance.dismiss();
+                      $uibModalInstance.dismiss();
                     };
 
                   }],

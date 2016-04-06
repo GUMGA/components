@@ -17,8 +17,16 @@ O componente GumgaFormButtons é utilizado para que o desenvolvedor não precise
 | **returnText**          | `String `   | Atributo que será utilizado para trocar o texto que aparece no botão de retorno |
 | **saveText**            | `String `   | Atributo que será utilizado para trocar o texto que aparece no botão de salvar  |
 | **reverse-order**       | `Boolean `  | Atributo que será utilizado para alterar a orderm dos botões que aparecem na tela |
+| **inline**              | ``          | Atributo sem valor, remove o elemento pai com a classe .row.col-md-12, podendo encaixar o componente onde achar melhor. Caso o atributo não for colocado ocupada 1 linha com 12 colunas (.row.col-md-12).
 
 ### Uso:
 ```html
-<gumga-form-buttons valid= "Form.$valid" back="person.list" submit="foo()" continue="{{!$stateParams.id}}" confirm-dirty= {{ true }}></gumga-form-buttons>
+<gumga-form-buttons
+    inline
+    valid="Form.$valid"
+    back="person.list"
+    submit="foo()"
+    continue="{{!$stateParams.id}}"
+    confirm-dirty="{{true}}"
+></gumga-form-buttons>
 ```

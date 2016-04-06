@@ -1,7 +1,7 @@
 (function(){
 	'use strict';
 
-	ManyMany.$inject = ['$modal','$compile','$timeout'];
+	ManyMany.$inject = ['$uibModal','$compile','$timeout'];
 	/**
 	 * @ngdoc directive
 	 * @name gumga.core:gumgaManyToMany
@@ -39,7 +39,7 @@
 	 *
 
 	 */
-	function ManyMany($modal,$compile,$timeout){
+	function ManyMany($uibModal,$compile,$timeout){
 
 		return {
 			restrict: 'E',
@@ -128,7 +128,7 @@
 					'           </span>' +
 					'       </div>' +
 					'       <ul class="list-group">\n' +
-					'           <li class="list-group-item" ng-repeat="$value in leftAux ' + doesItHaveFunction('left',1) + '">' +
+					'           <li class="list-group-item" ng-repeat="$value in leftAux ' + doesItHaveFunction('left',1) + '" ng-cloak>' +
 					'               <a class="inside-list-anchor" ng-click="removeFromAndAddTo(leftAux,right,$value)">' + scope.texts.left + '</a>' +
 					'              <button class="badge" ng-click="halp($value)"><i class="glyphicon glyphicon-resize-full"></i></button>' +
 					'           </li>\n'+
@@ -138,7 +138,7 @@
 					'       <strong><small>{{::labels.right}}</small></strong>\n'+
 					'       <input type="text" name="manymanyleft" ng-model="rightFilter" novalidate class="form-control"' + doesItHaveFunction('right',0) + '/>\n'+
 					'       <ul class="list-group">\n' +
-					'           <li class="list-group-item" ng-repeat="$value in right ' + doesItHaveFunction('right',1) + '">' +
+					'           <li class="list-group-item" ng-repeat="$value in right ' + doesItHaveFunction('right',1) + '" ng-cloak>' +
 					'               <a class="inside-list-anchor" ng-click="removeFromAndAddTo(right,leftAux,$value)">' + scope.texts.right + '</a>' +
 					'              <button class="badge badge-helper" ng-click="halp($value)"><i class="glyphicon glyphicon-resize-full"></i></button>' +
 					'           </li>\n'+
@@ -177,13 +177,13 @@
 					scope.template += '   </div>\n';
 					scope.template += '</div>\n';
 					eventHandler.valueVisualizationOpened();
-					var mi = $modal.open({
+					var mi = $uibModal.open({
 						template: scope.template,
 						size: 'sm',
-						controller: function($scope,$value,$modalInstance){
+						controller: function($scope,$value,$uibModalInstance){
 							$scope.$value = $value;
 							$scope.back = function(){
-								$modalInstance.dismiss();
+								$uibModalInstance.dismiss();
 							}
 						},
 						resolve: {
