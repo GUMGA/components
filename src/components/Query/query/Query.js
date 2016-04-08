@@ -6,8 +6,8 @@
 
     let template = `
       <div class="input-group">
-       <input type="text" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event)" typeahead="item.description for item in ctrl.proxyFn($viewValue)"typeahead-on-select="ctrl.filterSelect($item, $model, $label, $event)" ng-show="ctrl.hasQuerySaved && openFilter"/>
-       <input type="text" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event)" ng-show="!ctrl.hasQuerySaved || !openFilter"/>
+       <input type="text" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event)" typeahead="item.description for item in ctrl.proxyFn($viewValue)" typeahead-on-select="ctrl.filterSelect($item, $model, $label, $event)" ng-show="ctrl.hasQuerySaved && openFilter"/>
+       <input type="text" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event)" ng-show="!ctrl.hasQuerySaved || !openFilter" />
        <span class="input-group-btn" uib-dropdown uib-keyboard-nav auto-close="outsideClick">
          <button class="btn btn-default" type="button" uib-dropdown-toggle>
           <span class="glyphicon glyphicon-chevron-down"><span>
@@ -109,12 +109,16 @@
         ctrl.search({ field, param })
       }
 
+      $scope.$watch('openFilter', (open) => {
+        if(typeof open !== 'undefined') $scope.$broadcast('openOrCloseFilter', open);
+      })
 
       function proxyFn($value){
         return $q.when(ctrl.savedFilters({ page: location.hash }))
       }
 
       function filterSelect($item, $model, $label, $event){
+        
         $timeout(() => (ctrl.searchField=  '', $scope.$broadcast('filter-items', $item)))
       }
     }

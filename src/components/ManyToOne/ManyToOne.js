@@ -36,12 +36,14 @@
             return Object.keys($attrs.$attr).filter((value) => !isOneOfPossibles(value)).reduce((prev, next) => prev += `${next}="${$attrs[next]}"`, '')
           }
 
+          manyToOneCtrl.openTypeahead     = openTypeahead
           manyToOneCtrl.displayInfoButton = displayInfoButton
           manyToOneCtrl.displayPlusButton = displayPlusButton
           manyToOneCtrl.openInfo          = openInfo
           manyToOneCtrl.valueToAdd        = ''
           manyToOneCtrl.afterSelect       = afterSelect
           manyToOneCtrl.proxySearch       = (param) =>{
+            console.log(param)
             return  manyToOneCtrl.searchMethod({ param }).then(data => {
               if(data.filter(dataItem => dataItem[manyToOneCtrl.field] == param).length > 0 || !manyToOneCtrl.authorizeAdd){
                 return data
@@ -74,7 +76,7 @@
                 </div>`
               }, ' ')
             }
-
+            
             let template = `
             <div class="modal-header">
               <h3 class="modal-title">${manyToOneCtrl.modalTitle}</h3>
@@ -97,6 +99,12 @@
                     },
                     reject => manyToOneCtrl.value = ''
                   )
+          }
+
+          function openTypeahead($event) {
+            if ($event.keyCode == 40) {
+              ngModelCtrl.$setViewValue(' ')
+            }
           }
 
           function displayInfoButton(){
@@ -149,8 +157,9 @@
 
           let baseTemplate = `
           <div class="full-width-without-padding">
+            {{manyToOneCtrl.isTypeaheadOpen}}
             <div  ng-class="manyToOneCtrl.displayInfoButton()  ? 'input-group' : 'form-group'">
-              <input type="text"class="form-control" ng-model="manyToOneCtrl.value" uib-typeahead="$value as $value[manyToOneCtrl.field] for $value in manyToOneCtrl.proxySearch($viewValue)" ${mirrorAttributes()}
+              <input type="text"class="form-control" ng-model="manyToOneCtrl.value" ng-keydown="manyToOneCtrl.openTypeahead($event)" uib-typeahead="$value as $value[manyToOneCtrl.field] for $value in manyToOneCtrl.proxySearch($viewValue)" ${mirrorAttributes()}
                      typeahead-template-url="manyToOneTemplate.html" typeahead-is-open="manyToOneCtrl.isTypeaheadOpen" typeahead-on-select="manyToOneCtrl.afterSelect($item, $model, $label, $event, 'isNotButton')"/>
                <div class="input-group-btn">
                 <button type="button" class="btn btn-default" ng-show="manyToOneCtrl.displayInfoButton()" ng-click="manyToOneCtrl.openInfo(manyToOneCtrl.value, $event)">
@@ -194,7 +203,8 @@
 
           ngModelCtrl.$validators['manyToOne'] = modelValue => modelValue ? !(typeof modelValue === 'string' || modelValue instanceof String) : true
 
-          $scope.$watch(() => ngModelCtrl.$$rawModelValue, () => (manyToOneCtrl.valueToAdd = ngModelCtrl.$$rawModelValue))
+          $scope.$watch(() => ngModelCtrl.$$rawModelValue, (i) => (manyToOneCtrl.valueToAdd = ngModelCtrl.$$rawModelValue))
+          
         }
 
         return {
