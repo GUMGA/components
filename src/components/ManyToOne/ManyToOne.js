@@ -157,7 +157,6 @@
 
           let baseTemplate = `
           <div class="full-width-without-padding">
-            {{manyToOneCtrl.isTypeaheadOpen}}
             <div  ng-class="manyToOneCtrl.displayInfoButton()  ? 'input-group' : 'form-group'">
               <input type="text"class="form-control" ng-model="manyToOneCtrl.value" ng-keydown="manyToOneCtrl.openTypeahead($event)" uib-typeahead="$value as $value[manyToOneCtrl.field] for $value in manyToOneCtrl.proxySearch($viewValue)" ${mirrorAttributes()}
                      typeahead-template-url="manyToOneTemplate.html" typeahead-is-open="manyToOneCtrl.isTypeaheadOpen" typeahead-on-select="manyToOneCtrl.afterSelect($item, $model, $label, $event, 'isNotButton')"/>
