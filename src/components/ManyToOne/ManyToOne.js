@@ -1,9 +1,9 @@
 (function(){
     'use strict';
 
-    ManyToOne.$inject = ['$templateCache','$uibModal', '$compile'];
+    ManyToOne.$inject = ['$templateCache','$uibModal', '$compile', '$timeout'];
 
-    function ManyToOne($templateCache, $uibModal, $compile){
+    function ManyToOne($templateCache, $uibModal, $compile, $timeout){
         controller.$inject = ['$scope', '$element', '$attrs'];
 
         function controller($scope, $element, $attrs){
@@ -101,14 +101,40 @@
           }
 
           function openTypeahead($event) {
-            if ($event.keyCode == 40) {
+            if (
+                 (
+                   $event instanceof KeyboardEvent &&
+                   $event.keyCode == 40 &&
+                   ngModelCtrl.$viewValue == undefined ||
+                   ngModelCtrl.$viewValue == ' '
+                 )
+                 ||
+                 (
+                   $event instanceof MouseEvent &&
+                   $event.type == 'click'
+                 )
+               ) {
+              ngModelCtrl.$setViewValue('')
               ngModelCtrl.$setViewValue(' ')
             }
           }
-
-          $scope.stateComparator = function (state, viewValue) {
-            return viewValue === secretEmptyKey || (''+state).toLowerCase().indexOf((''+viewValue).toLowerCase()) > -1;
-          };
+          
+        //   $timeout(function(){
+        //     ngModelCtrl.$parsers.unshift(function (inputValue) {
+        //         var value = (inputValue ? inputValue : secretEmptyKey); // replace empty string with secretEmptyKey to bypass typeahead-min-length check
+        //         ngModelCtrl.$viewValue = value; // this $viewValue must match the inputValue pass to typehead directive
+        //         return value;
+        //     });
+            
+        //     // this parser run after typeahead's parser
+        //     ngModelCtrl.$parsers.push(function (inputValue) {
+        //         return inputValue === secretEmptyKey ? '' : inputValue; // set the secretEmptyKey back to empty string
+        //     });
+        //   })
+          
+        //   $scope.stateComparator = function (state, viewValue) {
+        //     return viewValue === secretEmptyKey || (''+state).toLowerCase().indexOf((''+viewValue).toLowerCase()) > -1;
+        //   };
           
           function displayInfoButton(){
             if(!ngModelCtrl.$$rawModelValue) return false
@@ -163,10 +189,10 @@
             <div class="input-group">
               <input type="text"class="form-control inputahead" ng-model="manyToOneCtrl.value" ng-trim="true" ng-keydown="manyToOneCtrl.openTypeahead($event)" uib-typeahead="$value as $value[manyToOneCtrl.field] for $value in manyToOneCtrl.proxySearch($viewValue)" ${mirrorAttributes()}
                      typeahead-template-url="manyToOneTemplate.html" typeahead-is-open="manyToOneCtrl.isTypeaheadOpen" typeahead-on-select="manyToOneCtrl.afterSelect($item, $model, $label, $event, 'isNotButton')"/>
-              <span class="input-group-addon input-group-icon">
-                <span class="glyphicon glyphicon-chevron-down"></span>
-              </span>
-              <div class="input-group-btn">
+              <div class="input-group-btn input-group-btn-icon">
+                <button type="button" class="btn btn-default" ng-click="manyToOneCtrl.openTypeahead($event)">
+                  <span class="glyphicon glyphicon-chevron-down"></span>
+                </button>
                 <button type="button" class="btn btn-default" ng-show="manyToOneCtrl.displayInfoButton()" ng-click="manyToOneCtrl.openInfo(manyToOneCtrl.value, $event)">
                   <span class="glyphicon glyphicon-info-sign"></span>
                 </button>
