@@ -106,17 +106,6 @@
             }
           }
 
-        //   ngModelCtrl.$parsers.unshift(function (inputValue) {
-        //     var value = (inputValue ? inputValue : secretEmptyKey);
-        //     ngModelCtrl.$viewValue = value;
-        //     return value;
-        //   });
-
-        //   // this parser run after typeahead's parser
-        //   modelCtrl.$parsers.push(function (inputValue) {
-        //     return inputValue === secretEmptyKey ? '' : inputValue;
-        //   });
-
           $scope.stateComparator = function (state, viewValue) {
             return viewValue === secretEmptyKey || (''+state).toLowerCase().indexOf((''+viewValue).toLowerCase()) > -1;
           };
