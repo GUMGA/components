@@ -101,40 +101,11 @@
           }
 
           function openTypeahead($event) {
-            if (
-                 (
-                   $event instanceof KeyboardEvent &&
-                   $event.keyCode == 40 &&
-                   ngModelCtrl.$viewValue == undefined ||
-                   ngModelCtrl.$viewValue == ' '
-                 )
-                 ||
-                 (
-                   $event instanceof MouseEvent &&
-                   $event.type == 'click'
-                 )
-               ) {
+            if (($event.type == 'keydown' && ngModelCtrl.$viewValue == undefined || ngModelCtrl.$viewValue == ' ') || ($event.type == 'click')) {
               ngModelCtrl.$setViewValue('')
               ngModelCtrl.$setViewValue(' ')
             }
           }
-          
-        //   $timeout(function(){
-        //     ngModelCtrl.$parsers.unshift(function (inputValue) {
-        //         var value = (inputValue ? inputValue : secretEmptyKey); // replace empty string with secretEmptyKey to bypass typeahead-min-length check
-        //         ngModelCtrl.$viewValue = value; // this $viewValue must match the inputValue pass to typehead directive
-        //         return value;
-        //     });
-            
-        //     // this parser run after typeahead's parser
-        //     ngModelCtrl.$parsers.push(function (inputValue) {
-        //         return inputValue === secretEmptyKey ? '' : inputValue; // set the secretEmptyKey back to empty string
-        //     });
-        //   })
-          
-        //   $scope.stateComparator = function (state, viewValue) {
-        //     return viewValue === secretEmptyKey || (''+state).toLowerCase().indexOf((''+viewValue).toLowerCase()) > -1;
-        //   };
           
           function displayInfoButton(){
             if(!ngModelCtrl.$$rawModelValue) return false
