@@ -43,8 +43,7 @@
           manyToOneCtrl.valueToAdd        = ''
           manyToOneCtrl.afterSelect       = afterSelect
           manyToOneCtrl.proxySearch       = (param) =>{
-            console.log(param)
-            return  manyToOneCtrl.searchMethod({ param }).then(data => {
+            return manyToOneCtrl.searchMethod({ param }).then(data => {
               if(data.filter(dataItem => dataItem[manyToOneCtrl.field] == param).length > 0 || !manyToOneCtrl.authorizeAdd){
                 return data
               }
@@ -107,6 +106,10 @@
             }
           }
 
+          $scope.stateComparator = function (state, viewValue) {
+            return viewValue === secretEmptyKey || (''+state).toLowerCase().indexOf((''+viewValue).toLowerCase()) > -1;
+          };
+          
           function displayInfoButton(){
             if(!ngModelCtrl.$$rawModelValue) return false
             return !(typeof ngModelCtrl.$$rawModelValue === 'string' || ngModelCtrl.$$rawModelValue instanceof String)
@@ -157,10 +160,13 @@
 
           let baseTemplate = `
           <div class="full-width-without-padding">
-            <div  ng-class="manyToOneCtrl.displayInfoButton()  ? 'input-group' : 'form-group'">
-              <input type="text"class="form-control" ng-model="manyToOneCtrl.value" ng-keydown="manyToOneCtrl.openTypeahead($event)" uib-typeahead="$value as $value[manyToOneCtrl.field] for $value in manyToOneCtrl.proxySearch($viewValue)" ${mirrorAttributes()}
+            <div class="input-group">
+              <input type="text"class="form-control inputahead" ng-model="manyToOneCtrl.value" ng-trim="true" ng-keydown="manyToOneCtrl.openTypeahead($event)" uib-typeahead="$value as $value[manyToOneCtrl.field] for $value in manyToOneCtrl.proxySearch($viewValue)" ${mirrorAttributes()}
                      typeahead-template-url="manyToOneTemplate.html" typeahead-is-open="manyToOneCtrl.isTypeaheadOpen" typeahead-on-select="manyToOneCtrl.afterSelect($item, $model, $label, $event, 'isNotButton')"/>
-               <div class="input-group-btn">
+              <span class="input-group-addon input-group-icon">
+                <span class="glyphicon glyphicon-chevron-down"></span>
+              </span>
+              <div class="input-group-btn">
                 <button type="button" class="btn btn-default" ng-show="manyToOneCtrl.displayInfoButton()" ng-click="manyToOneCtrl.openInfo(manyToOneCtrl.value, $event)">
                   <span class="glyphicon glyphicon-info-sign"></span>
                 </button>
@@ -169,22 +175,21 @@
           </div>`
 
           let templateForMatch = `
-          <a class="col-md-12" >
+          <a class="col-md-12 result">
             <span class="col-md-10">
               <span ng-bind-html="match.label | uibTypeaheadHighlight:query" >
               </span>
             </span>
             <span class="col-md-2">
-              <span class="label label-info text-right" style="float: right;display: inline-block;" ng-click="$parent.$parent.$parent.$parent.manyToOneCtrl.openInfo(match.model, $event)" ng-hide="$parent.$parent.$parent.$parent.manyToOneCtrl.valueToAdd == match.label && !match.label.id">
+              <span class="icon text-right" ng-click="$parent.$parent.$parent.$parent.manyToOneCtrl.openInfo(match.model, $event)" ng-hide="$parent.$parent.$parent.$parent.manyToOneCtrl.valueToAdd == match.label && !match.label.id">
                 <span class="glyphicon glyphicon-info-sign"></span>
               </span>
-              <span class="label label-success text-right" style="float: right;display: inline-block;" ng-click="$parent.$parent.$parent.$parent.manyToOneCtrl.proxySave(match.model)" ng-show="$parent.$parent.$parent.$parent.manyToOneCtrl.valueToAdd == match.label && !match.model.id && !!$parent.$parent.$parent.$parent.manyToOneCtrl.authorizeAdd">
+              <span class="icon text-right" ng-click="$parent.$parent.$parent.$parent.manyToOneCtrl.proxySave(match.model)" ng-show="$parent.$parent.$parent.$parent.manyToOneCtrl.valueToAdd == match.label && !match.model.id && !!$parent.$parent.$parent.$parent.manyToOneCtrl.authorizeAdd">
                 <span class="glyphicon glyphicon-plus"></span>
               </span>
             </span>
             <div class="clearfix"></div>
-          </a>
-          `
+          </a>`
 
           $templateCache.put('manyToOneTemplate.html', templateForMatch)
 
