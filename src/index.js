@@ -13,6 +13,7 @@ angular.module('gumga.core', [
 	'gumga.manytoone',
     'gumga.number',
     'gumga.fileupload',
+    'gumga.imageupload',
 	'gumga.documentation'
 ]).factory('VanillaMasker',[ function(){
 
