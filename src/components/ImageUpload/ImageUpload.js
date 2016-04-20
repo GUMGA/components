@@ -2,33 +2,15 @@
     'use strict';
 
 
-    ImageUpload.$inject = ['$parse','GumgaMimeTypeService']
+    ImageUpload.$inject = ['$parse','$uibModal','GumgaMimeTypeService']
 
-    function ImageUpload($parse,GumgaMimeTypeService) {
+    function ImageUpload($parse,$uibModal,GumgaMimeTypeService) {
 
         let template = `
-        <style>
-        .svg-camera {
-            fill: #ccc;
-            width: 100%;
-        }
-        .cameraArea {
-            padding: 25%;
-            background-color: #EAEAEA;
-            border: 3px solid #ccc;
-        }
-        .cropArea {
-            background: #E4E4E4;
-            border: 3px solid #ccc;
-            overflow: hidden;
-            width:175px;
-            height:175px;
-        }
-        </style>
-        <div>Select an image file: <input type="file" class="fileInput" /></div>
-        <div class="row">
+        <input type="file" class="file-input" ng-hide="true" />
+        <div class="row area">
             <div class="col-md-7">
-                <div class="cameraArea" ng-hide="ctrl.myImage">
+                <div class="area-camera" ng-hide="ctrl.myImage">
                     <svg version="1.1" class="svg-camera" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
                         <g>
                         <path d="M430.4,147h-67.5l-40.4-40.8c0,0-0.2-0.2-0.3-0.2l-0.2-0.2v0c-6-6-14.1-9.8-23.3-9.8h-84c-9.8,0-18.5,4.2-24.6,10.9l0,0.1 l-39.5,40H81.6C63,147,48,161.6,48,180.2v202.1c0,18.6,15,33.7,33.6,33.7h348.8c18.5,0,33.6-15.1,33.6-33.7V180.2 C464,161.6,448.9,147,430.4,147z M256 365.5c-50.9,0-92.4-41.6-92.4-92.6c0-51.1,41.5-92.6,92.4-92.6c51,0,92.4,41.5,92.4,92.6 C348.4,323.9,307,365.5,256,365.5z M424.1,200.5c-7.7,0-14-6.3-14-14.1s6.3-14.1,14-14.1c7.7,0,14,6.3,14,14.1 S431.8,200.5,424.1,200.5z"/>
@@ -36,22 +18,24 @@
                         </g>
                     </svg>
                 </div>
-                <div class="cropArea" ng-show="ctrl.myImage">
-                    <img-crop image="ctrl.myImage" result-image="ctrl.myCroppedImage" result-image-size="ctrl.resultImageSize" area-type="square"></img-crop>
+                <div class="area-crop" ng-show="ctrl.myImage">
+                    <img-crop image="ctrl.myImage" result-image="ctrl.myCroppedImage" result-image-size="100" area-type="square"></img-crop>
                 </div>
             </div>
-            <div class="col-md-1">&nbsp</div>
-            <div class="col-md-4">
-                <div>
-                    <img ng-src="{{ctrl.myCroppedImage}}" />
+            <div class="col-md-5">
+                <div class="area-preview" style="width: {{ctrl.resultImageSize}}px height: {{ctrl.resultImageSize}}px">
+                    <img ng-src="{{ctrl.myCroppedImage}}" style="width: 100%" />
                 </div>
-                <button class="btn btn-default btn-block" type="button" ng-click="ctrl.save()">Salvar</button>
+                <button class="btn btn-default btn-block" type="button" ng-click="ctrl.upload()">
+                
+                    Salvar
+                </button>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <ul style="list-style: none; margin: 0; padding: 0">
-                    <li style="float: left" ng-repeat="img in ctrl.resultImages">
+                    <li style="float: left" ng-repeat="img in ctrl.images">
                         <a class="thumbnail" style="width: {{ctrl.thumbImageSize}}px">
                             <img ng-src="{{img}}">
                         </a>                    
@@ -74,8 +58,16 @@
         
         function controller($scope, $element, $attrs) {
             let ctrl = this
+            
+            const ERR_MSGS = {
+                noUpload: 'É necessário um atributo upload-method no componente, contendo uma função para upload.',
+                noRemove: 'É necessário um atributo upload-method no componente, contendo uma função para remoção.'
+            }
+            
+            if (!$attrs.uploadMethod) console.error(ERR_MSGS.noUpload)
+            if (!$attrs.removeMethod) console.error(ERR_MSGS.noRemove)
 
-            ctrl.resultImages     = (ctrl.resultImages)         ? ctrl.resultImages         : []
+            ctrl.images           = (ctrl.images)               ? ctrl.images               : []
             ctrl.resultImageSize  = ($attrs.resultImageSize)    ? $attrs.resultImageSize    : 200
             ctrl.thumbImageSize   = ($attrs.thumbImageSize)     ? $attrs.thumbImageSize     : 100
 
@@ -84,22 +76,22 @@
                 ctrl.myCroppedImage = ''
             }
             function _uploadSuccess(image) {
-                ctrl.resultImages.push(image)
-                ($attrs.onUploadSuccess) ? ctrl.onUploadSuccess(image) : angular.noop
+                ctrl.images.push(image)
+                if ($attrs.onUploadSuccess) ctrl.onUploadSuccess(image)
             }
             function _uploadError(error) {
-                ($attrs.onUploadError) ? ctrl.onUploadError(error) : angular.noop
+                if ($attrs.onUploadError) ctrl.onUploadError(error)
                 console.error(error)
             }
             function _removeSuccess(image, index) {
-                ctrl.resultImages.splice(index, 1)
-                ($attrs.onRemoveSuccess) ? ctrl.onRemoveSuccess(image) : angular.noop
+                ctrl.images.splice(index, 1)
+                if ($attrs.onRemoveSuccess) ctrl.onRemoveSuccess(image)
             }
             function _removeError(error) {
-                ($attrs.onRemoveError) ? ctrl.onRemoveError(error) : angular.noop
+                if ($attrs.onRemoveError) ctrl.onRemoveError(error)
                 console.error(error)
             }
-            
+             
             let reset           = _reset,
                 uploadSuccess   = _uploadSuccess,
                 uploadError     = _uploadError,
@@ -108,30 +100,72 @@
                 
             reset()
             
+            let handleOpenSelect = evt => {
+                document.querySelector('.file-input').click();
+            }
+            let openModalCrop = (image) => {
+                const controllerAs = 'modalCtrl'
+                const resolve = { imageCrop: () => image }
+                
+                controller.$inject = ['$scope','$uibModalInstance', 'imageCrop']
+                
+                function controller($scope, $uibModalInstance, imageCrop){
+                    let modalCtrl = this;
+                    modalCtrl.imageCrop = imageCrop
+                    modalCtrl.imageCropped = ''
+                    modalCtrl.cancel = () => $uibModalInstance.dismiss('cancel');
+                    modalCtrl.save   = (image) => $uibModalInstance.close();
+                }
+                
+                let template = `
+                <div class="modal-header">
+                    <h3 class="modal-title">Modal</h3>
+                </div>
+                <div class="modal-body">
+                    <img-crop image="modalCtrl.imageCrop" result-image="modalCtrl.imageCropped" area-type="square"></img-crop>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click="modalCtrl.cancel()">Retornar</button>
+                    <button type="button" class="btn btn-primary" ng-click="modalCtrl.save(modalCtrl.imageCrop)">Salvar</button>
+                </div>`
+                
+                $uibModal
+                .open({ controller, template, controllerAs, resolve })
+                .result
+                .then(
+                    image => {
+                        ctrl.imageCropped = image
+                    },
+                    reject => ctrl.imageCropped = ''
+                )
+            }
             let handleFileSelect = evt => {
+                
                 let file = evt.currentTarget.files[0],
                     reader = new FileReader();
                     
                 reader.onloadend = evt => {
                     $scope.$apply(($scope) => {
                         ctrl.myImage = evt.target.result;
+                        // openModalCrop(evt.target.result)
                     });
                 };
                 reader.readAsDataURL(file);
             };
-            angular.element(document.querySelector('.fileInput')).on('change', handleFileSelect)
+            angular.element(document.querySelector('.file-input')).on('change', handleFileSelect)
+            angular.element(document.querySelector('.svg-camera')).on('click', handleOpenSelect)
             
             ctrl.upload = () => {
                 ctrl.uploadMethod({ image: ctrl.myCroppedImage }).then(
-                    (res) => uploadSuccess(res.data),
-                    (err) => uploadError(err.data)
+                    res => uploadSuccess(res.data),
+                    err => uploadError(err.data)
                 )
                 reset()
             }
             ctrl.remove = (image, index) => {
                 ctrl.removeMethod({ image: image }).then(
-                    (res) => removeSuccess(res.data, index),
-                    (err) => removeError(err.data)
+                    res => removeSuccess(res.data, index),
+                    err => removeError(err.data)
                 )
             }
         }
@@ -139,7 +173,7 @@
         return {
             restrict: 'E',
             scope: {
-                resultImages:       '=',
+                images:             '=',
                 
                 uploadMethod:       '&',
                 onUploadSuccess:    '&',
