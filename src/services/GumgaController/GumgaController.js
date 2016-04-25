@@ -117,6 +117,18 @@
         }, (err) => {self.emit('advancedSearchError', err);})
         return self;
       },
+      redoSearch(){
+        self.emit('redoSearchStart');
+        Service
+        .redoSearch()
+        .then((data) => {
+          self.emit('redoSearchSuccess', data.data);
+          self.data = data.data.values;
+          self.pageSize = data.data.pageSize;
+          self.count = data.data.count;
+        }, (err) => {self.emit('redoSearchError', err);})
+        return self;
+      },
       postQuery(query, name){
         self.emit('postQueryStart');
         Service.saveQuery({query: query, name: name})

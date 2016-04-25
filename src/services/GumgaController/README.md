@@ -45,6 +45,8 @@ No antigo componente $populate, sentimos que era trabalhoso para o desenvolvedor
 
 - **`advancedSearch(param):`** Função responsável por fazer a ordenação dos valores no servidor. Retorna um array para o atributo `data` e popula os atributos `pageSize` e `count`.
 
+- **`redoSearch()`** Função que re-executa a busca com o último estado.
+
 - **`postQuery(query, name)`:** Função responsável por fazer um post para salvar a query do busca avançada. O resultado da chamada é obtido apenas pelo evento `postQuerySuccess` ou `postQueryError`.
 
 - **`getQuery(query)`:** Função responsável por retornar o get de um chamada para o servidor. Esta função retorna uma promise HTTP e, quando for resolvida, emite os eventos 'getQuerySuccess' e `getQueryError`.
