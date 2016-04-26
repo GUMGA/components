@@ -29,47 +29,61 @@
                 </div>
             </header>
             <div class="form-inline panel-body">
-              <div class="input-group" ng-repeat="($key, $value) in controlMap" style="margin-right: 1%;margin-top: 7.5px;" ng-show="$value.active" id="first" >
-                  <div class="input-group-btn">
-                    <div class="btn-group" uib-dropdown ng-show="!$value.query.label" is-open="$value.isUPDATING_ATTRIBUTE()" auto-close="disabled">
-                      <button type="button" style="z-index: 0" class="btn btn-default" uib-dropdown-toggle ng-click="toggleUpdatingAttribute(this)" ng-disabled="$value.isUPDATING_VALUE() || $value.isUPDATING_CONDITION() || (!isAnyQueryNotOk() && $value.isEVERYTHING_NEEDED()) ">
-                          <span> {{ $value.query.attribute.label || 'Atributo' }}  <i class="glyphicon glyphicon-chevron-down"></i></span>
-                      </button>
-                      <ul uib-dropdown-menu style="z-index: 3000" role="menu">
-                        <li style="z-index: 3000;" role="menuitem" ng-repeat="attribute in _attributes track by $index">
-                          <a ng-click="addAttribute(attribute, this.$parent, $key)">{{attribute.label}}</a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="btn-group" uib-dropdown is-open="$value.isUPDATING_CONDITION()" ng-show="!$value.query.label" auto-close="disabled">
-                      <button type="button" class="btn btn-default" uib-dropdown-toggle ng-click="toggleUpdatingCondition(this)" ng-disabled="$value.isUPDATING_VALUE() || $value.isUPDATING_ATTRIBUTE() || (!isAnyQueryNotOk() && $value.isEVERYTHING_NEEDED()) || $value.isNOTHING()">
-                          <span>{{ $value.query.condition.label || 'Condição' }} <i class="glyphicon glyphicon-chevron-down"></i></span>
-                      </button>
-                      <ul uib-dropdown-menu role="menu" >
-                        <li role="menuitem" ng-repeat="condition in conditions track by $index">
-                          <a ng-click="addCondition(condition, this.$parent, $key)">{{condition.label}}</a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="btn-group" id="_btnValue{{$key}}" ng-show="!$value.query.label">
-                      <button type="button" class="btn btn-default" ng-click="toggleUpdatingValue(this, $key)" ng-disabled="validatonValue($value)" id="_valueLabel{{$key}}">
-                          <span id="_conditionLabel{{$key}}">{{ $value.query.value ? $value.query.value.push ?  $value.query.value.join(', ') : $value.query.value : 'valor' | gumgaGenericFilter:$value.query.attribute.type}} </span>
-                      </button>
-                      <div class="gumga-filter-panel" id="_panelValue{{$key}}"></div>
-                    </div>
-                    <div class="btn-group" ng-show="$value.query.label">
-                      <button type="button" class="btn btn-default" ng-click="updateOperator(this)" ng-disabled="!isAnyQueryNotOk()">
-                        <span> {{$value.query.label}} </span>
-                      </button>
-                    </div>
-                    <button type="button" style="z-index: 0;border-left: 1px solid #ccc; " class="btn btn-default" ng-click="removeQuery(this, $event, $index)" ng-show="!$value.query.label" ng-disabled="!$value.isEVERYTHING_NEEDED() || $value.isUPDATING_VALUE() ||(!isAnyQueryNotOk() && $value.isEVERYTHING_NEEDED()) ">
-                      <span class="glyphicon glyphicon-remove"></span>
-                    </button>
-                  </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <h5><strong>Filtrar por:</strong></h5>
                 </div>
-                <button id="single-button" type="button" class="btn btn-default" ng-click="addQuery()" ng-disabled="!isAnyQueryNotOk()" style="margin-top: 7.5px;" >
+                <div class="col-md-6">
+                    <button id="single-button" type="button" class="btn btn-default pull-right" ng-click="clearQuery()" ng-disabled="!isAnyQueryNotOk()" >
+                      <i class="glyphicon glyphicon-repeat"></i> Reiniciar
+                    </button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="input-group" ng-repeat="($key, $value) in controlMap" style="margin-right: 1%;margin-top: 7.5px;" ng-show="$value.active" id="first" >
+                    <div class="input-group-btn">
+                      <div class="btn-group" uib-dropdown ng-show="!$value.query.label" is-open="$value.isUPDATING_ATTRIBUTE()" auto-close="disabled">
+                        <button type="button" style="z-index: 0" class="btn btn-default" uib-dropdown-toggle ng-click="toggleUpdatingAttribute(this)" ng-disabled="$value.isUPDATING_VALUE() || $value.isUPDATING_CONDITION() || (!isAnyQueryNotOk() && $value.isEVERYTHING_NEEDED()) ">
+                            <span> {{ $value.query.attribute.label || 'Atributo' }}  <i class="glyphicon glyphicon-chevron-down"></i></span>
+                        </button>
+                        <ul uib-dropdown-menu style="z-index: 3000" role="menu">
+                            <li style="z-index: 3000;" role="menuitem" ng-repeat="attribute in _attributes track by $index">
+                            <a ng-click="addAttribute(attribute, this.$parent, $key)">{{attribute.label}}</a>
+                            </li>
+                        </ul>
+                        </div>
+                        <div class="btn-group" uib-dropdown is-open="$value.isUPDATING_CONDITION()" ng-show="!$value.query.label" auto-close="disabled">
+                        <button type="button" class="btn btn-default" uib-dropdown-toggle ng-click="toggleUpdatingCondition(this)" ng-disabled="$value.isUPDATING_VALUE() || $value.isUPDATING_ATTRIBUTE() || (!isAnyQueryNotOk() && $value.isEVERYTHING_NEEDED()) || $value.isNOTHING()">
+                            <span>{{ $value.query.condition.label || 'Condição' }} <i class="glyphicon glyphicon-chevron-down"></i></span>
+                        </button>
+                        <ul uib-dropdown-menu role="menu" >
+                            <li role="menuitem" ng-repeat="condition in conditions track by $index">
+                            <a ng-click="addCondition(condition, this.$parent, $key)">{{condition.label}}</a>
+                            </li>
+                        </ul>
+                        </div>
+                        <div class="btn-group" id="_btnValue{{$key}}" ng-show="!$value.query.label">
+                        <button type="button" class="btn btn-default" ng-click="toggleUpdatingValue(this, $key)" ng-disabled="validatonValue($value)" id="_valueLabel{{$key}}">
+                            <span id="_conditionLabel{{$key}}">{{ $value.query.value ? $value.query.value.push ?  $value.query.value.join(', ') : $value.query.value : 'valor' | gumgaGenericFilter:$value.query.attribute.type}} </span>
+                        </button>
+                        <div class="gumga-filter-panel" id="_panelValue{{$key}}"></div>
+                        </div>
+                        <div class="btn-group" ng-show="$value.query.label">
+                        <button type="button" class="btn btn-default" ng-click="updateOperator(this)" ng-disabled="!isAnyQueryNotOk()">
+                            <span> {{$value.query.label}} </span>
+                        </button>
+                        </div>
+                        <button type="button" style="z-index: 0;border-left: 1px solid #ccc; " class="btn btn-default" ng-click="removeQuery(this, $event, $index)" ng-show="!$value.query.label" ng-disabled="!$value.isEVERYTHING_NEEDED() || $value.isUPDATING_VALUE() ||(!isAnyQueryNotOk() && $value.isEVERYTHING_NEEDED()) ">
+                        <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                    </div>
+                  </div>
+                  <button id="single-button" type="button" class="btn btn-default" ng-click="addQuery()" ng-disabled="!isAnyQueryNotOk()" style="margin-top: 7.5px;" >
                     <span class="glyphicon glyphicon-plus"></span>
-                </button>
+                  </button>
+                </div>
+              </div>
             </div>
         </div>`
 
@@ -92,6 +106,7 @@
               $scope.controlMap             = {}
               $scope.addCondition           = addCondition
               $scope.addQuery               = addQuery
+              $scope.clearQuery             = clearQuery
               $scope.closeInput             = closeInput
               $scope.removeQuery            = removeQuery
               $scope.showInput              = showInput
@@ -171,7 +186,7 @@
               }
 
               initialize()
-
+              
               let defaultAttribute  = angular.copy($scope._attributes[0]),
                   defaultCondition  = angular.copy(HQLFactory.useType(defaultAttribute.type).defaultCondition)[0]
 
@@ -337,6 +352,11 @@
                   $scope.controlMap[parseInt(lastOfControlMap()) + 1 ] = QueryModelFactory.create({ value: 'AND', label: 'E' }, undefined, 'EVERYTHING_NEEDED')
                   $scope.controlMap[parseInt(lastOfControlMap()) + 1 ] = QueryModelFactory.create({ attribute: {}, condition:{ }, value: ''}, undefined, 'NOTHING')
                   $timeout(() => getIndexScope(parseInt(lastOfControlMap())).$value.addState('UPDATING_ATTRIBUTE'));
+              }
+              
+              function clearQuery(){
+                  $scope.controlMap = []
+                  initialize()
               }
 
               function closeInput(){

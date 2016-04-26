@@ -13,8 +13,26 @@ angular.module('gumga.core', [
 	'gumga.manytoone',
     'gumga.number',
     'gumga.fileupload',
+    'gumga.imageupload',
 	'gumga.documentation'
-]).factory('VanillaMasker',[ function(){
+]).decorator("$xhrFactory", ['$delegate', '$rootScope', function($delegate, $rootScope) {
+    'ngInject';
+
+    return function(method, url) {
+        var xhr = $delegate(method, url);
+
+        xhr.setRequestHeader = (function(sup) {
+            return function(header, value) {
+                if ((header === "__XHR__") && angular.isFunction(value))
+                    value(this);
+                else
+                    sup.apply(this, arguments);
+            };
+        })(xhr.setRequestHeader);
+
+        return xhr;
+    };
+}]).factory('VanillaMasker',[ function(){
 
 	var DIGIT = "9",
 	ALPHA = "A",

@@ -162,6 +162,14 @@ Parâmetro | Tipo | Detalhes
 
 ---
 
+`redoSearch();`
+
+O método redoSearch retorna uma promise de uma chamada HTTP do tipo GET.
+
+`HttpPromise` Retona uma promise da chamada HTTP GET do objeto de query com seu último estado.
+
+---
+
 `resetDefaultState();`
 
 O método resetDefaultState retorna o objeto de query ao seu estado padrão.

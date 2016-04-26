@@ -36,6 +36,7 @@
     "angular-ui-router": "~0.2.15",
     "jquery": "~2.1.4",
     "mousetrap-latest": "~1.5.3",
+    "ng-img-crop": "ngImgCrop#~0.3.2",
     "remarkable-bootstrap-notify": "~3.1.3"
   }
 }

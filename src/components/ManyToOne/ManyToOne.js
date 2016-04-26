@@ -1,6 +1,8 @@
 (function(){
     'use strict';
 
+    // @TODO: Adicionar ... nos resultados maiores que o elemento pai
+    
     ManyToOne.$inject = ['$templateCache','$uibModal', '$compile', '$timeout'];
 
     function ManyToOne($templateCache, $uibModal, $compile, $timeout){
