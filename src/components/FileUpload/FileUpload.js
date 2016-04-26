@@ -2,9 +2,9 @@
     'use strict';
 
 
-    FileUpload.$inject = ['$parse','GumgaMimeTypeService']
+    FileUpload.$inject = ['$parse','GumgaMimeTypeService','$http']
 
-    function FileUpload($parse,GumgaMimeTypeService) {
+    function FileUpload($parse,GumgaMimeTypeService,$http) {
     
         let template = `
         <div>
@@ -13,7 +13,7 @@
         </section>
         <div style="margin-bottom: 10px">
             <!--<input type="file" id="input" ng-model="file" multiple>-->
-            <input type="file" id="input" ng-hide="true" ng-model="file">
+            <input type="file" id="input" ng-hide="true" ng-model="file" multiple>
             <button type="button" ng-click="click()" class="btn btn-default">
                 <span class="glyphicon glyphicon-search"></span> Selecionar
             </button>
@@ -39,6 +39,12 @@
                     <div class="media-body">
                         <h4 class="media-heading">{{file.name}}</h4>
                         <span>{{file.size}} KB</span>
+                        <span></span>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{file.percent}}" aria-valuemin="0" aria-valuemax="100" style="width: {{file.percent}}%">
+                                <span>{{file.percent || 0}}%</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </li>
@@ -49,9 +55,16 @@
         link.$inject = ['$scope','$element','$attrs']
         
         function link($scope, $element, $attrs) {
+            const ERR_MSGS = {
+                noEndPoint: 'É necessário um atributo endpoint no componente, contendo uma URL de API REST que receberá os arquivos.'
+            }
+            
+            if (!$attrs.endpoint) console.error(ERR_MSGS.noEndPoint)
+            
             let element     = $element.find('input'),
                 model       = $parse($attrs.attribute),
                 modelSetter = model.assign,
+                endpoint    = $attrs.endpoint,
                 accepted    = ($attrs.accepted) ? $attrs.accepted.split(',') : false,
                 maxSize     = ($attrs.maxSize) ? parseInt($attrs.maxSize) : false,
                 stopEvent   = (event) => {
@@ -59,11 +72,22 @@
                     event.preventDefault()
                 }
 
+            function _validateAcceptedTypes(file) {
+                return (accepted) ? GumgaMimeTypeService.validate(file.type, accepted) : true
+            }
+            function _validateMaxSize(file) {
+                return (maxSize) ? (file.size <= (maxSize * 1024)) : true
+            }
+            
+            let validateAcceptedTypes   = _validateAcceptedTypes,
+                validateMaxSize         = _validateMaxSize
+            
             const addFileToQueue = (file) => {
                 $scope.queue.push({
                     type: file.type,
                     name: file.name,
-                    size: Math.round((file.size / 1024))
+                    size: Math.round((file.size / 1024)),
+                    file: file
                 })
             }
                         
@@ -71,50 +95,62 @@
             
             $element.on('dragenter', (event) => {
                 stopEvent(event)
-                $element.find('section')[0].classList.add('dragHover')
+                $element.find('section')[0].classList.add('dragOver')
             })
-            // $element.on('dragleave', (event) => {
-            //     stopEvent(event)
-            //     $element.find('section')[0].classList.remove('dragHover')
-            // })
             $element.on('dragover', (event) => {
                 stopEvent(event)
-                $element.find('section')[0].classList.add('dragHover')
+                $element.find('section')[0].classList.add('dragOver')
             })
             $element.on('drop', (event) => {
                 stopEvent(event)
-                $scope.$apply(() => addFileToQueue(event.dataTransfer.files[0]))
-                $element.find('section')[0].classList.remove('dragHover')
+                $scope.$apply(() => angular.forEach(event.dataTransfer.files, (file) => addFileToQueue(file)))
+                $element.find('section')[0].classList.remove('dragOver')
             })
             
             element.bind('change', () => {
                 angular.forEach(element[0].files, (file, i) => {
-                    $scope.queue = []
                     let reader = new FileReader()
                     reader.onload = function() {
-                        // console.log(reader.result)
-                        $scope.$apply(function() {
+                        $scope.$apply(() => {
                             modelSetter($scope, file)
-                            let validAccept = (accepted) ? GumgaMimeTypeService.validate(file.type, accepted) : true,
-                                validMaxSize = (maxSize) ? file.size <= (maxSize * 1024) : true;
-                            
-                            if (validAccept && validMaxSize) {
+                            if (validateAcceptedTypes(file) && validateMaxSize(file)) {
                                 addFileToQueue(file)
                             } else {
                                 let alert = ['Erro: ']
-                                if (accepted) alert.push(`Formatos permitidos ${accepted.join(', ')}. `)
-                                if (maxSize) alert.push(`Máximo de ${maxSize}KB. `)
+                                if (validateAcceptedTypes(file)) alert.push(`Formatos permitidos ${accepted.join(', ')}. `)
+                                if (validateMaxSize(file)) alert.push(`Máximo de ${maxSize}KB. `)
                                 alert.push('Selecione outro.')
                                 $scope.alert = alert.join('')
                             }
                         })
                     }
-                    reader.onloadend = function() {
-                        $scope.uploadMethod();
-                    }
                     reader.readAsDataURL(file)
                 })
             })
+            
+            $scope.upload = function() {
+                angular.forEach($scope.queue, (curr, i) => {
+                    let fdfile = new FormData()
+                    fdfile.append('file', curr.file)
+                    $http({
+                        method: 'POST',
+                        url: endpoint,
+                        headers: {
+                            'Content-Type': undefined,
+                            __XHR__: () => {
+                                return (xhr) => {
+                                    xhr.upload.onprogress = (event) => {
+                                        $scope.$apply(() => {
+                                            $scope.queue[i].percent = Math.round((event.loaded / event.total) * 100)
+                                        })
+                                    };
+                                };
+                            }
+                        },
+                        data: fdfile
+                    })
+                })
+            }
             $scope.click = function() {
                 element[0].click();
             }
