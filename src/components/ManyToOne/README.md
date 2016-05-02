@@ -29,6 +29,7 @@ A directive gumgaManyToOne pode ser utilizada para filtrar uma lista de registro
 - **`post-method`:**  que irá conter uma função que dependendo do parâmetro `async`, chamará a função async com o parâmetro `post-method="post(value)"` e caso o parâmetro async não esteja presente  ou seja falso, fará um push na lista.
 - **`field`:** Atributo *obrigatório* que irá conter o atributo do registro que está sendo procurado e o que estará na lista.
 - **`authorize-add`:** Atributo *opcional* que irá conter um booleano que irá fazer o controle para mostrar o botão de adicionar um registro caso a busca não tenha retornado nenhum registro
+- **`tab-seq`** Atributo equivalente ao tabindex, foi usado tabseq para que o elemento many-to-one, não fique na lista de tabindex.
 - **`disabled`** Atributo opcional que irá conter um boolean para habilitar ou desabilitar o componente.
 - **`async`:** Atributo *opcional* que irá dizer caso componente fará um post chamando a função passada ou um push na lista. Por default, o valor é true.
 - **`on-new-value-added`:** Atributo *opcional* que irá conter uma função que irá ser executada quando o usuário adicionar um novo valor.
