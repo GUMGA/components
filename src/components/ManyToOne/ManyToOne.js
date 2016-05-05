@@ -4,9 +4,9 @@
     ManyToOne.$inject = ['$templateCache','$uibModal', '$compile', '$timeout'];
 
     function ManyToOne($templateCache, $uibModal, $compile, $timeout){
-        controller.$inject = ['$scope', '$element', '$attrs'];
+        controller.$inject = ['$scope', '$element', '$attrs', '$transclude'];
 
-        function controller($scope, $element, $attrs){
+        function controller($scope, $element, $attrs, $transclude){
           let manyToOneCtrl = this, ngModelCtrl
 
           const ERR_MSGS = {
@@ -15,7 +15,7 @@
             noSearch: 'É necessário uma função de busca no componente gumgaManyToOne'
           }
 
-          const possibleAttributes  = ['value', 'list', 'searchMethod', 'field', 'onNewValueAdded', 'onValueVisualizationOpened', 'onValueVisualizationClosed', 'tabindex']
+          const possibleAttributes  = ['value', 'list', 'searchMethod', 'field', 'description', 'onNewValueAdded', 'onValueVisualizationOpened', 'onValueVisualizationClosed', 'tabindex']
 
           if(!$attrs.value)        console.error(ERR_MSGS.noValue)
           if(!$attrs.field)        console.error(ERR_MSGS.noField)
@@ -27,22 +27,24 @@
           manyToOneCtrl.ev.onValueVisualizationOpened = $attrs.onValueVisualizationOpened ? $attrs.onValueVisualizationOpened : angular.noop
           manyToOneCtrl.ev.onValueVisualizationClosed = $attrs.onValueVisualizationClosed ? $attrs.onValueVisualizationClosed : angular.noop
           manyToOneCtrl.field                         = $attrs.field                                               || ''
+          manyToOneCtrl.description                   = $attrs.description                                         || ''
           manyToOneCtrl.modalTitle                    = $attrs.modalTitle                                          || 'Visualizador de Registro'
           manyToOneCtrl.modalFields                   = $attrs.modalFields  ? $attrs.modalFields.splice(',')        : [manyToOneCtrl.field]
           manyToOneCtrl.postFields                    = $attrs.postFields   ? $attrs.postFields.split(',')          : [manyToOneCtrl.field]
-
+          
           function mirrorAttributes(){
             const isOneOfPossibles = attribute => possibleAttributes.filter(value => attribute == value).length > 0
             return Object.keys($attrs.$attr).filter((value) => !isOneOfPossibles(value)).reduce((prev, next) => prev += `${next}="${$attrs[next]}"`, '')
           }
 
-          manyToOneCtrl.openTypeahead     = openTypeahead
-          manyToOneCtrl.displayInfoButton = displayInfoButton
-          manyToOneCtrl.displayPlusButton = displayPlusButton
-          manyToOneCtrl.openInfo          = openInfo
-          manyToOneCtrl.valueToAdd        = ''
-          manyToOneCtrl.afterSelect       = afterSelect
-          manyToOneCtrl.proxySearch       = (param) =>{
+          manyToOneCtrl.openTypeahead       = openTypeahead
+          manyToOneCtrl.displayInfoButton   = displayInfoButton
+          manyToOneCtrl.displayPlusButton   = displayPlusButton
+          manyToOneCtrl.displayDescription  = displayDescription
+          manyToOneCtrl.openInfo            = openInfo
+          manyToOneCtrl.valueToAdd          = ''
+          manyToOneCtrl.afterSelect         = afterSelect
+          manyToOneCtrl.proxySearch         = (param) =>{
             return manyToOneCtrl.searchMethod({ param }).then(data => {
               if(data.filter(dataItem => dataItem[manyToOneCtrl.field] == param).length > 0 || !manyToOneCtrl.authorizeAdd){
                 return data
@@ -117,6 +119,11 @@
                 && (typeof ngModelCtrl.$$rawModelValue === 'string' || ngModelCtrl.$$rawModelValue instanceof String)
                 && ngModelCtrl.$$rawModelValue.length > 0
           }
+          
+          function displayDescription(match) {
+              console.log(match)
+              return match.model[manyToOneCtrl.description] != 'undefined'
+          }
 
           function afterSelect($item, $model, $label, $event, isBtn){
             if(!$model.id) manyToOneCtrl.proxySave($model, isBtn)
@@ -155,7 +162,6 @@
 
           }
 
-          console.log(manyToOneCtrl.tabindex)
           let baseTemplate = `
           <div class="full-width-without-padding">
             <div class="input-group">
@@ -175,8 +181,8 @@
           let templateForMatch = `
           <a class="col-md-12 result">
             <span class="col-md-10 str">
-              <span ng-bind-html="match.label | uibTypeaheadHighlight:query" >
-              </span>
+              <span ng-bind-html="match.model['${manyToOneCtrl.field}'] | uibTypeaheadHighlight:query"></span><br>
+              <small ng-show="match.model['${manyToOneCtrl.description}'] != undefined" ng-bind-html="match.model['${manyToOneCtrl.description}'] | uibTypeaheadHighlight:query""></small>
             </span>
             <span class="col-md-2">
               <span class="icon text-right" ng-click="$parent.$parent.$parent.$parent.manyToOneCtrl.openInfo(match.model, $event)" ng-hide="$parent.$parent.$parent.$parent.manyToOneCtrl.valueToAdd == match.label && !match.label.id">
@@ -211,6 +217,8 @@
 
         return {
             restrict : 'E',
+            replace: true,
+            transclude: true,
             scope : {
               value:        '=',
               searchMethod: '&',
