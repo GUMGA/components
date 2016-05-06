@@ -1,15 +1,13 @@
 (function(){
     'use strict';
 
-    // @TODO: Adicionar ... nos resultados maiores que o elemento pai
-    
     ManyToOne.$inject = ['$templateCache','$uibModal', '$compile', '$timeout'];
 
     function ManyToOne($templateCache, $uibModal, $compile, $timeout){
         controller.$inject = ['$scope', '$element', '$attrs'];
 
         function controller($scope, $element, $attrs){
-          let manyToOneCtrl = this, ngModelCtrl;
+          let manyToOneCtrl = this, ngModelCtrl
 
           const ERR_MSGS = {
             noValue: 'É necessário um atributo value no componente gumgaManyToOne',
@@ -17,7 +15,7 @@
             noSearch: 'É necessário uma função de busca no componente gumgaManyToOne'
           }
 
-          const possibleAttributes  = ['value', 'list', 'searchMethod', 'field', 'onNewValueAdded', 'onValueVisualizationOpened', 'onValueVisualizationClosed']
+          const possibleAttributes  = ['value', 'list', 'searchMethod', 'field', 'onNewValueAdded', 'onValueVisualizationOpened', 'onValueVisualizationClosed', 'tabindex']
 
           if(!$attrs.value)        console.error(ERR_MSGS.noValue)
           if(!$attrs.field)        console.error(ERR_MSGS.noField)
@@ -157,13 +155,14 @@
 
           }
 
+          console.log(manyToOneCtrl.tabindex)
           let baseTemplate = `
           <div class="full-width-without-padding">
             <div class="input-group">
-              <input type="text"class="form-control inputahead" ng-model="manyToOneCtrl.value" ng-trim="true" ng-keydown="manyToOneCtrl.openTypeahead($event)" uib-typeahead="$value as $value[manyToOneCtrl.field] for $value in manyToOneCtrl.proxySearch($viewValue)" ${mirrorAttributes()}
+              <input type="text"class="form-control inputahead" tabindex="${manyToOneCtrl.tabSeq}" ng-disabled="${manyToOneCtrl.disabled}" ng-model="manyToOneCtrl.value" ng-trim="true" ng-keydown="manyToOneCtrl.openTypeahead($event)" uib-typeahead="$value as $value[manyToOneCtrl.field] for $value in manyToOneCtrl.proxySearch($viewValue)" ${mirrorAttributes()}
                      typeahead-template-url="manyToOneTemplate.html" typeahead-is-open="manyToOneCtrl.isTypeaheadOpen" typeahead-on-select="manyToOneCtrl.afterSelect($item, $model, $label, $event, 'isNotButton')"/>
               <div class="input-group-btn input-group-btn-icon">
-                <button type="button" class="btn btn-default" ng-click="manyToOneCtrl.openTypeahead($event)">
+                <button type="button" class="btn btn-default" ng-disabled="${manyToOneCtrl.disabled}" ng-click="manyToOneCtrl.openTypeahead($event)">
                   <span class="glyphicon glyphicon-chevron-down"></span>
                 </button>
                 <button type="button" class="btn btn-default" ng-show="manyToOneCtrl.displayInfoButton()" ng-click="manyToOneCtrl.openInfo(manyToOneCtrl.value, $event)">
@@ -175,7 +174,7 @@
 
           let templateForMatch = `
           <a class="col-md-12 result">
-            <span class="col-md-10">
+            <span class="col-md-10 str">
               <span ng-bind-html="match.label | uibTypeaheadHighlight:query" >
               </span>
             </span>
@@ -213,11 +212,13 @@
         return {
             restrict : 'E',
             scope : {
-              value: '=',
+              value:        '=',
               searchMethod: '&',
-              postMethod: '&?',
-              list: '=?',
-              authorizeAdd: '=?'
+              postMethod:   '&?',
+              list:         '=?',
+              authorizeAdd: '=?',
+              disabled:     '=?',
+              tabSeq:       '=?'
             },
             controllerAs: 'manyToOneCtrl',
             bindToController: true,
