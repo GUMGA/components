@@ -8,6 +8,7 @@
 
 		function controller($scope, $element, $attrs) {
 			let vm = this;
+            
 			if(!$attrs.submit) throw 'É necessário passar uma função para submissão de formulário <gumga-form-buttons submit="foo()"></gumga-form-buttons>'
 
             const templateBlockBegin = `
@@ -33,7 +34,10 @@
 
 			const modalTemplate= `
 				<div class="modal-body">
-					<h3> Deseja sair da tela?</h3>
+					<h3>
+                        <span class="glyphicon glyphicon-alert"></span>
+                        Sair da tela e descartar alterações?
+                    </h3>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" ng-click="ctrl.dismiss()">Não</button>
@@ -41,6 +45,7 @@
 				</div>
 			`;
 
+            vm.modelInit         = angular.copy(vm.model);
 			vm.continue 		 = $scope.$eval(vm.continue);
 			vm.confirmDirty		 = $scope.$eval(vm.confirmDirty);
 			vm.valid			 = $attrs.valid ? vm.valid : true;
@@ -57,7 +62,7 @@
 			}
 
 			function returnClicked(){
-				if(vm.confirmDirty){
+				if(vm.confirmDirty && !angular.equals(vm.modelInit, vm.model)){
 
 					ModalController.$inject = ['$uibModalInstance'];
 
@@ -79,6 +84,7 @@
 					$uibModal.open({
 						template: modalTemplate,
 						animate: false,
+                        size: 'md',
 						controller: ModalController,
 						controllerAs: 'ctrl'
 					})
@@ -110,6 +116,7 @@
 			scope: {
 				submit: '&?',
 				valid: '=?',
+                model: '=?',
 				continue: '@?',
 				confirmDirty: '@?',
 				reverseOrder: '=?'

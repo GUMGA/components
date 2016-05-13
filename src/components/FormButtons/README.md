@@ -13,6 +13,7 @@ O componente GumgaFormButtons é utilizado para que o desenvolvedor não precise
 | **position**            | `string`    | Atributo para alinhar os botões para esquerda `left` ou direita `right` da tela |
 | **continue**            | `Boolean`   | Atributo que irá ser utilizado para determinar se irá aparecer a opção de continuar inserindo. |
 | **confirm-dirty**       | `Boolean`   | Atributo usado para determinar se, quando o usuário clicar no botão de retornar e já tiver digitado algo, aparecerá um modal de confirmação de saída da tela. |
+| **model**               | `Object`    | Atributo que receberá o model usado no form para validar se houve edição nos dados, usado caso confirm-dirty seja true |
 | **keep-inserting-text** | `String `   | Atributo que será utilizado para trocar o texto que aparece do lado do checkbox |
 | **returnText**          | `String `   | Atributo que será utilizado para trocar o texto que aparece no botão de retorno |
 | **saveText**            | `String `   | Atributo que será utilizado para trocar o texto que aparece no botão de salvar  |
