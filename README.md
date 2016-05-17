@@ -3,6 +3,14 @@
 
 Os componentes da Gumga que estão neste repositório são os componentes utilizados no GumgaFramework.
 
+## Pré-requisitos
+
+- AngularJS
+- Angular UI Bootstrap
+- ngImgCrop (A partir da versão 3.0.0 deve-se adicionar dependências da lib ng-img-crop ao projeto, esta lib é usada no componente GumgaImageUpload)
+
+
+
 ## Instalação:
 
 `
@@ -12,6 +20,18 @@ bower install gumga-components
 ## Documentação:
 
 A documentação dos componentes pode ser visualizada diretamente na pasta dos componentes, ou através dos seguintes links:
+
+### Components
+- [Confirm](src/components/Confirm)
+- [FileUpload](src/components/FileUpload)
+- [Query](src/components/Query)
+- [Filter](src/components/Filter)
+- [FormButtons](src/components/FormButtons)
+- [List](src/components/List)
+- [ManyToMany](src/components/ManyToMany)
+- [ManyToOne](src/components/ManyToOne)
+- [Number](src/components/Number)
+
 
 ### Filters
 

@@ -7,6 +7,9 @@
     function ImageUpload($parse,$uibModal,GumgaMimeTypeService) {
 
         let template = `
+        <style>
+        
+        </style>
         <input type="file" class="file-input" ng-hide="true" />
         <div class="row area">
             <div class="col-md-7">
@@ -19,39 +22,34 @@
                     </svg>
                 </div>
                 <div class="area-crop" ng-show="ctrl.myImage">
-                    <img-crop image="ctrl.myImage" result-image="ctrl.myCroppedImage" result-image-size="100" area-type="square"></img-crop>
+                    <img-crop image="ctrl.myImage" result-image="ctrl.myCroppedImage" result-image-size="ctrl.resultImageSize" area-type="square"></img-crop>
                 </div>
             </div>
             <div class="col-md-5">
                 <div class="area-preview" style="width: {{ctrl.resultImageSize}}px height: {{ctrl.resultImageSize}}px">
                     <img ng-src="{{ctrl.myCroppedImage}}" style="width: 100%" />
                 </div>
-                <button class="btn btn-default btn-block" type="button" ng-click="ctrl.upload()">
-                
-                    Salvar
+                <button class="btn btn-default btn-block" type="button" ng-disabled="!ctrl.myImage" ng-show="ctrl.images.length < ctrl.maxFiles" ng-click="ctrl.upload()">
+                    <span class="glyphicon glyphicon-cloud-upload"></span>
                 </button>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <ul style="list-style: none; margin: 0; padding: 0">
-                    <li style="float: left" ng-repeat="img in ctrl.images">
-                        <a class="thumbnail" style="width: {{ctrl.thumbImageSize}}px">
-                            <img ng-src="{{img}}">
-                        </a>                    
-                    </li>
-                </ul>
+                <div class="list">
+                    <a class="thumbnail photo" ng-repeat="img in ctrl.images" style="width: {{ctrl.thumbImageSize}}px">
+                        <img ng-src="{{img}}">
+                        <span class="glyphicon glyphicon-remove pull-right remove" ng-click="ctrl.remove(img, $index)"></span>
+                    </a>
+                </div>
             </div>
         </div>
         `
         
         /**
          * @TODO: 
-         * validar funções obrigatórioas
-         * terminar estilos
          * validar máximo de imagens permitidas
          * validar tipos de arquivos
-         * loading do componente
          */
         
         controller.$inject = ['$scope','$element','$attrs']
@@ -61,15 +59,16 @@
             
             const ERR_MSGS = {
                 noUpload: 'É necessário um atributo upload-method no componente, contendo uma função para upload.',
-                noRemove: 'É necessário um atributo upload-method no componente, contendo uma função para remoção.'
+                noRemove: 'É necessário um atributo remove-method no componente, contendo uma função para remoção.'
             }
             
             if (!$attrs.uploadMethod) console.error(ERR_MSGS.noUpload)
             if (!$attrs.removeMethod) console.error(ERR_MSGS.noRemove)
 
             ctrl.images           = (ctrl.images)               ? ctrl.images               : []
-            ctrl.resultImageSize  = ($attrs.resultImageSize)    ? $attrs.resultImageSize    : 200
+            ctrl.resultImageSize  = ($attrs.resultImageSize)    ? $attrs.resultImageSize    : 250
             ctrl.thumbImageSize   = ($attrs.thumbImageSize)     ? $attrs.thumbImageSize     : 100
+            ctrl.maxFiles         = ($attrs.maxFiles)           ? $attrs.maxFiles           : 10
 
             function _reset() {
                 ctrl.myImage = ''
@@ -101,53 +100,50 @@
             reset()
             
             let handleOpenSelect = evt => {
-                document.querySelector('.file-input').click();
+                if (ctrl.images.length < ctrl.maxFiles) document.querySelector('.file-input').click()
             }
-            let openModalCrop = (image) => {
-                const controllerAs = 'modalCtrl'
-                const resolve = { imageCrop: () => image }
+            // let openModalCrop = (image) => {
+            //     const controllerAs = 'modalCtrl'
+            //     const resolve = { imageCrop: () => image }
                 
-                controller.$inject = ['$scope','$uibModalInstance', 'imageCrop']
+            //     controller.$inject = ['$scope','$uibModalInstance', 'imageCrop']
                 
-                function controller($scope, $uibModalInstance, imageCrop){
-                    let modalCtrl = this;
-                    modalCtrl.imageCrop = imageCrop
-                    modalCtrl.imageCropped = ''
-                    modalCtrl.cancel = () => $uibModalInstance.dismiss('cancel');
-                    modalCtrl.save   = (image) => $uibModalInstance.close();
-                }
+            //     function controller($scope, $uibModalInstance, imageCrop){
+            //         let modalCtrl = this;
+            //         modalCtrl.imageCrop = imageCrop
+            //         modalCtrl.imageCropped = ''
+            //         modalCtrl.cancel = () => $uibModalInstance.dismiss('cancel');
+            //         modalCtrl.save   = (image) => $uibModalInstance.close();
+            //     }
                 
-                let template = `
-                <div class="modal-header">
-                    <h3 class="modal-title">Modal</h3>
-                </div>
-                <div class="modal-body">
-                    <img-crop image="modalCtrl.imageCrop" result-image="modalCtrl.imageCropped" area-type="square"></img-crop>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" ng-click="modalCtrl.cancel()">Retornar</button>
-                    <button type="button" class="btn btn-primary" ng-click="modalCtrl.save(modalCtrl.imageCrop)">Salvar</button>
-                </div>`
+            //     let template = `
+            //     <div class="modal-header">
+            //         <h3 class="modal-title">Modal</h3>
+            //     </div>
+            //     <div class="modal-body">
+            //         <img-crop image="modalCtrl.imageCrop" result-image="modalCtrl.imageCropped" area-type="square"></img-crop>
+            //     </div>
+            //     <div class="modal-footer">
+            //         <button type="button" class="btn btn-default" ng-click="modalCtrl.cancel()">Retornar</button>
+            //         <button type="button" class="btn btn-primary" ng-click="modalCtrl.save(modalCtrl.imageCrop)">Salvar</button>
+            //     </div>`
                 
-                $uibModal
-                .open({ controller, template, controllerAs, resolve })
-                .result
-                .then(
-                    image => {
-                        ctrl.imageCropped = image
-                    },
-                    reject => ctrl.imageCropped = ''
-                )
-            }
+            //     $uibModal
+            //     .open({ controller, template, controllerAs, resolve })
+            //     .result
+            //     .then(
+            //         image => {
+            //             ctrl.imageCropped = image
+            //         },
+            //         reject => ctrl.imageCropped = ''
+            //     )
+            // }
             let handleFileSelect = evt => {
-                
                 let file = evt.currentTarget.files[0],
                     reader = new FileReader();
-                    
                 reader.onloadend = evt => {
                     $scope.$apply(($scope) => {
                         ctrl.myImage = evt.target.result;
-                        // openModalCrop(evt.target.result)
                     });
                 };
                 reader.readAsDataURL(file);
@@ -163,10 +159,12 @@
                 reset()
             }
             ctrl.remove = (image, index) => {
-                ctrl.removeMethod({ image: image }).then(
-                    res => removeSuccess(res.data, index),
-                    err => removeError(err.data)
-                )
+                console.log(index)
+                ctrl.images.splice(index, 1)
+                // ctrl.removeMethod({ image: image }).then(
+                //     res => removeSuccess(res.data, index),
+                //     err => removeError(err.data)
+                // )
             }
         }
 

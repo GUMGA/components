@@ -12,8 +12,7 @@
             <span  class="glyphicon glyphicon-download-alt"></span>
         </section>
         <div style="margin-bottom: 10px">
-            <!--<input type="file" id="input" ng-model="file" multiple>-->
-            <input type="file" id="input" ng-hide="true" ng-model="file" multiple>
+            <input type="file" id="input" ng-hide="true" ng-model="file">
             <button type="button" ng-click="click()" class="btn btn-default">
                 <span class="glyphicon glyphicon-search"></span> Selecionar
             </button>
@@ -62,7 +61,7 @@
             if (!$attrs.endpoint) console.error(ERR_MSGS.noEndPoint)
             
             let element     = $element.find('input'),
-                model       = $parse($attrs.attribute),
+                model       = $parse($attrs.model),
                 modelSetter = model.assign,
                 endpoint    = $attrs.endpoint,
                 accepted    = ($attrs.accepted) ? $attrs.accepted.split(',') : false,
@@ -90,7 +89,7 @@
                     file: file
                 })
             }
-                        
+            
             $scope.queue = []
             
             $element.on('dragenter', (event) => {
@@ -108,6 +107,7 @@
             })
             
             element.bind('change', () => {
+                $scope.queue = []
                 angular.forEach(element[0].files, (file, i) => {
                     let reader = new FileReader()
                     reader.onload = function() {
@@ -128,10 +128,22 @@
                 })
             })
             
+            let eventHandlers = {
+                onLoadEnd:  ($attrs.onUploadComplete) ? $scope.onUploadComplete : angular.noop
+            ,   onAbort:    ($attrs.onUploadAbort)    ? $scope.onUploadAbort    : angular.noop
+            ,   onError:    ($attrs.onUploadError)    ? $scope.onUploadError    : angular.noop
+            }
+            
+            let onProgress = (e, i) => $scope.$apply(() => $scope.queue[i].percent = Math.round((e.loaded / e.total) * 100))
+            let onLoadEnd  = (e, i) => eventHandlers.onLoadEnd({event: e})
+            let onAbort = (e, i) => eventHandlers.onAbort(e)
+            let onError = (e, i) => eventHandlers.onError(e)         
+            
             $scope.upload = function() {
+                $scope.onUploadStart()
                 angular.forEach($scope.queue, (curr, i) => {
-                    let fdfile = new FormData()
-                    fdfile.append('file', curr.file)
+                    let formDataFile = new FormData()
+                    formDataFile.append($attrs.attribute, curr.file)
                     $http({
                         method: 'POST',
                         url: endpoint,
@@ -139,15 +151,16 @@
                             'Content-Type': undefined,
                             __XHR__: () => {
                                 return (xhr) => {
-                                    xhr.upload.onprogress = (event) => {
-                                        $scope.$apply(() => {
-                                            $scope.queue[i].percent = Math.round((event.loaded / event.total) * 100)
-                                        })
-                                    };
+                                    xhr.upload.onprogress   = (e) => onProgress(e, i)
+                                    xhr.upload.onloadend    = (e) => onLoadEnd(e, i)
+                                    xhr.upload.onabort      = (e) => onAbort(e, i)
+                                    xhr.upload.onerror      = (e) => onError(e, i)
                                 };
                             }
                         },
-                        data: fdfile
+                        data: formDataFile
+                    }).then((response) => {
+                        $scope.model.name = response.data
                     })
                 })
             }
@@ -164,8 +177,13 @@
             restrict: 'E',
             template: template,
             scope: {
-                uploadMethod: '&',
-                deleteMethod: '&'
+                model:              '='
+            ,   uploadMethod:       '&'
+            ,   deleteMethod:       '&'
+            ,   onUploadStart:      '&?'
+            ,   onUploadComplete:   '&?'
+            ,   onUploadAbort:      '&?'
+            ,   onUploadError:      '&?'
             },
             link: link
         }
