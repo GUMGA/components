@@ -1,6 +1,6 @@
 describe('COMPONENTE: FormButtons', () => {
 	let scope,
-			controller;
+		controller;
 
 	beforeEach(module('gumga.formbuttons'));
 
