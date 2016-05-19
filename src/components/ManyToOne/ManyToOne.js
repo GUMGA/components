@@ -121,7 +121,6 @@
           }
           
           function displayDescription(match) {
-              console.log(match)
               return match.model[manyToOneCtrl.description] != 'undefined'
           }
 
@@ -166,7 +165,7 @@
           <div class="full-width-without-padding">
             <div class="input-group">
               <input type="text"class="form-control inputahead" tabindex="${manyToOneCtrl.tabSeq}" ng-disabled="${manyToOneCtrl.disabled}" ng-model="manyToOneCtrl.value" ng-trim="true" ng-keydown="manyToOneCtrl.openTypeahead($event)" uib-typeahead="$value as $value[manyToOneCtrl.field] for $value in manyToOneCtrl.proxySearch($viewValue)" ${mirrorAttributes()}
-                     typeahead-template-url="manyToOneTemplate.html" typeahead-is-open="manyToOneCtrl.isTypeaheadOpen" typeahead-on-select="manyToOneCtrl.afterSelect($item, $model, $label, $event, 'isNotButton')"/>
+                     typeahead-template-url="manyToOneTemplate${manyToOneCtrl.field}.html" typeahead-is-open="manyToOneCtrl.isTypeaheadOpen" typeahead-on-select="manyToOneCtrl.afterSelect($item, $model, $label, $event, 'isNotButton')"/>
               <div class="input-group-btn input-group-btn-icon">
                 <button type="button" class="btn btn-default" ng-disabled="${manyToOneCtrl.disabled}" ng-click="manyToOneCtrl.openTypeahead($event)">
                   <span class="glyphicon glyphicon-chevron-down"></span>
@@ -195,7 +194,9 @@
             <div class="clearfix"></div>
           </a>`
 
-          $templateCache.put('manyToOneTemplate.html', templateForMatch)
+
+
+          $templateCache.put(`manyToOneTemplate${manyToOneCtrl.field}.html`, templateForMatch)
 
           let element = angular.element(baseTemplate),
               input   = element.find('input'),
