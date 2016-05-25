@@ -37,7 +37,6 @@
             return Object.keys($attrs.$attr).filter((value) => !isOneOfPossibles(value)).reduce((prev, next) => prev += `${next}="${$attrs[next]}"`, '')
           }
 
-          manyToOneCtrl.openTypeahead       = openTypeahead
           manyToOneCtrl.displayInfoButton   = displayInfoButton
           manyToOneCtrl.displayPlusButton   = displayPlusButton
           manyToOneCtrl.displayDescription  = displayDescription
@@ -102,16 +101,9 @@
                   )
           }
 
-          function openTypeahead($event) {
-            if (($event.type == 'keydown' && ngModelCtrl.$viewValue == undefined || ngModelCtrl.$viewValue == ' ') || ($event.type == 'click')) {
-              ngModelCtrl.$setViewValue('')
-              ngModelCtrl.$setViewValue(' ')
-            }
-          }
-          
           function displayInfoButton(){
             if(!ngModelCtrl.$$rawModelValue) return false
-            return !(typeof ngModelCtrl.$$rawModelValue === 'string' || ngModelCtrl.$$rawModelValue instanceof String)
+            return (typeof ngModelCtrl.$$rawModelValue === 'string' || ngModelCtrl.$$rawModelValue instanceof String)
           }
 
           function displayPlusButton(){
@@ -162,16 +154,14 @@
 
           }
 
+          /*  */
           let baseTemplate = `
           <div class="full-width-without-padding">
             <div class="input-group">
-              <input type="text"class="form-control inputahead" tabindex="${manyToOneCtrl.tabSeq}" ng-disabled="${manyToOneCtrl.disabled}" ng-model="manyToOneCtrl.value" ng-trim="true" ng-keydown="manyToOneCtrl.openTypeahead($event)" uib-typeahead="$value as $value[manyToOneCtrl.field] for $value in manyToOneCtrl.proxySearch($viewValue)" ${mirrorAttributes()}
-                     typeahead-template-url="manyToOneTemplate.html" typeahead-is-open="manyToOneCtrl.isTypeaheadOpen" typeahead-on-select="manyToOneCtrl.afterSelect($item, $model, $label, $event, 'isNotButton')"/>
+              <input type="text"class="form-control inputahead" tabindex="${manyToOneCtrl.tabSeq}" ng-disabled="${manyToOneCtrl.disabled}" ng-model="manyToOneCtrl.value" ng-trim="true" uib-typeahead="$value as $value[manyToOneCtrl.field] for $value in manyToOneCtrl.proxySearch($viewValue)" ${mirrorAttributes()}
+                     typeahead-template-url="manyToOneTemplate.html" typeahead-is-open="manyToOneCtrl.isTypeaheadOpen" typeahead-show-hint="true" typeahead-min-length="0" typeahead-on-select="manyToOneCtrl.afterSelect($item, $model, $label, $event, 'isNotButton')" autocomplete="off"/>
               <div class="input-group-btn input-group-btn-icon">
-                <button type="button" class="btn btn-default" ng-disabled="${manyToOneCtrl.disabled}" ng-click="manyToOneCtrl.openTypeahead($event)">
-                  <span class="glyphicon glyphicon-chevron-down"></span>
-                </button>
-                <button type="button" class="btn btn-default" ng-show="manyToOneCtrl.displayInfoButton()" ng-click="manyToOneCtrl.openInfo(manyToOneCtrl.value, $event)">
+                <button type="button" class="btn btn-default" ng-disabled="manyToOneCtrl.displayInfoButton()" ng-click="manyToOneCtrl.openInfo(manyToOneCtrl.value, $event)">
                   <span class="glyphicon glyphicon-info-sign"></span>
                 </button>
               </div>
@@ -181,15 +171,13 @@
           let templateForMatch = `
           <a class="col-md-12 result">
             <span class="col-md-10 str">
-              <span ng-bind-html="match.model['${manyToOneCtrl.field}'] | uibTypeaheadHighlight:query"></span><br>
+              <span ng-bind-html="match.model['${manyToOneCtrl.field}'] | uibTypeaheadHighlight:query"></span>
+              <span ng-show="$parent.$parent.$parent.$parent.manyToOneCtrl.valueToAdd == match.label && $parent.$parent.$parent.$parent.manyToOneCtrl.valueToAdd.length > 0 && !match.model.id && !!$parent.$parent.$parent.$parent.manyToOneCtrl.authorizeAdd">(novo)</span><br>
               <small ng-show="match.model['${manyToOneCtrl.description}'] != undefined" ng-bind-html="match.model['${manyToOneCtrl.description}'] | uibTypeaheadHighlight:query""></small>
             </span>
             <span class="col-md-2">
               <span class="icon text-right" ng-click="$parent.$parent.$parent.$parent.manyToOneCtrl.openInfo(match.model, $event)" ng-hide="$parent.$parent.$parent.$parent.manyToOneCtrl.valueToAdd == match.label && !match.label.id">
                 <span class="glyphicon glyphicon-info-sign"></span>
-              </span>
-              <span class="icon text-right" ng-click="$parent.$parent.$parent.$parent.manyToOneCtrl.proxySave(match.model)" ng-show="$parent.$parent.$parent.$parent.manyToOneCtrl.valueToAdd == match.label && !match.model.id && !!$parent.$parent.$parent.$parent.manyToOneCtrl.authorizeAdd">
-                <span class="glyphicon glyphicon-plus"></span>
               </span>
             </span>
             <div class="clearfix"></div>
