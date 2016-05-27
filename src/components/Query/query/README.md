@@ -13,6 +13,27 @@
 </gumga-query>
 ```
 
+### Uso com divisão de layout
+```html
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-5">
+            <p>...</p>
+        </div>
+        <div class="col-md-7">
+            <gumga-query search="search(field, param)" advanced-search="advancedSearch(param)" search-text="">
+                <search-field field="name" label="Nome" select="true"></search-field>
+                <search-field field="id" label="Idade"></search-field>
+                <advanced-search-field type="string" label="Nome" field="name"></advanced-search-field>
+            </gumga-query>
+        </div>
+    </div>
+</div>
+``` 
+
+*Em caso de quebra de layout, lembre-se que quando o resultado da soma dos .col-md-x for 12, deve-se usar uma .row* para divisão.
+
+
 ### Descrição
 
 O componente gumgaQuery é utilizado para realizar buscas, seja buscas simples ou avançadas. Para buscas avançadas, ele funciona como um wrapper do GumgaFilter. Para passar os atributos que poderão ser utilizados na busca, utilizamos tags internas a tag do componente.
