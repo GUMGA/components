@@ -44,6 +44,7 @@
       ctrl.onClick        = hasAttr('onClick')        ? ctrl.onClick                                : angular.noop
       ctrl.onDoubleClick  = hasAttr('onDoubleClick')  ? ctrl.onDoubleClick                          : angular.noop
       ctrl.onSort         = hasAttr('onSort')         ? ctrl.onSort                                 : angular.noop
+      ctrl.changePerPage  = hasAttr('changePerPage')  ? ctrl.changePerPage                          : angular.noop
 
       // Garantindo que existam todas as configurações necessárias no objeto.
       function guaranteeConfig() {
@@ -52,6 +53,7 @@
         ctrl.config.itemsPerPage  = hasConfig('itemsPerPage')   ? ctrl.config.itemsPerPage      : defaultItemsPerPage
         ctrl.config.sortDefault   = hasConfig('sortDefault')    ? ctrl.config.sortDefault       : defaultSortedColumn
         ctrl.config.conditional   = hasConfig('conditional')    ? ctrl.config.conditional       : angular.noop
+        ctrl.config.maxHeight     = hasConfig('maxHeight')      ? ctrl.config.maxHeight         : null
         ctrl.config.columnsConfig = guaranteeColumns(ctrl.config.columns, ctrl.config.columnsConfig)
       }
 
@@ -84,6 +86,10 @@
       $scope.$watch('ctrl.data', () => updateMap(ctrl.data), true)
 
       $scope.$watch('ctrl.selectedValues', (newVal = [], oldVal = []) => updateSelected(newVal, newVal.length - oldVal.length >= 0, oldVal), true)
+      
+      $scope.$watch('ctrl.selectedItemPerPage', (newVal, oldVal) => {
+          changePerPage(newVal)
+      }, true)
 
       function findEqualInMap(obj = {}){
         const auxObj = ctrl.selectedMap
@@ -177,14 +183,20 @@
         ctrl.onDoubleClick({ $value })
       }
 
+      function changePerPage(value){
+        ctrl.changePerPage({ value })
+      }
+
       function select(index, event = { target: {} }){
-        if(event.target.name == '$checkbox' && ctrl.config.selection == 'single') uncheckSelectedMap()
-        if(event.target.name == '$checkbox' && ctrl.config.selection == 'multi') ctrl.selectedMap[index].checkbox = !ctrl.selectedMap[index].checkbox
-        if(ctrl.checkAll) ctrl.checkAll = false
-        if(ctrl.config.selection == 'single' && !ctrl.selectedMap[index].checkbox) uncheckSelectedMap()
-        ctrl.selectedMap[index].checkbox = !ctrl.selectedMap[index].checkbox
-        updateSelectedValues()
-        ctrl.onClick({ $value : ctrl.selectedMap[index].value})
+        if (ctrl.config.selection != 'none'){
+            if(event.target.name == '$checkbox' && ctrl.config.selection == 'single') uncheckSelectedMap()
+            if(event.target.name == '$checkbox' && ctrl.config.selection == 'multi') ctrl.selectedMap[index].checkbox = !ctrl.selectedMap[index].checkbox
+            if(ctrl.checkAll) ctrl.checkAll = false
+            if(ctrl.config.selection == 'single' && !ctrl.selectedMap[index].checkbox) uncheckSelectedMap()
+            ctrl.selectedMap[index].checkbox = !ctrl.selectedMap[index].checkbox
+            updateSelectedValues()
+            ctrl.onClick({ $value : ctrl.selectedMap[index].value})
+        }
       }
 
       function selectAll(boolean){
@@ -213,7 +225,8 @@
         'onClick': '&?',
         'onDoubleClick': '&?',
         'onSort': '&?',
-        'config': '=configuration'
+        'config': '=configuration',
+        'changePerPage': '&?'
       },
       bindToController: true,
       controllerAs: 'ctrl',
