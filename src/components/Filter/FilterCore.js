@@ -8,7 +8,7 @@
             <header class="panel-heading" style="padding: 5px 10px;">
                 <div class="row">
                     <div class="col-md-8 col-xs-7">
-                        <h5><strong>Busca avançada</strong> <strong ng-if="filterSelectItem"> - {{filterSelectItem.description}}</strong></h5>
+                        <h5>Pesquisa avançada <strong ng-if="filterSelectItem"> - {{filterSelectItem.description}}</strong></h5>
                     </div>
                     <div class="col-md-4 col-xs-5" ng-show="saveQuery">
                         <div class="input-group" >
@@ -29,7 +29,7 @@
                 </div>
             </header>
             <div class="form-inline panel-body">
-              <div class="input-group" ng-repeat="($key, $value) in controlMap" style="margin-right: 1%;margin-top: 7.5px;" ng-show="$value.active" id="first" >
+              <div class="input-group" ng-repeat="($key, $value) in controlMap" style="margin-right: 1%;margin-top: 7.5px;z-index: {{$value.zIndex}}" ng-show="$value.active" id="first" >
                   <div class="input-group-btn">
                     <div class="btn-group" uib-dropdown ng-show="!$value.query.label" is-open="$value.isUPDATING_ATTRIBUTE()" auto-close="disabled">
                       <button type="button" style="z-index: 0" class="btn btn-default" uib-dropdown-toggle ng-click="toggleUpdatingAttribute(this)" ng-disabled="$value.isUPDATING_VALUE() || $value.isUPDATING_CONDITION() || (!isAnyQueryNotOk() && $value.isEVERYTHING_NEEDED()) ">
@@ -88,6 +88,8 @@
                     NOTYPE_ERR  = `É necessário atribuir um valor ao atributo TYPE da tag ADVANCED-SEARCH-FIELD.`,
                     SEARCH_ERR  = `É necessário atribuir uma função para o atributo SEARCH. [search="foo()"]`
 
+              var zIndexInitial = 999   
+
               $scope._attributes            = []
               $scope.controlMap             = {}
               $scope.addCondition           = addCondition
@@ -107,9 +109,9 @@
                 $scope.controlMap = {}
                 JSON.parse(value.source).forEach((val, index) => {
                   if(index % 2 == 0){
-                    $scope.controlMap[index] = QueryModelFactory.create(val, true, 'EVERYTHING_NEEDED')
+                    $scope.controlMap[index] = QueryModelFactory.create(val, true, 'EVERYTHING_NEEDED', zIndexInitial--)
                   } else {
-                    $scope.controlMap[index] = QueryModelFactory.create({ value: val.value, label: val.value === 'AND' ? 'E' : 'OU' }, undefined, 'EVERYTHING_NEEDED')
+                    $scope.controlMap[index] = QueryModelFactory.create({ value: val.value, label: val.value === 'AND' ? 'E' : 'OU' }, undefined, 'EVERYTHING_NEEDED', zIndexInitial--)
                   }
                 })
                 $scope.filterSelectItem = data;
@@ -162,7 +164,7 @@
               if(!$scope._attributes[0]) return;
               const getElm = string => angular.element(document.getElementById(string))
               const initialize = _ => {
-                $scope.controlMap['0'] = QueryModelFactory.create({ attribute: {}, condition: { }, value: '' }, true, 'NOTHING')
+                $scope.controlMap['0'] = QueryModelFactory.create({ attribute: {}, condition: { }, value: '' }, true, 'NOTHING', zIndexInitial--)
 
                 $timeout(_ =>{
                   var indexScope = getIndexScope();
@@ -334,8 +336,8 @@
 
               function addQuery(){
                   delete $scope.filterSelectItem;
-                  $scope.controlMap[parseInt(lastOfControlMap()) + 1 ] = QueryModelFactory.create({ value: 'AND', label: 'E' }, undefined, 'EVERYTHING_NEEDED')
-                  $scope.controlMap[parseInt(lastOfControlMap()) + 1 ] = QueryModelFactory.create({ attribute: {}, condition:{ }, value: ''}, undefined, 'NOTHING')
+                  $scope.controlMap[parseInt(lastOfControlMap()) + 1 ] = QueryModelFactory.create({ value: 'AND', label: 'E' }, undefined, 'EVERYTHING_NEEDED', zIndexInitial--)
+                  $scope.controlMap[parseInt(lastOfControlMap()) + 1 ] = QueryModelFactory.create({ attribute: {}, condition:{ }, value: ''}, undefined, 'NOTHING', zIndexInitial--)
                   $timeout(() => getIndexScope(parseInt(lastOfControlMap())).$value.addState('UPDATING_ATTRIBUTE'));
               }
 

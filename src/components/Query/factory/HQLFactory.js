@@ -28,7 +28,7 @@ function HQLFactory($filter){
                       <i ng-show="!validator($value.query.value) || !$value.query.value" class="glyphicon glyphicon-remove" style="color:red"></i>
                   </div>
                   <div class="input-group-addon">
-                      <button ng-click="callSearch($event, 'btn')" class="btn btn-default">buscar</button>
+                      <button ng-click="callSearch($event, 'btn')" class="btn btn-default">Buscar</button>
                   </div>
               </div>`
   }
@@ -38,13 +38,13 @@ function HQLFactory($filter){
     defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'gt', 'ge', 'lt', 'le']),
     template: `<div class="input-group">
-                    <input type="text" ng-keyup="goSearch($event)" ng-model="$value.query.value" ng-pattern="${NUMBER_REGEX}" class="form-control" required style=" width: 150px;height: 40px;" />
+                    <input type="text" ng-keyup="goSearch($event)" ng-model="$value.query.value" class="form-control" gumga-number required style=" width: 150px;height: 40px;" />
                     <div class="input-group-addon">
-                        <i ng-show="validator($value.query.value) && $value.query.value.length > 0" class="glyphicon glyphicon-ok" style="color:green"></i></span>
-                        <i ng-show="!validator($value.query.value) || !$value.query.value" class="glyphicon glyphicon-remove" style="color:red"></i>
+                        <i ng-show="validator($value.query.value)" class="glyphicon glyphicon-ok" style="color:green"></i></span>
+                        <i ng-show="!validator($value.query.value)" class="glyphicon glyphicon-remove" style="color:red"></i>
                     </div>
                     <div class="input-group-addon">
-                        <button ng-click="callSearch($event, 'btn')"  class="btn btn-default">buscar</button>
+                        <button ng-click="callSearch($event, 'btn')"  class="btn btn-default">Buscar</button>
                     </div>
               </div>`
   }
@@ -54,13 +54,13 @@ function HQLFactory($filter){
     defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'gt', 'ge', 'lt', 'le']),
     template: `<div class="input-group">
-                    <input type="text" ng-keyup="goSearch($event)" ng-model="$value.query.value" ng-pattern="${FLOAT_REGEX}" class="form-control" required style=" width: 150px;height: 40px;"/>
+                    <input type="text" ng-keyup="goSearch($event)" ng-model="$value.query.value" class="form-control" gumga-number required style=" width: 150px;height: 40px;"/>                    
                     <div class="input-group-addon">
-                        <i ng-show="validator($value.query.value) && $value.query.value.length > 0" class="glyphicon glyphicon-ok" style="color:green"></i></span>
-                        <i ng-show="!validator($value.query.value) || !$value.query.value" class="glyphicon glyphicon-remove" style="color:red"></i>
+                        <i ng-show="validator($value.query.value)" class="glyphicon glyphicon-ok" style="color:green"></i></span>
+                        <i ng-show="!validator($value.query.value)" class="glyphicon glyphicon-remove" style="color:red"></i>
                     </div>
                     <div class="input-group-addon">
-                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">buscar</button>
+                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">Buscar</button>
                     </div>
               </div>`
   }
@@ -70,13 +70,13 @@ function HQLFactory($filter){
     defaultCondition: hqlObjectCreator(['eq']),
     conditions: hqlObjectCreator(['eq', 'ne', 'gt', 'ge', 'lt', 'le']),
     template: `<div class="input-group">
-                    <input ng-keyup="goSearch($event)" type="text" ng-model="$value.query.value" gumga-mask="R$ " ng-pattern="${FLOAT_REGEX}" class="form-control" required style=" width: 150px;height: 40px;" />
+                    <input ng-keyup="goSearch($event)" type="text" ng-model="$value.query.value" gumga-mask="R$ " class="form-control" gumga-number required style=" width: 150px;height: 40px;" />
                     <div class="input-group-addon">
-                        <i ng-show="validator($value.query.value) && $value.query.value.length > 0" class="glyphicon glyphicon-ok" style="color:green"></i></span>
-                        <i ng-show="!validator($value.query.value) || !$value.query.value" class="glyphicon glyphicon-remove" style="color:red"></i>
+                        <i ng-show="validator($value.query.value)" class="glyphicon glyphicon-ok" style="color:green"></i></span>
+                        <i ng-show="!validator($value.query.value)" class="glyphicon glyphicon-remove" style="color:red"></i>
                     </div>
                     <div class="input-group-addon">
-                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">buscar</button>
+                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">Buscar</button>
                     </div>
               </div>`
   }
@@ -92,7 +92,7 @@ function HQLFactory($filter){
                         <i ng-show="!validator($value.query.value) || !$value.query.value" class="glyphicon glyphicon-remove" style="color:red"></i>
                     </div>
                     <div class="input-group-addon">
-                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">buscar</button>
+                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">Buscar</button>
                     </div>
               </div>`
   }
@@ -108,7 +108,7 @@ function HQLFactory($filter){
                         <i ng-show="!validator($value.query.value) || !$value.query.value" class="glyphicon glyphicon-remove" style="color:red"></i>
                     </div>
                     <div class="input-group-addon">
-                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">buscar</button>
+                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">Buscar</button>
                     </div>
               </div>`
   }
@@ -131,7 +131,7 @@ function HQLFactory($filter){
                         <i ng-show="!validator($value.query.value) || !$value.query.value" class="glyphicon glyphicon-remove" style="color:red"></i>
                     </div>
                     <div class="input-group-addon">
-                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">buscar</button>
+                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">Buscar</button>
                     </div>
               </div>`
   }
@@ -161,7 +161,7 @@ function HQLFactory($filter){
                         <i ng-show="!validator($value.query.value) || !$value.query.value" class="glyphicon glyphicon-remove" style="color:red"></i>
                     </div>
                     <div class="input-group-addon">
-                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">buscar</button>
+                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">Buscar</button>
                     </div>
               </div>`
   }
@@ -177,7 +177,7 @@ function HQLFactory($filter){
                         <i ng-show="!validator($value.query.value) || !$value.query.value" class="glyphicon glyphicon-remove" style="color:red"></i>
                     </div>
                     <div class="input-group-addon">
-                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">buscar</button>
+                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">Buscar</button>
                     </div>
               </div>`
   }
@@ -193,7 +193,7 @@ function HQLFactory($filter){
                         <i ng-show="!validator($value.query.value) || !$value.query.value" class="glyphicon glyphicon-remove" style="color:red"></i>
                     </div>
                     <div class="input-group-addon">
-                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">buscar</button>
+                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">Buscar</button>
                     </div>
               </div>`
   }
@@ -217,7 +217,6 @@ function HQLFactory($filter){
     return hqls.map(value => hqlObjects[value])
   }
 
-
   function createHql(mapObj = {}){
     let aqo = []
     let aq =
@@ -227,18 +226,28 @@ function HQLFactory($filter){
         .map(val => {
           let attribute = 'obj.'.concat(mapObj[val].query.attribute ? mapObj[val].query.attribute.field : '*'),
               before    = mapObj[val].query.condition ? mapObj[val].query.condition.before : '*',
-              value     = mapObj[val].query.value.replace(/'/g,"''"),
+              value     = mapObj[val].query.value.replace ? mapObj[val].query.value.replace(/'/g,"''") : mapObj[val].query.value,
               after     = mapObj[val].query.condition ? mapObj[val].query.condition.after : '*';
 
 
-            if(mapObj[val].query.attribute && mapObj[val].query.attribute.type === 'date'){
-                value = $filter('date')(new Date($filter('gumgaGenericFilter')(value, 'date')),'yyyy-MM-dd')
+            if (mapObj[val].query.attribute) {
+              switch (mapObj[val].query.attribute.type) {
+                case 'date':
+                  value = $filter('date')(new Date($filter('gumgaGenericFilter')(value, 'date')),'yyyy-MM-dd')
+                  break;
+                case 'number':
+                case 'float':
+                case 'money':
+                  before    = before.replace(/'/g, '');
+                  after     = after.replace(/'/g, '');
+                  break;  
+              }              
             }
 
             aqo.push({
               attribute:  mapObj[val].query.attribute,
               condition:  mapObj[val].query.condition,
-              value:      mapObj[val].query.value.replace(/'/g,"''")
+              value:      mapObj[val].query.value.replace ? mapObj[val].query.value.replace(/'/g,"''") : mapObj[val].query.value
             })
 
 
@@ -249,7 +258,12 @@ function HQLFactory($filter){
       aqo.pop()
       return { hql: aq.slice(0, -3), source: JSON.stringify(aqo)  }
     }
-    return { hql: aq, source: JSON.stringify(aqo) }
+
+    if (aq) {
+      return { hql: aq, source: JSON.stringify(aqo) }
+    }    
+
+    return { source: JSON.stringify(aqo) }
   }
 
 
