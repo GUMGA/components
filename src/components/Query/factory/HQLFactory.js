@@ -252,18 +252,33 @@ function HQLFactory($filter){
 
 
         return (attribute.concat(before).concat(value).concat(after)).replace(/obj.\*/g,'').replace(/\*/g,'')
-      }).join(' ')
+      })
+      .filter((item, idx, ary) => {
+        var operators = ["OR", "AND"];
+
+        if (operators.indexOf(item) === -1)
+          return true;
+
+        var previousValue = ary[idx - 1];        
+        var nextValue = ary[idx + 1];        
+        if ((previousValue !== undefined && operators.indexOf(previousValue) === -1)
+          && (nextValue !== undefined && operators.indexOf(nextValue) === -1))
+          return true;
+
+        return false;
+      })      
+      .join(' ')
 
     if(aq.slice(-2) === 'ND' || aq.slice(-2) === 'OR'){
       aqo.pop()
       return { hql: aq.slice(0, -3), source: JSON.stringify(aqo)  }
     }
-
+    
     if (aq) {
       return { hql: aq, source: JSON.stringify(aqo) }
     }    
 
-    return { source: JSON.stringify(aqo) }
+    return {}
   }
 
 
