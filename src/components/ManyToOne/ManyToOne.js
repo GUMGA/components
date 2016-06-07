@@ -29,12 +29,10 @@
           manyToOneCtrl.ev.onValueVisualizationClosed = $attrs.onValueVisualizationClosed ? $attrs.onValueVisualizationClosed : angular.noop
           manyToOneCtrl.field                         = $attrs.field                                               || ''
           manyToOneCtrl.description                   = $attrs.description                                         || ''
-          manyToOneCtrl.displayInfo                   = manyToOneCtrl.displayInfo                                  || false
+          manyToOneCtrl.displayInfo                   = manyToOneCtrl.displayInfo                                  || true
           manyToOneCtrl.modalTitle                    = $attrs.modalTitle                                          || 'Visualizador de Registro'
           manyToOneCtrl.modalFields                   = $attrs.modalFields  ? $attrs.modalFields.splice(',')        : [manyToOneCtrl.field]
           manyToOneCtrl.postFields                    = $attrs.postFields   ? $attrs.postFields.split(',')          : [manyToOneCtrl.field]
-          
-          console.log(manyToOneCtrl.displayInfo)
           
           function mirrorAttributes(){
             const isOneOfPossibles = attribute => possibleAttributes.filter(value => attribute == value).length > 0
@@ -168,7 +166,7 @@
           <div class="full-width-without-padding">
             <div ng-class="{'input-group': manyToOneCtrl.displayInfoButton()}">
               <input type="text"class="form-control inputahead" tabindex="${manyToOneCtrl.tabSeq}" ng-disabled="${manyToOneCtrl.disabled}" ng-model="manyToOneCtrl.value" ng-trim="true" uib-typeahead="$value as $value[manyToOneCtrl.field] for $value in manyToOneCtrl.proxySearch($viewValue)" ${mirrorAttributes()}
-                     typeahead-template-url="manyToOneTemplate.html" typeahead-is-open="manyToOneCtrl.isTypeaheadOpen" typeahead-show-hint="true" typeahead-min-length="0" typeahead-on-select="manyToOneCtrl.afterSelect($item, $model, $label, $event, 'isNotButton')" autocomplete="off"/>
+                     typeahead-template-url="manyToOneTemplate${manyToOneCtrl.field}.html" typeahead-is-open="manyToOneCtrl.isTypeaheadOpen" typeahead-show-hint="true" typeahead-min-length="0" typeahead-on-select="manyToOneCtrl.afterSelect($item, $model, $label, $event, 'isNotButton')" autocomplete="off"/>
               <div class="input-group-btn input-group-btn-icon" ng-show="manyToOneCtrl.displayInfoButton()">
                 <button type="button" class="btn btn-default" ng-disabled="manyToOneCtrl.disabledInfoButton()" ng-click="manyToOneCtrl.openInfo(manyToOneCtrl.value, $event)">
                   <span class="glyphicon glyphicon-info-sign"></span>
@@ -192,7 +190,7 @@
             <div class="clearfix"></div>
           </a>`
 
-          $templateCache.put('manyToOneTemplate.html', templateForMatch)
+          $templateCache.put(`manyToOneTemplate${manyToOneCtrl.field}.html`, templateForMatch)
 
           let element = angular.element(baseTemplate),
               input   = element.find('input'),
