@@ -3,18 +3,17 @@
 ### Uso:
 ```html
 <gumga-many-to-one
-          value="Object"
-          list="Array"
-          search-method="Function"
-          post-method="Function"
-          field="String"
-          description="String"
-          authorize-add="Boolean"
-          async="Boolean"
-          tab-sec="Number"
-          on-new-value-added="Function"
-          on-value-visualization-opened="Function"
-          on-value-visualization-closed="Function">
+    value="Object"
+    list="Array"
+    search-method="Function"
+    post-method="Function"
+    field="String"
+    description="String"
+    authorize-add="Boolean"
+    async="Boolean"
+    tab-sec="Number"
+    display-info="Boolean"
+    on-select="Function(value)">
 </gumga-many-to-one>
 ```
 
@@ -35,9 +34,8 @@ A directive gumgaManyToOne pode ser utilizada para filtrar uma lista de registro
 - **`tab-seq`** Atributo equivalente ao tabindex, foi usado tabseq para que o elemento many-to-one, não fique na lista de tabindex.
 - **`disabled`** Atributo opcional que irá conter um boolean para habilitar ou desabilitar o componente.
 - **`async`:** Atributo *opcional* que irá dizer caso componente fará um post chamando a função passada ou um push na lista. Por default, o valor é true.
-- **`on-new-value-added`:** Atributo *opcional* que irá conter uma função que irá ser executada quando o usuário adicionar um novo valor.
-- **`on-value-visualization-opened`:** Atributo *opcional* que irá conter uma variável que possuirá uma função que irá ser executada quando o usuário tiver aberto o moda para visualização de dados.
-- **`on-value-visualization-closed`:** Atributo *opcional* que irá conter uma variável que possuirá uma função que irá ser executada quando o usuário tiver fechado o modal para visualização de dados.
+- **`display-info`** Atributo *opcional* que irá conter um boolean informando se irá aparecer o botão agrupado ao input e ícones na lista de resultados, que mostra os dados do resultado.
+- **`on-select`:** Atributo *opcional* que irá conter uma função que irá ser executada quando o usuário selecionar um resultado, o parâmetro *value* é obrigatório.
 
 
 Para uma função retornar resultados assíncronamente, duas opções podem ser utilizados:

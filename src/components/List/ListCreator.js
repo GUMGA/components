@@ -4,9 +4,16 @@ ListCreator.$inject = [];
 //TODO: Otimizar estas funções de criação de HTML.
 function ListCreator(){
   const itemsPerPage = `
-    <div class="items-per-page">
-      <select class="form-control input-sm" ng-options="item for item in ctrl.config.itemsPerPage" ng-model="ctrl.selectedItemPerPage">
-      </select>
+    <div class="row">
+      <div class="col-md-offset-9 col-md-2">
+        <div class="text-right" style="line-height: 30px">
+          <span gumga-translate-tag="gumgalist.itemsperpage"></span>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <select class="form-control input-sm" ng-options="item for item in ctrl.config.itemsPerPage" ng-model="ctrl.selectedItemPerPage">
+        </select>
+      </div>
     </div>`;
 
   function formatTableHeader(sortField, title) {
@@ -34,7 +41,7 @@ function ListCreator(){
   function generateBody(columnsArray){
     return columnsArray.reduce((prev, next) => {
       return prev +=`
-        <td ng-style="{'border-left': {{ ctrl.conditionalTableCell($value,'${next.name}') }} }"> ${next.content}</td>`;
+        <td class="${next.size}" ng-style="{'border-left': {{ ctrl.conditionalTableCell($value,'${next.name}') }} }"> ${next.content}</td>`;
     }, ' ')
   }
 
@@ -44,14 +51,14 @@ function ListCreator(){
        title: `<input type="checkbox" ng-model="ctrl.checkAll" ng-change="ctrl.selectAll(ctrl.checkAll)" ng-if="'${config.selection}' === 'multi'"/>`,
        name:'$checkbox',
        content: '<input name="$checkbox" type="checkbox" ng-model="ctrl.selectedMap[$index].checkbox"/>',
-       style:'width: .5%; padding-bottom: 5px;',
+       size:'col-md-1',
        conditional: angular.noop
      })
     }
     return `
       ${config.itemsPerPage.length > 0 ? itemsPerPage : ' '}
       <div class="table-responsive">
-        <table class="${className}">
+        <table class="${className} table-container" style="max-height: ${config.maxHeight}">
           <thead>
             <tr>
               ${generateHeader(config.columnsConfig)}
