@@ -28,7 +28,7 @@
           manyToOneCtrl.ev.onValueVisualizationOpened = $attrs.onValueVisualizationOpened ? $attrs.onValueVisualizationOpened : angular.noop
           manyToOneCtrl.ev.onValueVisualizationClosed = $attrs.onValueVisualizationClosed ? $attrs.onValueVisualizationClosed : angular.noop
           manyToOneCtrl.field                         = $attrs.field                                               || ''
-          manyToOneCtrl.description                   = $attrs.description                                         || ''
+          manyToOneCtrl.description                   = $attrs.description                                         || false
           manyToOneCtrl.displayInfo                   = manyToOneCtrl.displayInfo                                  || true
           manyToOneCtrl.modalTitle                    = $attrs.modalTitle                                          || 'Visualizador de Registro'
           manyToOneCtrl.modalFields                   = $attrs.modalFields  ? $attrs.modalFields.splice(',')        : [manyToOneCtrl.field]
@@ -42,7 +42,6 @@
           manyToOneCtrl.displayInfoButton   = displayInfoButton
           manyToOneCtrl.disabledInfoButton  = disabledInfoButton
           manyToOneCtrl.displayPlusButton   = displayPlusButton
-          manyToOneCtrl.displayDescription  = displayDescription
           manyToOneCtrl.openInfo            = openInfo
           manyToOneCtrl.valueToAdd          = ''
           manyToOneCtrl.afterSelect         = afterSelect
@@ -119,10 +118,6 @@
                 && ngModelCtrl.$$rawModelValue.length > 0
           }
           
-          function displayDescription(match) {
-              return match.model[manyToOneCtrl.description] != 'undefined'
-          }
-
           function afterSelect($item, $model, $label, $event, isBtn){
             if(!$model.id) manyToOneCtrl.proxySave($model, isBtn)
             manyToOneCtrl.ev.onSelect({value: $model})
@@ -180,7 +175,7 @@
             <span class="col-md-10 str" ng-click="manyToOneCtrl.select()">
               <span ng-bind-html="match.model.${manyToOneCtrl.field} | uibTypeaheadHighlight:query"></span>
               <span ng-show="$parent.$parent.$parent.$parent.manyToOneCtrl.valueToAdd == match.label && $parent.$parent.$parent.$parent.manyToOneCtrl.valueToAdd.length > 0 && !match.model.id && !!$parent.$parent.$parent.$parent.manyToOneCtrl.authorizeAdd">(novo)</span><br>
-              <small ng-show="match.model.${manyToOneCtrl.description} != undefined" ng-bind-html="match.model.${manyToOneCtrl.description} | uibTypeaheadHighlight:query""></small>
+              <small ng-show="${manyToOneCtrl.description != undefined}" ng-bind-html="match.model.${manyToOneCtrl.description} | uibTypeaheadHighlight:query""></small>
             </span>
             <span class="col-md-2">
               <span class="icon text-right" ng-if="${manyToOneCtrl.displayInfo}" ng-click="$parent.$parent.$parent.$parent.manyToOneCtrl.openInfo(match.model, $event)" ng-hide="$parent.$parent.$parent.$parent.manyToOneCtrl.valueToAdd == match.label && !match.label.id">
