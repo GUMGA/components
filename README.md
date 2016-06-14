@@ -7,7 +7,7 @@ Os componentes da Gumga que estão neste repositório são os componentes utiliz
 
 - AngularJS
 - Angular UI Bootstrap
-- ngImgCrop (A partir da versão 3.0.0 deve-se adicionar dependências da lib ng-img-crop ao projeto, esta lib é usada no componente GumgaImageUpload)
+- ngImgCrop (A partir da versão 3.0.0 deve-se adicionar dependências da lib ng-img-crop ao projeto, esta lib é usada no componente GumgaImageUpload, caso esteja usando a versão 2.11.6 e ocorra erro na injeção de dependência, também adicione a lib ng-img-crop ao projeto).
 
 
 

@@ -15,7 +15,7 @@
             noSearch: 'É necessário uma função de busca no componente gumgaManyToOne'
           }
 
-          const possibleAttributes  = ['value', 'list', 'searchMethod', 'field', 'description', 'onNewValueAdded', 'onValueVisualizationOpened', 'onValueVisualizationClosed', 'tabindex']
+          const possibleAttributes  = ['value', 'list', 'searchMethod', 'field', 'description', 'onNewValueAdded', 'onValueSelected', 'onValueVisualizationOpened', 'onValueVisualizationClosed', 'tabindex']
 
           if(!$attrs.value)        console.error(ERR_MSGS.noValue)
           if(!$attrs.field)        console.error(ERR_MSGS.noField)
@@ -23,11 +23,13 @@
 
           manyToOneCtrl.ev                            = {}
           manyToOneCtrl.list                          = manyToOneCtrl.list                                                    || []
-          manyToOneCtrl.ev.onNewValueAdded            = $attrs.onNewValueAdded ? manyToOneCtrl.onNewValueAdded                : angular.noop
+          manyToOneCtrl.ev.onNewValueAdded            = $attrs.onNewValueAdded            ? manyToOneCtrl.onNewValueAdded     : angular.noop
+          manyToOneCtrl.ev.onSelect                   = $attrs.onSelect                   ? manyToOneCtrl.onSelect            : angular.noop
           manyToOneCtrl.ev.onValueVisualizationOpened = $attrs.onValueVisualizationOpened ? $attrs.onValueVisualizationOpened : angular.noop
           manyToOneCtrl.ev.onValueVisualizationClosed = $attrs.onValueVisualizationClosed ? $attrs.onValueVisualizationClosed : angular.noop
           manyToOneCtrl.field                         = $attrs.field                                               || ''
-          manyToOneCtrl.description                   = $attrs.description                                         || ''
+          manyToOneCtrl.description                   = $attrs.description                                         || false
+          manyToOneCtrl.displayInfo                   = manyToOneCtrl.displayInfo                                  || true
           manyToOneCtrl.modalTitle                    = $attrs.modalTitle                                          || 'Visualizador de Registro'
           manyToOneCtrl.modalFields                   = $attrs.modalFields  ? $attrs.modalFields.splice(',')        : [manyToOneCtrl.field]
           manyToOneCtrl.postFields                    = $attrs.postFields   ? $attrs.postFields.split(',')          : [manyToOneCtrl.field]
@@ -38,8 +40,8 @@
           }
 
           manyToOneCtrl.displayInfoButton   = displayInfoButton
+          manyToOneCtrl.disabledInfoButton  = disabledInfoButton
           manyToOneCtrl.displayPlusButton   = displayPlusButton
-          manyToOneCtrl.displayDescription  = displayDescription
           manyToOneCtrl.openInfo            = openInfo
           manyToOneCtrl.valueToAdd          = ''
           manyToOneCtrl.afterSelect         = afterSelect
@@ -102,6 +104,10 @@
           }
 
           function displayInfoButton(){
+              return manyToOneCtrl.displayInfo
+          }
+          
+          function disabledInfoButton(){
             if(!ngModelCtrl.$$rawModelValue) return false
             return (typeof ngModelCtrl.$$rawModelValue === 'string' || ngModelCtrl.$$rawModelValue instanceof String)
           }
@@ -112,13 +118,9 @@
                 && ngModelCtrl.$$rawModelValue.length > 0
           }
           
-          function displayDescription(match) {
-              console.log(match)
-              return match.model[manyToOneCtrl.description] != 'undefined'
-          }
-
           function afterSelect($item, $model, $label, $event, isBtn){
             if(!$model.id) manyToOneCtrl.proxySave($model, isBtn)
+            manyToOneCtrl.ev.onSelect({value: $model})
           }
           function openInfo(object = {}, $event) {
 
@@ -157,11 +159,11 @@
           /*  */
           let baseTemplate = `
           <div class="full-width-without-padding">
-            <div class="input-group">
+            <div ng-class="{'input-group': manyToOneCtrl.displayInfoButton()}">
               <input type="text"class="form-control inputahead" tabindex="${manyToOneCtrl.tabSeq}" ng-disabled="${manyToOneCtrl.disabled}" ng-model="manyToOneCtrl.value" ng-trim="true" uib-typeahead="$value as $value[manyToOneCtrl.field] for $value in manyToOneCtrl.proxySearch($viewValue)" ${mirrorAttributes()}
-                     typeahead-template-url="manyToOneTemplate.html" typeahead-is-open="manyToOneCtrl.isTypeaheadOpen" typeahead-show-hint="true" typeahead-min-length="0" typeahead-on-select="manyToOneCtrl.afterSelect($item, $model, $label, $event, 'isNotButton')" autocomplete="off"/>
-              <div class="input-group-btn input-group-btn-icon">
-                <button type="button" class="btn btn-default" ng-disabled="manyToOneCtrl.displayInfoButton()" ng-click="manyToOneCtrl.openInfo(manyToOneCtrl.value, $event)">
+                     typeahead-template-url="manyToOneTemplate${manyToOneCtrl.field}.html" typeahead-is-open="manyToOneCtrl.isTypeaheadOpen" typeahead-show-hint="true" typeahead-min-length="0" typeahead-on-select="manyToOneCtrl.afterSelect($item, $model, $label, $event, 'isNotButton')" autocomplete="off"/>
+              <div class="input-group-btn input-group-btn-icon" ng-show="manyToOneCtrl.displayInfoButton()">
+                <button type="button" class="btn btn-default" ng-disabled="manyToOneCtrl.disabledInfoButton()" ng-click="manyToOneCtrl.openInfo(manyToOneCtrl.value, $event)">
                   <span class="glyphicon glyphicon-info-sign"></span>
                 </button>
               </div>
@@ -170,20 +172,20 @@
 
           let templateForMatch = `
           <a class="col-md-12 result">
-            <span class="col-md-10 str">
-              <span ng-bind-html="match.model['${manyToOneCtrl.field}'] | uibTypeaheadHighlight:query"></span>
+            <span class="col-md-10 str" ng-click="manyToOneCtrl.select()">
+              <span ng-bind-html="match.model.${manyToOneCtrl.field} | uibTypeaheadHighlight:query"></span>
               <span ng-show="$parent.$parent.$parent.$parent.manyToOneCtrl.valueToAdd == match.label && $parent.$parent.$parent.$parent.manyToOneCtrl.valueToAdd.length > 0 && !match.model.id && !!$parent.$parent.$parent.$parent.manyToOneCtrl.authorizeAdd">(novo)</span><br>
-              <small ng-show="match.model['${manyToOneCtrl.description}'] != undefined" ng-bind-html="match.model['${manyToOneCtrl.description}'] | uibTypeaheadHighlight:query""></small>
+              <small ng-show="${manyToOneCtrl.description != undefined}" ng-bind-html="match.model.${manyToOneCtrl.description} | uibTypeaheadHighlight:query""></small>
             </span>
             <span class="col-md-2">
-              <span class="icon text-right" ng-click="$parent.$parent.$parent.$parent.manyToOneCtrl.openInfo(match.model, $event)" ng-hide="$parent.$parent.$parent.$parent.manyToOneCtrl.valueToAdd == match.label && !match.label.id">
+              <span class="icon text-right" ng-if="${manyToOneCtrl.displayInfo}" ng-click="$parent.$parent.$parent.$parent.manyToOneCtrl.openInfo(match.model, $event)" ng-hide="$parent.$parent.$parent.$parent.manyToOneCtrl.valueToAdd == match.label && !match.label.id">
                 <span class="glyphicon glyphicon-info-sign"></span>
               </span>
             </span>
             <div class="clearfix"></div>
           </a>`
 
-          $templateCache.put('manyToOneTemplate.html', templateForMatch)
+          $templateCache.put(`manyToOneTemplate${manyToOneCtrl.field}.html`, templateForMatch)
 
           let element = angular.element(baseTemplate),
               input   = element.find('input'),
@@ -208,13 +210,15 @@
             replace: true,
             transclude: true,
             scope : {
-              value:        '=',
-              searchMethod: '&',
-              postMethod:   '&?',
-              list:         '=?',
-              authorizeAdd: '=?',
-              disabled:     '=?',
-              tabSeq:       '=?'
+              value:            '=',
+              searchMethod:     '&',
+              postMethod:       '&?',
+              onSelect:         '&?',
+              list:             '=?',
+              authorizeAdd:     '=?',
+              disabled:         '=?',
+              displayInfo:      '=?',
+              tabSeq:           '=?'
             },
             controllerAs: 'manyToOneCtrl',
             bindToController: true,

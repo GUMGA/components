@@ -8,7 +8,8 @@ class="String"
 data="Array"
 on-click="Function"
 on-sort="Function"
-on-double-click="Function">
+on-double-click="Function"
+change-per-page="Function(value)">>
 </gumga-list>
 ```
 ### Descrição
@@ -20,16 +21,17 @@ O componente gumgaList foi criado no intuito de substituir a gumgaTable. A parti
 - **`class`:** Atributo *opcional* que irá conter uma string que será utilizada para adicionar classes a mais no componente. Por padrão, apenas a classe `table` é utilizada.
 - **`data`:** Atributo *obrigatório*  que irá conter um array com o qual os dados serão mostrados na tabela.
 - **`configuration`:** Atributo *obrigatório*  que irá conter um objeto com o qual os dados serão formatados para montar a tabela.
-- **`onSort`:** Atributo *opcional* que irá conter uma função que será executada toda vez que o usuário ordenar alguma coluna. O padrão de parâmetros é igual ao do atributo **`sort`**
-- **`onClick`:** Atributo *opcional* que irá conter uma função que será executada toda vez que o usuário clicar em uma linha da tabela. Para receber o valor da linha em que houve o click, adiciona o parâmetro $value na função, como por exemplo: on`-click="foo($value)"``
-- **`onDoubleClick`:** Atributo *opcional* que irá conter uma função que será executada toda vez que o usuário clicar duas vezes em uma linha da tabela. Para receber o valor da linha em que houve o double click, seguir o mesmo padrão de parâmetro igual ao do `onClick`.
-- **`selectedValues`:** Atributo *opcional* que irá conter um array que conterá os valores que foram selecionados. Este array pode ser manipulado de fora da tabela para alterar os valores que foram selecionados.
+- **`on-sort`:** Atributo *opcional* que irá conter uma função que será executada toda vez que o usuário ordenar alguma coluna. O padrão de parâmetros é igual ao do atributo **`sort`**
+- **`on-click`:** Atributo *opcional* que irá conter uma função que será executada toda vez que o usuário clicar em uma linha da tabela. Para receber o valor da linha em que houve o click, adiciona o parâmetro $value na função, como por exemplo: on`-click="foo($value)"``
+- **`on-double-click`:** Atributo *opcional* que irá conter uma função que será executada toda vez que o usuário clicar duas vezes em uma linha da tabela. Para receber o valor da linha em que houve o double click, seguir o mesmo padrão de parâmetro igual ao do `onClick`.
+- **`selected-values`:** Atributo *opcional* que irá conter um array que conterá os valores que foram selecionados. Este array pode ser manipulado de fora da tabela para alterar os valores que foram selecionados.
+- **`change-per-pagee`:** Atributo *opcional* que irá conter uma função que será executada sempre que o select de *itemsPerPage* for alterado.
 
 ### Configuração da tabela
 
 O componente pode ser configurado através de um objeto javascript que deve ser passado para o atributo **`data`**. É através deste objeto que as colunas também são configuradas.
 
-- **`selection`:** String *`opcional`* que será utilizada para definir como será a seleção da tabela. Possíveis valores: `multi` e `single`. Como padrão, o valor é `single`.
+- **`selection`:** String *`opcional`* que será utilizada para definir como será a seleção da tabela. Possíveis valores: `multi` e `single`. Como padrão, o valor é `single`. *A partir da versão 3.1.0 em diante podemos usar também `none` para desabilitar o selection*.
 - **`itemsPerPage`:** Array *`opcional`* que será utilizado para mostrar um `select` com as opções do Array. Ele é utilizado para definir quantos itens pela página serão utilizados. O valor selecionado no array será exposto no escopo da tabela através da variável `itemsPerPage`.
 - **`sortDefault`:**  String *`opcional`*  que será utilizada para definir qual o campo padrão de ordenação. Este valor **deve** ser o mesmo identificador que está no atributo `columns`.
 - **`checkbox`:** Boolean *`opcional`* que irá definir se aparecerá a coluna de checkbox
@@ -43,6 +45,9 @@ function(value){
   }
 }
 ```
+- **`maxHeight`** String *`opcional`* que pode configurar a altura máxima do corpo da tabela, gerando uma barra de rolagem quando os dados atingem a altura máxima definida.
+
+
 - **`columnsConfig`** Array *`opcional`* que será utilizado para configurar as colunas que foram definidas no atributo columns. Cada valor deste array é um objeto de configuração para cada coluna, não
 sendo obrigatório a configuração de todas as colunas. Os valores deste objeto são:
   * **`name`:**: String *`obrigatória`* que irá conter o nome identificador da coluna que será configurada. Este nome deve ser o mesmo nome que está no atributo `columns`, do objeto de configuração da tabela.
