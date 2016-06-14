@@ -4,7 +4,7 @@ QueryModelFactory.$inject = [];
 
 function QueryModelFactory(){
 
-  function QueryModel(query = {}, active = true, initialState = 'NOTHING') {
+  function QueryModel(query = {}, active = true, initialState = 'NOTHING', zIndex = 999) {
     this.STATES = Object.freeze({
       NOTHING:                  1,  // 0000001
       ONLY_ATTRIBUTE:           2,  // 0000010
@@ -17,6 +17,7 @@ function QueryModelFactory(){
     this.query                      = query
     this.active                     = active
     this.activeStates               = this.STATES[initialState]
+    this.zIndex                     = zIndex
   };
 
   // Functions
