@@ -18,13 +18,16 @@
       transclude: true,
       scope: {
         search: '&',
-        saveQuery: '&'
+        saveQuery: '&',
+        containerId: '@?'
       },
       link: ($scope, $element, $attrs, $ctrl, $transclude) => {
         $scope.possibleAdvancedFields = []
 
-        $scope.search       = $scope.search     || angular.noop
-        $scope.saveQuery    = $scope.saveQuery  || angular.noop
+        $scope.search       = $scope.search      || angular.noop
+        $scope.saveQuery    = $scope.saveQuery   || angular.noop
+        $scope.containerId  = $scope.containerId || "replace";
+
         $scope.proxySave    = (query) => {
           $scope.saveQuery({ query, name })
         }
@@ -41,7 +44,7 @@
           let template  = `<gumga-filter-core ng-show="isOpen" search="proxySearch(param)" ${$attrs.saveQuery ? 'save-query="saveQuery(query, name)"' : ''}>
                             ${$scope.possibleAdvancedFields.reduce(((prev, next) => prev += next), '')}
                           </gumga-filter-core>`,
-              element   = angular.element(document.getElementById('replace'))
+              element   = angular.element(document.getElementById($scope.containerId))          
 
           element.replaceWith($compile(template)($scope))
         })
