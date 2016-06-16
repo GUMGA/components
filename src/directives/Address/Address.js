@@ -3,36 +3,42 @@
 	AddressDirective.$inject = ['GumgaAddressService','$http','$compile'];
 	function AddressDirective(GumgaAddressService,$http,$compile){
 		var templateBegin =
-		'<div class="address">' +
-		'		<div class="col-md-8 col-sm-12 col-xs-12">' +
-		'				<accordion>' +
-		'						<accordion-group is-open="true" heading="{{::title}}">'
-		;
-		var blockCep =
 		'<div class="row">' +
-		'		<div class="col-md-12">' +
-		'				<div class="form-group">' +
-		'						<label for="input{{::id}}">CEP</label>' +
-		'						<div class="input-group">' +
-		'								<input type="text" class="form-control" ng-model="value.zipCode" gumga-mask="99.999-999" id="input{{::id}}" ng-keypress="custom($event,value.zipCode)">' +
-		'								<span class="input-group-btn">' +
-		'										<button class="btn btn-primary" type="button" ng-click="searchCep(value.zipCode)" ng-disabled="loader{{::id}}" id="buttonSearch{{::id}}"><i class="glyphicon glyphicon-search"></i></button>' +
-		'								</span>' +
-		'						</div>' +
-		'				</div>' +
-		'		</div>' +
+		' <div class="col-md-12 col-sm-12 col-xs-12">' +
+		'   <accordion>' +
+		'	  <accordion-group is-open="false" heading="{{::title}}">'
+		;
+		var blockCountryCep =
+		'<div class="row">' +
+		' <div class="col-md-8">' +
+		'	<div class="form-group">' +
+		'     <label for="País">País</label>' +
+		'	  <select ng-readonly="true" ng-model="value.country" class="form-control" ng-options="pais for pais in factoryData.availableCountries"></select>' +
+		'	</div>' +
+		'	</div>' +
+		' <div class="col-md-4">' +
+		'	<div class="form-group">' +
+		'     <label for="input{{::id}}">CEP</label>' +
+		'	  <div class="input-group">' +
+		'		<input type="text" class="form-control" ng-model="value.zipCode" gumga-mask="99.999-999" id="input{{::id}}" ng-keypress="custom($event,value.zipCode)">' +
+		'		<span class="input-group-btn">' +
+		'	      <button class="btn btn-primary" type="button" ng-click="searchCep(value.zipCode)" ng-disabled="loader{{::id}}" id="buttonSearch{{::id}}"><i class="glyphicon glyphicon-search"></i></button>' +
+		'		</span>' +
+		'	  </div>' +
+		'	</div>' +
+		' </div>' +
 		'</div>'
 		;
 		var streetType =
 		'<div class="form-group">' +
-		'		<label for="tipoLogradouro">Tipo Logradouro</label>' +
-		'		<select type="text" ng-model="value.premisseType" class="form-control" ng-options="log for log in factoryData.logs"></select>' +
+		' <label for="tipoLogradouro">Tipo Logradouro</label>' +
+		' <select type="text" ng-model="value.premisseType" class="form-control" ng-options="log for log in factoryData.logs"></select>' +
 		'</div>'
 		;
 		var street =
 		'<div class="form-group">' +
-		'		<label for="Logradouro">Logradouro</label>' +
-		'		<input type="text" ng-model="value.premisse" class="form-control id="oi"/>' +
+		' <label for="Logradouro">Logradouro</label>' +
+		' <input type="text" ng-model="value.premisse" class="form-control id="oi"/>' +
 		'</div>'
 		;
 		var number =
@@ -79,21 +85,15 @@
 		'		</div>' +
 		'</div>'
 		;
-		var blockCountryStateCity =
+		var blockStateCity =
 		'<div class="row">' +
 		'		<div class="col-md-4">' +
-		'				<div class="form-group">' +
-		'						<label for="País">País</label>' +
-		'						<select ng-model="value.country" class="form-control" ng-options="pais for pais in factoryData.availableCountries"></select>' +
-		'				</div>' +
-		'		</div>' +
-		'		<div class="col-md-3">' +
 		'				<div class="form-group">' +
 		'						<label for="UF">UF</label>' +
 		'						<select ng-model="value.state" class="form-control" ng-options="uf for uf in factoryData.ufs"></select>' +
 		'				</div>' +
 		'		</div>' +
-		'		<div class="col-md-5">' +
+		'		<div class="col-md-8">' +
 		'				<div class="form-group">' +
 		'						<label for="Localidade">Localidade</label>' +
 		'						<input type="text" ng-model="value.localization" class="form-control"/>' +
@@ -136,28 +136,28 @@
 
 				if(isEmpty(scope.value)) scope.value = GumgaAddressService.returnFormattedObject();
 
-				attrs.cep = forceAttr2Bool(attrs.cep);
-				attrs.street = forceAttr2Bool(attrs.street);
-				attrs.streetNumber = forceAttr2Bool(attrs.streetNumber);
-				attrs.complement = forceAttr2Bool(attrs.complement);
-				attrs.neighborhood = forceAttr2Bool(attrs.neighborhood);
-				attrs.countryStateCity = forceAttr2Bool(attrs.countryStateCity || attrs.cityStateCountry);
-				attrs.maps = forceAttr2Bool(attrs.maps);
+				attrs.countryCep    = forceAttr2Bool(attrs.countryCep);
+				attrs.street        = forceAttr2Bool(attrs.street);
+				attrs.streetNumber  = forceAttr2Bool(attrs.streetNumber);
+				attrs.complement    = forceAttr2Bool(attrs.complement);
+				attrs.neighborhood  = forceAttr2Bool(attrs.neighborhood);
+				attrs.stateCity     = forceAttr2Bool(attrs.stateCity || attrs.cityState);
+				attrs.maps          = forceAttr2Bool(attrs.maps);
 
 				if(!attrs.name) throw "É necessário passar um parâmetro 'name' como identificador para GumgaAddress";
-				if((!attrs.street || !attrs.streetNumber) && !attrs.countryStateCity) throw "É necessário usar ao menos um dos elementos principais [street / city-state-country] para GumgaAddress";
-				if(!attrs.cep && (attrs.onSearchCepStart || attrs.onSearchCepSuccess || attrs.onSearchCepError)) throw "É necessário uso do atributo cep para uso das funções [on-search-cep-start / on-search-cep-success / on-search-cep-error]";
+				if((!attrs.street || !attrs.streetNumber) && !attrs.stateCity) throw "É necessário usar ao menos um dos elementos principais [street / city-state] para GumgaAddress";
+				if(!attrs.countryCep && (attrs.onSearchCepStart || attrs.onSearchCepSuccess || attrs.onSearchCepError)) throw "É necessário uso do atributo country-cep para uso das funções [on-search-cep-start / on-search-cep-success / on-search-cep-error]";
 
 				var template = '';
 				template = template.concat(templateBegin);
 
-				if(attrs.countryStateCity || attrs.cityStateCountry) template = template.concat(blockCountryStateCity);
-				if(attrs.cep) template = template.concat(blockCep);
-				if(attrs.neighborhood) template = template.concat(blockNeighbourhood);
-				if(attrs.street) template = template.concat(blockStreet);
-				if(attrs.streetNumber) template = template.concat(blockStreetNumber);
-				if(attrs.complement) template = template.concat(blockComplement);
-				if(attrs.maps) template = template.concat(blockMaps);
+				if(attrs.countryCep) template                   = template.concat(blockCountryCep);
+				if(attrs.stateCity || attrs.cityState) template = template.concat(blockStateCity);
+				if(attrs.neighborhood) template                 = template.concat(blockNeighbourhood);
+				if(attrs.street) template                       = template.concat(blockStreet);
+				if(attrs.streetNumber) template                 = template.concat(blockStreetNumber);
+				if(attrs.complement) template                   = template.concat(blockComplement);
+				if(attrs.maps) template                         = template.concat(blockMaps);
 
 				template = template.concat(templateEnd);
 				elm.append($compile(template)(scope));
@@ -171,6 +171,7 @@
 					logs: GumgaAddressService.everyLogradouro,
 					availableCountries: GumgaAddressService.availableCountries
 				};
+                scope.value.country = scope.factoryData.availableCountries[0]
 
 
 				var eventHandler = {
