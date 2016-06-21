@@ -8,12 +8,12 @@
 (function() {
     'use strict';
 
-    NumberInWordsFilter.$inject = ['$timeout'];
+    NumberInWordsFilter.$inject = [];
 
-    function NumberInWordsFilter($timeout) {
+    function NumberInWordsFilter() {
         return (value, currency) => {
             if (value) {
-                // if (!angular.isNumber(value)) console.error('É necessário passar um number para o filtro gumgaTranslate');
+                if (!angular.isString(value)) console.error('É necessário passar uma string para o filtro gumgaTranslate');
 
                 String.prototype.numberInWords = function (c) {
                     var ex = [
