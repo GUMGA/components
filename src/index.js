@@ -12,6 +12,7 @@ angular.module('gumga.core', [
 	'gumga.confirm',
 	'gumga.manytoone',
     'gumga.number',
+    'gumga.numberinwords',
     'gumga.fileupload',
     'gumga.imageupload',
 	'gumga.documentation'
