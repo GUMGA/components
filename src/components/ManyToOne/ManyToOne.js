@@ -171,7 +171,7 @@
           let baseTemplate = `
           <div class="full-width-without-padding">
             <div ng-class="{'input-group': (manyToOneCtrl.displayInfoButton() && manyToOneCtrl.modelValueIsObject()) || manyToOneCtrl.displayClearButton()}">
-              <input type="text" class="form-control inputahead" tabindex="${manyToOneCtrl.tabSeq}" ng-disabled="manyToOneCtrl.disabled" ng-model="manyToOneCtrl.value" ng-trim="true" uib-typeahead="$value as $value[manyToOneCtrl.field] for $value in manyToOneCtrl.proxySearch($viewValue)" ${mirrorAttributes()}
+              <input type="text" class="form-control inputahead" tabindex="${manyToOneCtrl.tabSeq}" ng-disabled="manyToOneCtrl.disabled" ng-readonly="manyToOneCtrl.readonly" ng-model="manyToOneCtrl.value" ng-trim="true" uib-typeahead="$value as $value[manyToOneCtrl.field] for $value in manyToOneCtrl.proxySearch($viewValue)" ${mirrorAttributes()}
                      typeahead-template-url="manyToOneTemplate${manyToOneCtrl.field}.html" typeahead-is-open="manyToOneCtrl.isTypeaheadOpen" typeahead-show-hint="true" typeahead-min-length="0" typeahead-on-select="manyToOneCtrl.afterSelect($item, $model, $label, $event, 'isNotButton')" autocomplete="off"/>
               <div class="input-group-btn input-group-btn-icon" ng-show="(manyToOneCtrl.displayInfoButton() && manyToOneCtrl.modelValueIsObject()) || manyToOneCtrl.displayClearButton()">
                 <button type="button" class="btn btn-default" ng-disabled="manyToOneCtrl.modelValueIsObject()" ng-show="manyToOneCtrl.displayClearButton()" ng-click="manyToOneCtrl.clearModel()">
@@ -232,6 +232,7 @@
               list:             '=?',
               authorizeAdd:     '=?',
               disabled:         '=?',
+              readonly:         '=?',
               displayInfo:      '=?',
               displayClear:     '=?',
               tabSeq:           '=?'
