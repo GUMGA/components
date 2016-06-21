@@ -7,9 +7,6 @@
     function ImageUpload($parse,$uibModal,GumgaMimeTypeService) {
 
         let template = `
-        <style>
-        
-        </style>
         <input type="file" class="file-input" ng-hide="true" />
         <div class="row">
             <div class="area" ng-show="ctrl.crop">
