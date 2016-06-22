@@ -135,12 +135,7 @@
             ,   onAbort:        ($attrs.onUploadAbort)      ? $scope.onUploadAbort      : angular.noop
             ,   onError:        ($attrs.onUploadError)      ? $scope.onUploadError      : angular.noop
             }
-            
-            // let onProgress = (e, i) => $scope.$apply(() => $scope.queue[i].percent = Math.round((e.loaded / e.total) * 100))
-            // let onLoadEnd  = (e, i) => eventHandlers.onLoadEnd({event: e})
-            // let onAbort = (e, i) => eventHandlers.onAbort(e)
-            // let onError = (e, i) => eventHandlers.onError(e)         
-            
+                        
             $scope.upload = function() {
                 eventHandlers.onLoadStart()
                 angular.forEach($scope.queue, (curr, i) => {
