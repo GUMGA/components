@@ -35,7 +35,7 @@
                 </div>
                 <div class="col-md-6">
                   <button id="single-button" type="button" class="btn btn-default pull-right" ng-click="clearQuery()" ng-disabled="!isAnyQueryNotOk()" >
-                    <i class="glyphicon glyphicon-repeat"></i> Reiniciar
+                    <i class="glyphicon glyphicon-repeat"></i> Limpar filtros
                   </button>
                 </div>
               </div>

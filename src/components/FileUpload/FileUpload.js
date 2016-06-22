@@ -129,18 +129,15 @@
             })
             
             let eventHandlers = {
-                onLoadEnd:  ($attrs.onUploadComplete) ? $scope.onUploadComplete : angular.noop
-            ,   onAbort:    ($attrs.onUploadAbort)    ? $scope.onUploadAbort    : angular.noop
-            ,   onError:    ($attrs.onUploadError)    ? $scope.onUploadError    : angular.noop
+                onLoadStart:    ($attrs.onUploadStart)      ? $scope.onUploadStart      : angular.noop
+            ,   onProgress:     (e, i) => $scope.$apply(() => $scope.queue[i].percent = Math.round((e.loaded / e.total) * 100))
+            ,   onLoadEnd:      ($attrs.onUploadComplete)   ? $scope.onUploadComplete   : angular.noop
+            ,   onAbort:        ($attrs.onUploadAbort)      ? $scope.onUploadAbort      : angular.noop
+            ,   onError:        ($attrs.onUploadError)      ? $scope.onUploadError      : angular.noop
             }
-            
-            let onProgress = (e, i) => $scope.$apply(() => $scope.queue[i].percent = Math.round((e.loaded / e.total) * 100))
-            let onLoadEnd  = (e, i) => eventHandlers.onLoadEnd({event: e})
-            let onAbort = (e, i) => eventHandlers.onAbort(e)
-            let onError = (e, i) => eventHandlers.onError(e)         
-            
+                        
             $scope.upload = function() {
-                $scope.onUploadStart()
+                eventHandlers.onLoadStart()
                 angular.forEach($scope.queue, (curr, i) => {
                     let formDataFile = new FormData()
                     formDataFile.append($attrs.attribute, curr.file)
@@ -151,10 +148,10 @@
                             'Content-Type': undefined,
                             __XHR__: () => {
                                 return (xhr) => {
-                                    xhr.upload.onprogress   = (e) => onProgress(e, i)
-                                    xhr.upload.onloadend    = (e) => onLoadEnd(e, i)
-                                    xhr.upload.onabort      = (e) => onAbort(e, i)
-                                    xhr.upload.onerror      = (e) => onError(e, i)
+                                    xhr.upload.onprogress   = (e) => eventHandlers.onProgress(e, i)
+                                    xhr.upload.onloadend    = (e) => eventHandlers.onLoadEnd(e, i)
+                                    xhr.upload.onabort      = (e) => eventHandlers.onAbort(e, i)
+                                    xhr.upload.onerror      = (e) => eventHandlers.onError(e, i)
                                 };
                             }
                         },
