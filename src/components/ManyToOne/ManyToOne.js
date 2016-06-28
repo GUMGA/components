@@ -29,19 +29,24 @@
           manyToOneCtrl.ev.onValueVisualizationClosed = $attrs.onValueVisualizationClosed ? $attrs.onValueVisualizationClosed : angular.noop
           manyToOneCtrl.field                         = $attrs.field                                               || ''
           manyToOneCtrl.description                   = $attrs.description                                         || false
-          manyToOneCtrl.displayInfo                   = manyToOneCtrl.displayInfo                                  || true
           manyToOneCtrl.modalTitle                    = $attrs.modalTitle                                          || 'Visualizador de Registro'
           manyToOneCtrl.modalFields                   = $attrs.modalFields  ? $attrs.modalFields.splice(',')        : [manyToOneCtrl.field]
           manyToOneCtrl.postFields                    = $attrs.postFields   ? $attrs.postFields.split(',')          : [manyToOneCtrl.field]
           manyToOneCtrl.displayClear                  = manyToOneCtrl.hasOwnProperty('displayClear') ? manyToOneCtrl.displayClear : true
+          manyToOneCtrl.displayInfo                   = manyToOneCtrl.hasOwnProperty('displayInfo')  ? manyToOneCtrl.displayInfo  : true
           
+          console.log(manyToOneCtrl.displayClear)
+          console.log(manyToOneCtrl.displayInfo)
           function mirrorAttributes(){
             const isOneOfPossibles = attribute => possibleAttributes.filter(value => attribute == value).length > 0
             return Object.keys($attrs.$attr).filter((value) => !isOneOfPossibles(value)).reduce((prev, next) => prev += `${next}="${$attrs[next]}"`, '')
           }
+          
+          
 
           manyToOneCtrl.displayInfoButton   = displayInfoButton
           manyToOneCtrl.modelValueIsObject  = modelValueIsObject
+          manyToOneCtrl.disabledDisplayInfo = disabledDisplayInfo
           manyToOneCtrl.displayPlusButton   = displayPlusButton
           manyToOneCtrl.displayClearButton  = displayClearButton
           manyToOneCtrl.clearModel          = clearModel
@@ -115,11 +120,15 @@
           }
           
           function modelValueIsObject(){
-            return !(typeof ngModelCtrl.$$rawModelValue === 'object')
+            if (manyToOneCtrl.disabled) return true
+            return !(typeof manyToOneCtrl.value === 'object')
+          }
+          
+          function disabledDisplayInfo(){
+            return !(typeof manyToOneCtrl.value === 'object')
           }
           
           function clearModel(){
-            ngModelCtrl = ngModelCtrlReset
             manyToOneCtrl.value = null
           }
           
@@ -177,7 +186,7 @@
                 <button type="button" class="btn btn-default" ng-disabled="manyToOneCtrl.modelValueIsObject()" ng-show="manyToOneCtrl.displayClearButton()" ng-click="manyToOneCtrl.clearModel()">
                   <span class="glyphicon glyphicon-remove"></span>
                 </button>
-                <button type="button" class="btn btn-default" ng-show="manyToOneCtrl.displayInfoButton()" ng-disabled="manyToOneCtrl.modelValueIsObject()" ng-click="manyToOneCtrl.openInfo(manyToOneCtrl.value, $event)">
+                <button type="button" class="btn btn-default" ng-show="manyToOneCtrl.displayInfoButton()" ng-disabled="manyToOneCtrl.disabledDisplayInfo()" ng-click="manyToOneCtrl.openInfo(manyToOneCtrl.value, $event)">
                   <span class="glyphicon glyphicon-info-sign"></span>
                 </button>
               </div>
