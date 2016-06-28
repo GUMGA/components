@@ -87,9 +87,7 @@
 
       $scope.$watch('ctrl.selectedValues', (newVal = [], oldVal = []) => updateSelected(newVal, newVal.length - oldVal.length >= 0, oldVal), true)
       
-      $scope.$watch('ctrl.selectedItemPerPage', (newVal, oldVal) => {
-          changePerPage(newVal)
-      }, true)
+      $scope.$watch('ctrl.selectedItemPerPage', (newVal, oldVal) => changePerPage(newVal), true)
 
       function findEqualInMap(obj = {}){
         const auxObj = ctrl.selectedMap
