@@ -34,15 +34,12 @@
           manyToOneCtrl.postFields                    = $attrs.postFields   ? $attrs.postFields.split(',')          : [manyToOneCtrl.field]
           manyToOneCtrl.displayClear                  = manyToOneCtrl.hasOwnProperty('displayClear') ? manyToOneCtrl.displayClear : true
           manyToOneCtrl.displayInfo                   = manyToOneCtrl.hasOwnProperty('displayInfo')  ? manyToOneCtrl.displayInfo  : true
+          manyToOneCtrl.showDescripion                = !!manyToOneCtrl.description
           
-          console.log(manyToOneCtrl.displayClear)
-          console.log(manyToOneCtrl.displayInfo)
           function mirrorAttributes(){
             const isOneOfPossibles = attribute => possibleAttributes.filter(value => attribute == value).length > 0
             return Object.keys($attrs.$attr).filter((value) => !isOneOfPossibles(value)).reduce((prev, next) => prev += `${next}="${$attrs[next]}"`, '')
           }
-          
-          
 
           manyToOneCtrl.displayInfoButton   = displayInfoButton
           manyToOneCtrl.modelValueIsObject  = modelValueIsObject
@@ -198,7 +195,7 @@
             <span class="col-md-10 str" ng-click="manyToOneCtrl.select()">
               <span ng-bind-html="match.model.${manyToOneCtrl.field} | uibTypeaheadHighlight:query"></span>
               <span ng-show="$parent.$parent.$parent.$parent.manyToOneCtrl.valueToAdd == match.label && $parent.$parent.$parent.$parent.manyToOneCtrl.valueToAdd.length > 0 && !match.model.id && !!$parent.$parent.$parent.$parent.manyToOneCtrl.authorizeAdd">(novo)</span><br>
-              <small ng-show="manyToOneCtrl.description" ng-bind-html="match.model.${manyToOneCtrl.description} | uibTypeaheadHighlight:query""></small>
+              <small ng-show="$parent.$parent.$parent.$parent.manyToOneCtrl.showDescripion" ng-bind-html="match.model.${manyToOneCtrl.description} | uibTypeaheadHighlight:query""></small>
             </span>
             <span class="col-md-2">
               <span class="icon text-right" ng-if="${manyToOneCtrl.displayInfo}" ng-click="$parent.$parent.$parent.$parent.manyToOneCtrl.openInfo(match.model, $event)" ng-hide="$parent.$parent.$parent.$parent.manyToOneCtrl.valueToAdd == match.label && !match.label.id">
