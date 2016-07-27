@@ -6,31 +6,31 @@
 
     let template = `
       <div class="input-group">
-       <input type="text" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event)" typeahead="item.description for item in ctrl.proxyFn($viewValue)" typeahead-on-select="ctrl.filterSelect($item, $model, $label, $event)" ng-show="ctrl.hasQuerySaved && openFilter"/>
-       <input type="text" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event)" ng-show="!ctrl.hasQuerySaved || !openFilter" />
-       <span class="input-group-btn" uib-dropdown uib-keyboard-nav auto-close="outsideClick">
-         <button class="btn btn-default" type="button" uib-dropdown-toggle>
-          <span class="glyphicon glyphicon-chevron-down"><span>
-         </button>
-         <ul uib-dropdown-menu role="menu" aria-labelledby="single-button" class="dropdown-menu-search">
+        <input type="text" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event)" typeahead="item.description for item in ctrl.proxyFn($viewValue)" typeahead-on-select="ctrl.filterSelect($item, $model, $label, $event)" ng-show="ctrl.hasQuerySaved && openFilter"/>
+        <input type="text" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event)" ng-show="!ctrl.hasQuerySaved || !openFilter" />
+        <span class="input-group-btn" uib-dropdown uib-keyboard-nav auto-close="outsideClick">
+          <button class="btn btn-default" type="button" uib-dropdown-toggle>
+            <span class="glyphicon glyphicon-chevron-down"><span>
+          </button>
+          <ul uib-dropdown-menu role="menu" aria-labelledby="single-button" class="dropdown-menu-search">
             <li role="menuitem" ng-repeat="(key, $value) in ctrl.mapFields">
-               <a class="no-padding-search-fields">
-                 <label ng-click="$event.stopPropagation()">
-                   <input type="checkbox" ng-model="$value.checkbox" />
-                   <span><b>{{::$value.label}}</b></span>
-                 </label>
-               </a>
+              <a class="no-padding-search-fields">
+                <label ng-click="$event.stopPropagation()">
+                  <input type="checkbox" ng-model="$value.checkbox" />
+                  <span><b>{{::$value.label}}</b></span>
+                </label>
+              </a>
             </li>
           </ul>
-            <button class="btn btn-default" ng-click="openFilter = !openFilter">
-              <span class="glyphicon glyphicon-filter"></span>
-            </button>
-           <button class="btn btn-primary" type="button" ng-click="ctrl.doSearch(ctrl.searchField)">
+          <button class="btn btn-default" ng-click="openFilter = !openFilter">
+            <span class="glyphicon glyphicon-filter"></span>
+          </button>
+          <button class="btn btn-primary" type="button" ng-click="ctrl.doSearch(ctrl.searchField)">
             <span> {{::ctrl.searchText}} </span>
             <span class="glyphicon glyphicon-search rotate-search-glyph"></span>
-           </button>
-         </span>
-       </div>
+          </button>
+        </span>
+      </div>
       <div class="row replace-filter">
         <div class="col-md-12">
           <div id="replaceFilter"></div>
