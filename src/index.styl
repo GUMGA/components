@@ -13,6 +13,10 @@ navbarLogoColor = #EBF1E9
 tableBorder = #bdc3c7
 /* Altera as propriedades das cores de erro/sucesso */
 
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
 gumgaColorPrimary = #4CA089
 gumgaColorSecundary = #33856F
 
@@ -913,12 +917,6 @@ gumga-query
     > .dropdown-menu
       width 100%!important
 
-gumga-many-to-many .col-md-6:first-child
-  padding-left 0px
-
-gumga-many-to-many .col-md-6:last-child
-  padding-right 0px
-
 gumga-many-to-many .input-group-addon button
   border 0
   background-color #EEE
@@ -935,6 +933,14 @@ gumga-many-to-many .list-group .list-group-item .badge
   background-color #81AEDA
   cursor pointer
   border 0
+  
+gumga-many-to-many .list-group-item.invalid
+  background-color #f2dede
+  border-color #ebcdd2
+  color #a94442
+  transition 0.5s
+  -webkit-transition 0.5s
+
 
 gumga-many-to-one .form-group .input-group-addon.full-view
   background-color transparent

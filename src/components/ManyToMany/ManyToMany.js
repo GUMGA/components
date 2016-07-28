@@ -8,47 +8,50 @@
 
     let template = `
     <div class="row">
-      <div class="col-md-12">
-        <div class="col-md-6 col-xs-6">
-          <label ng-hide="ctrl.leftListAux.length > 0">{{ctrl.textLeftEmpty}}</label>
-          <label ng-show="ctrl.leftListAux.length > 0" id="textinfoleft"></label>
-          <div ng-class="leftsearch && ctrl.leftListAux.length == 0 && ctrl.authorizeAdd ? 'input-group' : ''">
-            <input class="form-control input-sm" placeholder="{{ctrl.textLeftPlaceholder}}" ng-change="ctrl.filterLeft(leftsearch)" ng-model="leftsearch"/>
-            <div ng-click="ctrl.addNew(leftsearch)" ng-show="leftsearch && ctrl.leftListAux.length == 0 && ctrl.authorizeAdd" class="input-group-addon hover">
-              <i class="glyphicon glyphicon-plus"></i>
-            </div>
-          </div>
-          <div class="line-break"></div>
-          <div class="panel panel-default">
-            <div class="panel-heading ">{{ctrl.textHeadingLeft}}</div>
-            <ul class="list-group" style="height: {{ctrl.boxHeight}};max-height:{{ctrl.boxHeight}};overflow: auto;">
-              <li class="list-group-item  hover" ng-repeat="$value in ctrl.leftListAux track by $index" ng-click="ctrl.removeOrAdd(ctrl.leftListAux, ctrl.rightList, $value, $index)">
-                <span name="fieldleft"></span>
-              </li>
-            </ul>
-            <div class="panel-footer hover" style="text-align: center;" ng-click="ctrl.moveAllItems(ctrl.leftListAux, ctrl.rightList, 'right')" ng-disabled="ctrl.leftListAux.length == 0">
-              {{ctrl.textMoveallLeft}}
-              <span class="glyphicon glyphicon-arrow-right"></span>
-            </div>
+      <div class="col-md-6 col-xs-6">
+        <label ng-hide="ctrl.leftListAux.length > 0">{{ctrl.textLeftEmpty}}</label>
+        <label ng-show="ctrl.leftListAux.length > 0" id="textinfoleft"></label>
+        <div ng-class="leftsearch && ctrl.leftListAux.length == 0 && ctrl.authorizeAdd ? 'input-group' : ''">
+          <input class="form-control input-sm" placeholder="{{ctrl.textLeftPlaceholder}}" ng-change="ctrl.filterLeft(leftsearch)" ng-model="leftsearch"/>
+          <div ng-click="ctrl.addNew(leftsearch)" ng-show="leftsearch && ctrl.leftListAux.length == 0 && ctrl.authorizeAdd" class="input-group-addon hover">
+            <i class="glyphicon glyphicon-plus"></i>
           </div>
         </div>
-        <div class="col-md-6 col-xs-6">
-          <label ng-hide="ctrl.rightList.length > 0">{{ctrl.textRightEmpty}}</label>
-          <label ng-show="ctrl.rightList.length > 0" id="textinforight"></label>
-          <input class="form-control input-sm" ng-disabled="!ctrl.rightSearchField" placeholder="{{ctrl.textRightPlaceholder}}" ng-change="ctrl.filterRight(rightsearch)" ng-model="rightsearch"/>
-          <div class="line-break"></div>
-          <div class="panel panel-default">
-            <div class="panel-heading ">{{ctrl.textHeadingRight}}</div>
-            <ul class="list-group" style="height: {{ctrl.boxHeight}};max-height:{{ctrl.boxHeight}};overflow: auto;">
-              <li class="list-group-item hover" ng-repeat="$value in ctrl.rightAux track by $index" ng-click="ctrl.removeOrAdd(ctrl.rightList, ctrl.leftListAux, $value, $index)">
-                <span name="fieldright">{{$value}}</span>
-              </li>
-            </ul>
-            <div class="panel-footer hover" style="text-align: center;" ng-click="ctrl.moveAllItems(ctrl.rightList, ctrl.leftListAux, 'left')" ng-disabled="ctrl.rightAux.length == 0">
-              <span class="glyphicon glyphicon-arrow-left"></span> {{ctrl.textMoveallRight}}
-            </div>
+        <div class="line-break"></div>
+        <div class="panel panel-default">
+          <div class="panel-heading ">{{ctrl.textHeadingLeft}}</div>
+          <ul class="list-group" style="height: {{ctrl.boxHeight}};max-height:{{ctrl.boxHeight}};overflow: auto;">
+            <li class="list-group-item hover" ng-repeat="$value in ctrl.leftListAux track by $index" ng-click="ctrl.removeOrAdd(ctrl.leftListAux, ctrl.rightList, $value, $index, $event)">
+              <span name="fieldleft"></span>
+            </li>
+          </ul>
+          <div class="panel-footer hover" style="text-align: center;" ng-click="ctrl.moveAllItems(ctrl.leftListAux, ctrl.rightList, 'right')" ng-disabled="ctrl.leftListAux.length == 0">
+            {{ctrl.textMoveallLeft}}
+            <span class="glyphicon glyphicon-arrow-right"></span>
           </div>
         </div>
+      </div>
+      <div class="col-md-6 col-xs-6">
+        <label ng-hide="ctrl.rightList.length > 0">{{ctrl.textRightEmpty}}</label>
+        <label ng-show="ctrl.rightList.length > 0" id="textinforight"></label>
+        <input class="form-control input-sm" ng-disabled="!ctrl.rightSearchField" placeholder="{{ctrl.textRightPlaceholder}}" ng-change="ctrl.filterRight(rightsearch)" ng-model="rightsearch"/>
+        <div class="line-break"></div>
+        <div class="panel panel-default">
+          <div class="panel-heading ">{{ctrl.textHeadingRight}}</div>
+          <ul class="list-group" ng-cloak style="height: {{ctrl.boxHeight}};max-height:{{ctrl.boxHeight}};overflow: auto;">
+            <li class="list-group-item hover" ng-repeat="$value in ctrl.rightAux track by $index" ng-click="ctrl.removeOrAdd(ctrl.rightList, ctrl.leftListAux, $value, $index)">
+              <span name="fieldright">{{$value}}</span>
+            </li>
+          </ul>
+          <div class="panel-footer hover" style="text-align: center;" ng-click="ctrl.moveAllItems(ctrl.rightList, ctrl.leftListAux, 'left')" ng-disabled="ctrl.rightAux.length == 0">
+            <span class="glyphicon glyphicon-arrow-left"></span> {{ctrl.textMoveallRight}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12" ng-show="ctrl.hasInvalid">
+        <p class="alert alert-danger">{{ ctrl.validateMessage }}</p>
       </div>
     </div>`
     controller.$inject = ['$scope', '$element', '$attrs', '$transclude']
@@ -67,6 +70,8 @@
       ctrl.textRightEmpty = $attrs.textRightEmpty || 'Empty List';
       ctrl.textLeftPlaceholder = $attrs.textLeftPlaceholder || 'Filter';
       ctrl.textRightPlaceholder = $attrs.textRightPlaceholder || 'Filter';
+      ctrl.validateMessage = $attrs.validateMessage || 'Invalid item';
+      ctrl.hasInvalid = false;
       ctrl.textLeft = $attrs.textLeft || 'Showing {{$value}} {{$value > 1 ? \'items\': \'item\'}}';
       ctrl.textRight = $attrs.textRight || 'Showing {{$value}} {{$value > 1 ? \'items\': \'item\'}}';
       ctrl.rightList = ctrl.rightList || [];
@@ -75,7 +80,7 @@
       ctrl.rightSearchField = $attrs.rightSearchField || null;
       let eventHandler = {
         listChange: ($attrs.onListChange ? ctrl.onListChange : angular.noop),
-        validateItem: ($attrs.validateItem ? ctrl.validateItem : angular.noop),
+        validateItem: ($attrs.validateItem ? ctrl.validateItem : () => { return true }),
         newValueAdded: ($attrs.onNewValueAdded ? ctrl.onNewValueAdded : angular.noop),
         valueVisualizationOpened: ($attrs.onValueVisualizationOpened ? ctrl.onValueVisualizationOpened : angular.noop),
         valueVisualizationClosed: ($attrs.onValueVisualizationClosed ? ctrl.onValueVisualizationClosed : angular.noop)
@@ -102,8 +107,12 @@
       }
 
       ctrl.moveAllItems = function (fromList, toList, position) {
-        if (position == "left") ctrl.leftList = toList.concat(fromList);
-        if (position == "right") ctrl.rightList = toList.concat(fromList);
+        let validList = fromList.filter(value => {
+          return eventHandler.validateItem({ value: value })
+        })
+        if (fromList.length > validList.length) ctrl.hasInvalid = true;
+        if (position == "left") ctrl.leftList = toList.concat(validList);
+        if (position == "right") ctrl.rightList = toList.concat(validList);
         fromList.splice(0, fromList.length);
         ctrl.rightAux = angular.copy(ctrl.rightList);
         if (position == "right") ctrl.filterLeft('');
@@ -156,7 +165,7 @@
           controller: ['$scope', '$value', '$uibModalInstance', function ($scope, $value, $uibModalInstance) {
             $scope.$value = $value;
             $scope.back = function () {
-              $uibModallInstance.close();
+              $uibModalInstance.close();
             }
           }],
           resolve: {
@@ -170,9 +179,7 @@
           eventHandler.valueVisualizationClosed();
         })
       }
-      ctrl.removeOrAdd = function (removeFrom, addTo, value, index) {
-        console.log(value);
-        console.log(eventHandler.validateItem({ value: value }))
+      ctrl.removeOrAdd = function (removeFrom, addTo, value, index, event) {
         if (eventHandler.validateItem({ value: value })) {
           removeFrom.splice(index, 1);
           addTo.push(value);
@@ -181,6 +188,12 @@
           ctrl.rightAux = angular.copy(ctrl.rightList);
           $scope.rightsearch = '';
           eventHandler.listChange({ value: value });
+        } else {
+          event.target.classList.toggle('invalid')
+          setTimeout(() => {
+            event.target.classList.toggle('invalid')
+          }, 1000)
+          ctrl.hasInvalid = true;
         }
       }
 
@@ -251,7 +264,6 @@
         rightSearch: '&rightSearch',
         postMethod: '&',
         validateItem: '&?',
-        validateMessage: '=',
         onListChange: '&?',
         onNewValueAdded: '&?',
         onValueVisualizationOpened: '&?',
