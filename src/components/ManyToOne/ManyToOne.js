@@ -16,9 +16,11 @@
           }
 
           const possibleAttributes  = ['value', 'list', 'searchMethod', 'field', 'onNewValueAdded', 'onValueSelected', 'onValueVisualizationOpened', 'onValueVisualizationClosed', 'tabindex']
+          
+          let template = false
 
           if(!$attrs.value)        console.error(ERR_MSGS.noValue)
-          // if(!$attrs.field)        console.error(ERR_MSGS.noField)
+          if(!$attrs.field)        console.error(ERR_MSGS.noField)
           if(!$attrs.searchMethod) console.error(ERR_MSGS.noSearch)
 
           manyToOneCtrl.ev                            = {}
@@ -177,6 +179,7 @@
             angular.forEach(cloneEl, cl => {
               let element = angular.element(cl)[0];
               if (element.nodeName === 'MATCH') {
+                template = true
                 manyToOneCtrl.match = element.innerHTML
               }
             });
@@ -200,7 +203,7 @@
           </div>`
 
 
-          let templateForInnerMatch = (!!manyToOneCtrl.field) ? `<span ng-bind-html="match.model.${manyToOneCtrl.field} | uibTypeaheadHighlight:query"></span>` : `<span>${manyToOneCtrl.match}</span>`
+          let templateForInnerMatch = (!template) ? `<span ng-bind-html="match.model.${manyToOneCtrl.field} | uibTypeaheadHighlight:query"></span>` : `<span>${manyToOneCtrl.match}</span>`
           let templateForMatch = `
           <a class="col-md-12 result">
             <span class="col-md-10 str" ng-click="manyToOneCtrl.select()">
