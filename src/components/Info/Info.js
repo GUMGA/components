@@ -1,8 +1,8 @@
 (function(){
 
-  Confirm.$inject = ['$interpolate', '$uibModal']
+  Info.$inject = ['$interpolate', '$uibModal']
 
-  function Confirm($interpolate, $uibModal){
+  function Info($interpolate, $uibModal){
 
     return {
       restrict: 'A',
@@ -11,39 +11,33 @@
       scope: false,
       link($scope, $element, $attrs){
 
-        const confirmationMessage = $interpolate($attrs.gumgaConfirm)($scope)
+        const informationMessage  = $interpolate($attrs.gumgaInfo)($scope)
         const icon                = $attrs.icon               || 'glyphicon glyphicon-question-sign'
         const dismissButton       = $attrs.dismissButton      ? $interpolate($attrs.dismissButton)($scope)      : 'Retornar'
-        const confirmButton       = $attrs.confirmButton      ? $interpolate($attrs.confirmButton)($scope)      : 'Confirmar'
-        const confirmButtonClass  = $attrs.confirmButtonClass ? $interpolate($attrs.confirmButtonClass)($scope) : 'btn btn-primary'
         const dismissButtonClass  = $attrs.dismissButtonClass ? $interpolate($attrs.dismissButtonClass)($scope) : 'btn btn-default'
         const whatToDoWhenClicked = $attrs.ngClick
         
         $element.bind('click', event => {
 
           const controllerAs = 'ctrl'
-
+          
           let resolve = {
-            icon(){           return icon },
-            confirmMessage(){ return confirmationMessage },
-            dismissBtn(){     return dismissButton },
-            confirmBtn(){     return confirmButton },
-            dismissClass(){   return dismissButtonClass },
-            confirmClass(){   return confirmButtonClass }
+            icon(){         return icon },
+            infoMessage(){  return informationMessage },
+            dismissBtn(){   return dismissButton },
+            dismissClass(){ return dismissButtonClass },
           }
+          
+          controller.$inject = ['$scope','$uibModalInstance', 'infoMessage', 'dismissBtn', 'dismissClass']
 
-          controller.$inject = ['$scope','$uibModalInstance', 'confirmMessage', 'dismissBtn', 'confirmBtn', 'dismissClass', 'confirmClass']
-
-          function controller($scope, $uibModalInstance, confirmMessage, dismissBtn, confirmBtn, dismissClass, confirmClass){
+          function controller($scope, $uibModalInstance, infoMessage, dismissBtn, dismissClass){
             let ctrl = this;
 
             ctrl.icon               = icon
-            ctrl.message            = confirmMessage
+            ctrl.message            = infoMessage
             ctrl.dismissButton      = dismissBtn
-            ctrl.confirmButton      = confirmBtn
             ctrl.dismissButtonClass = dismissClass
-            ctrl.confirmButtonClass = confirmClass
-            ctrl.close          = boolean => boolean ? $uibModalInstance.close() : $uibModalInstance.dismiss()
+            ctrl.close              = boolean => boolean ? $uibModalInstance.close() : $uibModalInstance.dismiss()
           }
 
           let template = `
@@ -55,7 +49,6 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="{{ ::ctrl.dismissButtonClass }}" ng-click="ctrl.close(false)">{{ ::ctrl.dismissButton }}</button>
-            <button type="button" class="{{ ::ctrl.confirmButtonClass }}" ng-click="ctrl.close(true)"> {{ ::ctrl.confirmButton }}</button>
           </div>`
 
 
@@ -71,6 +64,6 @@
     }
   }
 
-  angular.module('gumga.confirm', [])
-    .directive('gumgaConfirm', Confirm)
+  angular.module('gumga.info', [])
+    .directive('gumgaInfo', Info)
 })()

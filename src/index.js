@@ -9,12 +9,13 @@ angular.module('gumga.core', [
 	'gumga.list',
 	'gumga.query',
 	'gumga.filter',
+	'gumga.info',
 	'gumga.confirm',
 	'gumga.manytoone',
-    'gumga.number',
-    'gumga.numberinwords',
-    'gumga.fileupload',
-    'gumga.imageupload',
+  'gumga.number',
+  'gumga.numberinwords',
+  'gumga.fileupload',
+  'gumga.imageupload',
 	'gumga.documentation'
 ]).decorator("$xhrFactory", ['$delegate', '$rootScope', function($delegate, $rootScope) {
     'ngInject';
