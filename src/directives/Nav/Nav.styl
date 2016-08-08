@@ -1,3 +1,37 @@
+gumga-nav img.avatar
+  width 40px
+  height 40px
+  margin-right 10px
+
+gumga-nav .status-navbar small
+  font-size 85%
+
+gumga-nav .status-navbar .glyphicon
+  margin-left 1px
+
+gumga-nav .glyphicon-search
+  color #fff
+  padding-top 1%
+  margin-right 5%
+  height 100%
+
+gumga-nav .navbar-input
+  background none repeat scroll 0 0 rgba(244, 214, 214, 0.15)
+  border double
+  font-size 14px
+  outline 0
+  color #fff
+  height 100%
+  margin 0
+  border-color rgba(0, 0, 0, 0)
+  z-index 2000
+
+gumga-nav .btn-link
+  display block
+  width 100%
+  color black
+  font-size 0.9em
+
 
 #navbar
   height navbarHeight
@@ -9,18 +43,23 @@
   line-height navbarHeight
   z-index 100
   border-bottom 1px solid #ccc;
+  //padding-top 10px
   background-color navbarBackgroundColor
   -webkit-box-shadow 0px 3px 10px 0px rgba(50, 50, 50, 0.32)
   -moz-box-shadow    0px 3px 10px 0px rgba(50, 50, 50, 0.32)
   box-shadow         0px 3px 10px 0px rgba(50, 50, 50, 0.32)
-  &::-webkit-input-placeholder
-    color #fff
-  &:-moz-placeholder
-    color #fff
-  &::-moz-placeholder
-    color: #fff
-  &:-ms-input-placeholder
-    color #fff
+
+#navbar ::-webkit-input-placeholder
+  color #fff
+
+#navbar :-moz-placeholder
+  color #fff
+
+#navbar ::-moz-placeholder
+  color: #fff
+
+#navbar :-ms-input-placeholder
+  color #fff
 
 #navbar .navbar-logo
   text-decoration none
@@ -55,18 +94,16 @@
 
 @media screen and (max-width: 1000px)
   .navbar-input
-  #navbar
-  .btn-default
+  #navbar .btn-default
     display none
 
-@media screen and (max-width: 600px)
-  .navbar-links
-    display none
-  #navbar
-    width 100%
-    margin-left 0%
-  .navbar-logo
-    margin-left 30px
+  @media screen and (max-width: 600px)
+    .navbar-links
+      display none
 
+    #navbar
+      width 100%
+      margin-left 0%
 
-
+    .navbar-logo
+      margin-left 30px

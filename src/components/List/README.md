@@ -9,7 +9,7 @@ data="Array"
 on-click="Function"
 on-sort="Function"
 on-double-click="Function"
-change-per-page="Function(value)">>
+change-per-page="Function(value)">
 </gumga-list>
 ```
 ### Descrição
@@ -91,5 +91,18 @@ angular.module('sample.app',[])
     }
   }
 }])
+
+```
+
+#### Limitando caracteres de uma coluna com reticências
+```javascript
+$scope.tableConfig = {
+  columns: 'name',
+  columnsConfig: {
+    name: 'name',
+    content: '<span class="truncate">{{$value.name}}</span>',
+    content: '<span class="truncate" uib-popover="{{$value.name}}">{{$value.name}}', // Caso queira um popover com o valor completo
+  }
+}
 
 ```

@@ -43,11 +43,11 @@
             ctrl.confirmButton      = confirmBtn
             ctrl.dismissButtonClass = dismissClass
             ctrl.confirmButtonClass = confirmClass
-            ctrl.close          = boolean => boolean ? $uibModalInstance.close() : $uibModalInstance.dismiss()
+            ctrl.close              = boolean => boolean ? $uibModalInstance.close() : $uibModalInstance.dismiss()
           }
 
           let template = `
-          <div class="modal-body">
+          <div class="gumga-confirm modal-body">
             <h3>
               <i class="{{ ::ctrl.icon }}"></i>
               {{ ::ctrl.message }}

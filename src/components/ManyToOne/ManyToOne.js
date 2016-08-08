@@ -104,7 +104,14 @@
               .result
               .then(
                     value => {
-                      manyToOneCtrl.postMethod({ value }).then(dataFromPostMethod => manyToOneCtrl.value =  dataFromPostMethod.data.data)
+                      manyToOneCtrl.postMethod({ value }).then(
+                        dataFromPostMethod => {
+                          console.log(dataFromPostMethod)
+                          console.log('manyToOneCtrl',manyToOneCtrl)
+                          console.log('ngModelCtrl', ngModelCtrl)
+                          manyToOneCtrl.value = dataFromPostMethod.data.data
+                        }
+                      )
                     },
                     reject => manyToOneCtrl.value = ''
                   )
@@ -233,7 +240,18 @@
 
           formController.$addControl(ngModelCtrl)
 
-          ngModelCtrl.$validators['manyToOne'] = modelValue => modelValue ? !(typeof modelValue === 'string' || modelValue instanceof String) : true
+          ngModelCtrl.$validators.manyToOne = (modelValue, viewValue) => {
+            // let value = modelValue || viewValue
+            console.log(modelValue)
+            return modelValue ? !(typeof modelValue === 'string' || modelValue instanceof String) : true
+          }
+          //   console.log(/[0-9]+/.test(value) && /[a-z]+/.test(value) && /[A-Z]+/.test(value) && /\W+/.test(value))
+          //   return /[0-9]+/.test(value) &&
+          //         /[a-z]+/.test(value) &&
+          //         /[A-Z]+/.test(value) &&
+          //         /\W+/.test(value);
+          // }
+          // ngModelCtrl.$validators['manyToOne'] = modelValue => modelValue ? !(typeof modelValue === 'string' || modelValue instanceof String) : true
 
           $scope.$watch(() => ngModelCtrl.$$rawModelValue, (i) => (manyToOneCtrl.valueToAdd = ngModelCtrl.$$rawModelValue))
           

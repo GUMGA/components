@@ -12,7 +12,7 @@
       link($scope, $element, $attrs){
 
         const informationMessage  = $interpolate($attrs.gumgaInfo)($scope)
-        const icon                = $attrs.icon               || 'glyphicon glyphicon-question-sign'
+        const icon                = $attrs.icon               || 'glyphicon glyphicon-info-sign'
         const dismissButton       = $attrs.dismissButton      ? $interpolate($attrs.dismissButton)($scope)      : 'Retornar'
         const dismissButtonClass  = $attrs.dismissButtonClass ? $interpolate($attrs.dismissButtonClass)($scope) : 'btn btn-default'
         const whatToDoWhenClicked = $attrs.ngClick
@@ -41,7 +41,7 @@
           }
 
           let template = `
-          <div class="modal-body">
+          <div class="gumga-info modal-body">
             <h3>
               <i class="{{ ::ctrl.icon }}"></i>
               {{ ::ctrl.message }}
