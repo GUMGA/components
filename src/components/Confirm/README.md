@@ -21,4 +21,5 @@ a ação que está registrada no `ng-click` será executada.
 - **`confirm-button`:** Atributo **opcional** que deve ser uma string que irá conter o texto que irá no botão de confirmar.
 - **`dismiss-button-class`:** Atributo **opcional** que deve ser uma string que irá conter qual classe o botão de cancelar assumirá.
 - **`confirm-button-class`:** Atributo **opcional** que deve ser uma string que irá conter qual classe o botão de confirmar assumirá.
-- **`icon`**: Atributo **opcional** que deve ser o nome de uma classe que represente um ícone. Ex.: Glyphicon Twiiter Bootstrap ou FontAwesome, por padrão será usado *glyphicon-question-sign*.
+- **`icon`**: Atributo **opcional** que deve ser o nome de uma classe que represente um ícone. Ex.: Glyphicon Twitter Bootstrap ou FontAwesome, por padrão será usado *glyphicon-question-sign*.
+- **`size`**: Atributo **opcional** que deve ter o tamanho da modal. Ex.: sm ou lg, por padrão será usado *md*.

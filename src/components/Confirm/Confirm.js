@@ -12,6 +12,7 @@
       link($scope, $element, $attrs){
 
         const confirmationMessage = $interpolate($attrs.gumgaConfirm)($scope)
+        const size                = $attrs.size               || 'md'
         const icon                = $attrs.icon               || 'glyphicon glyphicon-question-sign'
         const dismissButton       = $attrs.dismissButton      ? $interpolate($attrs.dismissButton)($scope)      : 'Retornar'
         const confirmButton       = $attrs.confirmButton      ? $interpolate($attrs.confirmButton)($scope)      : 'Confirmar'
@@ -24,6 +25,7 @@
           const controllerAs = 'ctrl'
 
           let resolve = {
+            size(){           return size},
             icon(){           return icon },
             confirmMessage(){ return confirmationMessage },
             dismissBtn(){     return dismissButton },
@@ -37,6 +39,7 @@
           function controller($scope, $uibModalInstance, confirmMessage, dismissBtn, confirmBtn, dismissClass, confirmClass){
             let ctrl = this;
 
+            ctrl.size               = size
             ctrl.icon               = icon
             ctrl.message            = confirmMessage
             ctrl.dismissButton      = dismissBtn
@@ -60,7 +63,7 @@
 
 
           $uibModal
-            .open({ controller, template, controllerAs, resolve, backdrop: 'static' })
+            .open({ controller, template, size, controllerAs, resolve, backdrop: 'static' })
             .result
             .then(
                   value =>  $scope.$eval(whatToDoWhenClicked),
