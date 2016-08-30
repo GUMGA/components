@@ -45,7 +45,6 @@ function(value){
   }
 }
 ```
-- **`maxHeight`** String *`opcional`* que pode configurar a altura máxima do corpo da tabela, gerando uma barra de rolagem quando os dados atingem a altura máxima definida.
 
 
 - **`columnsConfig`** Array *`opcional`* que será utilizado para configurar as colunas que foram definidas no atributo columns. Cada valor deste array é um objeto de configuração para cada coluna, não
@@ -91,18 +90,5 @@ angular.module('sample.app',[])
     }
   }
 }])
-
-```
-
-#### Limitando caracteres de uma coluna com reticências
-```javascript
-$scope.tableConfig = {
-  columns: 'name',
-  columnsConfig: {
-    name: 'name',
-    content: '<span class="truncate">{{$value.name}}</span>',
-    content: '<span class="truncate" uib-popover="{{$value.name}}">{{$value.name}}', // Caso queira um popover com o valor completo
-  }
-}
 
 ```
