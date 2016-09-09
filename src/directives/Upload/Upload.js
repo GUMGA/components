@@ -34,11 +34,13 @@
         function link($scope, $element, $attrs) {
             let model = $parse($attrs.attribute),
                 modelSetter = model.assign,
-                reader = new FileReader();
+                reader = new FileReader(),
+                element,
+                image
 
             $timeout(function(){
-                let element = $element.find('input'),
-                    image = $element.find('img')[0];
+                element = $element.find('input'),
+                image = $element.find('img')[0];
 
                 element.bind('change', function () {
                     $scope.$apply(function () {

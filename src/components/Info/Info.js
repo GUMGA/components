@@ -12,6 +12,7 @@
       link($scope, $element, $attrs){
 
         const informationMessage  = $interpolate($attrs.gumgaInfo)($scope)
+        const size                = $attrs.size               || 'md'
         const icon                = $attrs.icon               || 'glyphicon glyphicon-info-sign'
         const dismissButton       = $attrs.dismissButton      ? $interpolate($attrs.dismissButton)($scope)      : 'Retornar'
         const dismissButtonClass  = $attrs.dismissButtonClass ? $interpolate($attrs.dismissButtonClass)($scope) : 'btn btn-default'
@@ -22,6 +23,7 @@
           const controllerAs = 'ctrl'
           
           let resolve = {
+            size(){           return size},
             icon(){         return icon },
             infoMessage(){  return informationMessage },
             dismissBtn(){   return dismissButton },
@@ -33,6 +35,7 @@
           function controller($scope, $uibModalInstance, infoMessage, dismissBtn, dismissClass){
             let ctrl = this;
 
+            ctrl.size               = size
             ctrl.icon               = icon
             ctrl.message            = infoMessage
             ctrl.dismissButton      = dismissBtn
@@ -53,7 +56,7 @@
 
 
           $uibModal
-            .open({ controller, template, controllerAs, resolve, backdrop: 'static' })
+            .open({ controller, template, size, controllerAs, resolve, backdrop: 'static' })
             .result
             .then(
                   value =>  $scope.$eval(whatToDoWhenClicked),

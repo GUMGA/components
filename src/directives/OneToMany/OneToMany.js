@@ -4,7 +4,7 @@
 	function OneToMany($uibModal,$populate){
 		var template = [
 		'<div class="col-md-12">',
-		'   <button type="button" class="btn btn-default" ng-click="newModal()">New</button>',
+		'   <button type="button" class="btn btn-default" ng-click="newModal()">{{name}}</button>',
 		'   <ul class="list-group">',
 		'       <li ng-repeat="child in children" class="list-group-item">',
 		'           {{::child[property]}}',
@@ -39,7 +39,7 @@
 				scope.newModal = newModal;
 				scope.removeFromList = removeFromList;
 				scope.getFromModal = getFromModal;
-				var name = attrs.name || 'New';
+				scope.name = scope.name || 'New';
 				if(!scope.children) throw 'You must provide a list to GumgaOneToMany';
 				if(!scope.templateUrl) throw 'You must provide a templateUrl for the modal';
 				if(!scope.property) throw 'You must provide a property to display in GumgaOneToMany';
@@ -70,7 +70,7 @@
 								return scope.etty;
 							},
 							title: function(){
-								return scope.name;
+								return scope.modalTitle;
 							},
 							populateScope: function(){
 								return $populate.populateScope;

@@ -3,6 +3,8 @@
 ### Descrição
 O componente **gumgaTranslateTag** recebe um valor por atributo, informando qual a linguagem a ser carregada, por exemplo, **pedido.enderecodeentrega**. Também tem a possibilidade de separar o valor com virgula, sendo que após a virgula, seja informado a linguagem alternativa para aquela string, por exemplo: **pedido.enderecodeentrega,en-us**.
 
+#### *Importante*
+O filtro [gumgaTranslate](../components/TranslateFilter/) pode ser utilizado como uma alternativa para a gumgaTranslateTag.
 
 ### Atributos
 
