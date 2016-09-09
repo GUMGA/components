@@ -1,8 +1,9 @@
 # Componente - GumgaConfirm
 
 ### Uso
-```
-<button type="button" ng-click="foo()" gumga-confirm="Tem certeza que deseja realizar esta ação?"
+```html
+<button type="button" ng-click="foo()"
+  gumga-confirm="Tem certeza que deseja realizar esta ação?"
   dismiss-button="Não"
   confirm-button="Sim"
   confirm-button-class="btn btn-primary"
