@@ -8,7 +8,7 @@
 
     function controller($scope, $element, $attrs){
       let ctrl = this
-
+      
       const errorMessages = {
         noData: 'O componente gumgaList necessita de um atributo data, que irá conter os dados que serão visualizados.',
         noConfig: 'O componente gumgaList necessita de um atributo config, que irá conter a configuração necessária.',

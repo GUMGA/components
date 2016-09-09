@@ -15,7 +15,9 @@
             noSearch: 'É necessário uma função de busca no componente gumgaManyToOne'
           }
 
-          const possibleAttributes  = ['value', 'list', 'searchMethod', 'field', 'description', 'onNewValueAdded', 'onValueSelected', 'onValueVisualizationOpened', 'onValueVisualizationClosed', 'tabindex']
+          const possibleAttributes  = ['value', 'list', 'searchMethod', 'field', 'onNewValueAdded', 'onValueSelected', 'onValueVisualizationOpened', 'onValueVisualizationClosed', 'tabindex']
+          
+          let template = false
 
           if(!$attrs.value)        console.error(ERR_MSGS.noValue)
           if(!$attrs.field)        console.error(ERR_MSGS.noField)
@@ -28,13 +30,13 @@
           manyToOneCtrl.ev.onValueVisualizationOpened = $attrs.onValueVisualizationOpened ? $attrs.onValueVisualizationOpened : angular.noop
           manyToOneCtrl.ev.onValueVisualizationClosed = $attrs.onValueVisualizationClosed ? $attrs.onValueVisualizationClosed : angular.noop
           manyToOneCtrl.field                         = $attrs.field                                               || ''
-          manyToOneCtrl.description                   = $attrs.description                                         || false
+          // manyToOneCtrl.description                   = $attrs.description                                         || false
           manyToOneCtrl.modalTitle                    = $attrs.modalTitle                                          || 'Visualizador de Registro'
           manyToOneCtrl.modalFields                   = $attrs.modalFields  ? $attrs.modalFields.splice(',')        : [manyToOneCtrl.field]
           manyToOneCtrl.postFields                    = $attrs.postFields   ? $attrs.postFields.split(',')          : [manyToOneCtrl.field]
           manyToOneCtrl.displayClear                  = manyToOneCtrl.hasOwnProperty('displayClear') ? manyToOneCtrl.displayClear : true
           manyToOneCtrl.displayInfo                   = manyToOneCtrl.hasOwnProperty('displayInfo')  ? manyToOneCtrl.displayInfo  : true
-          manyToOneCtrl.showDescripion                = !!manyToOneCtrl.description
+          // manyToOneCtrl.showDescripion                = !!manyToOneCtrl.description
           
           function mirrorAttributes(){
             const isOneOfPossibles = attribute => possibleAttributes.filter(value => attribute == value).length > 0
@@ -102,7 +104,12 @@
               .result
               .then(
                     value => {
-                      manyToOneCtrl.postMethod({ value }).then(dataFromPostMethod => manyToOneCtrl.value =  dataFromPostMethod.data.data)
+                      manyToOneCtrl.postMethod({ value }).then(
+                        dataFromPostMethod => {
+                          manyToOneCtrl.value = dataFromPostMethod.data.data
+                          ngModelCtrl.$viewValue = dataFromPostMethod.data.data
+                        }
+                      )
                     },
                     reject => manyToOneCtrl.value = ''
                   )
@@ -172,6 +179,16 @@
             $uibModal.open({ controller, template })
 
           }
+          
+          $transclude($scope, cloneEl => {
+            angular.forEach(cloneEl, cl => {
+              let element = angular.element(cl)[0];
+              if (element.nodeName === 'MATCH') {
+                template = true
+                manyToOneCtrl.match = element.innerHTML
+              }
+            });
+          })
 
           /*  */
           let baseTemplate = `
@@ -190,12 +207,13 @@
             </div>
           </div>`
 
+
+          let templateForInnerMatch = (!template) ? `<span ng-bind-html="match.model.${manyToOneCtrl.field} | uibTypeaheadHighlight:query"></span>` : `<span>${manyToOneCtrl.match}</span>`
           let templateForMatch = `
           <a class="col-md-12 result">
             <span class="col-md-10 str" ng-click="manyToOneCtrl.select()">
-              <span ng-bind-html="match.model.${manyToOneCtrl.field} | uibTypeaheadHighlight:query"></span>
+              ${templateForInnerMatch}
               <span ng-show="$parent.$parent.$parent.$parent.manyToOneCtrl.valueToAdd == match.label && $parent.$parent.$parent.$parent.manyToOneCtrl.valueToAdd.length > 0 && !match.model.id && !!$parent.$parent.$parent.$parent.manyToOneCtrl.authorizeAdd">(novo)</span><br>
-              <small ng-show="$parent.$parent.$parent.$parent.manyToOneCtrl.showDescripion" ng-bind-html="match.model.${manyToOneCtrl.description} | uibTypeaheadHighlight:query""></small>
             </span>
             <span class="col-md-2">
               <span class="icon text-right" ng-if="${manyToOneCtrl.displayInfo}" ng-click="$parent.$parent.$parent.$parent.manyToOneCtrl.openInfo(match.model, $event)" ng-hide="$parent.$parent.$parent.$parent.manyToOneCtrl.valueToAdd == match.label && !match.label.id">
@@ -220,10 +238,11 @@
 
           formController.$addControl(ngModelCtrl)
 
-          ngModelCtrl.$validators['manyToOne'] = modelValue => modelValue ? !(typeof modelValue === 'string' || modelValue instanceof String) : true
+          ngModelCtrl.$validators.manyToOne = (modelValue, viewValue) => {
+            return modelValue ? !(typeof modelValue === 'string' || modelValue instanceof String) : true
+          }
 
           $scope.$watch(() => ngModelCtrl.$$rawModelValue, (i) => (manyToOneCtrl.valueToAdd = ngModelCtrl.$$rawModelValue))
-          
         }
 
         return {

@@ -3,6 +3,7 @@
 ### Uso:
 ```html
 <gumga-many-to-many
+  left-list="Array"
   left-search="Function"
   right-list="Array"
   right-search-field="String"
@@ -11,6 +12,8 @@
   on-list-change="Function"
   on-value-visualization-opened="Function"
   on-value-visualization-closed="Function"  
+  validate-item="Function"
+  validate-message="String"
   text-heading-left="String"
   text-heading-right="String"
   text-moveall-left="String"
@@ -18,6 +21,40 @@
   <left-field>{{$value.name}}</left-field>
   <right-field>{{$value.name}}</right-field>
 </gumga-many-to-many>
+```
+
+###Exemplo:
+```html
+<gumga-many-to-many
+  left-search="ctrl.individual.methods.asyncSearch('name', param)"
+  left-list="ctrl.individual.data"
+  right-list="ctrl.rightList"
+  validate-item="ctrl.validateItem(value)"
+  validate-message="Mensagem de validação de erros"
+  right-search-field="Ind Filters"
+  text-heading-left="H L"
+  text-heading-right="H R"
+  text-moveall-left="MA L"
+  text-moveall-right="MA R">
+  <left-field>{{$value.name}}</left-field>
+  <right-field>{{$value.name}}</right-field>
+</gumga-many-to-many>
+```
+
+###Exemplo usando GumgaRest, gumgaController
+```javascript
+function AppCtrl(gumgaController, GumgaRest) {
+  var ctrl = this
+  var IndividualService = new GumgaRest('http://localhost:8084/api/individual');
+  gumgaController.createRestMethods(ctrl, IndividualService, 'individual');
+  
+  ctrl.individual.methods.get(0)
+  ctrl.rightList = []
+  
+  ctrl.validateItem = function(value) {
+    return value.name.length > 9
+  }  
+}
 ```
 
 ### Descrição
@@ -40,6 +77,9 @@ Para que o programador possa escolher como os valores serão demonstrados, foram
 * para visualização de dados
 - **`on-value-visualization-closed`:** Atributo *opcional* que irá conter uma variável que possuirá uma função que irá ser executada quando o usuário tiver fechado o modal.
 - **`authorize-add`:** Atributo *opcional* que irá conter uma um booleano que irá fazer o controle para mostrar o botão de adicionar um registro.
+
+- **`validate-item`** Atributo *opcional* que irá conter uma função, ela deve retornar um booleano após uma condição feita com o valor passado via parâmetro.
+- **`validate-message`** Atributo *opcional* que irá conter uma string que aparecerá na mensagem de erro.
 
 - **`text-left-empty`:** Atributo *opcional* que irá conter uma String que irá aparecer quando a lista da esquerda for vazia.
 - **`text-right-empty`:** Atributo *opcional* que irá conter uma String que irá aparecer quando a lista da direita for vazia.

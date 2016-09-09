@@ -1,6 +1,7 @@
 var gulp = require('gulp')
 ,		isTravis = process.env.TRAVIS || false
 ,		hint = require('gulp-jshint')
+,   data = require('gulp-data')
 ,		stylus = require('gulp-stylus')
 ,		rename = require('gulp-rename')
 ,		stylish = require('jshint-stylish')
@@ -12,22 +13,23 @@ var gulp = require('gulp')
 ,		Server = require('karma').Server
 ,   plumber = require('gulp-plumber')
 ,   babel = require('gulp-babel')
+,   bootstrap = require('bootstrap-styl')
 ,   runSequence = require('run-sequence')
 ,		paths = {
-    src: ['./src/**/*.js','!**/*Spec.js'],
-    stylus: ['./src/index.styl'],
-    dist: ['./dist/']
-  };
+      src: ['./src/**/*.js','!**/*Spec.js']
+    , stylus: ['./src/**/**/*.styl']
+    , dist: ['./dist/']
+    };
 
 /**
 * Minifica o CSS escrito com stylus, renomeia e coloca no dir. dist.
 */
 gulp.task('minify-css',function(){
   return gulp.src(paths.stylus)
-  .pipe(stylus())
-  .pipe(rename('gumga.min.css'))
-  .pipe(minifyCss())
-  .pipe(gulp.dest('./dist'))
+    .pipe(stylus())
+    .pipe(concat('gumga.min.css'))
+    .pipe(minifyCss())
+    .pipe(gulp.dest('./dist'))
 })
 
 /**
@@ -35,11 +37,11 @@ gulp.task('minify-css',function(){
 */
 gulp.task('minify-js',function(){
   return gulp.src(paths.src)
-  .pipe(plumber())
-  .pipe(babel())
-  .pipe(concat('gumga.min.js'))
-  .pipe(uglify())
-  .pipe(gulp.dest('dist/'));
+    .pipe(plumber())
+    .pipe(babel())
+    .pipe(concat('gumga.min.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest('dist/'));
 })
 
 /**

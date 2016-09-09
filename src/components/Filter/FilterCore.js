@@ -418,6 +418,33 @@
               document.addEventListener('click', (e) => {
                 callSearch(e);
               });
+              
+              document.addEventListener('keyup', (e) => {
+                if (e.keyCode === 27) {
+                  Object.keys($scope.controlMap)
+                    .forEach(key => {
+                      const scope = getIndexScope(key)
+                      if(scope.$value.activeStates !== 8) {
+                        if (scope.$$prevSibling.$key) {
+                          scope.$$prevSibling.$value.active = false
+                          delete $scope.controlMap[scope.$$prevSibling.$key]
+                          $timeout(()=> (scope.$$prevSibling.$destroy()))
+                        } else if(scope.$$nextSibling.$key) {
+                          scope.$$nextSibling.$value.active = false
+                          delete $scope.controlMap[scope.$$nextSibling.$key]
+                          $timeout(()=> (scope.$$nextSibling.$destroy()))
+                        } else if(scope.$$prevSibling.$key && scope.$$nextSibling.$key) {
+                          scope.$$nextSibling.$value.active = false
+                          delete $scope.controlMap[scope.$$nextSibling.$key]
+                          $timeout(()=> (scope.$$nextSibling.$destroy()))
+                        }
+                        scope.$value.active = false
+                        delete $scope.controlMap[key]
+                        $timeout(_=>scope.$destroy())
+                      }
+                    })
+                }
+              })
 
               function callSearch(e, typeSearch, positionCondition = -1){
                 let outerClick    = true

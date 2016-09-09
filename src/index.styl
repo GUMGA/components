@@ -1,5 +1,7 @@
-/* Altera as fontes do sistema */
+/* fonts */
 fonts = 'Open Sans', sans-serif;
+/* /fonts */
+
 /* Altera as propriedades do menu*/
 menuBackgroundColor = #343633;
 menuWidth = 15%
@@ -13,9 +15,11 @@ navbarLogoColor = #EBF1E9
 tableBorder = #bdc3c7
 /* Altera as propriedades das cores de erro/sucesso */
 
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak
+  display: none !important;
+
 gumgaColorPrimary = #4CA089
 gumgaColorSecundary = #33856F
-
 
 borderRadius()
   -webkit-border-radius: arguments;
@@ -32,12 +36,12 @@ animation(name, duration, count, timing)
   animation-iteration-count count
   animation-timing-function timing
 
-  -moz-animation-name name;
+  -moz-animation-name name
   -moz-animation-duration duration
   -moz-animation-iteration-count count
   -moz-animation-timing-function timing
 
-  -webkit-animation-name name;
+  -webkit-animation-name name
   -webkit-animation-duration duration
   -webkit-animation-iteration-count count
   -webkit-animation-timing-function timing
@@ -108,22 +112,23 @@ body
   height 100%
 
 .input-group-sm > .form-control,
-.input-group-sm > .input-group-btn {
-  box-sizing: content-box;
-  -moz-box-sizing: content-box;
-}
-.input-group.input-group-sm {
-  height: 18px;
-}
-.input-group-sm > .form-control {
-  height: 21px; padding: 0; margin: 0;
-}
-.input-group-sm > .input-group-btn > .btn {
-  border-left: 0px;
-  height: 23px;
-  margin-left: -4px;
-  padding: 0px 4px;
-}
+.input-group-sm > .input-group-btn
+  box-sizing: content-box
+  -moz-box-sizing: content-box
+
+.input-group.input-group-sm
+  height: 18px
+
+.input-group-sm > .form-control
+  height: 21px
+  padding: 0
+  margin: 0
+
+.input-group-sm > .input-group-btn > .btn
+  border-left 0px
+  height 23px
+  margin-left -4px
+  padding 0px 4px
 
 div
   100%
@@ -137,7 +142,6 @@ div
     -moz-box-shadow:    0px 0px 10px 0px rgba(166, 0, 0, 0.80);
     box-shadow:         0px 0px 10px 0px rgba(166, 0, 0, 0.80);
     border 1px solid #a94442;
-
 
 .success
   border 1px solid #048000
@@ -166,12 +170,12 @@ div
   margin-left -3
 
 .my-button.last
-  -webkit-border-top-right-radius: 5px;
-  -webkit-border-bottom-right-radius: 5px;
-  -moz-border-radius-topright: 5px;
-  -moz-border-radius-bottomright: 5px;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
+  -webkit-border-top-right-radius: 5px
+  -webkit-border-bottom-right-radius: 5px
+  -moz-border-radius-topright: 5px
+  -moz-border-radius-bottomright: 5px
+  border-top-right-radius: 5px
+  border-bottom-right-radius: 5px
 
 
 div.gumga-adv-label
@@ -357,13 +361,6 @@ full-width-without-padding-small
   padding-top 0.5%
   border-left 0
 
-.address
-  @extend .col-md-8
-  @extend .col-xs-12
-  @extend .col-sm-12
-  padding-right 0
-  padding-left 0
-
 .dropdown-menu
   width 100%
 
@@ -387,234 +384,14 @@ full-width-without-padding-small
   display flex
 
 #roleEspecification.ng-hide-add.ng-hide-add-active,
-#roleEspecification.ng-hide-remove.ng-hide-remove-active {
-  -webkit-transition: all linear 0.5s;
-  transition: all linear 0.5s;
-}
+#roleEspecification.ng-hide-remove.ng-hide-remove-active
+  -webkit-transition all linear 0.5s
+  transition all linear 0.5s
 
-
-  #roleEspecification.ng-hide {
-  line-height: 0;
-  opacity: 0;
-  padding: 0 10px;
-}
-
-#menu
-  position fixed
-  top 0
-  bottom 0
-  border-right 0.5px solid black
-  padding-top 1em
-  width menuWidth
-  padding-left 0
-  padding-right 0
-  height 100%
-  z-index 99999
-  overflow auto
-  background-color menuBackgroundColor
-  -webkit-box-shadow: 3px 0px 10px 0px rgba(50, 50, 50, 0.32);
-  -moz-box-shadow:    3px 0px 10px 0px rgba(50, 50, 50, 0.32);
-  box-shadow:         3px 0px 10px 0px rgba(50, 50, 50, 0.32);
-
-#btn-menu
-  display none
-  z-index 10000
-  position fixed
-  margin-top 8px
-  color #000000
-  z-index 99999
-
-.menu-option
-  display block
-  width 100%
-  min-height 50px
-  line-height 35px
-  z-index 99999
-  float left
-  text-overflow ellipsis
-  white-space nowrap
-  overflow hidden
-  font-size 14px
-  padding 10px 5px 5px 10px
-  border-bottom none
-  padding-bottom 0
-  border-top none
-  > i
-    padding-left 1em
-    cursor pointer
-  > a
-    padding-left 0.3em
-    color menuFontColor
-    text-decoration none
-
-  &:first-child
-    margin-top 5em
-    border-top 1px solid #091826
-  &:hover
-    background-color rgba(228, 240, 251, 0.1)
-
-
-
-.submenu-option
-  background-color submenuColor
-  padding-left 1em
-  border-bottom 1px double rgba(204,204,204,0.11)
-  margin-left -4%
-  margin-right -4%
-  z-index 99999
-  text-overflow ellipsis
-  white-space nowrap
-  overflow hidden
-  > i
-    padding-left 1.25em
-    cursor pointer
-  > a
-    padding-left 0.3em
-    font-size 0.9em
-    text-decoration none
-    color black
-
-
-.submenu-group
-  display none
-
-.submenu-group-ativo
-  display block
-
-.menu-color
-  width 20%
-  color submenuColor
-
-.submenu-color
-  @extend .menu-color
-  color black
-
-.img-centered
-  display block
-  margin 0 auto
-
-
-.open-menu
-  transition(opacity, 0.3s, linear)
-  opacity 1 !important
-  z-index 1000 !important
-
-@media screen and (max-width: 1000px)
-  .submenu-option
-    > i
-      padding-left 0.5em
-
-  .menu-option
-    > i
-      padding-left 0.5em
-
-  // li > a
-  //   font-size 10px
-
-@media screen and (max-width: 600px)
-  #menu
-    transition(opacity, 0.3s, linear)
-    opacity 0
-    z-index -1
-    width 30%
-    opacity 0;
-
-  .img-centered
-    display none
-
-  #menu
-    > ul
-      margin-top 15px
-
-  #btn-menu
-    display block
-
-  #continuarInserindo
-    display none
-
-  .submenu-option
-    > i
-      padding-left 0.5em
-
-.menu-option
-    > i
-      padding-left 0.5em
-
-
-#navbar
-  height navbarHeight
-  z-index 99999
-  width 85%
-  margin-left menuWidth
-  position fixed
-  padding-left 1em
-  line-height navbarHeight
-  z-index 100
-  border-bottom 1px solid #ccc;
-  //padding-top 10px
-  background-color navbarBackgroundColor
-  -webkit-box-shadow 0px 3px 10px 0px rgba(50, 50, 50, 0.32)
-  -moz-box-shadow    0px 3px 10px 0px rgba(50, 50, 50, 0.32)
-  box-shadow         0px 3px 10px 0px rgba(50, 50, 50, 0.32)
-
-#navbar ::-webkit-input-placeholder
-  color #fff
-
-#navbar :-moz-placeholder
-  color #fff
-
-#navbar ::-moz-placeholder
-  color: #fff
-
-#navbar :-ms-input-placeholder
-  color #fff
-
-#navbar .navbar-logo
-  text-decoration none
-  color navbarLogoColor
-  font-weight 800
-  font-size 1.3em
-  margin-left 20px
-
-.navbar-links
-  text-decoration none
-  margin-left 2em
-  font-size 0.9em
-
-.navbar-input
-  float right
-  width 20em
-  height 30px
-  margin-right 1em
-  margin-top 8px
-  padding-left 1em
-  borderRadius(4px)
-  font-size 0.9em
-  line-height 30px
-  border double 1px #ccc
-
-.status-navbar
-  float right
-  margin-right 1em
-  text-decoration none
-
-  color #EBF1E9
-
-@media screen and (max-width: 1000px)
-  .navbar-input
-  #navbar .btn-default
-    display none
-
-  @media screen and (max-width: 600px)
-    .navbar-links
-      display none
-
-    #navbar
-      width 100%
-      margin-left 0%
-
-    .navbar-logo
-      margin-left 30px
+#roleEspecification.ng-hide
+  line-height 0
+  opacity 0
+  padding 0 10px
 
 @media screen and (max-width: 1440px)
   .nav-panel
@@ -908,99 +685,6 @@ html,body
 .pagination > li > a, .pagination > li > span
   position initial !important
 
-gumga-query
-  > .input-group
-    > .dropdown-menu
-      width 100%!important
-
-gumga-many-to-many .col-md-6:first-child
-  padding-left 0px
-
-gumga-many-to-many .col-md-6:last-child
-  padding-right 0px
-
-gumga-many-to-many .input-group-addon button
-  border 0
-  background-color #EEE
-
-gumga-many-to-many .list-group
-  max-height 200px
-  overflow auto
-
-gumga-many-to-many .list-group .list-group-item
-  padding 7px 15px
-  border-bottom none
-
-gumga-many-to-many .list-group .list-group-item .badge
-  background-color #81AEDA
-  cursor pointer
-  border 0
-
-gumga-many-to-one .form-group .input-group-addon.full-view
-  background-color transparent
-  padding 3px 12px
-  border-left 0
-
-gumga-many-to-one .form-group .input-group-addon.authorize-add
-  padding: 0 0.25%
-
-gumga-many-to-one .form-group .input-group-addon button
-  background-color transparent
-  border 0
-
-gumga-menu .active
-  background #4ca089
-
-gumga-menu .icon.white
-  color #fff
-
-gumga-menu .image-size-default
-  width 20px
-  height 20px
-
-gumga-nav .navbar-logo
-  float left
-
-gumga-nav .organization
-  color white
-  font-size 1.4em
-  margin-left 2%
-  float left
-
-gumga-nav img.avatar
-  width 40px
-  height 40px
-  margin-right 10px
-
-gumga-nav .status-navbar small
-  font-size 85%
-
-gumga-nav .status-navbar .glyphicon
-  margin-left 1px
-
-gumga-nav .glyphicon-search
-  color #fff
-  padding-top 1%
-  margin-right 5%
-  height 100%
-
-gumga-nav .navbar-input
-  background none repeat scroll 0 0 rgba(244, 214, 214, 0.15)
-  border double
-  font-size 14px
-  outline 0
-  color #fff
-  height 100%
-  margin 0
-  border-color rgba(0, 0, 0, 0)
-  z-index 2000
-
-gumga-nav .btn-link
-  display block
-  width 100%
-  color black
-  font-size 0.9em
-
 .change-password label.text-danger
   width: 100%
 
@@ -1026,218 +710,3 @@ gumga-search gumga-advanced-label
 
 gumga-search .menu-save-query
   width auto
-
-.gumga-filter .dropdown-menu > li > a
-  cursor: pointer
-
-.gumga-filter .panel-body .input-group-btn
-  border 1px solid #ccc
-  border-left-width 2px
-  border-right-width 2px
-  border-radius 4px
-
-.gumga-filter .panel-body .input-group-btn .btn
-  border-color: transparent
-  border-radius: 4px
-  border: 1px
-
-.gumga-filter .panel-body .btn,
-.gumga-filter .panel-body .input-group-btn .btn
-  padding: 3px 6px
-
-.gumga-filter-panel
-  position: absolute
-  top: 100%
-  left: 0
-  z-index: 1000
-  display: none
-  float: left
-  min-width: 160px
-  padding: 12px
-  margin: 2px 0 0
-  font-size: 14px
-  text-align: left
-  background-color: #fff
-  border: 1px solid #ccc
-  border: 1px solid rgba(0,0,0,.15)
-  border-radius: 4px
-  box-shadow: 0 6px 12px rgba(0,0,0,.175)
-  background-clip: padding-box
-
-.gumga-filter-panel .dropdown-menu li
-  z-index: 3000
-  position absolute
-  top 100%
-  left 0
-  z-index 1000
-  display none
-  float left
-  min-width 160px
-  padding 12px
-  margin 2px 0 0
-  font-size 14px
-  text-align left
-  background-color #fff
-  border 1px solid #ccc
-  border 1px solid rgba(0,0,0,.15)
-  border-radius 4px
-  box-shadow 0 6px 12px rgba(0,0,0,.175)
-  background-clip padding-box
-
-gumga-filter .panel.heading
-  padding 5px 10px
-
-gumga-filter .form-inline.panel-body .input-group
-   margin-right: 5px
-
-gumga-filter .form-inline.panel-body .input-group-btn > button,
-gumga-filter .form-inline.panel-body .input-group-btn > btn-group > button[uib-dropdown-toggle]
-  z-index: 0
-
-gumga-filter .form-inline.panel-body .input-group-btn > btn-group > ul[uib-dropdown-menu],
-gumga-filter .form-inline.panel-body .input-group-btn > btn-group > ul[uib-dropdown-menu] > li
-  z-index: 3000
-
-gumga-filter .btn-group.dropdown .glyphicon
-  top 3px
-  
-gumga-query .row.replace-filter
-  margin-top .5%
-
-.gumga-documentation-info
-  color #5bc0de
-  font-size larger
-  &:hover
-    font-size large
-    cursor pointer
-
-gumga-list table
-  display flex
-  flex-flow column
-  height 100%
-  width 100%
-
-gumga-list table thead
-  flex 0 0 auto
-  width 100%
-
-gumga-list table tbody
-  flex 1 1 auto
-  display block
-  overflow-y auto
-
-gumga-list table tbody tr
-  width 100%
-
-gumga-list table thead,
-gumga-list table tbody tr
-  display table
-  table-layout fixed
-
-gumga-list .items-per-page
-  width 4%
-
-gumga-list .tbody td
-  white-space pre-wrap
-
-gumga-tag-column .panel-body.body-column
-  display inline-block
-
-gumga-unity-tag .btn.close-popover
-  margin-right 5%
-
-gumga-unity-tag .bottom.fade.popover.in
-  min-width 150%
-
-gumga-unity-tag .label.unity-tag
-  margin-top 2%
-  margin-bottom 2%
-  display inline-block
-
-gumga-file-upload
-  position relative
-  display table
-  width 100%
-
-.drag
-  display none
-  padding 25px
-  position absolute
-  top 0
-  right 0
-  bottom 0
-  left 0
-  z-index -40
-  text-align center
-  border 6px dashed #eaeaea
-
-.drag .glyphicon
-  color #19a14d
-  font-size 36px
-
-.dragOver
-  display block
-  background #f5f5f5
-  z-index 40000
-  opacity 0.7
-  
-gumga-many-to-one .inputahead
-  
-gumga-many-to-one .input-group-btn-icon
-  box-shadow inset 0 1px 1px rgba(0,0,0,.075)
-  background-color transparent
-
-gumga-many-to-one .input-group-btn-icon button
-  border-left 1px solid #eaeaea
-
-gumga-many-to-one .result
-  margin 0px
-
-gumga-many-to-one .result .icon
-  float right
-  display inline-block
-  cursor pointer
-  
-gumga-many-to-one .result .str
-  white-space nowrap
-  overflow hidden
-  text-overflow ellipsis
-
-gumga-image-upload .svg-camera
-  fill #ccc
-  width 100%
-  cursor pointer
-
-gumga-image-upload .area
-  margin-bottom 20px
-
-gumga-image-upload .area-camera
-  padding 25%
-  background-color #EAEAEA
-  border 3px solid #ccc
-
-gumga-image-upload .area-crop
-  background #E4E4E4
-  border 3px solid #ccc
-  overflow hidden
-  width 100%
-  height 180px
-
-gumga-image-upload .area-preview
-  margin-bottom 20px
-  background #E4E4E4
-  border 3px solid #ccc
-
-gumga-image-upload .list
-  overflow-x scroll
-  overflow-y hidden
-  white-space nowrap
-  
-gumga-image-upload .photo
-  margin-right 13px
-  display inline-block
-  vertical-align middle
-
-gumga-image-upload .photo .remove
-  margin-top 2px
-  cursor pointer

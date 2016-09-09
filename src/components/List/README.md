@@ -9,7 +9,7 @@ data="Array"
 on-click="Function"
 on-sort="Function"
 on-double-click="Function"
-change-per-page="Function(value)">>
+change-per-page="Function(value)">
 </gumga-list>
 ```
 ### Descrição
@@ -45,7 +45,6 @@ function(value){
   }
 }
 ```
-- **`maxHeight`** String *`opcional`* que pode configurar a altura máxima do corpo da tabela, gerando uma barra de rolagem quando os dados atingem a altura máxima definida.
 
 
 - **`columnsConfig`** Array *`opcional`* que será utilizado para configurar as colunas que foram definidas no atributo columns. Cada valor deste array é um objeto de configuração para cada coluna, não

@@ -20,7 +20,7 @@ Parametro               | Tipo       | Detalhe
 ```html
 <gumga-file-upload
   attribute="files"
-  accepted="zip,rar,deb"
+  accepted="jpeg,zip,rar,deb"
   max-size="1024"
   on-upload-start="uploadStart()"
   on-upload-complete="uploadComplete(e)"
@@ -29,6 +29,9 @@ Parametro               | Tipo       | Detalhe
   delete-method="remove()">
 </gumga-file-upload>
 ```
+
+**Importante:** Caso tenha problemas com tipos jpg, coloque no atributo accept "*jpeg*".
+
 ```javascript
 $scope.uploadStart = function() {}
 $scope.uploadComplete = function(e) {}
