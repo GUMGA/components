@@ -32,7 +32,7 @@
           manyToOneCtrl.field                         = $attrs.field                                               || ''
           // manyToOneCtrl.description                   = $attrs.description                                         || false
           manyToOneCtrl.modalTitle                    = $attrs.modalTitle                                          || 'Visualizador de Registro'
-          manyToOneCtrl.modalFields                   = $attrs.modalFields  ? $attrs.modalFields.splice(',')        : [manyToOneCtrl.field]
+          manyToOneCtrl.modalFields                   = $attrs.modalFields  ? $attrs.modalFields.split(',')         : [manyToOneCtrl.field]
           manyToOneCtrl.postFields                    = $attrs.postFields   ? $attrs.postFields.split(',')          : [manyToOneCtrl.field]
           manyToOneCtrl.displayClear                  = manyToOneCtrl.hasOwnProperty('displayClear') ? manyToOneCtrl.displayClear : true
           manyToOneCtrl.displayInfo                   = manyToOneCtrl.hasOwnProperty('displayInfo')  ? manyToOneCtrl.displayInfo  : true
@@ -183,7 +183,7 @@
           $transclude($scope, cloneEl => {
             angular.forEach(cloneEl, cl => {
               let element = angular.element(cl)[0];
-              if (element.nodeName === 'MATCH') {
+              if (element.nodeName && element.nodeName === 'MATCH') {
                 template = true
                 manyToOneCtrl.match = element.innerHTML
               }

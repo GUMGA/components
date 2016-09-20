@@ -15,3 +15,11 @@ A directive gumgaOneToMany pode ser usada quando é necessária a criação de u
 | **on-delete** | `Function` | Parâmetro não obrigatório que irá conter uma variável que irá conter uma função que será chamada quando um elemento da lista for deletado. |
 | **on-value-visualization-opened** | `Function` | Parâmetro não obrigatório que irá conter uma variável que possuirá uma função que irá ser executada quando o usuário tiver aberto o modal para visualização de dados. |
 | **on-value-visualization-closed** | `Function` | Parâmetro não obrigatório que irá conter uma variável que possuirá uma função que irá ser executada quando o usuário tiver fechado o modal para visualização de dados. |
+| **edit-button** | `String` | Atributo opcional para definir o texto do botão editar
+| **edit-button-title** | `String` | Atributo opcional para definir o atributo title do botão editar
+| **edit-button-class** | `String` | Atributo opcional para definir o atributo class do botão  editar
+| **edit-button-icon** | `String` | Atributo opcional para definir o atributo class do ícone do botão editar
+| **remove-button** | `String` | Atributo opcional para definir o texto do botão remover
+| **remove-button-title** | `String` | Atributo opcional para definir o atributo title do botão remover
+| **remove-button-class** | `String` | Atributo opcional para definir o atributo class do botão remover
+| **remove-button-icon** | `String` | Atributo opcional para definir o atributo class do ícone do botão remover

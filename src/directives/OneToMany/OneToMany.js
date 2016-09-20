@@ -1,16 +1,21 @@
 (function(){
 	'use strict';
-	OneToMany.$inject = ['$uibModal','$populate'];
-	function OneToMany($uibModal,$populate){
+	OneToMany.$inject = ['$interpolate','$uibModal','$populate'];
+	function OneToMany($interpolate,$uibModal,$populate){
 		var template = [
 		'<div class="col-md-12">',
 		'   <button type="button" class="btn btn-default" ng-click="newModal()">{{name}}</button>',
 		'   <ul class="list-group">',
 		'       <li ng-repeat="child in children" class="list-group-item">',
 		'           {{::child[property]}}',
-		'           <button type="button" class="btn btn-default pull-right btn-sm" ng-click="newModal(child)"><i class="glyphicon glyphicon-pencil"></i></button>',
-		'           <button type="button" class="btn btn-danger pull-right btn-sm" ng-click="removeFromList(child)"><i class="glyphicon glyphicon-remove"></i></button>',
-		'       <div class="clearfix"></div></li>',
+		'           <button type="button" class="{{::editButtonClass}}" title="{{::editButtonTitle}}" ng-click="newModal(child)">',
+    '             <i class="{{::editButtonIcon}}"></i> {{::editButton}}',
+    '           </button>',
+		'           <button type="button" class="{{::removeButtonClass}}" title="{{::removeButtonTitle}}" ng-click="removeFromList(child)">',
+    '             <i class="{{::removeButtonIcon}}"></i> {{::removeButton}}',
+    '           </button>',
+		'       <div class="clearfix"></div>',
+    '       </li>',
 		'   <ul>',
 		'</div>',
 		'<div class="clearfix"></div>'
@@ -37,9 +42,20 @@
 					delete: (attrs.onDelete ? scope.onDelete : angular.noop)
 				};
 				scope.newModal = newModal;
+        
+        scope.editButton      = attrs.editButton      ? $interpolate(attrs.editButton)(scope)       : 'Editar'
+        scope.editButtonTitle = attrs.editButtonTitle ? $interpolate(attrs.editButtonTitle)(scope)  : 'Editar'
+        scope.editButtonClass = attrs.editButtonClass ? $interpolate(attrs.editButtonClass)(scope)  : 'btn btn-default pull-right btn-sm'
+        scope.editButtonIcon  = attrs.editButtonIcon  ? $interpolate(attrs.editButtonIcon)(scope)   : 'glyphicon glyphicon-pencil'
+
+        scope.removeButton      = attrs.removeButton      ? $interpolate(attrs.removeButton)(scope)       : 'Remover'
+        scope.removeButtonTitle = attrs.removeButtonTitle ? $interpolate(attrs.removeButtonTitle)(scope)  : 'Remover'
+        scope.removeButtonClass = attrs.removeButtonClass ? $interpolate(attrs.removeButtonClass)(scope)  : 'glyphicon glyphicon-remove'
+        scope.removeButtonIcon  = attrs.removeButtonIcon  ? $interpolate(attrs.removeButtonIcon)(scope)   : 'glyphicon glyphicon-pencil'
+        
 				scope.removeFromList = removeFromList;
 				scope.getFromModal = getFromModal;
-				scope.name = scope.name || 'New';
+				scope.name = scope.name || 'Novo';
 				if(!scope.children) throw 'You must provide a list to GumgaOneToMany';
 				if(!scope.templateUrl) throw 'You must provide a templateUrl for the modal';
 				if(!scope.property) throw 'You must provide a property to display in GumgaOneToMany';
