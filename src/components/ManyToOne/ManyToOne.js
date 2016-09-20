@@ -32,7 +32,7 @@
           manyToOneCtrl.field                         = $attrs.field                                               || ''
           // manyToOneCtrl.description                   = $attrs.description                                         || false
           manyToOneCtrl.modalTitle                    = $attrs.modalTitle                                          || 'Visualizador de Registro'
-          manyToOneCtrl.modalFields                   = $attrs.modalFields  ? $attrs.modalFields.split(',')        : [manyToOneCtrl.field]
+          manyToOneCtrl.modalFields                   = $attrs.modalFields  ? $attrs.modalFields.split(',')         : [manyToOneCtrl.field]
           manyToOneCtrl.postFields                    = $attrs.postFields   ? $attrs.postFields.split(',')          : [manyToOneCtrl.field]
           manyToOneCtrl.displayClear                  = manyToOneCtrl.hasOwnProperty('displayClear') ? manyToOneCtrl.displayClear : true
           manyToOneCtrl.displayInfo                   = manyToOneCtrl.hasOwnProperty('displayInfo')  ? manyToOneCtrl.displayInfo  : true
