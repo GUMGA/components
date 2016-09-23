@@ -50,8 +50,8 @@
 
         scope.removeButton      = attrs.removeButton      ? $interpolate(attrs.removeButton)(scope)       : 'Remover'
         scope.removeButtonTitle = attrs.removeButtonTitle ? $interpolate(attrs.removeButtonTitle)(scope)  : 'Remover'
-        scope.removeButtonClass = attrs.removeButtonClass ? $interpolate(attrs.removeButtonClass)(scope)  : 'glyphicon glyphicon-remove'
-        scope.removeButtonIcon  = attrs.removeButtonIcon  ? $interpolate(attrs.removeButtonIcon)(scope)   : 'glyphicon glyphicon-pencil'
+        scope.removeButtonClass = attrs.removeButtonClass ? $interpolate(attrs.removeButtonClass)(scope)  : 'btn btn-default pull-right btn-sm'
+        scope.removeButtonIcon  = attrs.removeButtonIcon  ? $interpolate(attrs.removeButtonIcon)(scope)   : 'glyphicon glyphicon-remove'
         
 				scope.removeFromList = removeFromList;
 				scope.getFromModal = getFromModal;
