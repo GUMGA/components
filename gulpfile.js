@@ -17,7 +17,8 @@ var gulp = require('gulp')
 ,   runSequence = require('run-sequence')
 ,		paths = {
       src: ['./src/**/*.js','!**/*Spec.js']
-    , stylus: ['./src/**/**/*.styl']
+    // , stylus: ['./src/**/**/*.styl']
+    , stylus: ['./src/index.styl']
     , dist: ['./dist/']
     };
 
