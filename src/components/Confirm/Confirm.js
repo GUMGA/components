@@ -19,6 +19,7 @@
         const confirmButtonClass  = $attrs.confirmButtonClass ? $interpolate($attrs.confirmButtonClass)($scope) : 'btn btn-primary'
         const dismissButtonClass  = $attrs.dismissButtonClass ? $interpolate($attrs.dismissButtonClass)($scope) : 'btn btn-default'
         const whatToDoWhenClicked = $attrs.ngClick
+        const whatToDoWhenDismiss = $attrs.dismiss
         
         $element.bind('click', event => {
 
@@ -67,7 +68,7 @@
             .result
             .then(
                   value =>  $scope.$eval(whatToDoWhenClicked),
-                  reject => angular.noop
+                  reject => $scope.$eval(whatToDoWhenDismiss)
                 )
         })
       }
