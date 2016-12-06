@@ -7,29 +7,29 @@
 			this._url = url;
 			this._query = {params: {start: 0,pageSize: 10}};
 		}
-		RestPrototype.prototype.get						= _get;
-		RestPrototype.prototype.resetAndGet 			= _resetAndGet;
-		RestPrototype.prototype.getNew 					= _getNew;
-		RestPrototype.prototype.getById 				= _getById;
-		RestPrototype.prototype.save 					= _save;
-		RestPrototype.prototype.update		      		= _update;
-		RestPrototype.prototype.delete 					= _delete;
-		RestPrototype.prototype.sort 					= _sort;
-		RestPrototype.prototype.deleteCollection       	= _deleteCollection;
-		RestPrototype.prototype.saveImage 				= _saveImage;
-		RestPrototype.prototype.deleteImage 			= _deleteImage;
-		RestPrototype.prototype.getSearch 				= _getSearch;
-		RestPrototype.prototype.getAdvancedSearch       = _getAdvancedSearch;
-		RestPrototype.prototype.resetDefaultState       = _resetQuery;
-        RestPrototype.prototype.getStateQuery           = _getStateQuery;
-        RestPrototype.prototype.redoSearch              = _redoSearch;
-		RestPrototype.prototype.saveQuery 				= _saveQuery;
-		RestPrototype.prototype.getQuery 				= _getQuery;
-		RestPrototype.prototype.postTags				= _postTags;
-		RestPrototype.prototype.getAvailableTags	    = _getAvailableTags;
-		RestPrototype.prototype.getSelectedTags   		= _getSelectedTags;
-		RestPrototype.prototype.extend					= _extend;
-		RestPrototype.prototype.getDocumentationURL 	= getDocumentationURL
+		RestPrototype.prototype.get                 = _get;
+		RestPrototype.prototype.resetAndGet         = _resetAndGet;
+		RestPrototype.prototype.getNew              = _getNew;
+		RestPrototype.prototype.getById             = _getById;
+		RestPrototype.prototype.save                = _save;
+		RestPrototype.prototype.update              = _update;
+		RestPrototype.prototype.delete              = _delete;
+		RestPrototype.prototype.sort                = _sort;
+		RestPrototype.prototype.deleteCollection    = _deleteCollection;
+		RestPrototype.prototype.saveImage           = _saveImage;
+		RestPrototype.prototype.deleteImage         = _deleteImage;
+		RestPrototype.prototype.getSearch 				  = _getSearch;
+		RestPrototype.prototype.getAdvancedSearch   = _getAdvancedSearch;
+		RestPrototype.prototype.resetDefaultState   = _resetQuery;
+    RestPrototype.prototype.getStateQuery       = _getStateQuery;
+    RestPrototype.prototype.redoSearch          = _redoSearch;
+		RestPrototype.prototype.saveQuery           = _saveQuery;
+		RestPrototype.prototype.getQuery            = _getQuery;
+		RestPrototype.prototype.postTags            = _postTags;
+		RestPrototype.prototype.getAvailableTags    = _getAvailableTags;
+		RestPrototype.prototype.getSelectedTags     = _getSelectedTags;
+		RestPrototype.prototype.extend              = _extend;
+		RestPrototype.prototype.getDocumentationURL = getDocumentationURL
 
 		function _get(page){
 			if (page) {
@@ -57,7 +57,8 @@
 		function _resetQuery(){
 			this._query = {
 				params: {
-					start: 0,pageSize: 10
+					start: 0,
+          pageSize: 10
 				}
 			};
 		}

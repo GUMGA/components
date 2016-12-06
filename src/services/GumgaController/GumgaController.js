@@ -6,7 +6,11 @@
     this.data = [];
     this.pageSize = 10;
     this.count = 0;
+    this.records = []
     this.methods = {
+      getRecords(){
+        return self.records;
+      },
       asyncSearch(field, param){
         return Service
           .getSearch(field, param)
@@ -26,7 +30,8 @@
           self.emit('getSuccess', data.data);
           self.data = data.data.values;
           self.pageSize = data.data.pageSize;
-          self.count = data.data.count;1
+          self.count = data.data.count;
+          self.data.map(record => self.records.push(record.id))
         }, (err) => {self.emit('getError', err);})
         return self;
       },

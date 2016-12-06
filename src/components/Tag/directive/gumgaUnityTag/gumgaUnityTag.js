@@ -103,11 +103,6 @@ function gumgaUnityTag($templateCache, $compile, $rootScope, $timeout){
     },
     require: '^gumgaTagColumn',
     template:`
-<<<<<<< HEAD
-    <span class="label label-primary unity-tag"
-    uib-tooltip="{{tooltip}}" ng-mousedown="tooltipRemove(this)" ng-mouseup="setActive(name,'click')" tooltip-placement="bottom"
-    uib-popover-template="templateUrl" popover-placement="bottom" popover-trigger="click"
-=======
     <style>
     div.bottom.fade.popover.in {
       min-width: 150%;
@@ -116,7 +111,6 @@ function gumgaUnityTag($templateCache, $compile, $rootScope, $timeout){
     <span class="label label-primary unity-tag" style="margin-top: 2%;margin-bottom: 2%;display: inline-block;"
     tooltip="{{tooltip}}" ng-mousedown="tooltipRemove(this)" ng-mouseup="setActive(name,'click')" tooltip-placement="bottom"
     popover-template="templateUrl" popover-placement="bottom" popover-trigger="click"
->>>>>>> 990eaf912ae70487dfc415a8e7ab27c6f421e167
     popover-enable="parentColumn === 'right'" popover-is-open="getActive()">
     {{name}} <strong>({{attributes.length}})</strong>
     </span>`

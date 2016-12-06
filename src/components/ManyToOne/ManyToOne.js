@@ -238,6 +238,9 @@
 
           formController.$addControl(ngModelCtrl)
 
+          ngModelCtrl.$viewChangeListeners.push(() => {
+            console.log('$viewChangeListeners', ngModelController.$viewValue)
+          })
           ngModelCtrl.$validators.manyToOne = (modelValue, viewValue) => {
             return modelValue ? !(typeof modelValue === 'string' || modelValue instanceof String) : true
           }

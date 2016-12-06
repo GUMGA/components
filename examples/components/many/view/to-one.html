@@ -1,0 +1,40 @@
+<h2>To One</h2>
+<form name="form" action="">
+<!--<gumga-many-to-one
+  name="name"
+  value="bank.name"
+  search-method="bank.methods.asyncSearch('name',param)"
+  modal-fields="name,id"
+  field="name"
+  display-info="false"
+  authorize-add="false">
+  <match>
+    <div>{{match.model.id}} - {{match.model.name}}</div>
+  </match>
+</gumga-many-to-one>-->
+
+<!--<gumga-many-to-one
+  value="bank.name"
+  search-method="bank.methods.asyncSearch('name',param)"
+  authorize-add="false"
+  async="true"
+  field="name"
+  display-info="false">
+  <match>
+      <div>{{match.model.id}} - {{match.model.name}}</div>
+  </match>
+</gumga-many-to-one>-->
+
+<gumga-many-to-one
+        value="bank.name"
+        search-method="bank.methods.asyncSearch('name',param)"
+        field="name"
+        authorize-add="false"
+        async="true"
+        display-info="false">
+    <match>
+        <div>{{match.model.name}}</div>
+    </match>
+</gumga-many-to-one>
+
+</form>
