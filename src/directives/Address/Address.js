@@ -32,7 +32,7 @@
 		var streetType =
 		'<div class="form-group">' +
 		' <label for="tipoLogradouro">Tipo Logradouro</label>' +
-    ' <input type="text" ng-model="value.premisseType" typeahead-editable="false" uib-typeahead="type for type in streetTypes | filter:$viewValue | limitTo:8" class="form-control">' +
+    ' <input type="text" ng-model="value.premisseType" typeahead-editable="false" uib-typeahead="type for type in streetTypes | filter:$viewValue | limitTo:8" class="form-control" typeahead-editable="false" typeahead-show-hint="true" typeahead-min-length="0">' +
 		// ' <select type="text" ng-model="value.premisseType" class="form-control" ng-options="log for log in factoryData.logs"></select>' +
 		'</div>'
 		;
@@ -145,7 +145,7 @@
 				attrs.stateCity     = forceAttr2Bool(attrs.stateCity || attrs.cityState);
 				attrs.maps          = forceAttr2Bool(attrs.maps);
 
-        scope.streetTypes = ['AV','AVENIDA','RUA','ROD.','BC','TRAVESSA','ALAMEDA','VIELA','CAMINHO','ESTRADA','PRAÇA','PASSAGEM','VILA','VIADUTO','RODOVIA','BECO','ACESSO','LARGO','VIA','CAMPO','MONTE','LADEIRA','CALÇADA','LOTEAMENTO','ROTATÓRIA','PASSEIO','NÚCLEO','PARQUE','ANTIGA','LAGO','BOULEVARD','ACAMPAMENTO','COMPLEXO','CONTORNO','BALÇO','CONJUNTO','MORRO','CONDOMÍNIO','TERMINAL','ESCADA','FAVELA','COLÔNIA','RECANTO','ALTO','ILHA','JARDIM','PASSARELA','PONTE','GALERIA','VALE','VEREDA','ENTRADA','BULEVAR','TRECHO','TÚNEL','ESTACIONAMENTO','QUADRA','BOSQUE','RETORNO','PÁTIO','PRAIA','RAMAL','BAIXA','CHÁCARA','SÍTIO','UNIDADE','RESIDENCIAL','FEIRA','ESTAÇÂO','RÓTULA','CANAL','FAZENDA','RETIRO','SETOR','RAMPA','ESPLANADA','CAMPUS','BLOCO','CENTRO','MÓDULO','ESTÁDIO','ESCADARIA','AEROPORTO','SERVIDÃO','FERROVIA','TREVO','PORTO','ATALHO','DISTRITO','CORREDOR','FONTE','CÓRREGO','CIRCULAR','CAIS','SUBIDA','LAGOA','PROLONGAMENTO','DESCIDA','PARALELA','ELEVADA','RETA','PONTA','VALA','BURACO','MARINA','FORTE','PARADA','LINHA','FRANCISCO','MARECHAL','ROD.','CICLOVIA','AVENIDA']
+        scope.streetTypes = ['AV','AVENIDA','RUA','ROD.','BC','TRAVESSA','ALAMEDA','VIELA','CAMINHO','ESTRADA','PRAÇA','PASSAGEM','VILA','VIADUTO','RODOVIA','BECO','ACESSO','LARGO','VIA','CAMPO','MONTE','LADEIRA','CALÇADA','LOTEAMENTO','ROTATÓRIA','PASSEIO','NÚCLEO','PARQUE','ANTIGA','LAGO','BOULEVARD','ACAMPAMENTO','COMPLEXO','CONTORNO','BALÇO','CONJUNTO','MORRO','CONDOMÍNIO','TERMINAL','ESCADA','FAVELA','COLÔNIA','RECANTO','ALTO','ILHA','JARDIM','PASSARELA','PONTE','GALERIA','VALE','VEREDA','ENTRADA','BULEVAR','TRECHO','TÚNEL','ESTACIONAMENTO','QUADRA','BOSQUE','RETORNO','PÁTIO','PRAIA','RAMAL','BAIXA','CHÁCARA','SÍTIO','UNIDADE','RESIDENCIAL','FEIRA','ESTAÇÂO','RÓTULA','CANAL','FAZENDA','RETIRO','SETOR','RAMPA','ESPLANADA','CAMPUS','BLOCO','CENTRO','MÓDULO','ESTÁDIO','ESCADARIA','AEROPORTO','SERVIDÃO','FERROVIA','TREVO','PORTO','ATALHO','DISTRITO','CORREDOR','FONTE','CÓRREGO','CIRCULAR','CAIS','SUBIDA','LAGOA','PROLONGAMENTO','DESCIDA','PARALELA','ELEVADA','RETA','PONTA','VALA','BURACO','MARINA','FORTE','PARADA','LINHA','FRANCISCO','MARECHAL','ROD.','CICLOVIA']
 
 				if(!attrs.name) throw "É necessário passar um parâmetro 'name' como identificador para GumgaAddress";
 				if((!attrs.street || !attrs.streetNumber) && !attrs.stateCity) throw "É necessário usar ao menos um dos elementos principais [street / city-state] para GumgaAddress";
