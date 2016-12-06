@@ -1,0 +1,26 @@
+<h2>List</h2>
+
+<gumga-many-to-one
+  name="name"
+  value="individual.name"
+  search-method="individual.methods.asyncSearch('name',param)"
+  field="name"
+  display-info="false"
+  authorize-add="false">
+</gumga-many-to-one>
+
+<gumga-list sort="individuall.methods.sort(field, dir)" class="table-striped table-condensed" data="individual.data" configuration="tableConfig"></gumga-list>
+
+
+<ul uib-pagination
+  ng-model="page"
+  max-size="10"
+  boundary-links="true"
+  previous-text="‹"
+  next-Text="›"
+  first-text="«"
+  last-text="»"
+  items-per-page="individual.pageSize"
+  total-items="individual.count"
+  ng-change="pageChanged()">
+</ul>
