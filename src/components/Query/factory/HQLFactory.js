@@ -210,11 +210,11 @@ function HQLFactory($filter){
     hqlObjects['eq']            = { hql: ` eq `           , label:  ` igual `         , before: ` = '`         , after:  `'` }
     hqlObjects['ne']            = { hql: ` ne `           , label:  ` diferente de `  , before: ` != '`        , after:  `'` }
     hqlObjects['ge']            = { hql: ` ge `           , label:  ` maior igual `   , before: ` >= '`        , after:  `'` }
-    hqlObjects['gt']            = { hql: ` gt `           , label:  ` maior que `     , before: ` >  '`        , after:  `'` }
-    hqlObjects['le']            = { hql: ` le `           , label:  ` menor igual `   , before: ` <= '`        , after:  `'` }
+    hqlObjects['gt']            = { hql: ` gt `           , label:  ` maior que `     , before: ` >   `        , after:  `` }
+    hqlObjects['le']            = { hql: ` le `           , label:  ` menor igual `   , before: ` <=  `        , after:  `` }
     hqlObjects['lt']            = { hql: ` lt `           , label:  ` menor que `     , before: ` < '`         , after:  `'` }
     hqlObjects['in']            = { hql: ` in `           , label:  ` em`             , before: ` in (`        , after:  `)` }
-    hqlObjects['is']            = { hql: ` is `           , label:  ` é`              , before: ` is `         , after:  `` }
+    hqlObjects['is']            = { hql: ` is `           , label:  ` está `          , before: ` is `         , after:  `` }
     hqlObjects['date_eq']       = { hql: ` eq `           , label:  ` igual `         , before: ` >= `         , after:  `` }
     hqlObjects['date_ne']       = { hql: ` ne `           , label:  ` diferente de `  , before: ` <= `         , after:  `` }
     // hqlObjects['date_eq']       = { hql: ` date_eq`       , label:  ` no dia `        , before: ` `}
@@ -239,7 +239,7 @@ function HQLFactory($filter){
                   let date = value.split('')
                   value = `${date[4]}${date[5]}${date[6]}${date[7]}-${date[2]}${date[3]}-${date[0]}${date[1]}`
 
-                  if (mapObj[val].query.condition.hql == ' eq ' || mapObj[val].query.condition.hql == ' ne ') {
+                  // if (mapObj[val].query.condition.hql == ' eq ' || mapObj[val].query.condition.hql == ' ne ') {
                     let valueBefore = `'${value} 00:00:00'`,
                         valueAfter  = `'${value} 23:59:59'`
 
@@ -250,8 +250,14 @@ function HQLFactory($filter){
                       case ' ne ':
                         value = `${valueBefore} OR ${attribute} >= ${valueAfter}`
                         break;
+                      case ' le ':
+                        value = valueAfter;
+                        break;
+                      case ' gt ':
+                        value = valueAfter;
+                        break;
                     }
-                  }
+                  // }
                   // value = $filter('date')(new Date($filter('gumgaGenericFilter')(value, 'date')),'yyyy-MM-dd')
                   // value = $filter('gumgaGenericFilter')(value, 'date')
 
