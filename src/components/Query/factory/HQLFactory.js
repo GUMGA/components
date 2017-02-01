@@ -115,15 +115,15 @@ function HQLFactory($filter){
 
   SUPPORTED_TYPES['boolean'] = {
     validator: (boolean) => (boolean == 'true' || boolean == 'false'),
-    defaultCondition: hqlObjectCreator(['eq']),
-    conditions: hqlObjectCreator(['eq']),
+    defaultCondition: hqlObjectCreator(['is']),
+    conditions: hqlObjectCreator(['is']),
     template: ` <div class="radio"><label><input  type="radio" ng-model="$value.query.value" value="true"> {{$value.query.attribute.extraProperties.trueLabel}}</label></div><div class="radio"><label><input type="radio" ng-model="$value.query.value" value="false"> {{$value.query.attribute.extraProperties.falseLabel}} </label></div>`
   }
 
   SUPPORTED_TYPES['date'] = {
     validator: (date) => (DATE_REGEX.test($filter('date')(date, 'dd/MM/yyyy'))),
-    defaultCondition: hqlObjectCreator(['eq']),
-    conditions: hqlObjectCreator(['eq', 'ne', 'gt', 'ge', 'lt', 'le']),
+    defaultCondition: hqlObjectCreator(['date_eq']),
+    conditions: hqlObjectCreator(['date_eq', 'date_ne', 'gt', 'ge', 'lt', 'le']),
     template: `<div class="input-group">
                     <input type="text" ng-keyup="goSearch($event)" ng-model="$value.query.value" gumga-mask="99/99/9999" class="form-control" required  style=" width: 150px;height: 40px;"/>
                     <div class="input-group-addon">
@@ -146,7 +146,7 @@ function HQLFactory($filter){
   SUPPORTED_TYPES['enum'] = {
     validator: (enumList) => (Array.isArray(enumList)),
     defaultCondition: hqlObjectCreator(['in']),
-    conditions: hqlObjectCreator(['eq']),
+    conditions: hqlObjectCreator(['in']),
     template: `<div class="col-md-4" ng-class="{'row': $index % 3 == 0}" ng-repeat="d in $value.query.attribute.extraProperties.data"><label><input type="checkbox" ng-checked="$value.query.value.indexOf(d.field) > -1" ng-click="toggleEnum($event, $key, d.field)"></label> {{d.label}}</div>`
   }
 
@@ -203,17 +203,21 @@ function HQLFactory($filter){
   }
 
   function hqlObjectCreator(hqls = [], hqlObjects = {}){
-    hqlObjects['contains']      = { hql: ` contains `     , label:  ` contém `        , before: ` like '%`     , after:  `%' ` }
-    hqlObjects['not_contains']  = { hql: ` not_contains ` , label:  ` não contém `    , before: ` not like '%` , after:  `%' ` }
+    hqlObjects['contains']      = { hql: ` contains `     , label:  ` contém `        , before: ` like '%`     , after:  `%'` }
+    hqlObjects['not_contains']  = { hql: ` not_contains ` , label:  ` não contém `    , before: ` not like '%` , after:  `%'` }
     hqlObjects['starts_with']   = { hql: ` starts_with `  , label:  ` começa com `    , before: ` like '`      , after:  `%'` }
-    hqlObjects['ends_with']     = { hql: ` ends_with `    , label:  ` termina com `   , before: ` like '%`      , after:  `'` }
-    hqlObjects['eq']            = { hql: ` eq `           , label:  ` igual `         , before: ` ='`          , after:  `'` }
-    hqlObjects['ne']            = { hql: ` ne `           , label:  ` diferente de `  , before: ` !='`         , after:  `'` }
-    hqlObjects['ge']            = { hql: ` ge `           , label:  ` maior igual `   , before: ` >='`         , after:  `'` }
-    hqlObjects['gt']            = { hql: ` gt `           , label:  ` maior que `     , before: ` > '`          , after:  `'` }
-    hqlObjects['le']            = { hql: ` le `           , label:  ` menor igual `   , before: ` <='`         , after:  `' ` }
-    hqlObjects['lt']            = { hql: ` lt `           , label:  ` menor que `     , before: ` < '`          , after:  `' ` }
-    hqlObjects['in']            = { hql: ` in `           , label:  ` em`             , before: ` (`           , after:  `) ` }
+    hqlObjects['ends_with']     = { hql: ` ends_with `    , label:  ` termina com `   , before: ` like '%`     , after:  `'` }
+    hqlObjects['eq']            = { hql: ` eq `           , label:  ` igual `         , before: ` = '`         , after:  `'` }
+    hqlObjects['ne']            = { hql: ` ne `           , label:  ` diferente de `  , before: ` != '`        , after:  `'` }
+    hqlObjects['ge']            = { hql: ` ge `           , label:  ` maior igual `   , before: ` >= '`        , after:  `'` }
+    hqlObjects['gt']            = { hql: ` gt `           , label:  ` maior que `     , before: ` >   `        , after:  `` }
+    hqlObjects['le']            = { hql: ` le `           , label:  ` menor igual `   , before: ` <=  `        , after:  `` }
+    hqlObjects['lt']            = { hql: ` lt `           , label:  ` menor que `     , before: ` < '`         , after:  `'` }
+    hqlObjects['in']            = { hql: ` in `           , label:  ` em`             , before: ` in (`        , after:  `)` }
+    hqlObjects['is']            = { hql: ` is `           , label:  ` está `          , before: ` is `         , after:  `` }
+    hqlObjects['date_eq']       = { hql: ` eq `           , label:  ` igual `         , before: ` >= `         , after:  `` }
+    hqlObjects['date_ne']       = { hql: ` ne `           , label:  ` diferente de `  , before: ` <= `         , after:  `` }
+    // hqlObjects['date_eq']       = { hql: ` date_eq`       , label:  ` no dia `        , before: ` `}
     return hqls.map(value => hqlObjects[value])
   }
 
@@ -229,11 +233,38 @@ function HQLFactory($filter){
               value     = mapObj[val].query.value.replace ? mapObj[val].query.value.replace(/'/g,"''") : mapObj[val].query.value,
               after     = mapObj[val].query.condition ? mapObj[val].query.condition.after : '*';
 
-
             if (mapObj[val].query.attribute) {
               switch (mapObj[val].query.attribute.type) {
                 case 'date':
-                  value = $filter('date')(new Date($filter('gumgaGenericFilter')(value, 'date')),'yyyy-MM-dd')
+                  let date = value.split('')
+                  value = `${date[4]}${date[5]}${date[6]}${date[7]}-${date[2]}${date[3]}-${date[0]}${date[1]}`
+
+                  // if (mapObj[val].query.condition.hql == ' eq ' || mapObj[val].query.condition.hql == ' ne ') {
+                    let valueBefore = `'${value} 00:00:00'`,
+                        valueAfter  = `'${value} 23:59:59'`
+
+                    switch (mapObj[val].query.condition.hql) {
+                      case ' eq ':
+                        value = `${valueBefore} AND ${attribute} <= ${valueAfter}`
+                        break;
+                      case ' ne ':
+                        value = `${valueBefore} OR ${attribute} >= ${valueAfter}`
+                        break;
+                      case ' le ':
+                        value = valueAfter;
+                        break;
+                      case ' gt ':
+                        value = valueAfter;
+                        break;
+                    }
+                  // }
+                  // value = $filter('date')(new Date($filter('gumgaGenericFilter')(value, 'date')),'yyyy-MM-dd')
+                  // value = $filter('gumgaGenericFilter')(value, 'date')
+
+                  value = value
+                  break;
+                case 'enum':
+                  value = `'${mapObj[val].query.value.join("','")}'`;
                   break;
                 case 'number':
                 case 'float':
@@ -241,7 +272,7 @@ function HQLFactory($filter){
                   before    = before.replace(/'/g, '');
                   after     = after.replace(/'/g, '');
                   break;  
-              }              
+              }
             }
 
             aqo.push({

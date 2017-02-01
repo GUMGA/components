@@ -11,24 +11,40 @@
   <advanced-search-field type="cpf"     label="CPF"     field="cpf"></advanced-search-field>
   <advanced-search-field type="cnpj"    label="CNPJ"    field="cnpj"></advanced-search-field>
   <advanced-search-field type="boolean" label="Ativo"   field="ativo" true-label="True" false-label="False"></advanced-search-field>
-  <advanced-search-field type="select"  label="Estados" field="id" data="selects"></advanced-search-field>
-  <advanced-search-field type="enum"    label="Roles"   field="states" data="selects"></advanced-search-field>
+  <advanced-search-field type="select"  label="Estados" field="uf" data="estados"></advanced-search-field>
+  <advanced-search-field type="enum"    label="Sexo"    field="sexo" data="sexos"></advanced-search-field>
+  <advanced-search-field type="date"    label="Data"    field="cadastrado_em"></advanced-search-field>
 </gumga-filter>
 ```
 
 ```javascript
-$scope.selects = [
+$scope.estados = [
   {
-    "field": "selectField1",
-    "label": "selectLabel 1"
+    "field": "SP",
+    "label": "São Paulo"
   },
   {
-    "field": "selectField2",
-    "label": "selectLabel 2"
+    "field": "PR",
+    "label": "Paraná"
   },
   {
-    "field": "selectField3",
-    "label": "selectLabel 3"
+    "field": "SC",
+    "label": "Santa Catarina"
+  }
+];
+
+$scope.sexos = [
+  {
+    "field": "MASCULINO",
+    "label": "Masculino"
+  },
+  {
+    "field": "FEMININO",
+    "label": "Feminino"
+  },
+  {
+    "field": "NAO_INFORMADO",
+    "label": "Não informado"
   }
 ];
 
@@ -63,7 +79,7 @@ As tags advanced-search-field são usadas para definir os atributos que serão u
 | cpf | 'eq' |
 | cnpj | 'eq' |
 | boolean | 'eq' |
-| date | 'eq', 'ne', 'gt', 'ge', 'lt', 'le' |
+| date | 'date_eq', 'date_ne', 'gt', 'ge', 'lt', 'le' |
 | select | 'eq', 'ne' |
 | enum | 'eq' |
 | email | 'eq', 'ne', 'contains', 'not_contains', 'starts_with', 'ends_with' |

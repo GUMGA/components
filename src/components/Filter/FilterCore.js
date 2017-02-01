@@ -63,7 +63,7 @@
                     </div>
                     <div class="btn-group" id="_btnValue{{$key}}" ng-show="!$value.query.label">
                       <button type="button" class="btn btn-default" ng-click="toggleUpdatingValue(this, $key)" ng-disabled="validatonValue($value)" id="_valueLabel{{$key}}">
-                          <span id="_conditionLabel{{$key}}">{{ $value.query.value ? $value.query.value.push ?  $value.query.value.join(', ') : $value.query.value : 'valor' | gumgaGenericFilter:$value.query.attribute.type}} </span>
+                          <span id="_conditionLabel{{$key}}">{{ $value.query.value ? $value.query.value.push && $value.query.value.length > 0  ?  $value.query.value.join(', ') : $value.query.value : 'valor' | gumgaGenericFilter:$value.query.attribute.type}} </span>
                       </button>
                       <div class="gumga-filter-panel" id="_panelValue{{$key}}"></div>
                     </div>
