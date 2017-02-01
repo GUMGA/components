@@ -11,20 +11,24 @@
       bindToController: true,
       controller: ['$scope','$element','$attrs', '$http', '$compile', function($scope, $element, $attrs, $http, $compile) {
         let ctrl = this;
-        if (!ctrl.fields) throw 'O componente gumgaCustomFields requer o escopo populado com os fields para geração do template.';
+        setTimeout(function() {
+          if (!ctrl.fields) throw 'O componente gumgaCustomFields requer o escopo populado com os fields para geração do template.';
 
-        angular.forEach(ctrl.fields.gumgaCustomFields, (v) => {
-          if (angular.isString(v.field.options) && v.field.type == 'SELECTION' && v.field.options.charAt(0) == '[') {
-            v.field.selection = JSON.parse(v.field.options);
-          } else {
-              $http.get(v.field.options).then((response) => {
-                v.field.selection = response.data[v.field.optionsCollection];
-                v.field.selection.forEach((b) => b[v.field.optionValueField] = b[v.field.optionValueField].toString());
-              }, (error) => {
-                console.error(error);
-              });
-          }
-        });
+          angular.forEach(ctrl.fields.gumgaCustomFields, (v) => {
+            if (v.field.type == 'TEXT') {
+            }
+            else if (angular.isString(v.field.options) && v.field.type == 'SELECTION' && v.field.options.charAt(0) == '[') {
+              v.field.selection = JSON.parse(v.field.options);
+            } else {
+                $http.get(v.field.options).then((response) => {
+                  v.field.selection = response.data[v.field.optionsCollection];
+                  v.field.selection.forEach((b) => b[v.field.optionValueField] = b[v.field.optionValueField].toString());
+                }, (error) => {
+                  console.error(error);
+                });
+            }
+          });
+        }, 1000)
 
         let template = `
         <div class="row" ng-if="f.field.active" ng-repeat="f in ctrl.fields.gumgaCustomFields">
