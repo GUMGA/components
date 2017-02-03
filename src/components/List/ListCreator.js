@@ -27,7 +27,19 @@ function ListCreator(){
     return !!sortField ? templateWithSort : title;
   }
 
-  function generateHeader(columnsArray = [], hasCheckbox = true){
+  function generateHeader(config) {
+    if (config.headers) {
+      return `
+        <thead>
+          <tr>
+            ${generateHeaderColumns(config.columnsConfig)}
+          </tr>
+        </thead>
+      `
+    } else { return '' }
+  }
+
+  function generateHeaderColumns(columnsArray = [], hasCheckbox = true){
     return columnsArray.reduce((prev, next) => {
       return prev += `
         <th style="${next.style || ' '}" class="${next.size || ' '}">
@@ -58,10 +70,10 @@ function ListCreator(){
     return `
       ${config.itemsPerPage.length > 0 ? itemsPerPage : ' '}
       <div class="table-responsive">
-        <table class="${className} table-container" style="max-height: ${config.maxHeight}">
+        <table class="${className}">
           <thead>
             <tr>
-              ${generateHeader(config.columnsConfig)}
+              ${generateHeader(config)}
             </tr>
           </thead>
           <tbody>

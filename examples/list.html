@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="yourApp">
+
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../dist/gumga.min.css" />
+</head>
+
+<body ng-controller="filterCtrl">
+
+  <div class="row">
+    <div class="col-md-12">
+        <gumga-list sort="pessoa.methods.sort(field, dir)" class="table-striped table-condensed" data="pessoa.data" configuration="tableConfig"></gumga-list>
+    </div>
+  </div>
+
+  <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="../bower_components/angular/angular.min.js"></script>
+  <script src="../bower_components/ng-img-crop/compile/minified/ng-img-crop.js"></script>
+  <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+  <script src="../bower_components/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js"></script>
+  <script src="../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+  <script src="../dist/gumga.min.js"></script>
+  <script>
+    angular.module('yourApp', ['ngImgCrop', 'ui.bootstrap', 'gumga.core'])
+    .config(function($httpProvider, $stateProvider){
+        $httpProvider.defaults.headers.common['gumgaToken'] = 'batistakids'
+    })
+    .controller('filterCtrl', [
+        'gumgaController','GumgaRest','$scope','$state', '$stateParams','$http', 
+        function(gumgaController, GumgaRest, $scope, $state, $stateParams, $http) {
+            var PessoaService = new GumgaRest('http://192.168.25.26/gileadeweb-api/api/pessoacadastro');
+            gumgaController.createRestMethods($scope, PessoaService, 'pessoa');
+            $scope.pessoa.methods.get();
+
+            $scope.tableConfig = {
+                columns: 'name, data, view',
+                // headers: true,
+                // checkbox: true,
+                maxHeight: '250px',
+                selection: "multi",
+                columnsConfig: [
+                {
+                    name: 'name',
+                    title: 'Name',
+                    content: '{{$value.nome}}',
+                    sortField: 'name'
+                },
+                {
+                    name: 'data',
+                    title: 'Data',
+                    content: '{{$value.dataCadastro}}',
+                    sortField: 'data'
+                },
+                {
+                    name: 'view',
+                    title: ' ',
+                    content: '<span class="pull-right"><a uib-tooltip="View" class="btn btn-primary btn-sm" ui-sref="gumgaController.view({id: $value.id })"><i class="glyphicon glyphicon-eye-open"></i></a></span>'
+                }
+                ]
+            }
+        }
+    ]);
+  </script>
+</body>
+
+</html>
