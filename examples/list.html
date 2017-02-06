@@ -12,6 +12,13 @@
 
   <div class="row">
     <div class="col-md-12">
+      <button class="btn btn-default" ng-click="changeColumns()">
+        changeColumns
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
         <gumga-list sort="pessoa.methods.sort(field, dir)" class="table-striped table-condensed" data="pessoa.data" configuration="tableConfig"></gumga-list>
     </div>
   </div>
@@ -35,11 +42,15 @@
             gumgaController.createRestMethods($scope, PessoaService, 'pessoa');
             $scope.pessoa.methods.get();
 
+            $scope.changeColumns = function() {
+              $scope.tableConfig.columns = 'name, view'
+              $scope.tableConfig = angular.copy($scope.tableConfig)
+                console.log($scope.tableConfig)
+            }
             $scope.tableConfig = {
                 columns: 'name, data, view',
                 // headers: true,
-                // checkbox: true,
-                maxHeight: '250px',
+                checkbox: true,
                 selection: "multi",
                 columnsConfig: [
                 {

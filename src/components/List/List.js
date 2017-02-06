@@ -49,7 +49,6 @@
 
       // Garantindo que existam todas as configurações necessárias no objeto.
       function guaranteeConfig() {
-        console.log()
         ctrl.config.headers       = ctrl.config.hasOwnProperty('headers') ? !!ctrl.config.headers     : defaultHeaders
         ctrl.config.checkbox      = !!ctrl.config.checkbox
         ctrl.config.selection     = hasConfig('selection')                ? ctrl.config.selection     : defaultSelection
