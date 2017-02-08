@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="yourApp">
+
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../dist/gumga.min.css" />
+</head>
+
+<body ng-controller="filterCtrl">
+
+  <div class="row">
+    <div class="col-md-12">
+      <form name="Example">
+        <gumga-many-to-one value="produto" search-method="pessoas.methods.asyncSearch('nome', param)" editable="true" field="nome" authorize-add="false" async="true"
+          display-info="false">
+          <match>
+            <div>{{match.model.nome}}</div>
+          </match>
+        </gumga-many-to-one>
+      </form>
+      <label>Selecionado</label>
+      <pre>{{produto | json}}</pre>
+    </div>
+  </div>
+
+  <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="../bower_components/angular/angular.min.js"></script>
+  <script src="../bower_components/ng-img-crop/compile/minified/ng-img-crop.js"></script>
+  <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+  <script src="../bower_components/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js"></script>
+  <script src="../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+  <script src="../dist/gumga.min.js"></script>
+  <script>
+    angular.module('yourApp', ['ngImgCrop', 'ui.bootstrap', 'gumga.core'])
+      .config(function ($httpProvider, $stateProvider) {
+        $httpProvider.defaults.headers.common['gumgaToken'] = 'batistakids'
+      })
+      .controller('filterCtrl', [
+        'gumgaController', 'GumgaRest', '$scope', '$state', '$stateParams', '$http',
+        function (gumgaController, GumgaRest, $scope, $state, $stateParams, $http) {
+          var PessoaService = new GumgaRest('http://192.168.25.26/gileadeweb-api/api/pessoacadastro');
+          gumgaController.createRestMethods($scope, PessoaService, 'pessoas');
+          $scope.pessoas.methods.get();
+
+          console.log($scope.pessoas.methods)
+
+          // $scope.produto = {
+          //   nome: 'Motorola Moto X (2a Geração) 32GB',
+          //   id: 2
+          // };
+
+          //ESSA FUNÇÃO É NECESSÁRIA SER ASSÍNCRONA,
+          //PARA O EXEMPLO CRIAMOS UMA PROMISSE.
+          $scope.getSearch = function(param){
+              return $q(function(resolve){
+                  var arr = $scope.produtos.filter(function(produto){
+                    return produto.nome.indexOf(param) != -1;
+                  })
+                  resolve(arr);
+              })
+          }
+
+          $scope.produtos = [
+            {
+              nome: 'Notebook Acer Aspire',
+              id: 1
+            },
+            {
+              nome: 'Motorola Moto X (2a Geração) 32GB',
+              id: 2
+            },
+            {
+              nome: 'Smart TV LED 43" Samsung',
+              id: 3
+            },
+            {
+              nome: 'Ar Condicionado Split 7000 BTU/s',
+              id: 4
+            }
+          ]
+
+        }
+      ])
+  </script>
+</body>
+
+</html>
