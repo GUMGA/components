@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="yourApp">
+
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../dist/gumga.min.css" />
+</head>
+
+<body ng-controller="filterCtrl">
+
+  <div class="row">
+    <div class="col-md-12">
+      <form name="Example" gumga-form>
+        <gumga-one-to-many name="Novo Cliente" children="pessoas.data" template-url="onetomany-modal.html" displayable-property="nome" controller="ModalClienteController"
+          edit-button-class="btn btn-primary pull-right" remove-button-class="btn btn-danger pull-right">
+          <p>
+            {{$parent.child.nome}}
+          </p>
+          <p>
+            {{$parent.child.dataNascimento | date:"dd/MM/yyyy"}}
+          </p>
+        </gumga-one-to-many>
+      </form>
+    </div>
+  </div>
+
+  <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="../bower_components/angular/angular.min.js"></script>
+  <script src="../bower_components/ng-img-crop/compile/minified/ng-img-crop.js"></script>
+  <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+  <script src="../bower_components/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js"></script>
+  <script src="../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+  <script src="../dist/gumga.min.js"></script>
+  <script>
+    angular.module('yourApp', ['ngImgCrop', 'ui.bootstrap', 'gumga.core'])
+      .config(function ($httpProvider, $stateProvider) {
+        $httpProvider.defaults.headers.common['gumgaToken'] = 'batistakids'
+      })
+      .controller('filterCtrl', [
+        'gumgaController', 'GumgaRest', '$scope', '$state', '$stateParams', '$http',
+        function (gumgaController, GumgaRest, $scope, $state, $stateParams, $http) {
+          var PessoaService = new GumgaRest('http://192.168.25.26/gileadeweb-api/api/pessoacadastro');
+          gumgaController.createRestMethods($scope, PessoaService, 'pessoas');
+          $scope.pessoas.methods.get();
+
+          console.log($scope.pessoas)
+
+        }
+      ])
+      .controller('ModalClienteController',
+        function($scope, entity, $uibModalInstance){
+
+        $scope.entity = angular.copy(entity) || {};
+
+        $scope.cancelar = function(){
+          $uibModalInstance.dismiss('cancel');
+        }
+
+        $scope.salvar = function(entity){
+          $uibModalInstance.close(entity);
+        }
+      });
+  </script>
+</body>
+
+</html>

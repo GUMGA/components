@@ -48,7 +48,7 @@
                <select ng-options="opt[f.field.optionValueField] as opt[f.field.optionLabelField] for opt in f.field.selection" ng-model="f.textValue" class="form-control"></select>
              </div>
              <div ng-switch-when="LOGIC">
-               <button type="button" class="btn" ng-class="{'btn-success': f.logicValue, 'btn-default': !f.logicValue}" ng-model="f.logicValue" btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
+               <button type="button" class="btn" ng-class="{'btn-success': f.logicValue, 'btn-default': !f.logicValue}" ng-model="f.logicValue" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
                  {{(f.logicValue) ? "On" : "Off" }}
                </button>
              </div>

@@ -36,6 +36,7 @@
           manyToOneCtrl.postFields                    = $attrs.postFields   ? $attrs.postFields.split(',')          : [manyToOneCtrl.field]
           manyToOneCtrl.displayClear                  = manyToOneCtrl.hasOwnProperty('displayClear') ? manyToOneCtrl.displayClear : true
           manyToOneCtrl.displayInfo                   = manyToOneCtrl.hasOwnProperty('displayInfo')  ? manyToOneCtrl.displayInfo  : true
+          manyToOneCtrl.editable                      = manyToOneCtrl.hasOwnProperty('editable')     ? manyToOneCtrl.editable     : true
           // manyToOneCtrl.showDescripion                = !!manyToOneCtrl.description
           
           function mirrorAttributes(){
@@ -195,7 +196,7 @@
           <div class="full-width-without-padding">
             <div ng-class="{'input-group': (manyToOneCtrl.displayInfoButton() && manyToOneCtrl.modelValueIsObject()) || manyToOneCtrl.displayClearButton()}">
               <input type="text" class="form-control inputahead" tabindex="${manyToOneCtrl.tabSeq}" ng-disabled="manyToOneCtrl.disabled" ng-readonly="manyToOneCtrl.readonly" ng-model="manyToOneCtrl.value" ng-trim="true" uib-typeahead="$value as $value[manyToOneCtrl.field] for $value in manyToOneCtrl.proxySearch($viewValue)" ${mirrorAttributes()}
-                     typeahead-template-url="manyToOneTemplate${manyToOneCtrl.field}.html" typeahead-is-open="manyToOneCtrl.isTypeaheadOpen" typeahead-show-hint="true" typeahead-min-length="0" typeahead-on-select="manyToOneCtrl.afterSelect($item, $model, $label, $event, 'isNotButton')" autocomplete="off"/>
+                     typeahead-template-url="manyToOneTemplate${manyToOneCtrl.field}-${$attrs.value}.html" typeahead-is-open="manyToOneCtrl.isTypeaheadOpen" typeahead-editable="${manyToOneCtrl.editable}" typeahead-show-hint="true" typeahead-min-length="0" typeahead-on-select="manyToOneCtrl.afterSelect($item, $model, $label, $event, 'isNotButton')" autocomplete="off"/>
               <div class="input-group-btn input-group-btn-icon" ng-show="(manyToOneCtrl.displayInfoButton() && manyToOneCtrl.modelValueIsObject()) || manyToOneCtrl.displayClearButton()">
                 <button type="button" class="btn btn-default" ng-disabled="manyToOneCtrl.modelValueIsObject()" ng-show="manyToOneCtrl.displayClearButton()" ng-click="manyToOneCtrl.clearModel()">
                   <span class="glyphicon glyphicon-remove"></span>
@@ -223,7 +224,7 @@
             <div class="clearfix"></div>
           </a>`
 
-          $templateCache.put(`manyToOneTemplate${manyToOneCtrl.field}.html`, templateForMatch)
+          $templateCache.put(`manyToOneTemplate${manyToOneCtrl.field}-${$attrs.value}.html`, templateForMatch)
 
           let element = angular.element(baseTemplate),
               input   = element.find('input'),
@@ -239,7 +240,7 @@
           formController.$addControl(ngModelCtrl)
 
           ngModelCtrl.$viewChangeListeners.push(() => {
-            console.log('$viewChangeListeners', ngModelController.$viewValue)
+            // console.log('$viewChangeListeners', ngModelCtrl.$viewValue)
           })
           ngModelCtrl.$validators.manyToOne = (modelValue, viewValue) => {
             return modelValue ? !(typeof modelValue === 'string' || modelValue instanceof String) : true
@@ -263,6 +264,7 @@
               readonly:         '=?',
               displayInfo:      '=?',
               displayClear:     '=?',
+              editable:         '=?',
               tabSeq:           '=?'
             },
             controllerAs: 'manyToOneCtrl',

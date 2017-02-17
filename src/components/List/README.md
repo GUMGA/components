@@ -84,6 +84,7 @@ angular.module('sample.app',[])
   $scope.array = [];
   $scope.tableConfig = {
     columns: 'name',
+    headers: false,
     columnsConfig: {
       name: 'name',
       content: $templateCache.get('tpl.html')

@@ -17,6 +17,7 @@
 
       const hasAttr             = string  => !!$attrs[string],
             hasConfig           = string  => !!(ctrl.config && ctrl.config[string]),
+            defaultHeaders      = true,
             defaultCssClass     = 'table ',
             defaultSelection    = 'single',
             defaultItemsPerPage = [],
@@ -48,12 +49,12 @@
 
       // Garantindo que existam todas as configurações necessárias no objeto.
       function guaranteeConfig() {
+        ctrl.config.headers       = ctrl.config.hasOwnProperty('headers') ? !!ctrl.config.headers     : defaultHeaders
         ctrl.config.checkbox      = !!ctrl.config.checkbox
-        ctrl.config.selection     = hasConfig('selection')      ? ctrl.config.selection         : defaultSelection
-        ctrl.config.itemsPerPage  = hasConfig('itemsPerPage')   ? ctrl.config.itemsPerPage      : defaultItemsPerPage
-        ctrl.config.sortDefault   = hasConfig('sortDefault')    ? ctrl.config.sortDefault       : defaultSortedColumn
-        ctrl.config.conditional   = hasConfig('conditional')    ? ctrl.config.conditional       : angular.noop
-        ctrl.config.maxHeight     = hasConfig('maxHeight')      ? ctrl.config.maxHeight         : null
+        ctrl.config.selection     = hasConfig('selection')                ? ctrl.config.selection     : defaultSelection
+        ctrl.config.itemsPerPage  = hasConfig('itemsPerPage')             ? ctrl.config.itemsPerPage  : defaultItemsPerPage
+        ctrl.config.sortDefault   = hasConfig('sortDefault')              ? ctrl.config.sortDefault   : defaultSortedColumn
+        ctrl.config.conditional   = hasConfig('conditional')              ? ctrl.config.conditional   : angular.noop
         ctrl.config.columnsConfig = guaranteeColumns(ctrl.config.columns, ctrl.config.columnsConfig)
       }
 
