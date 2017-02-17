@@ -11,18 +11,28 @@
 <body ng-controller="filterCtrl">
 
   <div class="row">
-    <div class="col-md-12">
-      <form name="Example">
-        <gumga-many-to-one value="produto" search-method="pessoas.methods.asyncSearch('nome', param)" editable="true" field="nome" authorize-add="false" async="true"
+    <form name="Example">
+      <div class="col-md-6">
+        <gumga-many-to-one value="pessoa" search-method="pessoas.methods.asyncSearch('nome', param)" editable="false" field="nome" authorize-add="false" async="true"
           display-info="false">
           <match>
             <div>{{match.model.nome}}</div>
           </match>
         </gumga-many-to-one>
-      </form>
-      <label>Selecionado</label>
-      <pre>{{produto | json}}</pre>
-    </div>
+        <label>Selecionado</label>
+        <pre>{{pessoal | json}}</pre>
+      </div>
+      <div class="col-md-6">
+        <gumga-many-to-one value="produto" search-method="pessoas.methods.asyncSearch('nome', param)" editable="false" field="nome" authorize-add="false" async="true"
+          display-info="false">
+          <match>
+            <div>{{match.model.nome}} - {{match.model.nomeFonetico}}</div>
+          </match>
+        </gumga-many-to-one>
+        <label>Selecionado</label>
+        <pre>{{produto | json}}</pre>
+      </div>
+    </form>
   </div>
 
   <script src="../bower_components/jquery/dist/jquery.min.js"></script>

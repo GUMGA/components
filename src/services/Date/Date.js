@@ -9,11 +9,11 @@
 			},
 			validateFormat: function(format, date) {
 				if (!this.formats.hasOwnProperty(format)) {
-					throw 'Formato não suportado';
+					console.error('Formato não suportado');
 				}
 				var regex = new RegExp(this.formats[format]);
 				if (!regex.test(date)) {
-					throw 'A data ' + date + ' não confere com o formato ' + format + '.';
+					console.error('A data ' + date + ' não confere com o formato ' + format + '.');
 				}
 				return regex.test(date);
 			}

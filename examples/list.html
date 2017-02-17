@@ -45,11 +45,10 @@
           $scope.changeColumns = function () {
             $scope.tableConfig.columns = 'name, view'
             $scope.tableConfig = angular.copy($scope.tableConfig)
-            console.log($scope.tableConfig)
           }
           $scope.tableConfig = {
             columns: 'name, data, view',
-            // headers: true,
+            // headers: false,
             checkbox: true,
             selection: "multi",
             columnsConfig: [
