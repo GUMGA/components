@@ -98,10 +98,10 @@
       '		<input type="text" ng-model="value.localization" class="form-control"/>' +
       '</div>'
       ;
-    var codIBGE =
+    var formalCode =
       '<div class="form-group">' +
-      '		<label for="CodIBGE{{::id}}">Código</label>' +
-      '		<input type="text" ng-model="value.codigo_ibge" class="form-control" id="CodIBGE{{::id}}"/>' +
+      '		<label for="formalCode{{::id}}">Código</label>' +
+      '		<input type="text" ng-model="value.formalCode" class="form-control" id="formalCode{{::id}}"/>' +
       '</div>'
       ;
     var blockStateCity =
@@ -118,7 +118,7 @@
       '		</div>' +
       '		<div class="col-md-4">' + city +
       '		</div>' +
-      '		<div class="col-md-4">' + codIBGE +
+      '		<div class="col-md-4">' + formalCode +
       '		</div>' +
       '</div>'
       ;
@@ -127,13 +127,13 @@
       '		<div class="col-md-6">' +
       '       <div class="form-group">' +
       '		        <label for="Latitude{{::id}}">Latitude</label>' +
-      '		        <input type="text" ng-model="value.lat" class="form-control" id="Latitude{{::id}}"/>' +
+      '		        <input type="text" ng-model="value.latitude" class="form-control" id="Latitude{{::id}}"/>' +
       '       </div>' +
       '		</div>' +
       '		<div class="col-md-6">' +
       '       <div class="form-group">' +
       '		        <label for="Longitude{{::id}}">Longitude</label>' +
-      '		        <input type="text" ng-model="value.lng" class="form-control" id="Longitude{{::id}}"/>' +
+      '		        <input type="text" ng-model="value.longitude" class="form-control" id="Longitude{{::id}}"/>' +
       '       </div>' +
       '		</div>' +
       '</div>'
@@ -182,9 +182,6 @@
         attrs.stateCityIbge = forceAttr2Bool(attrs.stateCityIbge);
         attrs.latLng = forceAttr2Bool(attrs.latLng);
         attrs.maps = forceAttr2Bool(attrs.maps);
-
-        console.log(attrs.stateCity)
-        console.log(attrs.stateCityIbge)
 
         scope.streetTypes = ['AV', 'AVENIDA', 'RUA', 'ROD.', 'BC', 'TRAVESSA', 'ALAMEDA', 'VIELA', 'CAMINHO', 'ESTRADA', 'PRAÇA', 'PASSAGEM', 'VILA', 'VIADUTO', 'RODOVIA', 'BECO', 'ACESSO', 'LARGO', 'VIA', 'CAMPO', 'MONTE', 'LADEIRA', 'CALÇADA', 'LOTEAMENTO', 'ROTATÓRIA', 'PASSEIO', 'NÚCLEO', 'PARQUE', 'ANTIGA', 'LAGO', 'BOULEVARD', 'ACAMPAMENTO', 'COMPLEXO', 'CONTORNO', 'BALÇO', 'CONJUNTO', 'MORRO', 'CONDOMÍNIO', 'TERMINAL', 'ESCADA', 'FAVELA', 'COLÔNIA', 'RECANTO', 'ALTO', 'ILHA', 'JARDIM', 'PASSARELA', 'PONTE', 'GALERIA', 'VALE', 'VEREDA', 'ENTRADA', 'BULEVAR', 'TRECHO', 'TÚNEL', 'ESTACIONAMENTO', 'QUADRA', 'BOSQUE', 'RETORNO', 'PÁTIO', 'PRAIA', 'RAMAL', 'BAIXA', 'CHÁCARA', 'SÍTIO', 'UNIDADE', 'RESIDENCIAL', 'FEIRA', 'ESTAÇÂO', 'RÓTULA', 'CANAL', 'FAZENDA', 'RETIRO', 'SETOR', 'RAMPA', 'ESPLANADA', 'CAMPUS', 'BLOCO', 'CENTRO', 'MÓDULO', 'ESTÁDIO', 'ESCADARIA', 'AEROPORTO', 'SERVIDÃO', 'FERROVIA', 'TREVO', 'PORTO', 'ATALHO', 'DISTRITO', 'CORREDOR', 'FONTE', 'CÓRREGO', 'CIRCULAR', 'CAIS', 'SUBIDA', 'LAGOA', 'PROLONGAMENTO', 'DESCIDA', 'PARALELA', 'ELEVADA', 'RETA', 'PONTA', 'VALA', 'BURACO', 'MARINA', 'FORTE', 'PARADA', 'LINHA', 'FRANCISCO', 'MARECHAL', 'ROD.', 'CICLOVIA']
 
@@ -255,7 +252,12 @@
                   scope.value.localization = response.data.cidade;
                   scope.value.neighbourhood = response.data.bairro;
                   scope.value.state = response.data.uf;
+                  scope.value.latitude = response.data.latitude;
+                  scope.value.longitude = response.data.longitude;
+                  scope.value.formalCode = response.data.ibge_cod_cidade;
                   scope.value.country = 'Brasil';
+                  let numberEl = document.getElementById(`numberInput${scope.id}`);
+                  numberEl.focus();
                 }
               },
               error => eventHandler.searchCepError({ $value: data })
