@@ -1,0 +1,35 @@
+<div>
+  <h2>List</h2>
+  <div class="row">
+    <div class="col-md-12">
+      <form name="Example">
+        <gumga-query search="search(field, param)" advanced-search="advancedSearch(param)" search-text="Pesquisar">
+          <search-field field="historico" label="Histórico" select="true" ></search-field>
+          <search-field field="igrejaAtual"  label="Igreja atual"></search-field>
+          <advanced-search-field type="string"  label="Histórico"    field="historico"></advanced-search-field>
+          <advanced-search-field type="string"  label="Igreja Atual" field="igrejaAtual"></advanced-search-field>
+        </gumga-query>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <gumga-list sort="pessoa.methods.sort(field, dir)" class="table-striped table-condensed" data="pessoa.data" configuration="tableConfig"></gumga-list>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <ul uib-pagination ng-model="page"
+          max-size="10"
+          boundary-links="true"
+          previous-text="‹"
+          next-Text="›"
+          first-text="«"
+          last-text="»"
+          items-per-page="pessoa.pageSize"
+          total-items="pessoa.count"
+          ng-change="get(page)">
+      </ul >
+    </div>
+  </div>
+</div>
