@@ -2,38 +2,36 @@
 <html lang="en" ng-app="yourApp">
 
 <head>
-  <title></title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="../dist/gumga.min.css" />
+	<title></title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../dist/gumga.min.css" />
 </head>
 
 <body ng-controller="filterCtrl">
 
-  <div class="row">
-    <div class="col-md-12">
-      <form name="Example" gumga-form>
-        <gumga-one-to-many name="Novo Cliente" children="pessoas.data" template-url="onetomany-modal.html" displayable-property="nome" controller="ModalClienteController"
-          edit-button-class="btn btn-primary pull-right" remove-button-class="btn btn-danger pull-right">
-          <p>
-            {{$parent.child.nome}}
-          </p>
-          <p>
-            {{$parent.child.dataNascimento | date:"dd/MM/yyyy"}}
-          </p>
-        </gumga-one-to-many>
-      </form>
-    </div>
-  </div>
+	<div class="row">
+		<form name="Example" gumga-form>
+			<div class="col-md-2">
+				<gumga-upload attribute="pessoaAtual.data.foto" max-size="2024" upload-method="postPicture(image)" delete-method="deletePicture()"
+          image-width="200" image-height="200"
+					tooltip-text="Sua Foto Aqui">
+				</gumga-upload>
+			</div>
+			<div class="col-md-2">
+				<button class="btn btn-success" ng-click="salvarPessoa(pessoaAtual.data)">Salvar</button>
+			</div>
+		</form>
+	</div>
 
-  <script src="../bower_components/jquery/dist/jquery.min.js"></script>
-  <script src="../bower_components/angular/angular.min.js"></script>
-  <script src="../bower_components/ng-img-crop/compile/minified/ng-img-crop.js"></script>
-  <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-  <script src="../bower_components/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js"></script>
-  <script src="../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-  <script src="../dist/gumga.min.js"></script>
-  <script>
+	<script src="../bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="../bower_components/angular/angular.min.js"></script>
+	<script src="../bower_components/ng-img-crop/compile/minified/ng-img-crop.js"></script>
+	<script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+	<script src="../bower_components/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js"></script>
+	<script src="../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+	<script src="../dist/gumga.min.js"></script>
+	<script>
     angular.module('yourApp', ['ngImgCrop', 'ui.bootstrap', 'gumga.core'])
       .config(function ($httpProvider, $stateProvider) {
         $httpProvider.defaults.headers.common['gumgaToken'] = 'batistakids'
@@ -41,11 +39,44 @@
       .controller('filterCtrl', [
         'gumgaController', 'GumgaRest', '$scope', '$state', '$stateParams', '$http',
         function (gumgaController, GumgaRest, $scope, $state, $stateParams, $http) {
-          var PessoaService = new GumgaRest('http://192.168.25.26/gileadeweb-api/api/pessoacadastro');
+          var PessoaService = new GumgaRest('http://192.168.25.250/gileadeweb-api/api/pessoacadastro');
           gumgaController.createRestMethods($scope, PessoaService, 'pessoas');
-          $scope.pessoas.methods.get();
 
-          console.log($scope.pessoas)
+          $scope.pessoaAtual = {}
+          $scope.urlPessoaAtual = "http://192.168.25.250/gileadeweb-api/api/pessoacadastro/2"
+
+          $scope.postPicture = function (image) {
+
+            var fd = new FormData();
+            fd.append("foto", image.foto);
+            return $http.post("http://192.168.25.250/gileadeweb-api/api/pessoacadastro/foto", fd, {
+                  headers: {'Content-Type': undefined },
+                  transformRequest: angular.identity
+              })
+          }
+
+          $scope.deletePicture = function () {
+              PessoaService.deleteImage('foto', $scope.pessoaAtual.data.foto.name)
+                  .then(function (data) {
+                      if (data.data == 'OK') {
+                          $scope.pessoaAtual.data.foto = {}
+                      }
+                  })
+          }
+
+          $http.get($scope.urlPessoaAtual)
+            .then(function(pessoa) {
+              $scope.pessoaAtual = pessoa
+            })
+
+          $scope.salvarPessoa = function(pessoa) {
+            //console.log(pessoa)
+            $http.put($scope.urlPessoaAtual, pessoa)
+              .then(function(response) {
+                //console.log(response)
+              })
+          }
+
 
         }
       ])
