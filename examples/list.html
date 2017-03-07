@@ -10,16 +10,23 @@
 
 <body ng-controller="filterCtrl">
 
-  <div class="row">
-    <div class="col-md-12">
-      <button class="btn btn-default" ng-click="changeColumns()">
-        changeColumns
-      </button>
+  <div class="container">
+    <br><br><br>
+    <div class="row">
+      <div class="col-md-12">
+        <button class="btn btn-default" ng-click="changeColumns()">
+          changeColumns
+        </button>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <gumga-list sort="pessoa.methods.sort(field, dir)" class="table-striped table-condensed" data="pessoa.data" configuration="tableConfig"></gumga-list>
+    <div class="row">
+      <div class="col-md-12">
+        <gumga-list sort="pessoa.methods.sort(field, dir)"
+          class="table-striped table-condensed"
+          data="pessoa.data"
+          configuration="tableConfig">
+        </gumga-list>
+      </div>
     </div>
   </div>
 
@@ -43,20 +50,21 @@
           $scope.pessoa.methods.get();
 
           $scope.changeColumns = function () {
-            $scope.tableConfig.columns = 'name, view'
+            $scope.tableConfig.columns = 'nomeFonetico, data, apelido, view'
             $scope.tableConfig = angular.copy($scope.tableConfig)
           }
+
           $scope.tableConfig = {
-            columns: 'name, data, view',
+            columns: 'nomeFonetico, data, view',
             // headers: false,
             checkbox: true,
             selection: "multi",
             columnsConfig: [
               {
-                name: 'name',
-                title: 'Name',
-                content: '{{$value.nome}}',
-                sortField: 'name'
+                name: 'nomeFonetico',
+                title: 'Nome fonetico',
+                content: '{{$value.nomeFonetico}}',
+                sortField: 'nomeFonetico'
               },
               {
                 name: 'data',
@@ -65,12 +73,21 @@
                 sortField: 'data'
               },
               {
+                name: 'apelido',
+                title: 'Apelidao',
+                content: '{{$value.apelido}}',
+                sortField: 'apelido'
+              },
+              {
                 name: 'view',
                 title: ' ',
                 content: '<span class="pull-right"><a uib-tooltip="View" class="btn btn-primary btn-sm" ui-sref="gumgaController.view({id: $value.id })"><i class="glyphicon glyphicon-eye-open"></i></a></span>'
               }
             ]
           }
+
+          // console.log(angular.copy($scope.tableConfig))
+
         }
       ]);
   </script>
