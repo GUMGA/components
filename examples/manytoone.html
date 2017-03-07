@@ -9,30 +9,48 @@
 </head>
 
 <body ng-controller="filterCtrl">
-
+  <br>
+  <br>
+  <br>
+  <br>
   <div class="row">
-    <form name="Example">
-      <div class="col-md-6">
-        <gumga-many-to-one value="pessoa" search-method="pessoas.methods.asyncSearch('nome', param)" editable="false" field="nome" authorize-add="false" async="true"
+    <div class="col-sm-12">
+      <form name="Example">
+        <div class="col-md-6">
+          <gumga-many-to-one value="pessoa" search-method="pessoas.methods.asyncSearch('nome', param)" editable="false" field="nome" authorize-add="false" async="true"
           display-info="false">
           <match>
             <div>{{match.model.nome}}</div>
           </match>
-        </gumga-many-to-one>
-        <label>Selecionado</label>
-        <pre>{{pessoal | json}}</pre>
-      </div>
-      <div class="col-md-6">
-        <gumga-many-to-one value="produto" search-method="pessoas.methods.asyncSearch('nome', param)" editable="false" field="nome" authorize-add="false" async="true"
-          display-info="false">
-          <match>
-            <div>{{match.model.nome}} - {{match.model.nomeFonetico}}</div>
-          </match>
-        </gumga-many-to-one>
-        <label>Selecionado</label>
-        <pre>{{produto | json}}</pre>
-      </div>
-    </form>
+          </gumga-many-to-one>
+          <br>
+          <br>
+          <br>
+          <label>Selecionado</label>
+          <pre>{{pessoa | json}}</pre>
+        </div>
+        <div class="col-md-6">
+          <gumga-many-to-one value="produto"
+            search-method="pessoas.methods.asyncSearch('nome', param)"
+            editable="false"
+            placeholder="Selecione um usuário"
+            on-select="onselect(value)"
+            field="nome"
+            authorize-add="false"
+            async="true"
+            display-info="true">
+            <match>
+              <div>{{match.model.nome}} - {{match.model.nomeFonetico}}</div>
+            </match>
+          </gumga-many-to-one>
+          <br>
+          <br>
+          <br>
+          <label>Selecionado</label>
+          <pre>{{produto | json}}</pre>
+        </div>
+      </form>
+    </div>
   </div>
 
   <script src="../bower_components/jquery/dist/jquery.min.js"></script>
@@ -54,7 +72,6 @@
           gumgaController.createRestMethods($scope, PessoaService, 'pessoas');
           $scope.pessoas.methods.get();
 
-          console.log($scope.pessoas.methods)
 
           // $scope.produto = {
           //   nome: 'Motorola Moto X (2a Geração) 32GB',
@@ -70,6 +87,11 @@
                   })
                   resolve(arr);
               })
+          }
+
+
+          $scope.onselect = function(value) {
+            console.log(value);
           }
 
           $scope.produtos = [
