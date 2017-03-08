@@ -206,7 +206,7 @@
             <div ng-class="{'input-group': (manyToOneCtrl.displayInfoButton() && manyToOneCtrl.modelValueIsObject()) || manyToOneCtrl.displayClearButton()}">
               <input type="text" id="typeahead-${manyToOneCtrl.field}-${$attrs.value}" class="form-control inputahead" tabindex="${manyToOneCtrl.tabSeq}" ng-disabled="manyToOneCtrl.disabled" ng-readonly="manyToOneCtrl.readonly" ng-model="manyToOneCtrl.value" ng-trim="true" uib-typeahead="$value as $value[manyToOneCtrl.field] for $value in manyToOneCtrl.proxySearch($viewValue)" typeahead-loading="manyToOneCtrl.typeaheadLoading" ${mirrorAttributes()}
                      typeahead-template-url="manyToOneTemplate${manyToOneCtrl.field}-${$attrs.value}.html" typeahead-is-open="manyToOneCtrl.isTypeaheadOpen" typeahead-editable="${manyToOneCtrl.editable}" typeahead-show-hint="true" typeahead-min-length="0" typeahead-on-select="manyToOneCtrl.afterSelect($item, $model, $label, $event, 'isNotButton')" autocomplete="off"/>
-              <div ng-show="manyToOneCtrl.typeaheadLoading && manyToOneCtrl.loadingText">
+              <div ng-show="manyToOneCtrl.typeaheadLoading && manyToOneCtrl.loadingText" style="position: absolute; top: 40px;">
                 <i class="glyphicon glyphicon-refresh"></i>
                 {{manyToOneCtrl.loadingText}}
               </div>
