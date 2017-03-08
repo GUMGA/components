@@ -14,7 +14,6 @@
 		<form name="Example" gumga-form>
 			<div class="col-md-2">
 				<gumga-upload attribute="pessoaAtual.data.foto" max-size="2024" upload-method="postPicture(image)" delete-method="deletePicture()"
-          image-width="200" image-height="200"
 					tooltip-text="Sua Foto Aqui">
 				</gumga-upload>
 			</div>
@@ -34,7 +33,7 @@
 	<script>
     angular.module('yourApp', ['ngImgCrop', 'ui.bootstrap', 'gumga.core'])
       .config(function ($httpProvider, $stateProvider) {
-        $httpProvider.defaults.headers.common['gumgaToken'] = 'batistakids'
+        $httpProvider.defaults.headers.common['gumgaToken'] = '2L5E1488997410375O2.5.I'
       })
       .controller('filterCtrl', [
         'gumgaController', 'GumgaRest', '$scope', '$state', '$stateParams', '$http',
@@ -43,7 +42,7 @@
           gumgaController.createRestMethods($scope, PessoaService, 'pessoas');
 
           $scope.pessoaAtual = {}
-          $scope.urlPessoaAtual = "http://192.168.25.250/gileadeweb-api/api/pessoacadastro/2"
+          $scope.urlPessoaAtual = "http://192.168.25.250/gileadeweb-api/api/pessoacadastro/1"
 
           $scope.postPicture = function (image) {
 

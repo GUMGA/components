@@ -34,8 +34,8 @@
 
         function link($scope, $element, $attrs) {
 
-            $scope.imageHeight = $scope.imageHeight || "128px"
-            $scope.imageWidth = $scope.imageWidth || "128px"
+            $scope.imageHeight = $scope.imageHeight || 128
+            $scope.imageWidth = $scope.imageWidth || 128
 
             let model = $parse($attrs.attribute),
                 modelSetter = model.assign,
@@ -130,8 +130,8 @@
                 deleteMethod: '&',
                 tooltipText: '@',
                 avatar: '@',
-                imageWidth: '@',
-                imageHeight: '@'
+                imageWidth: '@?',
+                imageHeight: '@?'
             },
             link: link
         };
