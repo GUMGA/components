@@ -1,10 +1,10 @@
 (function () {
 
-
   angular.module('gumga.directives.form',[
     'gumga.directives.form.form',
     'gumga.directives.form.class',
     'gumga.directives.form.errors',
+    'gumga.directives.form.modelerror',
     'gumga.directives.form.error',
     'gumga.directives.form.max.date',
     'gumga.directives.form.max.length',

@@ -13,16 +13,30 @@
   <div class="container">
     <form name="myForm" gumga-form>
 
+      <gumga-many-to-many
+        left-list="pessoas.data"
+        text-left="Listando {{$value}} {{$value > 1 ? 'itens': 'item'}}"
+        text-right="Listando {{$value}} {{$value > 1 ? 'itens': 'item'}}"
+        right-list="selecionados"
+        gumga-model-error="configManyToMany"
+        left-search="pessoas.methods.asyncSearch('nome', param)"
+        authorize-add="false">
+        <left-field>{{$value.nome}}</left-field>
+        <right-field>{{$value.nome}}</right-field>
+      </gumga-many-to-many>
+
       <gumga-many-to-one value="pessoa"
-      search-method="pessoas.methods.asyncSearch('nome', param)"
-      editable="false"
-      field="nome"
-      authorize-add="false" async="true"
-      display-info="false">
+        search-method="pessoas.methods.asyncSearch('nome', param)"
+        editable="false"
+        gumga-model-error="configManyToOne"
+        field="nome"
+        authorize-add="false" async="true"
+        display-info="false">
       <match>
         <div>{{match.model.nome}}</div>
       </match>
       </gumga-many-to-one>
+
       <br>
       <label>Valor</label>
       <input type="number" name="minNumber" ng-model="minNumber" gumga-min-number="20" class="form-control">
@@ -49,9 +63,33 @@
       .controller('filterCtrl', [
         'gumgaController', 'GumgaRest', '$scope', '$state', '$stateParams', '$http',
         function (gumgaController, GumgaRest, $scope, $state, $stateParams, $http) {
-          var PessoaService = new GumgaRest('http://192.168.25.26/gileadeweb-api/api/pessoacadastro');
+          var PessoaService = new GumgaRest('http://192.168.25.250/gileadeweb-api/api/pessoacadastro');
           gumgaController.createRestMethods($scope, PessoaService, 'pessoas');
           $scope.pessoas.methods.get();
+
+          $scope.configManyToOne = {
+            ngModel : 'pessoa',
+            options : {
+              message: 'O campo cliente deve ter um objeto',
+              type: 'object'
+            }
+          }
+
+          $scope.configManyToMany = {
+            ngModel : 'selecionados',
+            options : {
+              type: 'array',
+              message : 'Deve ter array',
+              min : {
+                value: 1,
+                message: 'Tem que ter ao menos um.'
+              },
+              max : {
+                value: 2,
+                message: 'Só é permitido selecionar 2 objetos.'
+              }
+            }
+          }
 
           $scope.getSearch = function(param){
               return $q(function(resolve){
