@@ -45,7 +45,7 @@
       .controller('filterCtrl', [
         'gumgaController', 'GumgaRest', '$scope', '$state', '$stateParams', '$http',
         function (gumgaController, GumgaRest, $scope, $state, $stateParams, $http) {
-          var PessoaService = new GumgaRest('http://192.168.25.26/gileadeweb-api/api/pessoacadastro');
+          var PessoaService = new GumgaRest('http://192.168.25.250/gileadeweb-api/api/pessoacadastro');
           gumgaController.createRestMethods($scope, PessoaService, 'pessoa');
           $scope.pessoa.methods.get();
 

@@ -39,7 +39,7 @@
             field="nome"
             authorize-add="false"
             async="true"
-            display-info="false">
+            display-info="true">
             <match>
               <label>{{match.model.nome}} - {{match.model.nomeFonetico}}</label>
             </match>
@@ -72,7 +72,7 @@
       .controller('filterCtrl', [
         'gumgaController', 'GumgaRest', '$scope', '$state', '$stateParams', '$http',
         function (gumgaController, GumgaRest, $scope, $state, $stateParams, $http) {
-          var PessoaService = new GumgaRest('http://192.168.25.26/gileadeweb-api/api/pessoacadastro');
+          var PessoaService = new GumgaRest('http://192.168.25.250/gileadeweb-api/api/pessoacadastro');
           gumgaController.createRestMethods($scope, PessoaService, 'pessoas');
           $scope.pessoas.methods.get();
 
