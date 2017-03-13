@@ -8,7 +8,7 @@
 
     function controller($scope, $element, $attrs){
       let ctrl = this
-      
+
       const errorMessages = {
         noData: 'O componente gumgaList necessita de um atributo data, que irá conter os dados que serão visualizados.',
         noConfig: 'O componente gumgaList necessita de um atributo config, que irá conter a configuração necessária.',
@@ -26,8 +26,8 @@
       function guaranteeColumns(columns = ' ', columnsConfig = []){
         return columns.split(',').map(rawColumn => {
           let column        = rawColumn.trim(),
-              configuration = columnsConfig.filter(value => value.name == column)[0] || { name: column},
-              title         = configuration.title       || (column.charAt(0).toUpperCase() + column.slice(1)),
+              configuration = columnsConfig.filter(value => value.name == column)[0] || { name: column };
+          let title         = configuration.title       || (column.charAt(0).toUpperCase() + column.slice(1)),
               size          = configuration.size        ||  ' ',
               name          = configuration.name        ||  column,
               content       = configuration.content     ||  '{{$value.' + column + '}}',
@@ -39,7 +39,7 @@
 
       // Garantindo que existam todos os atributos que podem ser passados via elemento.
       ctrl.data           = ctrl.data   || []
-      ctrl.config         = ctrl.config || {}
+      ctrl.listConfig         = ctrl.listConfig || {}
       ctrl.sort           = hasAttr('sort')           ? ctrl.sort                                   : angular.noop
       ctrl.class          = hasAttr('class')          ? defaultCssClass.concat($attrs.class || ' ') : defaultCssClass
       ctrl.onClick        = hasAttr('onClick')        ? ctrl.onClick                                : angular.noop
@@ -49,13 +49,13 @@
 
       // Garantindo que existam todas as configurações necessárias no objeto.
       function guaranteeConfig() {
-        ctrl.config.headers       = ctrl.config.hasOwnProperty('headers') ? !!ctrl.config.headers     : defaultHeaders
-        ctrl.config.checkbox      = !!ctrl.config.checkbox
-        ctrl.config.selection     = hasConfig('selection')                ? ctrl.config.selection     : defaultSelection
-        ctrl.config.itemsPerPage  = hasConfig('itemsPerPage')             ? ctrl.config.itemsPerPage  : defaultItemsPerPage
-        ctrl.config.sortDefault   = hasConfig('sortDefault')              ? ctrl.config.sortDefault   : defaultSortedColumn
-        ctrl.config.conditional   = hasConfig('conditional')              ? ctrl.config.conditional   : angular.noop
-        ctrl.config.columnsConfig = guaranteeColumns(ctrl.config.columns, ctrl.config.columnsConfig)
+        ctrl.listConfig.headers       = ctrl.listConfig.hasOwnProperty('headers') ? !!ctrl.listConfig.headers     : defaultHeaders
+        ctrl.listConfig.checkbox      = !!ctrl.listConfig.checkbox
+        ctrl.listConfig.selection     = hasConfig('selection')                ? ctrl.listConfig.selection     : defaultSelection
+        ctrl.listConfig.itemsPerPage  = hasConfig('itemsPerPage')             ? ctrl.listConfig.itemsPerPage  : defaultItemsPerPage
+        ctrl.listConfig.sortDefault   = hasConfig('sortDefault')              ? ctrl.listConfig.sortDefault   : defaultSortedColumn
+        ctrl.listConfig.conditional   = hasConfig('conditional')              ? ctrl.listConfig.conditional   : angular.noop
+        ctrl.listConfig.columnsConfig = guaranteeColumns(ctrl.listConfig.columns, ctrl.listConfig.columnsConfig)
       }
 
       // Tratamento de erros do componente.
@@ -79,7 +79,8 @@
 
       $scope.$parent.selectedValues = ctrl.selectedValues
 
-      $scope.$watch('ctrl.config', () => {
+      $scope.$watch('ctrl.config', (value) => {
+        ctrl.listConfig = angular.copy(value);
         guaranteeConfig()
         compileElement()
       })
@@ -87,7 +88,7 @@
       $scope.$watch('ctrl.data', () => updateMap(ctrl.data), true)
 
       $scope.$watch('ctrl.selectedValues', (newVal = [], oldVal = []) => updateSelected(newVal, newVal.length - oldVal.length >= 0, oldVal), true)
-      
+
       $scope.$watch('ctrl.selectedItemPerPage', (newVal, oldVal) => changePerPage(newVal), true)
 
       function findEqualInMap(obj = {}){
@@ -107,7 +108,7 @@
       }
 
       function updateSelected(selectedValues, wasAdded, oldSelectedValues){
-        if(selectedValues.length > 1 && ctrl.config.selection == 'single'){
+        if(selectedValues.length > 1 && ctrl.listConfig.selection == 'single'){
           selectedValues = selectedValues.filter(value => !angular.equals(oldSelectedValues[0], value))
           uncheckSelectedMap()
         }
@@ -142,7 +143,7 @@
       }
 
       function conditional(value){
-        let obj = ctrl.config.conditional(value);
+        let obj = ctrl.listConfig.conditional(value);
         let trueValue, falseValue
         for(let key in obj){
           obj[key] === true ? trueValue = key : falseValue = key
@@ -154,7 +155,7 @@
 
 
       function conditionalTableCell(value,ordering){
-        let columnToGetTheConditional = ctrl.config.columnsConfig.filter(val => val.name == ordering)[0]
+        let columnToGetTheConditional = ctrl.listConfig.columnsConfig.filter(val => val.name == ordering)[0]
 
         if(columnToGetTheConditional){
           let obj = columnToGetTheConditional.conditional(value), trueValue, falseValue
@@ -187,11 +188,11 @@
       }
 
       function select(index, event = { target: {} }){
-        if (ctrl.config.selection != 'none'){
-            if(event.target.name == '$checkbox' && ctrl.config.selection == 'single') uncheckSelectedMap()
-            if(event.target.name == '$checkbox' && ctrl.config.selection == 'multi') ctrl.selectedMap[index].checkbox = !ctrl.selectedMap[index].checkbox
+        if (ctrl.listConfig.selection != 'none'){
+            if(event.target.name == '$checkbox' && ctrl.listConfig.selection == 'single') uncheckSelectedMap()
+            if(event.target.name == '$checkbox' && ctrl.listConfig.selection == 'multi') ctrl.selectedMap[index].checkbox = !ctrl.selectedMap[index].checkbox
             if(ctrl.checkAll) ctrl.checkAll = false
-            if(ctrl.config.selection == 'single' && !ctrl.selectedMap[index].checkbox) uncheckSelectedMap()
+            if(ctrl.listConfig.selection == 'single' && !ctrl.selectedMap[index].checkbox) uncheckSelectedMap()
             ctrl.selectedMap[index].checkbox = !ctrl.selectedMap[index].checkbox
             updateSelectedValues()
             ctrl.onClick({ $value : ctrl.selectedMap[index].value})
@@ -206,7 +207,7 @@
       // Compilação do componente na tela.
       function compileElement() {
         $element.html('')
-        const element = angular.element(listCreator.mountTable(ctrl.config, ctrl.class))
+        const element = angular.element(listCreator.mountTable(ctrl.listConfig, ctrl.class))
         $element.append($compile(element)($scope))
       }
       try {

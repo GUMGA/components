@@ -86,13 +86,13 @@
       '		</div>' +
       '</div>'
       ;
-    var state = 
+    var state =
       '<div class="form-group">' +
       '   <label for="UF">UF</label>' +
       '		<select ng-model="value.state" class="form-control" ng-options="uf for uf in factoryData.ufs"></select>' +
       '</div>'
       ;
-    var city = 
+    var city =
       '<div class="form-group">' +
       '		<label for="Localidade">Localidade</label>' +
       '		<input type="text" ng-model="value.localization" class="form-control"/>' +
@@ -183,9 +183,6 @@
         attrs.latLng = forceAttr2Bool(attrs.latLng);
         attrs.maps = forceAttr2Bool(attrs.maps);
 
-        console.log(attrs.stateCity)
-        console.log(attrs.stateCityIbge)
-
         scope.streetTypes = ['AV', 'AVENIDA', 'RUA', 'ROD.', 'BC', 'TRAVESSA', 'ALAMEDA', 'VIELA', 'CAMINHO', 'ESTRADA', 'PRAÇA', 'PASSAGEM', 'VILA', 'VIADUTO', 'RODOVIA', 'BECO', 'ACESSO', 'LARGO', 'VIA', 'CAMPO', 'MONTE', 'LADEIRA', 'CALÇADA', 'LOTEAMENTO', 'ROTATÓRIA', 'PASSEIO', 'NÚCLEO', 'PARQUE', 'ANTIGA', 'LAGO', 'BOULEVARD', 'ACAMPAMENTO', 'COMPLEXO', 'CONTORNO', 'BALÇO', 'CONJUNTO', 'MORRO', 'CONDOMÍNIO', 'TERMINAL', 'ESCADA', 'FAVELA', 'COLÔNIA', 'RECANTO', 'ALTO', 'ILHA', 'JARDIM', 'PASSARELA', 'PONTE', 'GALERIA', 'VALE', 'VEREDA', 'ENTRADA', 'BULEVAR', 'TRECHO', 'TÚNEL', 'ESTACIONAMENTO', 'QUADRA', 'BOSQUE', 'RETORNO', 'PÁTIO', 'PRAIA', 'RAMAL', 'BAIXA', 'CHÁCARA', 'SÍTIO', 'UNIDADE', 'RESIDENCIAL', 'FEIRA', 'ESTAÇÂO', 'RÓTULA', 'CANAL', 'FAZENDA', 'RETIRO', 'SETOR', 'RAMPA', 'ESPLANADA', 'CAMPUS', 'BLOCO', 'CENTRO', 'MÓDULO', 'ESTÁDIO', 'ESCADARIA', 'AEROPORTO', 'SERVIDÃO', 'FERROVIA', 'TREVO', 'PORTO', 'ATALHO', 'DISTRITO', 'CORREDOR', 'FONTE', 'CÓRREGO', 'CIRCULAR', 'CAIS', 'SUBIDA', 'LAGOA', 'PROLONGAMENTO', 'DESCIDA', 'PARALELA', 'ELEVADA', 'RETA', 'PONTA', 'VALA', 'BURACO', 'MARINA', 'FORTE', 'PARADA', 'LINHA', 'FRANCISCO', 'MARECHAL', 'ROD.', 'CICLOVIA']
 
         if (!attrs.name) console.error("É necessário passar um parâmetro 'name' como identificador para GumgaAddress");
@@ -250,11 +247,11 @@
                 eventHandler.searchCepSuccess({ $value: response.data });
                 scope['loader' + scope.id] = false;
                 if (parseInt(response.data.resultado) == 1) {
-                  scope.value.premisseType = response.data.tipo_logradouro;
-                  scope.value.premisse = response.data.logradouro;
-                  scope.value.localization = response.data.cidade;
-                  scope.value.neighbourhood = response.data.bairro;
-                  scope.value.state = response.data.uf;
+                  scope.value.premisseType = response.data.tipo_logradouro ? response.data.tipo_logradouro : scope.value.premisseType;
+                  scope.value.premisse = response.data.logradouro ? response.data.logradouro : scope.value.premisse;
+                  scope.value.localization = response.data.cidade ? response.data.cidade : scope.value.localization;
+                  scope.value.neighbourhood = response.data.bairro ? response.data.bairro : scope.value.neighbourhood;
+                  scope.value.state = response.data.uf ? response.data.uf : scope.value.state;
                   scope.value.country = 'Brasil';
                 }
               },

@@ -30,28 +30,28 @@
           <pre>{{pessoa | json}}</pre>
         </div> -->
         <div class="col-md-offset-4 col-md-4 ">
-          <gumga-many-to-one value="produto"
-            search-method="pessoas.methods.asyncSearch('nome', param)"
-            editable="false"
-            placeholder="Procure um usuário por aqui :)"
-            loading-text="Carregando aguarde..."
-            on-select="onselect(value)"
-            field="nome"
-            authorize-add="false"
-            async="true"
-            display-info="true">
-            <match>
-              <label>{{match.model.nome}} - {{match.model.nomeFonetico}}</label>
-            </match>
-          </gumga-many-to-one>
+          <gumga-query search="pessoas.methods.search(field,param)"
+          advanced-search="pessoas.methods.advancedSearch(param)"
+          saved-filters="pessoas.methods.getQuery(page)"
+          save-query="pessoas.methods.postQuery(query, name)">
+            <search-field label="Nome"  field="nome"></search-field>
+            <advanced-search-field
+            type="string"
+            label="Nome"
+            field="nome"></advanced-search-field>
+            <advanced-search-field  type="string"  label="Apelido" field="apelido"></advanced-search-field>
+        </gumga-query>
           <br>
           <br>
           <br>
           <br>
           <br>
+          <gumga-list sort="pessoas.methods.sort(field, dir)"
+            class="table-striped table-condensed"
+            data="pessoas.data"
+            configuration="tableConfig">
+          </gumga-list>
           <br>
-          <label>Selecionado</label>
-          <pre>{{produto | json}}</pre>
         </div>
       </form>
     </div>
@@ -92,6 +92,39 @@
                   resolve(arr);
               })
           }
+
+          $scope.tableConfig = {
+            columns: 'nomeFonetico, data, view',
+            // headers: false,
+            checkbox: true,
+            selection: "multi",
+            columnsConfig: [
+              {
+                name: 'nomeFonetico',
+                title: 'Nome fonetico',
+                content: '{{$value.nomeFonetico}}',
+                sortField: 'nomeFonetico'
+              },
+              {
+                name: 'data',
+                title: 'Data',
+                content: '{{$value.dataCadastro}}',
+                sortField: 'data'
+              },
+              {
+                name: 'apelido',
+                title: 'Apelidao',
+                content: '{{$value.apelido}}',
+                sortField: 'apelido'
+              },
+              {
+                name: 'view',
+                title: ' ',
+                content: '<span class="pull-right"><a uib-tooltip="View" class="btn btn-primary btn-sm" ui-sref="gumgaController.view({id: $value.id })"><i class="glyphicon glyphicon-eye-open"></i></a></span>'
+              }
+            ]
+          }
+
 
           $scope.produtos = [
             {
