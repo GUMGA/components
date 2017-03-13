@@ -6,7 +6,8 @@
     return{
       restrict: 'E',
       scope: {
-        fields: '='
+        fields: '=',
+        useLabels: '?='
       },
       bindToController: true,
       controller: ['$scope','$element','$attrs', '$http', '$compile','$filter', function($scope, $element, $attrs, $http, $compile, $filter) {
@@ -48,7 +49,8 @@
         let template = `
         <div class="row" ng-if="f.field.active" ng-repeat="f in ctrl.fields.gumgaCustomFields">
           <div class="col-md-12">
-            <label ng-bind="f.field.name" gumga-translate-tag="f.field.translateKey"></label>
+            <label ng-bind="f.field.name" ng-if="!ctrl.useLabels" gumga-translate-tag="f.field.translateKey"></label>
+            <label ng-if="ctrl.useLabels">{{f.field.translateKey}}</label>
             <div ng-switch="f.field.type" class="form-group">
               <div ng-switch-when="TEXT">
                 <input type="text" ng-model="f.textValue" class="form-control" />
