@@ -6,7 +6,7 @@
 
     let template = `
       <div class="input-group">
-        <input type="text" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event)" typeahead="item.description for item in ctrl.proxyFn($viewValue)" typeahead-on-select="ctrl.filterSelect($item, $model, $label, $event)" ng-show="ctrl.hasQuerySaved && openFilter"/>
+        <input type="text" placeholder="Busque seus filtros salvos" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event, 'TYPEAHEAD')" uib-typeahead="item.description for item in ctrl.proxyFn($viewValue)" typeahead-on-select="ctrl.filterSelect($item, $model, $label, $event)" ng-show="ctrl.hasQuerySaved && openFilter"/>
         <input type="text" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event)" ng-show="!ctrl.hasQuerySaved || !openFilter" />
         <span class="input-group-btn" uib-dropdown uib-keyboard-nav auto-close="outsideClick">
           <button class="btn btn-default" type="button" uib-dropdown-toggle>
@@ -93,12 +93,12 @@
       function compileFilter(){
         let template  = `<gumga-filter-core ng-show="openFilter" is-open="true" search="ctrl.proxySearch(param)" ${$attrs.saveQuery ? 'save-query="saveQuery(query, name)"' : ''}is-query="true">${ctrl.possibleAdvancedFields.reduce(((prev, next) => prev += next), '')}</gumga-filter-core>`,
 
-        element   = angular.element(document.getElementById(ctrl.containerAdvanced))          
+        element   = angular.element(document.getElementById(ctrl.containerAdvanced))
         element.replaceWith($compile(template)($scope))
       }
 
-      function doSearch(param, event = { keyCode: 13 }){
-        if(event.keyCode !== 13) return
+      function doSearch(param, event = { keyCode: 13 }, inputType){
+        if(event.keyCode !== 13 || inputType == 'TYPEAHEAD') return;
         let field = Object
                     .keys(ctrl.mapFields)
                     .filter(value => !!ctrl.mapFields[value].checkbox)
@@ -118,7 +118,7 @@
       }
 
       function filterSelect($item, $model, $label, $event){
-        
+
         $timeout(() => (ctrl.searchField=  '', $scope.$broadcast('filter-items', $item)))
       }
     }

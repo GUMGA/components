@@ -86,13 +86,13 @@
       '		</div>' +
       '</div>'
       ;
-    var state = 
+    var state =
       '<div class="form-group">' +
       '   <label for="UF">UF</label>' +
       '		<select ng-model="value.state" class="form-control" ng-options="uf for uf in factoryData.ufs"></select>' +
       '</div>'
       ;
-    var city = 
+    var city =
       '<div class="form-group">' +
       '		<label for="Localidade">Localidade</label>' +
       '		<input type="text" ng-model="value.localization" class="form-control"/>' +
@@ -247,11 +247,11 @@
                 eventHandler.searchCepSuccess({ $value: response.data });
                 scope['loader' + scope.id] = false;
                 if (parseInt(response.data.resultado) == 1) {
-                  scope.value.premisseType = response.data.tipo_logradouro;
-                  scope.value.premisse = response.data.logradouro;
-                  scope.value.localization = response.data.cidade;
-                  scope.value.neighbourhood = response.data.bairro;
-                  scope.value.state = response.data.uf;
+                  scope.value.premisseType = response.data.tipo_logradouro ? response.data.tipo_logradouro : scope.value.premisseType;
+                  scope.value.premisse = response.data.logradouro ? response.data.logradouro : scope.value.premisse;
+                  scope.value.localization = response.data.cidade ? response.data.cidade : scope.value.localization;
+                  scope.value.neighbourhood = response.data.bairro ? response.data.bairro : scope.value.neighbourhood;
+                  scope.value.state = response.data.uf ? response.data.uf : scope.value.state;
                   scope.value.latitude = response.data.latitude;
                   scope.value.longitude = response.data.longitude;
                   scope.value.formalCode = response.data.ibge_cod_cidade;
