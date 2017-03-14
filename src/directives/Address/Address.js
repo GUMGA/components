@@ -98,10 +98,10 @@
       '		<input type="text" ng-model="value.localization" class="form-control"/>' +
       '</div>'
       ;
-    var codIBGE =
+    var formalCode =
       '<div class="form-group">' +
-      '		<label for="CodIBGE{{::id}}">Código</label>' +
-      '		<input type="text" ng-model="value.codigo_ibge" class="form-control" id="CodIBGE{{::id}}"/>' +
+      '		<label for="formalCode{{::id}}">Código</label>' +
+      '		<input type="text" ng-model="value.formalCode" class="form-control" id="formalCode{{::id}}"/>' +
       '</div>'
       ;
     var blockStateCity =
@@ -118,7 +118,7 @@
       '		</div>' +
       '		<div class="col-md-4">' + city +
       '		</div>' +
-      '		<div class="col-md-4">' + codIBGE +
+      '		<div class="col-md-4">' + formalCode +
       '		</div>' +
       '</div>'
       ;
@@ -127,13 +127,13 @@
       '		<div class="col-md-6">' +
       '       <div class="form-group">' +
       '		        <label for="Latitude{{::id}}">Latitude</label>' +
-      '		        <input type="text" ng-model="value.lat" class="form-control" id="Latitude{{::id}}"/>' +
+      '		        <input type="text" ng-model="value.latitude" class="form-control" id="Latitude{{::id}}"/>' +
       '       </div>' +
       '		</div>' +
       '		<div class="col-md-6">' +
       '       <div class="form-group">' +
       '		        <label for="Longitude{{::id}}">Longitude</label>' +
-      '		        <input type="text" ng-model="value.lng" class="form-control" id="Longitude{{::id}}"/>' +
+      '		        <input type="text" ng-model="value.longitude" class="form-control" id="Longitude{{::id}}"/>' +
       '       </div>' +
       '		</div>' +
       '</div>'
@@ -252,7 +252,12 @@
                   scope.value.localization = response.data.cidade ? response.data.cidade : scope.value.localization;
                   scope.value.neighbourhood = response.data.bairro ? response.data.bairro : scope.value.neighbourhood;
                   scope.value.state = response.data.uf ? response.data.uf : scope.value.state;
+                  scope.value.latitude = response.data.latitude;
+                  scope.value.longitude = response.data.longitude;
+                  scope.value.formalCode = response.data.ibge_cod_cidade;
                   scope.value.country = 'Brasil';
+                  let numberEl = document.getElementById(`numberInput${scope.id}`);
+                  numberEl.focus();
                 }
               },
               error => eventHandler.searchCepError({ $value: data })

@@ -3,11 +3,12 @@
     Upload.$inject = ['$http', '$parse', '$timeout', '$compile'];
     function Upload($http, $parse, $timeout, $compile) {
         let templateBebin = `
-        <div class="full-width-without-padding">
+        <div class="full-width-without-padding" style="text-align: center;margin: 2px;">
             <div ng-click="fireClick()" ng-show="flag" class="col-md-1" tooltip="{{::tooltipText}}" tooltip-placement="right">`
 
         let defaultAvatar = `
-        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="128px" height="128px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+
+        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" ng-attr-width="{{imageWidth}}" ng-attr-height="{{imageHeight}}" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
             <path id="avatar" fill="#cccccc" d="M490.579,383.029c-14.152-22.086-61.763-35.824-108.835-55.453c-47.103-19.633-58.268-26.439-58.268-26.439
                 l-0.445-45.182c0,0,17.646-13.557,23.127-56.074c11.01,3.198,22.619-16.461,23.237-26.824c0.625-9.98-1.508-37.662-14.981-34.877
                 c2.754-20.845,4.741-39.586,3.764-49.505c-3.495-36.295-39.23-74.578-94.182-74.578c-54.95,0-90.7,38.283-94.193,74.578
@@ -18,29 +19,33 @@
         </svg>`
 
         let avatar = `
-        <img id="avatar" ng-src="{{avatar}}" width="128px" height="128px">`
+        <img id="avatar" ng-src="{{avatar}}" width="128px" height="128px" style="text-align: center" >`
 
         let templateEnd = `
             </div>
-            <img src="#" alt="Uploaded Image" ng-show="!flag" class="img-rounded" />
+            <img src="#" alt="Uploaded Image" ng-show="!flag" class="img-rounded"/>
             <input type="file" name="upload" id="upload" ng-hide="true"/>
-            <div class="col-md-12">
+            <div style="display: block;">
                 <button type="button" class="btn btn-link" ng-hide="flag" ng-click="deleteImage()"> Delete Image <span class="glyphicon glyphicon-trash"></span></button>
             </div>
         </div>`
 
-        link.$inject = ['$scope','$element','$attrs']
+        link.$inject = ['$scope', '$element', '$attrs']
 
         function link($scope, $element, $attrs) {
+
+            $scope.imageHeight = $scope.imageHeight || 128
+            $scope.imageWidth = $scope.imageWidth || 128
+
             let model = $parse($attrs.attribute),
                 modelSetter = model.assign,
                 reader = new FileReader(),
                 element,
                 image
 
-            $timeout(function(){
+            $timeout(function () {
                 element = $element.find('input'),
-                image = $element.find('img')[0];
+                    image = $element.find('img')[0];
 
                 element.bind('change', function () {
                     $scope.$apply(function () {
@@ -49,8 +54,9 @@
                         $scope.flag = false;
                         reader.onloadend = function () {
                             image.src = reader.result;
-                            image.width = 200;
-                            image.height = 200;
+                            
+                            image.width = $scope.imageWidth || 128;
+                            image.height = $scope.imageHeight || 128;
                             let x = $attrs.attribute.split('.');
                             $scope.uploadMethod({ image: $scope[x[0]][x[1]] })
                                 .then((val) => {
@@ -72,8 +78,8 @@
                     if ($scope.model.bytes) {
                         $scope.flag = false;
                         image.src = 'data:' + $scope.model.mimeType + ';base64,' + $scope.model.bytes;
-                        image.width = 200;
-                        image.height = 200;
+                        image.width = $scope.imageWidth || 128;
+                        image.height = $scope.imageHeight || 128;
                     }
                 } else {
                     $scope.model = {};
@@ -99,7 +105,9 @@
             $scope.deleteImage = function () {
                 image.src = '';
                 $scope.flag = true;
-                element[0].files = [];
+
+
+                // element[0].files = [];
                 $scope.deleteMethod();
             };
 
@@ -121,7 +129,9 @@
                 uploadMethod: '&',
                 deleteMethod: '&',
                 tooltipText: '@',
-                avatar: '@'
+                avatar: '@',
+                imageWidth: '@?',
+                imageHeight: '@?'
             },
             link: link
         };
