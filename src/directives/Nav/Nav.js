@@ -1,6 +1,6 @@
 (function(){
   'use strict';
-  Nav.$inject = ['$state','GumgaWebStorage','$uibModal','$rootScope'];
+  Nav.$inject = ['$state','GumgaWebStorage','$uibModal','$rootScope', '$timeout'];
   function Nav($state, GumgaWebStorage, $uibModal, $rootScope, $timeout) {
     var template = [
       '<nav id="navbar">',
@@ -48,6 +48,7 @@
         transclude: true,
         template: template.join('\n'),
         link: function (scope, el, attrs) {
+
           var putUrl = attrs.putUrl;
           if(attrs.multiEntity == "true" || !attrs.multiEntity) scope.multientity = true;
           (!scope[attrs.putUrl]) ? putUrl = scope[attrs.putUrl] : angular.noop;
@@ -128,10 +129,12 @@
                       user: userSession.user,
                       password: user.oldpass,
                       newPassword: user.newpass})
-                      .success(function (data) {
-                        if (data.response == 'BAD_PASSWORD') {
+                      .then(function (response) {
+                        console.log(response)
+                        if (response.data.response == 'BAD_PASSWORD') {
+
                           $scope.oldPasswordInvalid = true;
-                        } else if (data.response == 'OK') {
+                        } else if (response.data.response == 'OK') {
                           $scope.$emit('successMessage', {
                             title: 'Senha alterada',
                             message: 'Sua senha foi alterada com sucesso.'
