@@ -130,7 +130,7 @@
                       password: user.oldpass,
                       newPassword: user.newpass})
                       .then(function (response) {
-                        console.log(response)
+
                         if (response.data.response == 'BAD_PASSWORD') {
 
                           $scope.oldPasswordInvalid = true;

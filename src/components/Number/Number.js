@@ -85,7 +85,7 @@
         var numberCtrl = controllers[1];
 
         ngModel.$parsers.push(function (text) {
-            console.log(text);
+
             return numberCtrl.fromUser(ngModel, text);
         });
         ngModel.$formatters.push(numberCtrl.toUser.bind(numberCtrl));
