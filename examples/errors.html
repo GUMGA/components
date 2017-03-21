@@ -76,10 +76,14 @@
           }
 
           $scope.configManyToMany = {
-            ngModel : 'selecionados',
+            ngModel : 'entity.name',
             options : {
               type: 'array',
               message : 'Deve ter array',
+              empty: {
+                value: true,
+                message: ""
+              }
               min : {
                 value: 1,
                 message: 'Tem que ter ao menos um.'
