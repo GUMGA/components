@@ -7,7 +7,7 @@
       restrict: 'E',
       scope: {
         fields: '=',
-        useLabels: '?='
+        useLabels: '=?'
       },
       bindToController: true,
       controller: ['$scope','$element','$attrs', '$http', '$compile','$filter', function($scope, $element, $attrs, $http, $compile, $filter) {
