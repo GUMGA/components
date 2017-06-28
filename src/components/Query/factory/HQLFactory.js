@@ -123,7 +123,7 @@ function HQLFactory($filter){
   SUPPORTED_TYPES['date'] = {
     validator: (date) => (DATE_REGEX.test($filter('date')(date, 'dd/MM/yyyy'))),
     defaultCondition: hqlObjectCreator(['date_eq']),
-    conditions: hqlObjectCreator(['date_eq', 'date_ne', 'gt', 'ge', 'lt', 'le']),
+    conditions: hqlObjectCreator(['date_eq', 'date_ne', 'date_lt', 'date_gt']),
     template: `<div class="input-group">
                     <input type="text" ng-keyup="goSearch($event)" ng-model="$value.query.value" gumga-mask="99/99/9999" class="form-control" required  style=" width: 150px;height: 40px;"/>
                     <div class="input-group-addon">
@@ -217,6 +217,9 @@ function HQLFactory($filter){
     hqlObjects['is']            = { hql: ` is `           , label:  ` está `          , before: ` is `         , after:  `` }
     hqlObjects['date_eq']       = { hql: ` eq `           , label:  ` igual `         , before: ` >= `         , after:  `` }
     hqlObjects['date_ne']       = { hql: ` ne `           , label:  ` diferente de `  , before: ` <= `         , after:  `` }
+    hqlObjects['date_lt']       = { hql: ` ld `           , label:  ` anterior a `    , before: ` <= `         , after:  `` }
+    hqlObjects['date_gt']       = { hql: ` gd `           , label:  ` posterior a `   , before: ` >= `         , after:  `` }
+
     // hqlObjects['date_eq']       = { hql: ` date_eq`       , label:  ` no dia `        , before: ` `}
     return hqls.map(value => hqlObjects[value])
   }
@@ -240,8 +243,9 @@ function HQLFactory($filter){
                   value = `${date[4]}${date[5]}${date[6]}${date[7]}-${date[2]}${date[3]}-${date[0]}${date[1]}`
 
                   // if (mapObj[val].query.condition.hql == ' eq ' || mapObj[val].query.condition.hql == ' ne ') {
-                    let valueBefore = `'${value} 00:00:00'`,
-                        valueAfter  = `'${value} 23:59:59'`
+                    let valueBefore = `to_timestamp('${value} 00:00:00','yyyy/MM/dd HH24:mi:ss')`,
+                        valueAfter  = `to_timestamp('${value} 23:59:59','yyyy/MM/dd HH24:mi:ss')`
+
 
                     switch (mapObj[val].query.condition.hql) {
                       case ' eq ':
@@ -250,11 +254,11 @@ function HQLFactory($filter){
                       case ' ne ':
                         value = `${valueBefore} OR ${attribute} >= ${valueAfter}`
                         break;
-                      case ' le ':
+                      case ' ld ':
                         value = valueAfter;
                         break;
-                      case ' gt ':
-                        value = valueAfter;
+                      case ' gd ':
+                        value = valueBefore;
                         break;
                     }
                   // }
