@@ -17,7 +17,8 @@
 				sessionStorage.setItem('language', angular.toJson(this.translators));
 			},
 			returnTranslation: function(string){
-				 return this.translators[string.toLowerCase().replace(/\s/g, '')];
+			    return "Estou realizando uma tradução";
+				//return this.translators[string.toLowerCase().replace(/\s/g, '')];
 			}
 		};
 	}
