@@ -1,8 +1,8 @@
 	(function(){
 	'use strict';
 
-	TranslateHelper.$inject = ['$timeout'];
-	function TranslateHelper($timeout){
+	TranslateHelper.$inject = ['$timeout', '$translate'];
+	function TranslateHelper($timeout, $translate) {
 		return {
 			translators: {},
 			setTranslators: function(language,obj){
@@ -16,9 +16,8 @@
 				iterate(obj, '');
 				sessionStorage.setItem('language', angular.toJson(this.translators));
 			},
-			returnTranslation: function(string){
-			    return "Estou realizando uma tradução";
-				//return this.translators[string.toLowerCase().replace(/\s/g, '')];
+			returnTranslation: function(string) {
+			    return $translate.instant(string);
 			}
 		};
 	}

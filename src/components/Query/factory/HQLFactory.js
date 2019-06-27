@@ -28,7 +28,7 @@ function HQLFactory($filter){
                       <i ng-show="!validator($value.query.value) || !$value.query.value" class="glyphicon glyphicon-remove" style="color:red"></i>
                   </div>
                   <div class="input-group-addon">
-                      <button ng-click="callSearch($event, 'btn')" class="btn btn-default">Buscar</button>
+                      <button ng-click="callSearch($event, 'btn')" class="btn btn-default">{{ 'gumga.query.search' | translate }}</button>
                   </div>
               </div>`
   }
@@ -44,7 +44,7 @@ function HQLFactory($filter){
                         <i ng-show="!validator($value.query.value)" class="glyphicon glyphicon-remove" style="color:red"></i>
                     </div>
                     <div class="input-group-addon">
-                        <button ng-click="callSearch($event, 'btn')"  class="btn btn-default">Buscar</button>
+                        <button ng-click="callSearch($event, 'btn')"  class="btn btn-default">{{ 'gumga.query.search' | translate }}</button>
                     </div>
               </div>`
   }
@@ -60,7 +60,7 @@ function HQLFactory($filter){
                         <i ng-show="!validator($value.query.value)" class="glyphicon glyphicon-remove" style="color:red"></i>
                     </div>
                     <div class="input-group-addon">
-                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">Buscar</button>
+                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">{{ 'gumga.query.search' | translate }}</button>
                     </div>
               </div>`
   }
@@ -76,7 +76,7 @@ function HQLFactory($filter){
                         <i ng-show="!validator($value.query.value)" class="glyphicon glyphicon-remove" style="color:red"></i>
                     </div>
                     <div class="input-group-addon">
-                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">Buscar</button>
+                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">{{ 'gumga.query.search' | translate }}</button>
                     </div>
               </div>`
   }
@@ -92,7 +92,7 @@ function HQLFactory($filter){
                         <i ng-show="!validator($value.query.value) || !$value.query.value" class="glyphicon glyphicon-remove" style="color:red"></i>
                     </div>
                     <div class="input-group-addon">
-                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">Buscar</button>
+                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">{{ 'gumga.query.search' | translate }}</button>
                     </div>
               </div>`
   }
@@ -108,7 +108,7 @@ function HQLFactory($filter){
                         <i ng-show="!validator($value.query.value) || !$value.query.value" class="glyphicon glyphicon-remove" style="color:red"></i>
                     </div>
                     <div class="input-group-addon">
-                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">Buscar</button>
+                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">{{ 'gumga.query.search' | translate }}</button>
                     </div>
               </div>`
   }
@@ -131,7 +131,7 @@ function HQLFactory($filter){
                         <i ng-show="!validator($value.query.value) || !$value.query.value" class="glyphicon glyphicon-remove" style="color:red"></i>
                     </div>
                     <div class="input-group-addon">
-                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">Buscar</button>
+                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">{{ 'gumga.query.search' | translate }}</button>
                     </div>
               </div>`
   }
@@ -161,7 +161,7 @@ function HQLFactory($filter){
                         <i ng-show="!validator($value.query.value) || !$value.query.value" class="glyphicon glyphicon-remove" style="color:red"></i>
                     </div>
                     <div class="input-group-addon">
-                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">Buscar</button>
+                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">{{ 'gumga.query.search' | translate }}</button>
                     </div>
               </div>`
   }
@@ -177,7 +177,7 @@ function HQLFactory($filter){
                         <i ng-show="!validator($value.query.value) || !$value.query.value" class="glyphicon glyphicon-remove" style="color:red"></i>
                     </div>
                     <div class="input-group-addon">
-                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">Buscar</button>
+                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">{{ 'gumga.query.search' | translate }}</button>
                     </div>
               </div>`
   }
@@ -193,7 +193,7 @@ function HQLFactory($filter){
                         <i ng-show="!validator($value.query.value) || !$value.query.value" class="glyphicon glyphicon-remove" style="color:red"></i>
                     </div>
                     <div class="input-group-addon">
-                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">Buscar</button>
+                        <button ng-click="callSearch($event, 'btn')" class="btn btn-default">{{ 'gumga.query.search' | translate }}</button>
                     </div>
               </div>`
   }

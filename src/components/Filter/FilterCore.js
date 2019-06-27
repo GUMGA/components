@@ -8,7 +8,7 @@
             <header class="panel-heading" style="padding: 5px 10px;">
                 <div class="row">
                     <div class="col-md-8 col-xs-7">
-                        <h5>Pesquisa avançada <strong ng-if="filterSelectItem"> - {{filterSelectItem.description}}</strong></h5>
+                        <h5>{{ 'gumga.filter.advancedSearch' | translate }} <strong ng-if="filterSelectItem"> - {{filterSelectItem.description}}</strong></h5>
                     </div>
                     <div class="col-md-4 col-xs-5" ng-show="saveQuery">
                         <div class="input-group" >
@@ -31,11 +31,11 @@
             <div class="form-inline panel-body">
               <div class="row">
                 <div class="col-md-6">
-                  <h5><strong>Filtrar por:</strong></h5>
+                  <h5><strong>{{ 'gumga.filter.filterBy' | translate }}:</strong></h5>
                 </div>
                 <div class="col-md-6">
                   <button id="single-button" type="button" class="btn btn-default pull-right" ng-click="clearQuery()" ng-disabled="!isAnyQueryNotOk()" >
-                    <i class="glyphicon glyphicon-repeat"></i> Limpar filtros
+                    <i class="glyphicon glyphicon-repeat"></i> {{ 'gumga.filter.clearFilters' | translate }}
                   </button>
                 </div>
               </div>
@@ -43,7 +43,7 @@
                   <div class="input-group-btn">
                     <div class="btn-group" uib-dropdown ng-show="!$value.query.label" is-open="$value.isUPDATING_ATTRIBUTE()" auto-close="disabled">
                       <button type="button" style="z-index: 0" class="btn btn-default" uib-dropdown-toggle ng-click="toggleUpdatingAttribute(this)" ng-disabled="$value.isUPDATING_VALUE() || $value.isUPDATING_CONDITION() || (!isAnyQueryNotOk() && $value.isEVERYTHING_NEEDED()) ">
-                        <span> {{ $value.query.attribute.label || 'Atributo' }}  <i class="glyphicon glyphicon-chevron-down"></i></span>
+                        <span> {{ $value.query.attribute.label || ('gumga.filter.attribute' | translate) }}  <i class="glyphicon glyphicon-chevron-down"></i></span>
                       </button>
                       <ul uib-dropdown-menu style="z-index: 3000" role="menu">
                         <li style="z-index: 3000;" role="menuitem" ng-repeat="attribute in _attributes track by $index">
@@ -53,17 +53,17 @@
                     </div>
                     <div class="btn-group" uib-dropdown is-open="$value.isUPDATING_CONDITION()" ng-show="!$value.query.label" auto-close="disabled">
                       <button type="button" class="btn btn-default" uib-dropdown-toggle ng-click="toggleUpdatingCondition(this)" ng-disabled="$value.isUPDATING_VALUE() || $value.isUPDATING_ATTRIBUTE() || (!isAnyQueryNotOk() && $value.isEVERYTHING_NEEDED()) || $value.isNOTHING()">
-                          <span>{{ $value.query.condition.label || 'Condição' }} <i class="glyphicon glyphicon-chevron-down"></i></span>
+                          <span>{{ $value.query.condition.label || ('gumga.filter.condition' | translate) }} <i class="glyphicon glyphicon-chevron-down"></i></span>
                       </button>
                       <ul uib-dropdown-menu role="menu" >
                         <li role="menuitem" ng-repeat="condition in conditions track by $index">
-                          <a ng-click="addCondition(condition, this.$parent, $key)">{{condition.label}}</a>
+                          <a ng-click="addCondition(condition, this.$parent, $key)">{{ 'gumga.hql.' + condition.hql.trim() | translate}}</a>
                         </li>
                       </ul>
                     </div>
                     <div class="btn-group" id="_btnValue{{$key}}" ng-show="!$value.query.label">
                       <button type="button" class="btn btn-default" ng-click="toggleUpdatingValue(this, $key)" ng-disabled="validatonValue($value)" id="_valueLabel{{$key}}">
-                          <span id="_conditionLabel{{$key}}">{{ $value.query.value ? $value.query.value.push && $value.query.value.length > 0  ?  $value.query.value.join(', ') : $value.query.value : 'valor' | gumgaGenericFilter:$value.query.attribute.type}} </span>
+                          <span id="_conditionLabel{{$key}}">{{ $value.query.value ? $value.query.value.push && $value.query.value.length > 0  ?  $value.query.value.join(', ') : $value.query.value : ('gumga.filter.value' | translate) | gumgaGenericFilter:$value.query.attribute.type}} </span>
                       </button>
                       <div class="gumga-filter-panel" id="_panelValue{{$key}}"></div>
                     </div>
