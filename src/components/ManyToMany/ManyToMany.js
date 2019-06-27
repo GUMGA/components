@@ -9,49 +9,49 @@
     let template = `
     <div class="row">
       <div class="col-md-6 col-xs-6">
-        <label ng-hide="ctrl.leftListAux.length > 0">{{ctrl.textLeftEmpty}}</label>
+        <label ng-hide="ctrl.leftListAux.length > 0">{{ctrl.textLeftEmpty | translate}}</label>
         <label ng-show="ctrl.leftListAux.length > 0" id="textinfoleft"></label>
         <div ng-class="leftsearch && ctrl.leftListAux.length == 0 && ctrl.authorizeAdd ? 'input-group' : ''">
-          <input class="form-control input-sm" placeholder="{{ctrl.textLeftPlaceholder}}" ng-change="ctrl.filterLeft(leftsearch)" ng-model="leftsearch"/>
+          <input class="form-control input-sm" placeholder="{{ctrl.textLeftPlaceholder | translate}}" ng-change="ctrl.filterLeft(leftsearch)" ng-model="leftsearch"/>
           <div ng-click="ctrl.addNew(leftsearch)" ng-show="leftsearch && ctrl.leftListAux.length == 0 && ctrl.authorizeAdd" class="input-group-addon hover">
             <i class="glyphicon glyphicon-plus"></i>
           </div>
         </div>
         <div class="line-break"></div>
         <div class="panel panel-default">
-          <div class="panel-heading ">{{ctrl.textHeadingLeft}}</div>
+          <div class="panel-heading ">{{ctrl.textHeadingLeft | translate}}</div>
           <ul class="list-group" style="height: {{ctrl.boxHeight}};max-height:{{ctrl.boxHeight}};overflow: auto;">
             <li class="list-group-item hover" ng-repeat="$value in ctrl.leftListAux track by $index" ng-click="ctrl.removeOrAdd(ctrl.leftListAux, ctrl.rightList, $value, $index, $event)">
               <span name="fieldleft"></span>
             </li>
           </ul>
           <div class="panel-footer hover" style="text-align: center;" ng-click="ctrl.moveAllItems(ctrl.leftListAux, ctrl.rightList, 'right')" ng-disabled="ctrl.leftListAux.length == 0">
-            {{ctrl.textMoveallLeft}}
+            {{ctrl.textMoveallLeft | translate}}
             <span class="glyphicon glyphicon-arrow-right"></span>
           </div>
         </div>
       </div>
       <div class="col-md-6 col-xs-6">
-        <label ng-hide="ctrl.rightList.length > 0">{{ctrl.textRightEmpty}}</label>
+        <label ng-hide="ctrl.rightList.length > 0">{{ctrl.textRightEmpty | translate}}</label>
         <label ng-show="ctrl.rightList.length > 0" id="textinforight"></label>
-        <input class="form-control input-sm" ng-disabled="!ctrl.rightSearchField" placeholder="{{ctrl.textRightPlaceholder}}" ng-change="ctrl.filterRight(rightsearch)" ng-model="rightsearch"/>
+        <input class="form-control input-sm" ng-disabled="!ctrl.rightSearchField" placeholder="{{ctrl.textRightPlaceholder | translate}}" ng-change="ctrl.filterRight(rightsearch)" ng-model="rightsearch"/>
         <div class="line-break"></div>
         <div class="panel panel-default">
-          <div class="panel-heading ">{{ctrl.textHeadingRight}}</div>
+          <div class="panel-heading ">{{ctrl.textHeadingRight | translate}}</div>
           <ul class="list-group" ng-cloak style="height: {{ctrl.boxHeight}};max-height:{{ctrl.boxHeight}};overflow: auto;">
             <li class="list-group-item hover" ng-repeat="$value in ctrl.rightAux track by $index" ng-click="ctrl.removeOrAdd(ctrl.rightList, ctrl.leftListAux, $value, $index)">
               <span name="fieldright">{{$value}}</span>
             </li>
           </ul>
           <div class="panel-footer hover" style="text-align: center;" ng-click="ctrl.moveAllItems(ctrl.rightList, ctrl.leftListAux, 'left')" ng-disabled="ctrl.rightAux.length == 0">
-            <span class="glyphicon glyphicon-arrow-left"></span> {{ctrl.textMoveallRight}}
+            <span class="glyphicon glyphicon-arrow-left"></span> {{ctrl.textMoveallRight | translate}}
           </div>
         </div>
       </div>
     </div>
     <div class="row">
       <div class="col-xs-12" ng-show="ctrl.hasInvalid">
-        <p class="alert alert-danger">{{ ctrl.validateMessage }}</p>
+        <p class="alert alert-danger">{{ctrl.validateMessage | translate}}</p>
       </div>
     </div>`
     controller.$inject = ['$scope', '$element', '$attrs', '$transclude']
@@ -245,9 +245,9 @@
 
       $timeout(() => {
         let elementLeft = angular.element(document.getElementById('textinfoleft'));
-        elementLeft.replaceWith($compile('<label ng-show="ctrl.leftListAux.length > 0">' + replaceAll(ctrl.textLeft, '$value', 'ctrl.leftListAux.length') + '</label>')(elementLeft.scope()));
+        elementLeft.replaceWith($compile('<label ng-show="ctrl.leftListAux.length > 0" translate="' + replaceAll(ctrl.textLeft, '$value', 'ctrl.leftListAux.length') + '"></label>')(elementLeft.scope()));
         let elementRight = angular.element(document.getElementById('textinforight'));
-        elementRight.replaceWith($compile('<label ng-show="ctrl.rightList.length > 0">' + replaceAll(ctrl.textRight, '$value', 'ctrl.rightAux.length') + '</label>')(elementRight.scope()));
+        elementRight.replaceWith($compile('<label ng-show="ctrl.rightList.length > 0" translate="' + replaceAll(ctrl.textRight, '$value', 'ctrl.rightAux.length')+ '"></label>')(elementRight.scope()));
       })
 
       checkErrors();
