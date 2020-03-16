@@ -26,7 +26,7 @@
 						<span class="glyphicon glyphicon-filter"></span>
 					</button>
           <button class="my-button btn-primary last" type="button" ng-disabled="isPanelOpen" ng-click="doSearch(searchInputText)">
-						<span class="glyphicon glyphicon-search"></span> <span gumga-translate-tag="search.searchbutton"></span>
+						<span class="glyphicon glyphicon-search"></span> <span>{{ 'search.searchbutton' | translate }}</span>
 					</button>
 	      </span>
 			</div>

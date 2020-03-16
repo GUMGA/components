@@ -5,10 +5,10 @@
 	function NormalSearch(){
 		var template =
 		'<div class="input-group">' +
-		'   <input type="text" class="form-control" ng-model="searchField" placeholder="{{\'searchbutton\' | gumgaTranslate:\'search\'}}" ng-keyup="doSearch(searchField, $event)"/>' +
+		'   <input type="text" class="form-control" ng-model="searchField" placeholder="{{ \'search.searchbutton\' | translate }}" ng-keyup="doSearch(searchField, $event)"/>' +
 		'   <span class="input-group-btn">' +
 		'       <button class="my-button btn-default" ng-click="showLittlePanel = !showLittlePanel"><span class="glyphicon glyphicon-chevron-down"></span></button>' +
-		'       <button class="my-button btn-primary last" type="button" ng-click="doSearch(searchField)" ><span gumga-translate-tag="search.searchbutton"></span> <span class="glyphicon glyphicon-search"></span></button>' +
+		'       <button class="my-button btn-primary last" type="button" ng-click="doSearch(searchField)" ><span>{{ \'search.searchbutton\' | translate }}</span> <span class="glyphicon glyphicon-search"></span></button>' +
 		'   </span>' +
 		'</div>' +
 		'<div class="little-panel" ng-show="showLittlePanel">' +

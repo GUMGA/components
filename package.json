@@ -1,6 +1,6 @@
 {
   "name": "anymarket-gumga-components",
-  "version": "3.5.2",
+  "version": "3.5.4",
   "description": "Those component's were made by the Front End Developing Team of Gumga S/A.",
   "main": "gulpfile.js",
   "scripts": {
