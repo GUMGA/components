@@ -63,7 +63,7 @@
                     </div>
                     <div class="btn-group" id="_btnValue{{$key}}" ng-show="!$value.query.label">
                       <button type="button" class="btn btn-default" ng-click="toggleUpdatingValue(this, $key)" ng-disabled="validatonValue($value)" id="_valueLabel{{$key}}">
-                          <span id="_conditionLabel{{$key}}">{{ $value.query.value ? $value.query.value.push && $value.query.value.length > 0  ?  $value.query.label.join(', ') : $value.query.label : ('gumga.filter.value' | translate) | gumgaGenericFilter:$value.query.attribute.type}} </span>
+                          <span id="_conditionLabel{{$key}}">{{ $value.query.value ? $value.query.value.push && $value.query.value.length > 0  ?  $value.query.value.join(', ') : getSelectValue($value.query) : ('gumga.filter.value' | translate) | gumgaGenericFilter:$value.query.attribute.type}} </span>
                       </button>
                       <div class="gumga-filter-panel" id="_panelValue{{$key}}"></div>
                     </div>
@@ -213,6 +213,8 @@
 
               $scope.validatonValue           = validatonValue
 
+              $scope.getSelectValue           = getSelectValue
+
             function addAttribute(selectedAttribute, scope, key){
               scope.$value.query.attribute = selectedAttribute
               scope.conditions =  HQLFactory.useType(selectedAttribute.type).conditions
@@ -311,6 +313,18 @@
                   || (!isAnyQueryNotOk() && $value.isEVERYTHING_NEEDED())
             }
 
+            function getSelectValue(query) {
+                let description = ""
+                if (query.value && query.attribute && query.attribute.extraProperties) {
+                    query.attribute.extraProperties.data
+                        .forEach(value => {
+                            if (value.field === query.value) {
+                                description = value.label
+                            }
+                        });
+                }
+                return description;
+            }
 
             function toggleEnum(event, key, field) {
               event.stopPropagation()
