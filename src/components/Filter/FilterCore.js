@@ -42,7 +42,7 @@
               <div class="input-group" ng-repeat="($key, $value) in controlMap" style="margin-right: 1%;margin-top: 7.5px;z-index: {{$value.zIndex}}" ng-show="$value.active" id="first" >
                   <div class="input-group-btn">
                     <div class="btn-group" uib-dropdown ng-show="!$value.query.label" is-open="$value.isUPDATING_ATTRIBUTE()" auto-close="disabled">
-                      <button type="button" style="z-index: 0" class="btn btn-default" uib-dropdown-toggle ng-click="toggleUpdatingAttribute(this)" ng-disabled="$value.isUPDATING_VALUE() || $value.isUPDATING_CONDITION() || (!isAnyQueryNotOk() && $value.isEVERYTHING_NEEDED()) ">
+                      <button type="button" style="z-index: 0" class="btn btn-default" uib-dropdown-toggle ng-click="toggleUpdatingAttribute(this)" ng-disabled="$value.isUPDATING_ATTRIBUTE() || $value.isUPDATING_VALUE() || $value.isUPDATING_CONDITION() || (!isAnyQueryNotOk() && $value.isEVERYTHING_NEEDED()) ">
                         <span> {{ $value.query.attribute.label || ('gumga.filter.attribute' | translate) }}  <i class="glyphicon glyphicon-chevron-down"></i></span>
                       </button>
                       <ul uib-dropdown-menu style="z-index: 3000" role="menu">
