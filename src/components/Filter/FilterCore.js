@@ -314,7 +314,7 @@
             }
 
             function getSelectValue(query) {
-                let description = ""
+                let description = query.value;
                 if (query.value && query.attribute && query.attribute.extraProperties) {
                     query.attribute.extraProperties.data
                         .forEach(value => {
