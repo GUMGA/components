@@ -26,7 +26,7 @@
             <span class="glyphicon glyphicon-filter"></span>
           </button>
           <button class="btn btn-primary" type="button" ng-click="ctrl.doSearch(ctrl.searchField)">
-            <span> {{::ctrl.searchText}} </span>
+            <span> {{::ctrl.searchText}} </span>           
             <span class="glyphicon glyphicon-search rotate-search-glyph"></span>
           </button>
         </span>
@@ -86,12 +86,15 @@
       ctrl.searchText         = hasAttr('searchText')     ? $attrs['searchText']  : ' '
       ctrl.proxySearch        = (param) => ctrl.advancedSearch({ param })
       ctrl.hasQuerySaved      = !!$attrs.savedFilters
+      ctrl.searchField        = $scope.$parent.searchField ? $scope.$parent.searchField : ''
       $scope.proxySave        = (query, name) => ctrl.saveQuery({ query, name })
 
       if(ctrl.advancedSearch) ctrl.compileFilter()
 
       function compileFilter(){
-        let template  = `<gumga-filter-core ng-show="openFilter" is-open="true" search="ctrl.proxySearch(param)" ${$attrs.saveQuery ? 'save-query="saveQuery(query, name)"' : ''}is-query="true">${ctrl.possibleAdvancedFields.reduce(((prev, next) => prev += next), '')}</gumga-filter-core>`,
+        let template  = `<gumga-filter-core ng-show="openFilter" is-open="true" search="ctrl.proxySearch(param)" 
+${$attrs.saveQuery ? 'save-query="saveQuery(query, name)"' : ''}is-query="true">${ctrl.possibleAdvancedFields.reduce(((prev, next) => prev += next), '')}
+</gumga-filter-core>`,
 
         element   = angular.element(document.getElementById(ctrl.containerAdvanced))
         element.replaceWith($compile(template)($scope))
@@ -119,7 +122,7 @@
 
       function filterSelect($item, $model, $label, $event){
 
-        $timeout(() => (ctrl.searchField=  '', $scope.$broadcast('filter-items', $item)))
+        $timeout(() => ($scope.$broadcast('filter-items', $item)))
       }
     }
 
