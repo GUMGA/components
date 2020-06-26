@@ -102,7 +102,7 @@
 				})
 			}
 
-			if (!Scope.advancedSearch) {
+			if (!Scope.advancedFilter) {
 				Scope[Id.toLowerCase() + 'Get']();
 			}
 		};
