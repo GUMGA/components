@@ -7,7 +7,7 @@
     let template = `
       <div class="input-group">
         <input type="text" placeholder="Busque seus filtros salvos" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event, 'TYPEAHEAD')" uib-typeahead="item.description for item in ctrl.proxyFn($viewValue)" typeahead-on-select="ctrl.filterSelect($item, $model, $label, $event)" ng-show="ctrl.hasQuerySaved && openFilter"/>
-        <input type="text" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event)" ng-show="!ctrl.hasQuerySaved || !openFilter" />
+        <input type="text" maxlength="{{inputMaxLength}}" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event)" ng-show="!ctrl.hasQuerySaved || !openFilter" />
         <span class="input-group-btn" uib-dropdown uib-keyboard-nav auto-close="outsideClick">
           <button class="btn btn-default" type="button" uib-dropdown-toggle>
             <span class="glyphicon glyphicon-chevron-down"><span>
@@ -87,6 +87,7 @@
       ctrl.proxySearch        = (param) => ctrl.advancedSearch({ param })
       ctrl.hasQuerySaved      = !!$attrs.savedFilters
       ctrl.searchField        = $scope.$parent.searchField ? $scope.$parent.searchField : ''
+      $scope.inputMaxLength   = hasAttr('inputMaxLength') ? $attrs['inputMaxLength'] : ''
       $scope.proxySave        = (query, name) => ctrl.saveQuery({ query, name })
 
       if(ctrl.advancedSearch) ctrl.compileFilter()
@@ -133,7 +134,8 @@ ${$attrs.saveQuery ? 'save-query="saveQuery(query, name)"' : ''}is-query="true">
         advancedSearch: '&?',
         containerAdvanced: '@?',
         savedFilters: '&?',
-        saveQuery:'&?'
+        saveQuery:'&?',
+        inputMaxLength: '@?'
       },
       bindToController: true,
       transclude: true,
