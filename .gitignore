@@ -23,3 +23,5 @@ index.html
 
 .DS_Store
 .idea/
+
+package-lock.json

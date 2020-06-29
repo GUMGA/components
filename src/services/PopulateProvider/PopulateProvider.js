@@ -101,7 +101,10 @@
 					Scope.$broadcast('afterGetError',err );
 				})
 			}
-			Scope[Id.toLowerCase() + 'Get']();
+
+			if (!Scope.advancedFilter) {
+				Scope[Id.toLowerCase() + 'Get']();
+			}
 		};
 		methods.resetAndGet = function(Scope,Service,Id){
 			Scope[Id.toLowerCase() + 'ResetAndGet'] = function(){
