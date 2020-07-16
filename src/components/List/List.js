@@ -25,14 +25,14 @@
 
       function guaranteeColumns(columns = ' ', columnsConfig = []){
         return columns.split(',').map(rawColumn => {
-          let column        = rawColumn.trim(),
-              configuration = columnsConfig.filter(value => value.name == column)[0] || { name: column };
-          let title         = configuration.title       || (column.charAt(0).toUpperCase() + column.slice(1)),
-              size          = configuration.size        ||  ' ',
-              name          = configuration.name        ||  column,
-              content       = configuration.content     ||  '{{$value.' + column + '}}',
-              sortField     = configuration.sortField   ||  null,
-              conditional   = configuration.conditional || angular.noop,
+          let column              = rawColumn.trim(),
+              configuration       = columnsConfig.filter(value => value.name == column)[0] || { name: column };
+          let title               = configuration.title       || (column.charAt(0).toUpperCase() + column.slice(1)),
+              size                = configuration.size        ||  ' ',
+              name                = configuration.name        ||  column,
+              content             = configuration.content     ||  '{{$value.' + column + '}}',
+              sortField           = configuration.sortField   ||  null,
+              conditional         = configuration.conditional || angular.noop,
               customTitleClass    = configuration.customTitleClass || ' '
           return { title, size, name, content, sortField, conditional, customTitleClass }
         })
