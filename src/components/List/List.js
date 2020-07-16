@@ -32,8 +32,9 @@
               name          = configuration.name        ||  column,
               content       = configuration.content     ||  '{{$value.' + column + '}}',
               sortField     = configuration.sortField   ||  null,
-              conditional   = configuration.conditional || angular.noop
-          return { title, size, name, content, sortField, conditional }
+              conditional   = configuration.conditional || angular.noop,
+              customTitleClass    = configuration.customTitleClass || ' '
+          return { title, size, name, content, sortField, conditional, customTitleClass }
         })
       }
 

@@ -1,7 +1,7 @@
 var gulp = require('gulp')
 ,		isTravis = process.env.TRAVIS || false
 ,		hint = require('gulp-jshint')
-,   data = require('gulp-data')
+,       data = require('gulp-data')
 ,		stylus = require('gulp-stylus')
 ,		rename = require('gulp-rename')
 ,		stylish = require('jshint-stylish')
