@@ -42,7 +42,7 @@ function ListCreator(){
   function generateHeaderColumns(columnsArray = [], hasCheckbox = true){
     return columnsArray.reduce((prev, next) => {
       return prev += `
-        <th style="${next.style || ' '}" class="${next.size || ' '}">
+        <th style="${next.style || ' '}" class="${next.size || ' '} ${next.customTitleClass || ''}">
           <strong>
             ${formatTableHeader(next.sortField, next.title)}
           </strong>
