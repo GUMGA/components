@@ -1,6 +1,6 @@
 (function(){
   //Description
-  Search.$inject = ['$q','$timeout','$compile','$interpolate' ]
+  Search.$inject = ['$q','$timeout','$compile','$interpolate']
 
   function Search($q, $timeout, $compile, $interpolate){
 
@@ -17,6 +17,7 @@
               <a class="no-padding-search-fields">
                 <label ng-click="$event.stopPropagation()">
                   <input type="checkbox" ng-model="$value.checkbox" />
+                  <input type="radio" ng-model="$value.radio" />
                   <span><b>{{::$value.label}}</b></span>
                 </label>
               </a>
@@ -63,11 +64,12 @@
           let element   = angular.element(value),
               field     = element.attr('field') ? element.attr('field') : '',
               checkbox  = !!$scope.$eval(element.attr('select')),
+              radio     = !!$scope.$eval(element.attr('select')),
               label     = element.attr('label') ? $interpolate(element.attr('label'))(parentContext) : field.charAt(0).toUpperCase().concat(field.slice(1));
 
           if(!field)      console.error(FIELD_ERR)
           if(checkbox)    alreadySelected = true
-          ctrl.mapFields[field] = { checkbox, label, field }
+          ctrl.mapFields[field] = { checkbox, label, field, radio}
         })
 
         if(!alreadySelected){
