@@ -7,7 +7,8 @@
     let template = `
       <div class="input-group">
         <input type="text" placeholder="Busque seus filtros salvos" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event, 'TYPEAHEAD')" uib-typeahead="item.description for item in ctrl.proxyFn($viewValue)" typeahead-on-select="ctrl.filterSelect($item, $model, $label, $event)" ng-show="ctrl.hasQuerySaved && openFilter"/>
-        <input type="text" maxlength="{{inputMaxLength}}" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event)" ng-show="!ctrl.hasQuerySaved || !openFilter" />
+        <input type="text" maxlength="{{inputMaxLength}}" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event)" ng-show="!ctrl.hasQuerySaved || !openFilter" 
+        input type="text" placeholder="{{::ctrl.placeholder}}"/>
         <span class="input-group-btn" uib-dropdown uib-keyboard-nav auto-close="outsideClick">
           <button class="btn btn-default" type="button" uib-dropdown-toggle>
             <span class="glyphicon glyphicon-chevron-down"><span>
@@ -16,8 +17,8 @@
             <li role="menuitem" ng-repeat="(key, $value) in ctrl.mapFields">
               <a class="no-padding-search-fields">
                 <label ng-click="$event.stopPropagation()">
-                  <input type="checkbox" ng-model="$value.checkbox" />
-                  <input type="radio" ng-model="$value.radio" />
+                  <input ng-if="$value.type == 'checkbox'" type="{{::$value.type}}" ng-model="$value.checkbox" />
+                  <input ng-if="$value.type == 'radio'" type="{{::$value.type}}" name="inputFilter" ng-model="ctrl.radioValue" ng-value="$value.field" />
                   <span><b>{{::$value.label}}</b></span>
                 </label>
               </a>
@@ -51,6 +52,7 @@
       ctrl.possibleAdvancedFields = []
 
       if(!hasAttr('search')) console.error(SEARCH_ERR)
+      if(hasAttr('placeholder')) ctrl.placeholder = $attrs['placeholder']
 
       $transclude((transcludeElement) => {
         let alreadySelected = false,
@@ -64,12 +66,12 @@
           let element   = angular.element(value),
               field     = element.attr('field') ? element.attr('field') : '',
               checkbox  = !!$scope.$eval(element.attr('select')),
-              radio     = !!$scope.$eval(element.attr('select')),
+              type      = element.attr('radio') ? 'radio' : 'checkbox',
               label     = element.attr('label') ? $interpolate(element.attr('label'))(parentContext) : field.charAt(0).toUpperCase().concat(field.slice(1));
 
           if(!field)      console.error(FIELD_ERR)
           if(checkbox)    alreadySelected = true
-          ctrl.mapFields[field] = { checkbox, label, field, radio}
+          ctrl.mapFields[field] = { checkbox, label, field, type}
         })
 
         if(!alreadySelected){
@@ -91,6 +93,7 @@
       ctrl.searchField        = $scope.$parent.searchField ? $scope.$parent.searchField : ''
       $scope.inputMaxLength   = hasAttr('inputMaxLength') ? $attrs['inputMaxLength'] : ''
       $scope.proxySave        = (query, name) => ctrl.saveQuery({ query, name })
+      ctrl.radioValue       = '';
 
       if(ctrl.advancedSearch) ctrl.compileFilter()
 
@@ -107,7 +110,14 @@ ${$attrs.saveQuery ? 'save-query="saveQuery(query, name)"' : ''}is-query="true">
         if(event.keyCode !== 13 || inputType == 'TYPEAHEAD') return;
         let field = Object
                     .keys(ctrl.mapFields)
-                    .filter(value => !!ctrl.mapFields[value].checkbox)
+                    .filter(value => {
+                      if (ctrl.mapFields[value].type == 'radio' && value == ctrl.radioValue) {
+                        return true;
+                      }
+                      if (ctrl.mapFields[value].type == 'checkbox') {
+                        return !!ctrl.mapFields[value].checkbox;
+                      }
+                    })
                     .reduce((prev, next) => (prev += next.concat(',')), '')
                     .slice(0, -1)
 
