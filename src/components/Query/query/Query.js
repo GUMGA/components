@@ -7,8 +7,8 @@
     let template = `
       <div class="input-group">
         <input type="text" placeholder="Busque seus filtros salvos" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event, 'TYPEAHEAD')" uib-typeahead="item.description for item in ctrl.proxyFn($viewValue)" typeahead-on-select="ctrl.filterSelect($item, $model, $label, $event)" ng-show="ctrl.hasQuerySaved && openFilter"/>
-        <input type="text" maxlength="{{inputMaxLength}}" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event)" ng-show="!ctrl.hasQuerySaved || !openFilter" />
-        <input type="text" placeholder="{{::ctrl.placeholder}}"/>
+        <input type="text" maxlength="{{inputMaxLength}}" class="form-control" ng-model="ctrl.searchField" ng-keyup="ctrl.doSearch(ctrl.searchField, $event)" ng-show="!ctrl.hasQuerySaved || !openFilter"
+        placeholder="{{::ctrl.placeholder}}"/>
         <span class="input-group-btn" uib-dropdown uib-keyboard-nav auto-close="outsideClick">
           <button class="btn btn-default" type="button" uib-dropdown-toggle>
             <span class="glyphicon glyphicon-chevron-down"><span>
@@ -52,12 +52,13 @@
       ctrl.possibleAdvancedFields = []
 
       if(!hasAttr('search')) console.error(SEARCH_ERR)
-      if(hasAttr('placeholder')) ctrl.placeholder = $attrs['placeholder']
 
       $transclude((transcludeElement) => {
         let alreadySelected = false,
             parentContext   = $scope.$parent;
 
+        ctrl.placeholder =  $attrs['placeholder'] ? $interpolate($attrs['placeholder'])(parentContext) : "";   
+           
         [].slice.call(transcludeElement).forEach(value => {
 
           if(value && value.nodeName === 'ADVANCED-SEARCH-FIELD') ctrl.possibleAdvancedFields.push(value.outerHTML)
